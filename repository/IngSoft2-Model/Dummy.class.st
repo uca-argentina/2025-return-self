@@ -12,3 +12,9 @@ Dummy >> isDummy [
 
 	^ true
 ]
+
+{ #category : 'testing' }
+Dummy >> isDummy2 [
+
+	^ false
+]
