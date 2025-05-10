@@ -7,7 +7,7 @@ Class {
 
 { #category : 'testing' }
 Dummy >> isDummy [
-	"Returns true"
+	"Returns true, again"
 
 	^ true
 ]
