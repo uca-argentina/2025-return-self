@@ -15,6 +15,7 @@ Dummy >> isDummy [
 
 { #category : 'testing' }
 Dummy >> isDummy2 [
+	"Testing PR"
 
 	^ false
 ]
