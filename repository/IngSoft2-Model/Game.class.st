@@ -42,6 +42,7 @@ Game >> initializeGamePlayWithoutDice: aSetOfPlayers onBoard: aBoard [
 	board := aBoard.
 	turn:=0.
 	stillPlaying := true.
+	wormhole:=Wormhole oneEnd:1 otherEnd:1.
 ]
 
 { #category : 'initialization' }
@@ -51,6 +52,7 @@ Game >> initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie
 	setOfDie := aSetOfDie.
 	turn:=0.
 	stillPlaying := true.
+	wormhole:=Wormhole oneEnd:1 otherEnd:1.
 ]
 
 { #category : 'initialization' }
