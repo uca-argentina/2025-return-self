@@ -7,7 +7,8 @@ Class {
 		'setOfDie',
 		'turn',
 		'stillPlaying',
-		'playerWhoWon'
+		'playerWhoWon',
+		'wormhole'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,6 +22,11 @@ Game class >> playedBy: aSetOfPlayers onBoard: aBoard [
 { #category : 'Creation' }
 Game class >> playedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie [ 
 	^self new initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie.
+]
+
+{ #category : 'Creation' }
+Game class >> playedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole [ 
+	^self new initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole
 ]
 
 { #category : 'as yet unclassified' }
@@ -44,14 +50,27 @@ Game >> initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie
 	board := aBoard.
 	setOfDie := aSetOfDie.
 	turn:=0.
+	stillPlaying := true.
+]
+
+{ #category : 'initialization' }
+Game >> initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole [
+	players := aSetOfPlayers.
+	board := aBoard.
+	wormhole:= aWormhole.
+	turn:=0.
+	stillPlaying := true.
 ]
 
 { #category : 'as yet unclassified' }
 Game >> nextTurn [	
 	self evaluateIfGameIsStillGoing.
 	self stillPlaying ifTrue:[
+		|player|
 		turn:=turn +1.
-		^players at: ((turn - 1) \\ players size) +1."The players whose turn is up"
+		player := players at: ((turn - 1) \\ players size) +1."The players whose turn is up"
+		wormhole suckInIfEncounter: player.
+		^player
 	]
 	ifFalse:[^EmptyPlayer new]."An object whose response to ~move: sarasa~ is ~Game is already over~"
 	

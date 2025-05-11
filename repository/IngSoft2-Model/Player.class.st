@@ -45,3 +45,9 @@ Player >> name [
 Player >> position [
 	^playerPosition.
 ]
+
+{ #category : 'accessing' }
+Player >> teleportTo: position [ 
+	playerPosition := position.
+	^ self describeMove.
+]
