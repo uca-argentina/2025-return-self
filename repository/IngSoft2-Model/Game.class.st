@@ -1,3 +1,6 @@
+"
+Game handler class
+"
 Class {
 	#name : 'Game',
 	#superclass : 'Object',
