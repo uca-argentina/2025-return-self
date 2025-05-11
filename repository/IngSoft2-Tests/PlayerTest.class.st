@@ -16,13 +16,6 @@ self assert: aPlayer name equals: 'Juan'.
 ]
 
 { #category : 'tests' }
-PlayerTest >> testWhenAPlayerThrowsADieThenAValueIsReturned [
-
-| aPlayer |
-aPlayer := Player named: 'Juan'.
-]
-
-{ #category : 'tests' }
 PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
 
 | aPlayer aDice|

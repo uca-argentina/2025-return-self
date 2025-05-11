@@ -15,6 +15,21 @@ DiceTest >> testThrowDice [
 { #category : 'tests' }
 DiceTest >> testThrowMultipleDie [
 
+	| firstDice secondDice aSetOfDie |
+	
+	firstDice := Dice faces: 6.
+	secondDice := Dice faces: 9.
+	aSetOfDie := DieSet having: {firstDice. secondDice}.
+	self assert: ((aSetOfDie throw) between: 2 and: 15).
+
+	
+	
+
+]
+
+{ #category : 'tests' }
+DiceTest >> testThrowMultipleLoadedDie [
+
 	| firstLoadedDice secondLoadedDice aSetOfDie |
 	
 	firstLoadedDice := LoadedDie rolling: 3.
