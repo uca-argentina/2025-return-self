@@ -6,11 +6,53 @@ Class {
 }
 
 { #category : 'tests' }
-GameplayTest >> testWhenAGameIsPlayedThenAWinnerIsAnnounced [
+GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-| aGame aSetOfPlayers aBoard aDice firstPlayer secondPlayer|
+| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer|
 firstPlayer := Player named: 'Juan'.
 secondPlayer := Player named: 'Tomi'.
 aSetOfPlayers := { firstPlayer . secondPlayer}.
-aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withDie: aDice.
+aBoard:= Board withLenght: 20.
+
+aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+
+aLoadedDie := LoadedDie rolling: 4.
+
+self assert:(aGame nextTurn move: (aLoadedDie throw)) equals: 'Juan landed on 5' .
+
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
+
+| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer|
+firstPlayer := Player named: 'Juan'.
+secondPlayer := Player named: 'Tomi'.
+aSetOfPlayers := { firstPlayer . secondPlayer}.
+aBoard:= Board withLenght: 20.
+
+aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+
+aLoadedDie := LoadedDie rolling: 4.
+aGame nextTurn move: (aLoadedDie throw).
+
+self assert:(aGame nextTurn move: (aLoadedDie throw)) equals: 'Tomi landed on 5' .
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
+
+| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer|
+firstPlayer := Player named: 'Juan'.
+secondPlayer := Player named: 'Tomi'.
+aSetOfPlayers := { firstPlayer . secondPlayer}.
+aBoard:= Board withLenght: 20.
+
+aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+
+aLoadedDie := LoadedDie rolling: 4.
+aGame nextTurn move: (aLoadedDie throw).
+aGame nextTurn move: (aLoadedDie throw).
+
+self assert:(aGame nextTurn move: (aLoadedDie throw)) equals: 'Juan landed on 9' .
 ]

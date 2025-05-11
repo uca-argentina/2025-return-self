@@ -19,6 +19,11 @@ Player class >> named: aName [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Player >> describeMove [
+^ self name,' landed on ', self position asString.
+]
+
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName [ 
 	playerName:=aName.
@@ -27,7 +32,8 @@ Player >> initializePlayerWithName: aName [
 
 { #category : 'accessing' }
 Player >> move: aDistance [ 
-	playerPosition := (playerPosition + aDistance )
+	playerPosition := (playerPosition + aDistance ).
+	^ self describeMove.
 ]
 
 { #category : 'accessing' }
