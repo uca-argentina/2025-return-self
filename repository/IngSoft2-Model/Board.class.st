@@ -1,3 +1,6 @@
+"
+A board class
+"
 Class {
 	#name : 'Board',
 	#superclass : 'Object',
