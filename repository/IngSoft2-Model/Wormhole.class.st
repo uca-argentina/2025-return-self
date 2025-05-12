@@ -9,23 +9,17 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 Wormhole class >> oneEnd: sideA otherEnd: sideB [
-	|wormhole|
-	wormhole := self new.
-	wormhole oneEnd: sideA.
-	wormhole otherEnd: sideB.
-	^wormhole .
+
+	^ self new initializeOneEnd: sideA otherEnd: sideB
 ]
 
-{ #category : 'as yet unclassified' }
-Wormhole >> oneEnd: side [
-	sideA:= side.
-]
+{ #category : 'initialization' }
+Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 
-{ #category : 'as yet unclassified' }
-Wormhole >> otherEnd: side [
-	sideB:= side.
+	sideA := aSide.
+	sideB := anotherSide
 ]
 
 { #category : 'as yet unclassified' }

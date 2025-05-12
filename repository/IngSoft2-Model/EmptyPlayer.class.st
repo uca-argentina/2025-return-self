@@ -7,5 +7,6 @@ Class {
 
 { #category : 'accessing' }
 EmptyPlayer >> move: doesntMatter [
-^'Game is already over.'
+
+	^ 'Game is already over.'
 ]

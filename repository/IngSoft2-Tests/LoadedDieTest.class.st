@@ -8,8 +8,8 @@ Class {
 { #category : 'tests' }
 LoadedDieTest >> testWhenThrowingLoadedDieThenReturnsGivenNumber [
 
-| aLoadedDie |
-aLoadedDie := LoadedDie rolling: 4.
+	| aLoadedDie |
+	aLoadedDie := LoadedDie rolling: 4.
 
-self assert: aLoadedDie throw equals: 4.
+	self assert: aLoadedDie throw equals: 4
 ]

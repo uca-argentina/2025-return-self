@@ -11,21 +11,20 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 Dice class >> faces: numberOfFaces [
-	|dice|
-	dice:= self new.
-	dice numberOfFaces: numberOfFaces.
-	^dice.
+
+	^ self new initializeNumberOfFaces: numberOfFaces
 ]
 
 { #category : 'accessing' }
-Dice >> numberOfFaces: number [
-	numberOfFaces:=number.
+Dice >> initializeNumberOfFaces: number [
 
+	numberOfFaces := number
 ]
 
 { #category : 'accessing' }
 Dice >> throw [
-^Random new nextIntegerBetween: 1 and: numberOfFaces .  
+
+	^ Random new nextIntegerBetween: 1 and: numberOfFaces
 ]

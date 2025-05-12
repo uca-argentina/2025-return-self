@@ -12,24 +12,24 @@ Class {
 }
 
 { #category : 'Creation' }
-DieSet class >> having: aSetOfDie [ 
-	^self new initializeWithDie: aSetOfDie.
+DieSet class >> having: aSetOfDie [
+
+	^ self new initializeWithDie: aSetOfDie
 ]
 
 { #category : 'initialization' }
 DieSet >> initializeWithDie: aSetOfDie [
-	setOfDie := aSetOfDie .
+
+	setOfDie := aSetOfDie
 ]
 
 { #category : 'accessing' }
 DieSet >> throw [
-	
+
 	| total |
 	total := 0.
 
-	setOfDie do: [:dice |
-    total := total + (dice throw)
-].
+	setOfDie do: [ :dice | total := total + dice throw ].
 
-^total
+	^ total
 ]

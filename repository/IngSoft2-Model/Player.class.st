@@ -14,9 +14,9 @@ Class {
 }
 
 { #category : 'instance creation' }
-Player class >> named: aName [ 
-	^self new initializePlayerWithName: aName.
-	
+Player class >> named: aName [
+
+	^ self new initializePlayerWithName: aName
 ]
 
 { #category : 'as yet unclassified' }
@@ -25,29 +25,34 @@ Player >> describeMove [
 ]
 
 { #category : 'initialization' }
-Player >> initializePlayerWithName: aName [ 
-	playerName:=aName.
-	playerPosition := 1.
+Player >> initializePlayerWithName: aName [
+
+	playerName := aName.
+	playerPosition := 1
 ]
 
 { #category : 'accessing' }
-Player >> move: aDistance [ 
-	playerPosition := (playerPosition + aDistance ).
-	^ self describeMove.
+Player >> move: aDistance [
+
+	playerPosition := playerPosition + aDistance.
+	^ self describeMove
 ]
 
 { #category : 'accessing' }
 Player >> name [
-	^playerName.
+
+	^ playerName
 ]
 
 { #category : 'accessing' }
 Player >> position [
-	^playerPosition.
+
+	^ playerPosition
 ]
 
 { #category : 'accessing' }
-Player >> teleportTo: position [ 
+Player >> teleportTo: position [
+
 	playerPosition := position.
-	^ self describeMove.
+	^ self describeMove
 ]

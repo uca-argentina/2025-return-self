@@ -8,8 +8,8 @@ Class {
 { #category : 'tests' }
 BoardTest >> testWhenABoardIsAskedForLastTileItReturnsMaxLenght [
 
-| aBoard |
-aBoard:=Board withLenght: 20.
+	| aBoard |
+	aBoard := Board withLenght: 20.
 
-self assert: aBoard lenght equals: 20.
+	self assert: aBoard lenght equals: 20
 ]

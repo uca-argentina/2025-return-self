@@ -12,16 +12,19 @@ Class {
 }
 
 { #category : 'Creation' }
-Board class >> withLenght: maxLength [ 
-	^ self new initializeWithLength: maxLength.
+Board class >> withLenght: maxLength [
+
+	^ self new initializeWithLength: maxLength
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithLength: maxLength [ 
-	aLength := maxLength.
+Board >> initializeWithLength: maxLength [
+
+	aLength := maxLength
 ]
 
 { #category : 'getters' }
 Board >> lenght [
-	^aLength
+
+	^ aLength
 ]

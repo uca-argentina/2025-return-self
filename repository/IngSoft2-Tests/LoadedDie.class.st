@@ -12,16 +12,19 @@ Class {
 }
 
 { #category : 'creation' }
-LoadedDie class >> rolling: aRoll [ 
-	^self new initializeWithRoll: aRoll.
+LoadedDie class >> rolling: aRoll [
+
+	^ self new initializeWithRoll: aRoll
 ]
 
 { #category : 'initialization' }
-LoadedDie >> initializeWithRoll: aRoll [ 
-	setOfRolls := aRoll.
+LoadedDie >> initializeWithRoll: aRoll [
+
+	setOfRolls := aRoll
 ]
 
 { #category : 'accessing' }
 LoadedDie >> throw [
-	^setOfRolls 
+
+	^ setOfRolls
 ]
