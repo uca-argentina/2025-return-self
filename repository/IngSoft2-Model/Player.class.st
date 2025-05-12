@@ -19,9 +19,10 @@ Player class >> named: aName [
 	^ self new initializePlayerWithName: aName
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'printing' }
 Player >> describeMove [
-^ self name,' landed on ', self position asString.
+
+	^ self name , ' landed on ' , self position asString
 ]
 
 { #category : 'initialization' }

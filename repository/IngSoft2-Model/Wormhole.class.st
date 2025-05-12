@@ -22,10 +22,11 @@ Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 	sideB := anotherSide
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'positioning' }
 Wormhole >> suckInIfEncounter: player [
-	(player position = sideA) ifTrue:[player teleportTo: sideB]
-	ifFalse:[
-		(player position = sideB) ifTrue:[player teleportTo: sideA].
-	].
+
+	player position = sideA
+		ifTrue: [ player teleportTo: sideB ]
+		ifFalse: [
+		player position = sideB ifTrue: [ player teleportTo: sideA ] ]
 ]

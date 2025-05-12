@@ -43,11 +43,13 @@ Game class >> playedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole [
 		  withWormhole: aWormhole
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Game >> evaluateIfGameIsStillGoing [
-	players do:[:player |
-		(player position > board lenght) ifTrue: [ stillPlaying := false. playerWhoWon:= player. ].
-		].
+
+	players do: [ :player |
+		player position > board lenght ifTrue: [
+			stillPlaying := false.
+			playerWhoWon := player ] ]
 ]
 
 { #category : 'initialization' }
