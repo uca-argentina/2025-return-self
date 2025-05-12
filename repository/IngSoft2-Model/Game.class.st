@@ -89,7 +89,7 @@ Game >> nextTurn [
 			| player |
 			turn := turn + 1.
 			player := players at: turn - 1 \\ players size + 1. "The players whose turn is up"
-			wormhole suckInIfEncounter: player.
+			board wormhole suckInIfEncounter: player.
 			^ player ]
 		ifFalse: [ ^ EmptyPlayer new ] "An object whose response to ~move: sarasa~ is ~Game is already over~"
 ]

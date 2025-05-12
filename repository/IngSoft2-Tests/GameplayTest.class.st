@@ -8,15 +8,9 @@ Class {
 { #category : 'tests' }
 GameplayTest >> testTryingToMoveWhenTheGameIsOver [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame nextTurn move: aLoadedDie throw.
@@ -36,15 +30,9 @@ GameplayTest >> testTryingToMoveWhenTheGameIsOver [
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame aSetOfPlayers aBoard firstPlayer secondPlayer firstLoadedDice secondLoadedDice aSetOfDie |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame firstLoadedDice secondLoadedDice aSetOfDie |
+	
+	aGame := GameSetup newGame.
 
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
@@ -60,15 +48,8 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 { #category : 'tests' }
 GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
 
@@ -80,15 +61,9 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame nextTurn move: aLoadedDie throw.
@@ -101,15 +76,9 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame nextTurn move: aLoadedDie throw.
@@ -123,15 +92,9 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenThereIsAWinner [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame nextTurn move: aLoadedDie throw.
