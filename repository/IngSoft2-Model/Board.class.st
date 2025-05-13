@@ -28,7 +28,7 @@ Board class >> withLenght: maxLength withWormhole: wormhole [
 Board >> initializeWithLength: maxLength [
 
 	aLength := maxLength.
-	aWormhole := Wormhole oneEnd: 1 otherEnd: 1.
+	aWormhole := Wormhole notSetted.
 ]
 
 { #category : 'initialization' }
@@ -42,6 +42,11 @@ Board >> initializeWithLength: maxLength withWormhole: wormhole [
 Board >> lenght [
 
 	^ aLength
+]
+
+{ #category : 'initialization' }
+Board >> movePlayer: player thisManySteps: steps [
+	^(aWormhole suckInIfEncounter: player), (player move: steps).
 ]
 
 { #category : 'as yet unclassified' }

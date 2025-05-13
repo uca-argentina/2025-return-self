@@ -13,16 +13,16 @@ GameplayTest >> testTryingToMoveWhenTheGameIsOver [
 	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Game is already over.'.
 	self assert: aGame whoWon equals: 'Juan WON!'
 ]
@@ -41,7 +41,7 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 			             secondLoadedDice }.
 
 	self
-		assert: (aGame nextTurn move: aSetOfDie throw)
+		assert: (aGame nextPlayerThrowsDice: aSetOfDie )
 		equals: 'Juan landed on 9'
 ]
 
@@ -54,7 +54,7 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 	aLoadedDie := LoadedDie rolling: 4.
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 5'
 ]
 
@@ -66,10 +66,10 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie.
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
 		equals: 'Tomi landed on 5'
 ]
 
@@ -81,11 +81,11 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 9'
 ]
 
@@ -97,15 +97,15 @@ GameplayTest >> testWhenThereIsAWinner [
 	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 25'.
 	self assert: aGame whoWon equals: 'Juan WON!'
 ]

@@ -10,8 +10,7 @@ Class {
 		'setOfDie',
 		'turn',
 		'stillPlaying',
-		'playerWhoWon',
-		'wormhole'
+		'playerWhoWon'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,26 +20,8 @@ Class {
 Game class >> playedBy: aSetOfPlayers onBoard: aBoard [
 
 	^ self new
-		  initializeGamePlayWithoutDice: aSetOfPlayers
+		  initializeGamePlay: aSetOfPlayers
 		  onBoard: aBoard
-]
-
-{ #category : 'Creation' }
-Game class >> playedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie [
-
-	^ self new
-		  initializeGamePlayedBy: aSetOfPlayers
-		  onBoard: aBoard
-		  withDie: aSetOfDie
-]
-
-{ #category : 'Creation' }
-Game class >> playedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole [
-
-	^ self new
-		  initializeGamePlayedBy: aSetOfPlayers
-		  onBoard: aBoard
-		  withWormhole: aWormhole
 ]
 
 { #category : 'comparing' }
@@ -53,45 +34,28 @@ Game >> evaluateIfGameIsStillGoing [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlayWithoutDice: aSetOfPlayers onBoard: aBoard [
+Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard [
 	players := aSetOfPlayers.
 	board := aBoard.
-	turn:=0.
-	stillPlaying := true.
-	wormhole:=Wormhole oneEnd:1 otherEnd:1.
-]
-
-{ #category : 'initialization' }
-Game >> initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withDie: aSetOfDie [ 
-	players := aSetOfPlayers.
-	board := aBoard.
-	setOfDie := aSetOfDie.
-	turn:=0.
-	stillPlaying := true.
-	wormhole:=Wormhole oneEnd:1 otherEnd:1.
-]
-
-{ #category : 'initialization' }
-Game >> initializeGamePlayedBy: aSetOfPlayers onBoard: aBoard withWormhole: aWormhole [
-	players := aSetOfPlayers.
-	board := aBoard.
-	wormhole:= aWormhole.
 	turn:=0.
 	stillPlaying := true.
 ]
 
 { #category : 'as yet unclassified' }
-Game >> nextTurn [
-
+Game >> nextPlayerThrowsDice: dice [
 	self evaluateIfGameIsStillGoing.
-	self stillPlaying
-		ifTrue: [
+	self stillPlaying ifTrue: [
 			| player |
 			turn := turn + 1.
-			player := players at: turn - 1 \\ players size + 1. "The players whose turn is up"
-			board wormhole suckInIfEncounter: player.
-			^ player ]
-		ifFalse: [ ^ EmptyPlayer new ] "An object whose response to ~move: sarasa~ is ~Game is already over~"
+			player := self playerWhoseTurnIsNow.
+			^ board movePlayer: player thisManySteps:(dice throw).
+		].
+		^ 'Game is already over.'
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playerWhoseTurnIsNow [
+	^players at: (turn - 1 \\ players size + 1). "The players whose turn is up"
 ]
 
 { #category : 'accessing' }
