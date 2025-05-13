@@ -57,7 +57,7 @@ GameSetup >> gameSetupWithWormhole: wormhole [
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
-	aBoard := Board withLenght: 20 withWormhole: wormhole.
+	aBoard := Board withLenght: 20 and: wormhole.
 
 	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie .
 	

@@ -17,11 +17,16 @@ PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 { #category : 'tests' }
 PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
 
-	| aPlayer aDice |
+	| aPlayer aDice aGame  aBoard |
 	aPlayer := Player named: 'Juan'.
+	aBoard := Board withLenght: 20.
 	aDice := LoadedDie rolling: 6.
 
-	aPlayer move: aDice throw.
+	aGame := Game
+		         playedBy: aPlayer
+		         onBoard: aBoard
+		         withSetOfDie: aDice.
 
+	aPlayer:= aGame movePlayer: aPlayer distance: aDice throw.
 	self assert: aPlayer position equals: 7
 ]

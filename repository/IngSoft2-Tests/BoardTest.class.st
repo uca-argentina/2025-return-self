@@ -8,8 +8,9 @@ Class {
 { #category : 'tests' }
 BoardTest >> testWhenABoardIsAskedForLastTileItReturnsMaxLenght [
 
-	| aBoard |
-	aBoard := Board withLenght: 20.
+	| aBoard aNoEffectObject |
+	aNoEffectObject := NoEffect new.
+	aBoard := Board withLenght: 20 and: aNoEffectObject.
 
 	self assert: aBoard lenght equals: 20
 ]

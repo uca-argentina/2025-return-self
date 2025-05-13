@@ -12,23 +12,17 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'Creation' }
-Board class >> withLenght: maxLength [
-
-	^ self new initializeWithLength: maxLength
+{ #category : 'as yet unclassified' }
+Board class >> withLenght: maxLength [ 
+	| noEffectObject |
+	noEffectObject := NoEffect new.
+	^ self new initializeWithLength: maxLength withWormhole: noEffectObject
 ]
 
 { #category : 'Creation' }
-Board class >> withLenght: maxLength withWormhole: wormhole [
+Board class >> withLenght: maxLength and: wormhole [
 
 	^ self new initializeWithLength: maxLength withWormhole:wormhole
-]
-
-{ #category : 'initialization' }
-Board >> initializeWithLength: maxLength [
-
-	aLength := maxLength.
-	aWormhole := Wormhole notSetted.
 ]
 
 { #category : 'initialization' }
@@ -46,7 +40,7 @@ Board >> lenght [
 
 { #category : 'initialization' }
 Board >> movePlayer: player thisManySteps: steps [
-	^(aWormhole suckInIfEncounter: player), (player move: steps).
+	^(aWormhole applyEffect: player), (player move: steps).
 ]
 
 { #category : 'as yet unclassified' }

@@ -45,6 +45,13 @@ Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDi
 ]
 
 { #category : 'as yet unclassified' }
+Game >> movePlayer: aPlayer distance: aDistance [ 
+	| newDistance |
+	newDistance:= aPlayer position + aDistance.
+	^Player named: (aPlayer name) withPosition: newDistance.
+]
+
+{ #category : 'as yet unclassified' }
 Game >> nextPlayerThrowsDice: dice [
 	self evaluateIfGameIsStillGoing.
 	self stillPlaying ifTrue: [

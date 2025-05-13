@@ -16,7 +16,13 @@ Class {
 { #category : 'instance creation' }
 Player class >> named: aName [
 
-	^ self new initializePlayerWithName: aName
+	^ self new initializePlayerWithName: aName withPosition: 1.
+]
+
+{ #category : 'instance creation' }
+Player class >> named: aName withPosition: aPosition [
+
+	^ self new initializePlayerWithName: aName withPosition: aPosition.
 ]
 
 { #category : 'printing' }
@@ -26,10 +32,10 @@ Player >> describeMove [
 ]
 
 { #category : 'initialization' }
-Player >> initializePlayerWithName: aName [
+Player >> initializePlayerWithName: aName withPosition: aPosition [
 
 	playerName := aName.
-	playerPosition := 1
+	playerPosition := aPosition.
 ]
 
 { #category : 'accessing' }
