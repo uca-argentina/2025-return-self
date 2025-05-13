@@ -8,27 +8,21 @@ Class {
 { #category : 'tests' }
 GameplayTest >> testTryingToMoveWhenTheGameIsOver [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Game is already over.'.
 	self assert: aGame whoWon equals: 'Juan WON!'
 ]
@@ -36,15 +30,9 @@ GameplayTest >> testTryingToMoveWhenTheGameIsOver [
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame aSetOfPlayers aBoard firstPlayer secondPlayer firstLoadedDice secondLoadedDice aSetOfDie |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame firstLoadedDice secondLoadedDice aSetOfDie |
+	
+	aGame := GameSetup newGame.
 
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
@@ -53,96 +41,71 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 			             secondLoadedDice }.
 
 	self
-		assert: (aGame nextTurn move: aSetOfDie throw)
+		assert: (aGame nextPlayerThrowsDice: aSetOfDie )
 		equals: 'Juan landed on 9'
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 5'
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie.
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
 		equals: 'Tomi landed on 5'
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 9'
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenThereIsAWinner [
 
-	| aGame aSetOfPlayers aBoard aLoadedDie firstPlayer secondPlayer |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aBoard := Board withLenght: 20.
-
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	| aGame aLoadedDie |
+	
+	aGame := GameSetup newGame.
 
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
-	aGame nextTurn move: aLoadedDie throw.
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame nextPlayerThrowsDice: aLoadedDie .
 
 	self
-		assert: (aGame nextTurn move: aLoadedDie throw)
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
 		equals: 'Juan landed on 25'.
 	self assert: aGame whoWon equals: 'Juan WON!'
 ]
