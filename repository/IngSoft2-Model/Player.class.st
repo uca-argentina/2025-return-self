@@ -39,13 +39,6 @@ Player >> initializePlayerWithName: aName withPosition: aPosition [
 ]
 
 { #category : 'accessing' }
-Player >> move: aDistance [
-
-	playerPosition := playerPosition + aDistance.
-	^ self describeMove
-]
-
-{ #category : 'accessing' }
 Player >> name [
 
 	^ playerName
@@ -55,11 +48,4 @@ Player >> name [
 Player >> position [
 
 	^ playerPosition
-]
-
-{ #category : 'accessing' }
-Player >> teleportTo: position [
-
-	playerPosition := position.
-	^ self describeMove
 ]

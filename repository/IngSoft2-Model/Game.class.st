@@ -18,9 +18,12 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
-
+	
+	| aXSetOfPlayers |
+	aXSetOfPlayers:=aSetOfPlayers.
+	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
 	^ self new
-		  initializeGamePlay: aSetOfPlayers
+		  initializeGamePlay: aXSetOfPlayers
 		  onBoard: aBoard
 		  withSetOfDie: aDieSet
 ]
@@ -46,19 +49,26 @@ Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDi
 
 { #category : 'as yet unclassified' }
 Game >> movePlayer: aPlayer distance: aDistance [ 
-	| newDistance |
+	| newDistance anUpdatedPlayer|
 	newDistance:= aPlayer position + aDistance.
-	^Player named: (aPlayer name) withPosition: newDistance.
+	anUpdatedPlayer := Player named: (aPlayer name) withPosition: newDistance.
+	anUpdatedPlayer := (board checkEffects: newDistance) applyEffectOn: anUpdatedPlayer.
+	
+	self updatePlayerInTurnStatus: anUpdatedPlayer.
+	^anUpdatedPlayer .
+	
 ]
 
 { #category : 'as yet unclassified' }
-Game >> nextPlayerThrowsDice: dice [
+Game >> nextPlayerThrowsDice: aDice [
 	self evaluateIfGameIsStillGoing.
 	self stillPlaying ifTrue: [
-			| player |
+			| aPlayer |
 			turn := turn + 1.
-			player := self playerWhoseTurnIsNow.
-			^ board movePlayer: player thisManySteps:(dice throw).
+			aPlayer := self playerInTurn.
+			aPlayer := self movePlayer: aPlayer distance: aDice throw .
+			
+			^ aPlayer position.
 		].
 		^ 'Game is already over.'
 ]
@@ -73,7 +83,7 @@ Game >> playFullGame [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playerWhoseTurnIsNow [
+Game >> playerInTurn [
 	^players at: (turn - 1 \\ players size + 1). "The players whose turn is up"
 ]
 
@@ -81,6 +91,12 @@ Game >> playerWhoseTurnIsNow [
 Game >> stillPlaying [
 
 	^ stillPlaying
+]
+
+{ #category : 'as yet unclassified' }
+Game >> updatePlayerInTurnStatus: aPlayer [
+	players at: (turn - 1 \\ players size + 1) put: aPlayer . "The players whose turn is up"
+	
 ]
 
 { #category : 'as yet unclassified' }

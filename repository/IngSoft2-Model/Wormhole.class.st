@@ -6,7 +6,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'sideA',
-		'sideB'
+		'sideB',
+		'affectedTiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -19,11 +20,16 @@ Wormhole class >> oneEnd: sideA otherEnd: sideB [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffect: player [
+Wormhole >> applyEffectOn: aPlayer [
 
-	player position = sideA ifTrue: [ ^self passThrough: player enter: sideA exit: sideB ].
-	player position = sideB ifTrue: [ ^self passThrough: player enter: sideB exit: sideA ].
-	^''.
+	"aPlayer position = sideA ifTrue: [
+		^ self passThrough: aPlayer enter: sideA exit: sideB ].
+	aPlayer position = sideB ifTrue: [
+		^ self passThrough: aPlayer enter: sideB exit: sideA ].
+	^ ''"
+	aPlayer position = sideA ifTrue: [ ^ Player named: (aPlayer name) withPosition: sideB ].
+	aPlayer position = sideB ifTrue: [ ^ Player named: (aPlayer name) withPosition: sideA ].
+	^aPlayer.
 ]
 
 { #category : 'initialization' }
@@ -31,7 +37,13 @@ Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 
 	sideA := aSide.
 	sideB := anotherSide.
+	affectedTiles := { sideA. sideB. }.
 
+]
+
+{ #category : 'testing' }
+Wormhole >> isAffectedTiles: aTile [ 
+	^affectedTiles includes:aTile
 ]
 
 { #category : 'as yet unclassified' }

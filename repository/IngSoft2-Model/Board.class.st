@@ -16,17 +16,23 @@ Class {
 Board class >> withLenght: maxLength [ 
 	| noEffectObject |
 	noEffectObject := NoEffect new.
-	^ self new initializeWithLength: maxLength withWormhole: noEffectObject
+	^ self new initializeWithLength: maxLength with: noEffectObject
 ]
 
 { #category : 'Creation' }
 Board class >> withLenght: maxLength and: wormhole [
 
-	^ self new initializeWithLength: maxLength withWormhole:wormhole
+	^ self new initializeWithLength: maxLength with:wormhole
+]
+
+{ #category : 'as yet unclassified' }
+Board >> checkEffects: aPosition [
+ (aWormhole isAffectedTiles: aPosition) ifTrue: [ ^aWormhole ].
+^NoEffect new.
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithLength: maxLength withWormhole: wormhole [
+Board >> initializeWithLength: maxLength with: wormhole [
 
 	aLength := maxLength.
 	aWormhole := wormhole. 
@@ -36,11 +42,6 @@ Board >> initializeWithLength: maxLength withWormhole: wormhole [
 Board >> lenght [
 
 	^ aLength
-]
-
-{ #category : 'initialization' }
-Board >> movePlayer: player thisManySteps: steps [
-	^(aWormhole applyEffect: player), (player move: steps).
 ]
 
 { #category : 'as yet unclassified' }

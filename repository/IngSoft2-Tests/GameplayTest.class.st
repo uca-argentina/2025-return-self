@@ -20,7 +20,7 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
 	self
 		assert: (aGame nextPlayerThrowsDice: aSetOfDie )
-		equals: 'Juan landed on 9'
+		equals: 9.
 ]
 
 { #category : 'tests' }
@@ -33,7 +33,7 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
 	self
 		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 'Juan landed on 5'
+		equals: 5.
 ]
 
 { #category : 'tests' }
@@ -48,7 +48,7 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
 	self
 		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
-		equals: 'Tomi landed on 5'
+		equals: 5.
 ]
 
 { #category : 'tests' }
@@ -64,7 +64,7 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
 	self
 		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 'Juan landed on 9'
+		equals: 9
 ]
 
 { #category : 'tests' }

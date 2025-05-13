@@ -23,7 +23,7 @@ PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
 	aDice := LoadedDie rolling: 6.
 
 	aGame := Game
-		         playedBy: aPlayer
+		         playedBy: aPlayer 
 		         onBoard: aBoard
 		         withSetOfDie: aDice.
 

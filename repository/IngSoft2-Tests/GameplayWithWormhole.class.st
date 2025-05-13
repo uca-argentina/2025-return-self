@@ -15,9 +15,7 @@ GameplayWithWormhole >> testWhenSteppingIntoWormhole [
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame nextPlayerThrowsDice: aLoadedDie . 
 	"Steps on wormhole here, on next turn it goes through."
-	aGame nextPlayerThrowsDice: aLoadedDie .
-
 	self
 		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 'Juan entered wormhole on 5 and came out from 14 - Then Juan landed on 18'
+		equals: 14
 ]

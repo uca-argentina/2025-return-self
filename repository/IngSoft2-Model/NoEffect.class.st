@@ -6,6 +6,11 @@ Class {
 }
 
 { #category : 'positioning' }
-NoEffect >> applyEffect: aPlayer [ 
-	^''
+NoEffect >> applyEffectOn: aPlayer [ 
+	^aPlayer 
+]
+
+{ #category : 'testing' }
+NoEffect >> isAffectedTiles: anInteger [ 
+	^false
 ]

@@ -24,3 +24,15 @@ DiceTest >> testThrowMultipleDie [
 			             secondDice }.
 	self assert: (aSetOfDie throw between: 2 and: 15)
 ]
+
+{ #category : 'tests' }
+DiceTest >> testThrowMultipleLoadedDie [
+
+	| firstDice secondDice aSetOfDie |
+	firstDice := LoadedDie rolling: 6.
+	secondDice := LoadedDie rolling: 9.
+	aSetOfDie := DieSet having: {
+			             firstDice.
+			             secondDice }.
+	self assert: aSetOfDie throw equals: 15.
+]
