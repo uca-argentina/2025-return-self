@@ -6,28 +6,6 @@ Class {
 }
 
 { #category : 'tests' }
-GameplayTest >> testTryingToMoveWhenTheGameIsOver [
-
-	| aGame aLoadedDie |
-	
-	aGame := GameSetup newGame.
-
-	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 'Game is already over.'.
-	self assert: aGame whoWon equals: 'Juan WON!'
-]
-
-{ #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
 	| aGame firstLoadedDice secondLoadedDice aSetOfDie |
@@ -90,22 +68,28 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 ]
 
 { #category : 'tests' }
-GameplayTest >> testWhenThereIsAWinner [
+GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame aLoadedDie |
+	| aGame |
 	
 	aGame := GameSetup newGame.
 
-	aLoadedDie := LoadedDie rolling: 6.
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame playFullGame.
 
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 'Juan landed on 25'.
 	self assert: aGame whoWon equals: 'Juan WON!'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
+
+	| aGame aLoadedDie |
+	aGame := GameSetup newGame.
+	aGame playFullGame.
+	
+
+	aLoadedDie := LoadedDie rolling: 6.
+	self
+		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
+		equals: 'Game is already over.'.
+
 ]

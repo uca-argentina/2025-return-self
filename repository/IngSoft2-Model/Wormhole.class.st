@@ -1,3 +1,6 @@
+"
+A wormhole Class
+"
 Class {
 	#name : 'Wormhole',
 	#superclass : 'Object',

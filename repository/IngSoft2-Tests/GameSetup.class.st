@@ -1,3 +1,6 @@
+"
+A Game mock object used in several tests
+"
 Class {
 	#name : 'GameSetup',
 	#superclass : 'Object',
@@ -22,15 +25,20 @@ GameSetup class >> newGameWithWormhole: wormhole [
 { #category : 'as yet unclassified' }
 GameSetup >> gameSetup [
 
-	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame|
+	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame aSetOfDie firstDice secondDice|
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 	aBoard := Board withLenght: 20.
+	firstDice := LoadedDie rolling: 6.
+	secondDice := LoadedDie rolling: 9.
+	aSetOfDie := DieSet having: {
+			             firstDice.
+			             secondDice }.
 
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie .
 	
 	^aGame.
 ]
@@ -38,15 +46,20 @@ GameSetup >> gameSetup [
 { #category : 'as yet unclassified' }
 GameSetup >> gameSetupWithWormhole: wormhole [
 
-	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame|
+	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame aSetOfDie firstDice secondDice|
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
+	firstDice := LoadedDie rolling: 6.
+	secondDice := LoadedDie rolling: 9.
+	aSetOfDie := DieSet having: {
+			             firstDice.
+			             secondDice }.
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 	aBoard := Board withLenght: 20 withWormhole: wormhole.
 
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard.
+	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie .
 	
 	^aGame.
 ]

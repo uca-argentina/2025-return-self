@@ -16,12 +16,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'Creation' }
-Game class >> playedBy: aSetOfPlayers onBoard: aBoard [
+{ #category : 'as yet unclassified' }
+Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
 
 	^ self new
 		  initializeGamePlay: aSetOfPlayers
 		  onBoard: aBoard
+		  withSetOfDie: aDieSet
 ]
 
 { #category : 'comparing' }
@@ -34,11 +35,13 @@ Game >> evaluateIfGameIsStillGoing [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard [
+Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie [
 	players := aSetOfPlayers.
 	board := aBoard.
 	turn:=0.
 	stillPlaying := true.
+	setOfDie := aSetOfDie.
+	playerWhoWon := 'NO ONE'.
 ]
 
 { #category : 'as yet unclassified' }
@@ -51,6 +54,15 @@ Game >> nextPlayerThrowsDice: dice [
 			^ board movePlayer: player thisManySteps:(dice throw).
 		].
 		^ 'Game is already over.'
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playFullGame [
+
+	self evaluateIfGameIsStillGoing.
+	[ stillPlaying ] whileTrue: [
+		self evaluateIfGameIsStillGoing.
+		self nextPlayerThrowsDice: setOfDie ]
 ]
 
 { #category : 'as yet unclassified' }
