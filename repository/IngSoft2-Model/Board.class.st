@@ -5,46 +5,54 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'aLength',
-		'aWormhole'
+		'length',
+		'wormhole'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
+Board class >> lengthHasToBeGreaterThanThree: aLength [
+	"To make sense, you cannot have only one lucky throw and win"
+
+	aLength > 3 ifFalse: [
+		Error signal: 'The length of the board must be greater than 3.' ]
+]
+
+{ #category : 'Creation' }
 Board class >> withLenght: maxLength [ 
 	| noEffectObject |
+	
+	self lengthHasToBeGreaterThanThree: maxLength.
+	
 	noEffectObject := NoEffect new.
 	^ self new initializeWithLength: maxLength with: noEffectObject
 ]
 
 { #category : 'Creation' }
 Board class >> withLenght: maxLength and: wormhole [
+	
+	self lengthHasToBeGreaterThanThree: maxLength.
 
 	^ self new initializeWithLength: maxLength with:wormhole
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'checking' }
 Board >> checkEffects: aPosition [
- (aWormhole isAffectedTiles: aPosition) ifTrue: [ ^aWormhole ].
+ (wormhole isAffectedTiles: aPosition) ifTrue: [ ^wormhole ].
 ^NoEffect new.
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithLength: maxLength with: wormhole [
+Board >> initializeWithLength: aMaxLength with: aWormhole [
 
-	aLength := maxLength.
-	aWormhole := wormhole. 
+	length := aMaxLength.
+	wormhole := aWormhole. 
 ]
 
-{ #category : 'getters' }
+{ #category : 'accessing' }
 Board >> lenght [
 
-	^ aLength
-]
-
-{ #category : 'as yet unclassified' }
-Board >> wormhole [
- ^aWormhole
+	^ length
 ]

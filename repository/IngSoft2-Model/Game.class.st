@@ -16,7 +16,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
 	
 	| aXSetOfPlayers |
@@ -47,7 +47,7 @@ Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDi
 	playerWhoWon := 'NO ONE'.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'positioning' }
 Game >> movePlayer: aPlayer distance: aDistance [ 
 	| newDistance anUpdatedPlayer|
 	newDistance:= aPlayer position + aDistance.
@@ -59,7 +59,7 @@ Game >> movePlayer: aPlayer distance: aDistance [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice: aDice [
 	self evaluateIfGameIsStillGoing.
 	self stillPlaying ifTrue: [
@@ -73,7 +73,7 @@ Game >> nextPlayerThrowsDice: aDice [
 		^ 'Game is already over.'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'interaction loop' }
 Game >> playFullGame [
 
 	self evaluateIfGameIsStillGoing.
@@ -82,7 +82,7 @@ Game >> playFullGame [
 		self nextPlayerThrowsDice: setOfDie ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Game >> playerInTurn [
 	^players at: (turn - 1 \\ players size + 1). "The players whose turn is up"
 ]
@@ -93,13 +93,13 @@ Game >> stillPlaying [
 	^ stillPlaying
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Game >> updatePlayerInTurnStatus: aPlayer [
 	players at: (turn - 1 \\ players size + 1) put: aPlayer . "The players whose turn is up"
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Game >> whoWon [
 
 	self evaluateIfGameIsStillGoing.

@@ -1,3 +1,6 @@
+"
+An object for Null Object Pattern implementation, it refers to a case of non affected tiles
+"
 Class {
 	#name : 'NoEffect',
 	#superclass : 'Object',

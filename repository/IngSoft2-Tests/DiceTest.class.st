@@ -5,12 +5,32 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+DiceTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [ :error |
+			self assert: (error messageText) equals:
+				errorMessage ]
+]
+
+{ #category : 'tests' }
+DiceTest >> testCreationOfDice [
+
+	self
+		should: [Dice faces: -10]
+		raise: Error
+		withMessageText: 'The number of faces must be greater than one'
+]
+
 { #category : 'tests' }
 DiceTest >> testThrowDice [
 
-	| dice |
-	dice := Dice faces: 6.
-	self assert: (dice throw between: 1 and: 6)
+	| aDice |
+	aDice := Dice faces: 6.
+	self assert: (aDice throw between: 1 and: 6)
 ]
 
 { #category : 'tests' }

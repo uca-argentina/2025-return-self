@@ -5,6 +5,17 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+PlayerTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [ :error |
+			self assert: (error messageText) equals:
+				errorMessage ]
+]
+
 { #category : 'tests' }
 PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 

@@ -12,15 +12,24 @@ Class {
 }
 
 { #category : 'creation' }
-Dice class >> faces: numberOfFaces [
+Dice class >> faces: aNumberOfFaces [
 
-	^ self new initializeNumberOfFaces: numberOfFaces
+	self facesHasToBeGreaterThanOne: aNumberOfFaces.
+
+	^ self new initializeNumberOfFaces: aNumberOfFaces
 ]
 
-{ #category : 'accessing' }
-Dice >> initializeNumberOfFaces: number [
+{ #category : 'testing' }
+Dice class >> facesHasToBeGreaterThanOne: aNumberOfFaces [
 
-	numberOfFaces := number
+	aNumberOfFaces > 1 ifFalse: [
+		Error signal: 'The number of faces must be greater than one' ]
+]
+
+{ #category : 'initialization' }
+Dice >> initializeNumberOfFaces: aNumberOfFaces [
+
+	numberOfFaces := aNumberOfFaces
 ]
 
 { #category : 'accessing' }

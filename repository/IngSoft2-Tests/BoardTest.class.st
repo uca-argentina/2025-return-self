@@ -5,6 +5,26 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [ :error |
+			self assert: (error messageText) equals:
+				errorMessage ]
+]
+
+{ #category : 'tests' }
+BoardTest >> testCreationOfBoard [
+
+	self
+		should: [ Board withLenght: -10 ]
+		raise: Error
+		withMessageText: 'The length of the board must be greater than 3.'
+]
+
 { #category : 'tests' }
 BoardTest >> testWhenABoardIsAskedForLastTileItReturnsMaxLenght [
 
