@@ -8,14 +8,15 @@ Class {
 { #category : 'tests' }
 GameplayWithWormhole >> testWhenSteppingIntoWormhole [
 
-	| aGame aLoadedDie  |
-	
-	aGame := GameSetup newGameWithWormhole: (Wormhole oneEnd: 5 otherEnd: 14).
-
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 5 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextPlayerThrowsDice: aLoadedDie . 
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	
+
+	"aGame nextPlayerThrowsDice. "
 	"Steps on wormhole here, on next turn it goes through."
 	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 14
 ]

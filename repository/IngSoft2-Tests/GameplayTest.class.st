@@ -8,71 +8,73 @@ Class {
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame firstLoadedDice secondLoadedDice aSetOfDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame firstLoadedDice secondLoadedDice aSetOfDie wormhole|
+	wormhole:= (Wormhole oneEnd: 5 otherEnd: 14).
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
+	aGame := GameSetup newGameWithDie: aSetOfDie WithWormhole: wormhole .
 
 	self
-		assert: (aGame nextPlayerThrowsDice: aSetOfDie )
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 9.
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aLoadedDie |
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+
+	
 
 	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 5.
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
-	| aGame aLoadedDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextPlayerThrowsDice: aLoadedDie.
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	
+	aGame nextPlayerThrowsDice.
 
 	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 5.
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
-	| aGame aLoadedDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
 
 	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 9
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame |
-	
-	aGame := GameSetup newGame.
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
+	aLoadedDie := LoadedDie rolling: 4.
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
 
 	aGame playFullGame.
 
@@ -82,14 +84,15 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 { #category : 'tests' }
 GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 
-	| aGame aLoadedDie |
-	aGame := GameSetup newGame.
+	| aGame aLoadedDie wormhole|
+	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
+	aLoadedDie := LoadedDie rolling: 6.
+	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	
 	aGame playFullGame.
 	
-
-	aLoadedDie := LoadedDie rolling: 6.
 	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
+		assert: (aGame nextPlayerThrowsDice)
 		equals: 'Game is already over.'.
 
 ]

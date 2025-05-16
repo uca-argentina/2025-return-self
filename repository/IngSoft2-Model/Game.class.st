@@ -49,12 +49,12 @@ Game >> movePlayer: aPlayer distance: aDistance [
 ]
 
 { #category : 'interaction loop' }
-Game >> nextPlayerThrowsDice: aDice [
+Game >> nextPlayerThrowsDice [
 	self stillPlaying ifTrue: [
 			| aPlayer |
 			turn := turn + 1.
 			aPlayer := self playerInTurn.
-			aPlayer := self movePlayer: aPlayer distance: aDice throw .
+			aPlayer := self movePlayer: aPlayer distance: setOfDie throw .
 			
 			^ aPlayer position.
 		].
@@ -65,7 +65,7 @@ Game >> nextPlayerThrowsDice: aDice [
 Game >> playFullGame [
 
 	[self stillPlaying ] whileTrue: [
-		self nextPlayerThrowsDice: setOfDie ]
+		self nextPlayerThrowsDice ]
 ]
 
 { #category : 'accessing' }
