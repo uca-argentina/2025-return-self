@@ -45,22 +45,21 @@ Game class >> playedBy: aSetOfPlayers withBoardLength: boardLength withWormhole:
 Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength 
 withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
-	players := aXSetOfPlayers.
+	players := TurnManager with:aXSetOfPlayers.
 	boardLenght := aBoardLength.
 	wormhole := aWormhole.
 	turn:=0.
 	setOfDie := aSetOfDie.
 	playerWhoWon := 'NO ONE'.
+	
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 	self stillPlaying ifTrue: [
-			| aPlayer |
-			turn := turn + 1.
-			aPlayer := (players at: self playerInTurn) move: setOfDie with: wormhole.
-			players at: self playerInTurn put: aPlayer.
-			^ aPlayer position.
+			players nextTurn.
+			players updateCurrentlyInTurn: (players currentlyInTurn move: setOfDie with: wormhole).
+			^ players currentlyInTurn position.
 		].
 		^ 'Game is already over.'
 ]
@@ -73,17 +72,13 @@ Game >> playFullGame [
 ]
 
 { #category : 'accessing' }
-Game >> playerInTurn [
-	^(turn - 1 \\ players size + 1). "The players whose turn is up"
-]
-
-{ #category : 'accessing' }
 Game >> stillPlaying [
 
-	players do: [ :player |
-		player position > boardLenght ifTrue: [
-			playerWhoWon := player.
-			^ false ] ].
+	| playerWhoWonTheGame |
+	playerWhoWonTheGame := players calculateIfstillPlayingWithBoardLength: boardLenght.
+	playerWhoWonTheGame isAplayer ifTrue: [
+		playerWhoWon := playerWhoWonTheGame.
+		^ false ].
 	^ true
 ]
 

@@ -66,6 +66,12 @@ Player >> initializePlayerWithName: aName withPosition: aPosition [
 ]
 
 { #category : 'accessing' }
+Player >> isAplayer [
+
+	^ true
+]
+
+{ #category : 'accessing' }
 Player >> move: setOfDie with: wormhole [
 	|aPlayer|
 	aPlayer := self advance: setOfDie throw .			
