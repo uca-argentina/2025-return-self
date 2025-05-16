@@ -14,13 +14,13 @@ Class {
 { #category : 'creation' }
 Dice class >> faces: aNumberOfFaces [
 
-	self facesHasToBeGreaterThanOne: aNumberOfFaces.
+	self facesHasToBeGreaterThanTwo: aNumberOfFaces.
 
 	^ self new initializeNumberOfFaces: aNumberOfFaces
 ]
 
 { #category : 'testing' }
-Dice class >> facesHasToBeGreaterThanOne: aNumberOfFaces [
+Dice class >> facesHasToBeGreaterThanTwo: aNumberOfFaces [
 
 	aNumberOfFaces > 1 ifFalse: [
 		Error signal: 'The number of faces must be greater than one' ]
