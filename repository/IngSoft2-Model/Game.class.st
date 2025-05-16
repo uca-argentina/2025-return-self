@@ -9,7 +9,6 @@ Class {
 		'board',
 		'setOfDie',
 		'turn',
-		'stillPlaying',
 		'playerWhoWon'
 	],
 	#category : 'IngSoft2-Model',
@@ -28,21 +27,11 @@ Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
 		  withSetOfDie: aDieSet
 ]
 
-{ #category : 'comparing' }
-Game >> evaluateIfGameIsStillGoing [
-
-	players do: [ :player |
-		player position > board lenght ifTrue: [
-			stillPlaying := false.
-			playerWhoWon := player ] ]
-]
-
 { #category : 'initialization' }
 Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie [
 	players := aSetOfPlayers.
 	board := aBoard.
 	turn:=0.
-	stillPlaying := true.
 	setOfDie := aSetOfDie.
 	playerWhoWon := 'NO ONE'.
 ]
@@ -61,7 +50,6 @@ Game >> movePlayer: aPlayer distance: aDistance [
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice: aDice [
-	self evaluateIfGameIsStillGoing.
 	self stillPlaying ifTrue: [
 			| aPlayer |
 			turn := turn + 1.
@@ -76,9 +64,7 @@ Game >> nextPlayerThrowsDice: aDice [
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	self evaluateIfGameIsStillGoing.
-	[ stillPlaying ] whileTrue: [
-		self evaluateIfGameIsStillGoing.
+	[self stillPlaying ] whileTrue: [
 		self nextPlayerThrowsDice: setOfDie ]
 ]
 
@@ -90,7 +76,11 @@ Game >> playerInTurn [
 { #category : 'accessing' }
 Game >> stillPlaying [
 
-	^ stillPlaying
+	players do: [ :player |
+		player position > board lenght ifTrue: [
+			playerWhoWon := player.
+			^ false ] ].
+	^ true
 ]
 
 { #category : 'accessing' }
@@ -102,7 +92,6 @@ Game >> updatePlayerInTurnStatus: aPlayer [
 { #category : 'comparing' }
 Game >> whoWon [
 
-	self evaluateIfGameIsStillGoing.
 	self stillPlaying
 		ifTrue: [ ^ 'Game is still on.' ]
 		ifFalse: [ ^ playerWhoWon name , ' WON!' ]
