@@ -25,7 +25,7 @@ Player class >> named: aName [
 Player class >> named: aName withPosition: aPosition [
 
 	self playerNameCantBeEmpty: aName.
-	self positionHasToBePositive: aPosition.
+	self positionHasToBeAPositiveInteger: aPosition.
 
 	^ self new initializePlayerWithName: aName withPosition: aPosition.
 ]
@@ -37,9 +37,11 @@ Player class >> playerNameCantBeEmpty: aName [
 ]
 
 { #category : 'testing' }
-Player class >> positionHasToBePositive: aPosition [
+Player class >> positionHasToBeAPositiveInteger: aPosition [
 
-	(aPosition > 0) ifFalse: [ Error signal: 'Player position cannot be lower than 1.' ]
+	(aPosition > 0 and: aPosition isInteger) ifFalse: [
+		Error signal:
+			'Player position cannot be lower than 1 or a float number.' ]
 ]
 
 { #category : 'initialization' }

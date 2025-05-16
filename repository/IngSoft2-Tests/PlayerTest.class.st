@@ -41,3 +41,30 @@ PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
 	aPlayer:= aGame movePlayer: aPlayer distance: aDice throw.
 	self assert: aPlayer position equals: 7
 ]
+
+{ #category : 'tests' }
+PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
+
+	self
+		should: [ Player named: 'Juan' withPosition: 1.3 ]
+		raise: Error
+		withMessageText: 'Player position cannot be lower than 1 or a float number.'
+]
+
+{ #category : 'tests' }
+PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError [
+
+	self
+		should: [ Player named: 'Juan' withPosition: -10 ]
+		raise: Error
+		withMessageText: 'Player position cannot be lower than 1 or a float number.'
+]
+
+{ #category : 'tests' }
+PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
+
+	self
+		should: [ Player named: '' ]
+		raise: Error
+		withMessageText: 'The name cannot be empty.'
+]
