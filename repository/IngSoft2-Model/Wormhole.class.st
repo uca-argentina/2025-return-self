@@ -31,9 +31,9 @@ Wormhole class >> positionOfWormholeTileHasToBeGreaterThanOneBoth: anEnd and: an
 Wormhole >> applyEffectOn: aPlayer [
 
 	aPlayer position = sideA ifTrue: [
-		^ Player named: aPlayer name withPosition: sideB ].
+		^ aPlayer teleportTo: sideB ].
 	aPlayer position = sideB ifTrue: [
-		^ Player named: aPlayer name withPosition: sideA ].
+		^ aPlayer teleportTo: sideA ].
 	^ aPlayer
 ]
 
@@ -44,9 +44,4 @@ Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 	sideB := anotherSide.
 	affectedTiles := { sideA. sideB. }.
 
-]
-
-{ #category : 'testing' }
-Wormhole >> isAffectedTiles: aTile [ 
-	^affectedTiles includes:aTile
 ]

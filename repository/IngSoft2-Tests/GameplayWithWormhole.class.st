@@ -14,7 +14,7 @@ GameplayWithWormhole >> testWhenSteppingIntoWormhole [
 	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
 	
 
-	"aGame nextPlayerThrowsDice. "
+	aGame nextPlayerThrowsDice. 
 	"Steps on wormhole here, on next turn it goes through."
 	self
 		assert: (aGame nextPlayerThrowsDice)

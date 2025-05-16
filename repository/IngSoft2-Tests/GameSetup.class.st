@@ -19,15 +19,15 @@ GameSetup class >> newGameWithDie: aSetOfDie WithWormhole: wormhole [
 { #category : 'initialization' }
 GameSetup >> initializeGameSetupWithDie: aSetOfDie WithWormhole: wormhole [
 
-	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame|
+	| firstPlayer secondPlayer aSetOfPlayers aGame|
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
-	aBoard := Board withLenght: 20 and: wormhole.
+	"aBoard := Board withLenght: 20 and: wormhole."
 
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie .
+	aGame := Game playedBy: aSetOfPlayers withBoardLength: 20 withWormhole:wormhole withSetOfDie: aSetOfDie.
 	
 	^aGame.
 ]

@@ -26,23 +26,6 @@ PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 ]
 
 { #category : 'tests' }
-PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
-
-	| aPlayer aDice aGame  aBoard |
-	aPlayer := Player named: 'Juan'.
-	aBoard := Board withLenght: 20.
-	aDice := LoadedDie rolling: 6.
-
-	aGame := Game
-		         playedBy: aPlayer 
-		         onBoard: aBoard
-		         withSetOfDie: aDice.
-
-	aPlayer:= aGame movePlayer: aPlayer distance: aDice throw.
-	self assert: aPlayer position equals: 7
-]
-
-{ #category : 'tests' }
 PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 
 	self

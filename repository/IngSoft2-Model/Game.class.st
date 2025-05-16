@@ -6,10 +6,11 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'players',
-		'board',
 		'setOfDie',
 		'turn',
-		'playerWhoWon'
+		'playerWhoWon',
+		'wormhole',
+		'boardLenght'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -27,25 +28,29 @@ Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
 		  withSetOfDie: aDieSet
 ]
 
+{ #category : 'creation' }
+Game class >> playedBy: aSetOfPlayers withBoardLength: boardLength withWormhole: wormhole withSetOfDie: aDieSet [ 
+	
+	| aXSetOfPlayers |
+	aXSetOfPlayers:=aSetOfPlayers.
+	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
+	^ self new
+		  initializeGamePlay: aXSetOfPlayers
+		  withBoardLength: boardLength
+		 withWormhole: wormhole
+		  withSetOfDie: aDieSet
+]
+
 { #category : 'initialization' }
-Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie [
-	players := aSetOfPlayers.
-	board := aBoard.
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength 
+withWormhole: aWormhole withSetOfDie: aSetOfDie [
+
+	players := aXSetOfPlayers.
+	boardLenght := aBoardLength.
+	wormhole := aWormhole.
 	turn:=0.
 	setOfDie := aSetOfDie.
 	playerWhoWon := 'NO ONE'.
-]
-
-{ #category : 'positioning' }
-Game >> movePlayer: aPlayer distance: aDistance [ 
-	| newDistance anUpdatedPlayer|
-	newDistance:= aPlayer position + aDistance.
-	anUpdatedPlayer := Player named: (aPlayer name) withPosition: newDistance.
-	anUpdatedPlayer := (board checkEffects: newDistance) applyEffectOn: anUpdatedPlayer.
-	
-	self updatePlayerInTurnStatus: anUpdatedPlayer.
-	^anUpdatedPlayer .
-	
 ]
 
 { #category : 'interaction loop' }
@@ -53,9 +58,8 @@ Game >> nextPlayerThrowsDice [
 	self stillPlaying ifTrue: [
 			| aPlayer |
 			turn := turn + 1.
-			aPlayer := self playerInTurn.
-			aPlayer := self movePlayer: aPlayer distance: setOfDie throw .
-			
+			aPlayer := (players at: self playerInTurn) move: setOfDie with: wormhole.
+			players at: self playerInTurn put: aPlayer.
 			^ aPlayer position.
 		].
 		^ 'Game is already over.'
@@ -70,23 +74,17 @@ Game >> playFullGame [
 
 { #category : 'accessing' }
 Game >> playerInTurn [
-	^players at: (turn - 1 \\ players size + 1). "The players whose turn is up"
+	^(turn - 1 \\ players size + 1). "The players whose turn is up"
 ]
 
 { #category : 'accessing' }
 Game >> stillPlaying [
 
 	players do: [ :player |
-		player position > board lenght ifTrue: [
+		player position > boardLenght ifTrue: [
 			playerWhoWon := player.
 			^ false ] ].
 	^ true
-]
-
-{ #category : 'accessing' }
-Game >> updatePlayerInTurnStatus: aPlayer [
-	players at: (turn - 1 \\ players size + 1) put: aPlayer . "The players whose turn is up"
-	
 ]
 
 { #category : 'comparing' }

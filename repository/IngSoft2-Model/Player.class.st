@@ -44,11 +44,34 @@ Player class >> positionHasToBeAPositiveInteger: aPosition [
 			'Player position cannot be lower than 1 or a float number.' ]
 ]
 
+{ #category : 'accessing' }
+Player >> advance: distance [
+	|newPlayer|
+	newPlayer:= self class named: playerName withPosition: distance + playerPosition.
+	^newPlayer
+]
+
+{ #category : 'accessing' }
+Player >> goThrough: wormhole [
+	|newPlayer|
+	newPlayer:=  wormhole applyEffectOn: self.
+	^newPlayer
+]
+
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 
 	playerName := aName.
 	playerPosition := aPosition.
+]
+
+{ #category : 'accessing' }
+Player >> move: setOfDie with: wormhole [
+	|aPlayer|
+	aPlayer := self advance: setOfDie throw .			
+	aPlayer:= aPlayer goThrough: wormhole.
+	^aPlayer 
+	
 ]
 
 { #category : 'accessing' }
@@ -61,4 +84,11 @@ Player >> name [
 Player >> position [
 
 	^ playerPosition
+]
+
+{ #category : 'accessing' }
+Player >> teleportTo: tile [
+	|newPlayer|
+	newPlayer:= self class named: playerName withPosition: tile.
+	^newPlayer
 ]
