@@ -22,8 +22,8 @@ Dice class >> faces: aNumberOfFaces [
 { #category : 'testing' }
 Dice class >> facesHasToBeGreaterThanTwo: aNumberOfFaces [
 
-	aNumberOfFaces > 1 ifFalse: [
-		Error signal: 'The number of faces must be greater than one' ]
+	aNumberOfFaces > 2 ifFalse: [
+		Error signal: 'The number of faces must be greater than two.' ]
 ]
 
 { #category : 'initialization' }

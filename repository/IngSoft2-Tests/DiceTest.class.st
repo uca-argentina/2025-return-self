@@ -22,7 +22,7 @@ DiceTest >> testCreationOfDice [
 	self
 		should: [Dice faces: -10]
 		raise: Error
-		withMessageText: 'The number of faces must be greater than one'
+		withMessageText: 'The number of faces must be greater than two.'
 ]
 
 { #category : 'tests' }
