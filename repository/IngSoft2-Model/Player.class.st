@@ -75,8 +75,7 @@ Player >> isAplayer [
 Player >> move: setOfDie with: wormhole [
 	|aPlayer|
 	aPlayer := self advance: setOfDie throw .			
-	aPlayer:= aPlayer goThrough: wormhole.
-	^aPlayer 
+	^aPlayer goThrough: wormhole
 	
 ]
 
