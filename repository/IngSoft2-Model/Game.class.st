@@ -8,7 +8,6 @@ Class {
 		'players',
 		'setOfDie',
 		'turn',
-		'playerWhoWon',
 		'wormhole',
 		'boardLength'
 	],
@@ -50,7 +49,6 @@ withWormhole: aWormhole withSetOfDie: aSetOfDie [
 	wormhole := aWormhole.
 	turn:=0.
 	setOfDie := aSetOfDie.
-	playerWhoWon := 'NO ONE'.
 	
 ]
 
@@ -84,8 +82,15 @@ Game >> stillPlaying [
 
 { #category : 'comparing' }
 Game >> whoWon [
-
+	"
 	self stillPlaying
 		ifTrue: [ ^ 'Game is still on.' ]
 		ifFalse: [ ^ playerWhoWon name , ' WON!' ]
+"
+
+	| playerWhoWon |
+	playerWhoWon := players
+		                 detect: [ :player | player position >= boardLength ]
+		                 ifNone: [ ^ 'NO ONE WON!' ].
+	^ playerWhoWon name
 ]
