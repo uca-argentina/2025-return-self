@@ -11,7 +11,7 @@ Class {
 
 { #category : 'instance creation' }
 TurnManager class >> with: aSetOfPlayers [
-	^self new setOfPlayers: aSetOfPlayers
+	^self new initializeSetOfPlayers: aSetOfPlayers
 ]
 
 { #category : 'initialization' }
@@ -27,6 +27,12 @@ TurnManager >> currentlyInTurn [
 ]
 
 { #category : 'initialization' }
+TurnManager >> initializeSetOfPlayers: aSet [
+	players := aSet.
+	turn:=0
+]
+
+{ #category : 'initialization' }
 TurnManager >> nextTurn [ 
 turn:= turn +1
 ]
@@ -34,12 +40,6 @@ turn:= turn +1
 { #category : 'initialization' }
 TurnManager >> playerInTurn [
 	^(turn - 1 \\ players size + 1). "The players whose turn is up"
-]
-
-{ #category : 'initialization' }
-TurnManager >> setOfPlayers: aSet [
-	players := aSet.
-	turn:=0
 ]
 
 { #category : 'initialization' }

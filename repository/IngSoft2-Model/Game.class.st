@@ -10,7 +10,7 @@ Class {
 		'turn',
 		'playerWhoWon',
 		'wormhole',
-		'boardLenght'
+		'boardLength'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -46,7 +46,7 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength
 withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
 	players := TurnManager with:aXSetOfPlayers.
-	boardLenght := aBoardLength.
+	boardLength := aBoardLength.
 	wormhole := aWormhole.
 	turn:=0.
 	setOfDie := aSetOfDie.
@@ -75,7 +75,7 @@ Game >> playFullGame [
 Game >> stillPlaying [
 
 	| playerWhoWonTheGame |
-	playerWhoWonTheGame := players calculateIfstillPlayingWithBoardLength: boardLenght.
+	playerWhoWonTheGame := players calculateIfstillPlayingWithBoardLength: boardLength.
 	playerWhoWonTheGame isAplayer ifTrue: [
 		playerWhoWon := playerWhoWonTheGame.
 		^ false ].
