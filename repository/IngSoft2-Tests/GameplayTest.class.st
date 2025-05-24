@@ -78,7 +78,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
 	aGame playFullGame.
 
-	self assert: aGame whoWon equals: 'Juan WON!'
+	self assert: aGame whoWon equals: 'Juan'
 ]
 
 { #category : 'tests' }

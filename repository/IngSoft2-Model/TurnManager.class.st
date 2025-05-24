@@ -1,3 +1,6 @@
+"
+A handler of the turn and game current status with the set of players.
+"
 Class {
 	#name : 'TurnManager',
 	#superclass : 'Object',

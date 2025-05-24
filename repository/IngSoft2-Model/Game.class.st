@@ -52,3 +52,8 @@ Game >> playFullGame [
 	[players stillPlaying ] whileTrue: [
 		self nextPlayerThrowsDice ]
 ]
+
+{ #category : 'comparing' }
+Game >> whoWon [
+	^ players whoWon.
+]
