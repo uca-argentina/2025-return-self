@@ -7,25 +7,11 @@ Class {
 	#instVars : [
 		'players',
 		'setOfDie',
-		'turn',
-		'wormhole',
-		'boardLength'
+		'wormhole'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
-
-{ #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
-	
-	| aXSetOfPlayers |
-	aXSetOfPlayers:=aSetOfPlayers.
-	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
-	^ self new
-		  initializeGamePlay: aXSetOfPlayers
-		  onBoard: aBoard
-		  withSetOfDie: aDieSet
-]
 
 { #category : 'creation' }
 Game class >> playedBy: aSetOfPlayers withBoardLength: boardLength withWormhole: wormhole withSetOfDie: aDieSet [ 
@@ -44,17 +30,15 @@ Game class >> playedBy: aSetOfPlayers withBoardLength: boardLength withWormhole:
 Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength 
 withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
-	players := TurnManager with:aXSetOfPlayers.
-	boardLength := aBoardLength.
+	players := TurnManager with:aXSetOfPlayers and: aBoardLength.
 	wormhole := aWormhole.
-	turn:=0.
 	setOfDie := aSetOfDie.
 	
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
-	self stillPlaying ifTrue: [
+	players stillPlaying ifTrue: [
 			players nextTurn.
 			players updateCurrentlyInTurn: (players currentlyInTurn move: setOfDie with: wormhole).
 			^ players currentlyInTurn position.
@@ -65,32 +49,6 @@ Game >> nextPlayerThrowsDice [
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	[self stillPlaying ] whileTrue: [
+	[players stillPlaying ] whileTrue: [
 		self nextPlayerThrowsDice ]
-]
-
-{ #category : 'accessing' }
-Game >> stillPlaying [
-
-	| playerWhoWonTheGame |
-	playerWhoWonTheGame := players calculateIfstillPlayingWithBoardLength: boardLength.
-	playerWhoWonTheGame isAplayer ifTrue: [
-		playerWhoWon := playerWhoWonTheGame.
-		^ false ].
-	^ true
-]
-
-{ #category : 'comparing' }
-Game >> whoWon [
-	"
-	self stillPlaying
-		ifTrue: [ ^ 'Game is still on.' ]
-		ifFalse: [ ^ playerWhoWon name , ' WON!' ]
-"
-
-	| playerWhoWon |
-	playerWhoWon := players
-		                 detect: [ :player | player position >= boardLength ]
-		                 ifNone: [ ^ 'NO ONE WON!' ].
-	^ playerWhoWon name
 ]
