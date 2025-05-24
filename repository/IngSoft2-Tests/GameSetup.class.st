@@ -9,15 +9,15 @@ Class {
 }
 
 { #category : 'instance creation' }
-GameSetup class >> newGameWithDie: aSetOfDie WithWormhole: wormhole [
+GameSetup class >> newGameWithDie: aSetOfDie withWormhole: wormhole [
 
 	| gameSetupObject |
 	gameSetupObject := self new.
-	^ gameSetupObject initializeGameSetupWithDie: aSetOfDie WithWormhole: wormhole
+	^ gameSetupObject initializeGameSetupWithDie: aSetOfDie withWormhole: wormhole
 ]
 
 { #category : 'initialization' }
-GameSetup >> initializeGameSetupWithDie: aSetOfDie WithWormhole: wormhole [
+GameSetup >> initializeGameSetupWithDie: aSetOfDie withWormhole: wormhole [
 
 	| firstPlayer secondPlayer aSetOfPlayers aGame|
 	firstPlayer := Player named: 'Juan'.

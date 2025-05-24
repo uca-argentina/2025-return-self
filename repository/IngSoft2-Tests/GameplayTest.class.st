@@ -15,7 +15,7 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
-	aGame := GameSetup newGameWithDie: aSetOfDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aSetOfDie withWormhole: wormhole .
 
 	self
 		assert: (aGame nextPlayerThrowsDice)
@@ -28,7 +28,7 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 	| aGame aLoadedDie wormhole|
 	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
 
 	
 
@@ -43,7 +43,7 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 	| aGame aLoadedDie wormhole|
 	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
 	
 	aGame nextPlayerThrowsDice.
 
@@ -58,7 +58,7 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 	| aGame aLoadedDie wormhole|
 	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
 	
 	aGame nextPlayerThrowsDice.
 	aGame nextPlayerThrowsDice.
@@ -74,7 +74,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 	| aGame aLoadedDie wormhole|
 	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
 
 	aGame playFullGame.
 
@@ -87,7 +87,7 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 	| aGame aLoadedDie wormhole|
 	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame := GameSetup newGameWithDie: aLoadedDie WithWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
 	
 	aGame playFullGame.
 	
