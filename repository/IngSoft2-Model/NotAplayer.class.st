@@ -7,6 +7,6 @@ Class {
 
 { #category : 'testing' }
 NotAplayer >> isAplayer [ 
-"not useful at all"
+"not useful at allafsas"
 ^false
 ]
