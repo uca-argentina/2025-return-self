@@ -41,8 +41,7 @@ Game >> nextPlayerThrowsDice [
 	
 	| anUpdatedPlayer |
 	players stillPlaying ifTrue: [
-			anUpdatedPlayer := players nextTurn move: setOfDie with: wormhole.
-			players updateCurrentlyInTurn: anUpdatedPlayer.
+			anUpdatedPlayer := players playTurnUsing: setOfDie and: wormhole.
 			^ anUpdatedPlayer position.
 		].
 		^ 'Game is already over.'

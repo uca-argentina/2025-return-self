@@ -46,6 +46,17 @@ TurnManager >> nextTurn [
 	^ players at: self playerInTurn
 ]
 
+{ #category : 'as yet unclassified' }
+TurnManager >> playTurnUsing: aSetOfDie and: aWormhole [
+
+	| activePlayer |
+	turn := turn + 1.
+	activePlayer := players at: self playerInTurn.
+	activePlayer := activePlayer move: aSetOfDie with: aWormhole.
+	players at: self playerInTurn put: activePlayer.
+	^ activePlayer
+]
+
 { #category : 'unclassified' }
 TurnManager >> playerInTurn [
 	^(turn - 1 \\ players size + 1). "The players whose turn is up"
