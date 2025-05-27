@@ -9,12 +9,12 @@ Class {
 LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 
 
-| aLoadedDie aSecondLoadedDie aSequence noEffect aGame |
+| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame |
 aLoadedDie := LoadedDie rolling: 1.
 aSecondLoadedDie := LoadedDie rolling: 3.
 aSequence := SequenceOfDie withDie: { aLoadedDie. aSecondLoadedDie } andQuantityOfPlayers: 2.
-noEffect := NoEffect new.
-aGame := GameSetup newGameWithDie: aSequence withWormhole: noEffect.
+aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
+aGame := GameSetup newGameWithDie: aSequence withWormhole: aWormhole.
 
 aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 2)"
 aGame nextPlayerThrowsDice. "segundo jugador tira 1 (posicion 2)"
