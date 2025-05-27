@@ -31,11 +31,12 @@ SequenceOfDie class >> withDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [
 ]
 
 { #category : 'initialization' }
-SequenceOfDie >> initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [ 
+SequenceOfDie >> initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [
+
 	allDie := aSequenceOfDie.
 	currentDiceIndexPlaying := 1.
-	quantityOfPlayers := aQuantity .
-	currentPlayerIndex := 1.
+	quantityOfPlayers := aQuantity.
+	currentPlayerIndex := 1
 ]
 
 { #category : 'iterator' }
@@ -53,11 +54,11 @@ SequenceOfDie >> movePointer [
 
 { #category : 'accessing' }
 SequenceOfDie >> throw [
-	| result |
-	result:= (allDie at: currentDiceIndexPlaying) throw.
-	
+
+	| aResult |
+	aResult := (allDie at: currentDiceIndexPlaying) throw.
+
 	self movePointer.
-	
-	^result.
-	
+
+	^ aResult
 ]

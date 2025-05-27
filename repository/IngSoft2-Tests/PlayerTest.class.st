@@ -17,27 +17,29 @@ PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 { #category : 'tests' }
 PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 
-	|anErrorHandler|
+	| anErrorHandler |
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: 1.3 ]
-		raiseErrorWithMessageText: 'Player position cannot be lower than 1 or a float number.'
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
 ]
 
 { #category : 'tests' }
 PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError [
 
-	|anErrorHandler|
+	| anErrorHandler |
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: -10 ]
-		raiseErrorWithMessageText: 'Player position cannot be lower than 1 or a float number.'
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
 ]
 
 { #category : 'tests' }
 PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 
-	|anErrorHandler|
+	| anErrorHandler |
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: '' ]

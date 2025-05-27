@@ -5,9 +5,9 @@ Class {
 	#name : 'Game',
 	#superclass : 'Object',
 	#instVars : [
-		'players',
 		'setOfDie',
-		'wormhole'
+		'wormhole',
+		'playersTurn'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,19 +21,19 @@ Game class >> boardLengthMustBeGreaterThanThree: aLength [
 ]
 
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [ 
-	
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [
+
 	| aXSetOfPlayers |
-	
 	self boardLengthMustBeGreaterThanThree: aBoardLength.
 	self wormhole: aWormhole shouldBeInside: aBoardLength.
-	
-	aXSetOfPlayers:=aSetOfPlayers.
-	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
+
+	aXSetOfPlayers := aSetOfPlayers.
+	aXSetOfPlayers isArray ifFalse: [
+		aXSetOfPlayers := { aXSetOfPlayers } ].
 	^ self new
 		  initializeGamePlay: aXSetOfPlayers
 		  withBoardLength: aBoardLength
-		 withWormhole: aWormhole
+		  withWormhole: aWormhole
 		  withSetOfDie: aDieSet
 ]
 
@@ -45,34 +45,33 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength 
-withWormhole: aWormhole withSetOfDie: aSetOfDie [
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
-	players := TurnManager with:aXSetOfPlayers and: aBoardLength.
+	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
 	wormhole := aWormhole.
-	setOfDie := aSetOfDie.
-	
+	setOfDie := aSetOfDie
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
-	
+
 	| anUpdatedPlayer |
-	players stillPlaying ifTrue: [
-			anUpdatedPlayer := players playTurnUsing: setOfDie throw and: wormhole.
-			^ anUpdatedPlayer position.
-		].
-		^ 'Game is already over.'
+	playersTurn stillPlaying ifTrue: [
+		anUpdatedPlayer := playersTurn
+			                   playTurnUsing: setOfDie throw
+			                   and: wormhole.
+		^ anUpdatedPlayer position ].
+	^ 'Game is already over.'
 ]
 
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	[players stillPlaying ] whileTrue: [
-		self nextPlayerThrowsDice ]
+	[ playersTurn stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
 { #category : 'comparing' }
 Game >> whoWon [
-	^ players whoWon.
+
+	^ playersTurn whoWon
 ]

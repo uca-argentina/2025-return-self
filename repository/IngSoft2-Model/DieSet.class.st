@@ -26,10 +26,5 @@ DieSet >> initializeWithDie: aSetOfDie [
 { #category : 'accessing' }
 DieSet >> throw [
 
-	| total |
-	total := 0.
-
-	setOfDie do: [ :dice | total := total + dice throw ].
-
-	^ total
+	^ setOfDie sum: [ :dice | dice throw ]
 ]

@@ -6,8 +6,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'sideA',
-		'sideB',
-		'affectedTiles'
+		'sideB'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -24,8 +23,7 @@ Wormhole class >> end: anEnd cantBeTheSameAs: anotherEnd [
 Wormhole class >> mustBeGreaterThanOneBoth: anEnd and: anotherEnd [
 
 	(anEnd > 1 and: anotherEnd > 1) ifFalse: [
-		Error signal:
-			'Both ends of the Wormhole must be greater than 1.' ]
+		Error signal: 'Both ends of the Wormhole must be greater than 1.' ]
 ]
 
 { #category : 'creation' }
@@ -33,7 +31,7 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 
 	self mustBeGreaterThanOneBoth: aSideA and: aSideB.
 	self end: aSideA cantBeTheSameAs: aSideB.
-	
+
 	^ self new initializeOneEnd: aSideA otherEnd: aSideB
 ]
 
@@ -41,9 +39,9 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 Wormhole >> applyEffectOn: aPlayer [
 
 	aPlayer position = sideA ifTrue: [
-		^ aPlayer advanceTiles: sideB-sideA ].
+		^ aPlayer advanceTiles: sideB - sideA ].
 	aPlayer position = sideB ifTrue: [
-		^ aPlayer advanceTiles: sideA-sideB ].
+		^ aPlayer advanceTiles: sideA - sideB ].
 	^ aPlayer
 ]
 
@@ -57,7 +55,5 @@ Wormhole >> areEndsInside: aLength [
 Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 
 	sideA := aSide.
-	sideB := anotherSide.
-	affectedTiles := { sideA. sideB. }.
-
+	sideB := anotherSide
 ]

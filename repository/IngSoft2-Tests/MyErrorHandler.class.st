@@ -30,6 +30,5 @@ MyErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage
 		should: anErrorBlock
 		raise: Error
 		withExceptionDo: [ :error |
-			testcaseObject assert: (error messageText) equals:
-				anErrorMessage ]
+			testcaseObject assert: error messageText equals: anErrorMessage ]
 ]

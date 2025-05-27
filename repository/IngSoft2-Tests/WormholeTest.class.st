@@ -10,16 +10,19 @@ WormholeTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaise
 
 	| anErrorHandler |
 	anErrorHandler := MyErrorHandler usingTestCase: self.
-	
+
 	anErrorHandler
 		should: [ Wormhole oneEnd: -10 otherEnd: 2 ]
-		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'.
+		raiseErrorWithMessageText:
+		'Both ends of the Wormhole must be greater than 1.'.
 	anErrorHandler
 		should: [ Wormhole oneEnd: 2 otherEnd: -10 ]
-		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'.
+		raiseErrorWithMessageText:
+		'Both ends of the Wormhole must be greater than 1.'.
 	anErrorHandler
 		should: [ Wormhole oneEnd: -10 otherEnd: -10 ]
-		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'
+		raiseErrorWithMessageText:
+		'Both ends of the Wormhole must be greater than 1.'
 ]
 
 { #category : 'tests' }

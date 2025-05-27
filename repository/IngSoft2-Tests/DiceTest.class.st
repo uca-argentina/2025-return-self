@@ -12,7 +12,8 @@ DiceTest >> testCreationOfDice [
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Dice faces: -10 ]
-		raiseErrorWithMessageText: 'The number of faces must be greater than two.'
+		raiseErrorWithMessageText:
+		'The number of faces must be greater than two.'
 ]
 
 { #category : 'tests' }
@@ -44,5 +45,5 @@ DiceTest >> testThrowMultipleLoadedDie [
 	aSetOfDie := DieSet having: {
 			             firstDice.
 			             secondDice }.
-	self assert: aSetOfDie throw equals: 15.
+	self assert: aSetOfDie throw equals: 15
 ]

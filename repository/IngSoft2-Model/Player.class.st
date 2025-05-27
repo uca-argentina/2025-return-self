@@ -18,7 +18,7 @@ Player class >> named: aName [
 
 	self playerNameCantBeEmpty: aName.
 
-	^ self new initializePlayerWithName: aName withPosition: 1.
+	^ self new initializePlayerWithName: aName withPosition: 1
 ]
 
 { #category : 'instance creation' }
@@ -27,13 +27,13 @@ Player class >> named: aName withPosition: aPosition [
 	self playerNameCantBeEmpty: aName.
 	self positionHasToBeAPositiveInteger: aPosition.
 
-	^ self new initializePlayerWithName: aName withPosition: aPosition.
+	^ self new initializePlayerWithName: aName withPosition: aPosition
 ]
 
 { #category : 'testing' }
 Player class >> playerNameCantBeEmpty: aName [
 
-	(aName = '') ifTrue: [ Error signal: 'The name cannot be empty.' ]
+	aName = '' ifTrue: [ Error signal: 'The name cannot be empty.' ]
 ]
 
 { #category : 'testing' }
@@ -46,16 +46,17 @@ Player class >> positionHasToBeAPositiveInteger: aPosition [
 
 { #category : 'positioning' }
 Player >> advanceTiles: aDistance [
-	|newPlayer|
-	newPlayer:= self class named: playerName withPosition: aDistance + playerPosition.
-	^newPlayer
+
+	^ self class
+		  named: playerName
+		  withPosition: aDistance + playerPosition
 ]
 
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 
 	playerName := aName.
-	playerPosition := aPosition.
+	playerPosition := aPosition
 ]
 
 { #category : 'accessing' }
