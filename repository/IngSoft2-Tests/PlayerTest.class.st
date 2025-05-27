@@ -5,17 +5,6 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'asserting' }
-PlayerTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
-
-	self
-		should: anErrorBlock
-		raise: anErrorClass
-		withExceptionDo: [ :error |
-			self assert: (error messageText) equals:
-				errorMessage ]
-]
-
 { #category : 'tests' }
 PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 
@@ -26,18 +15,33 @@ PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 ]
 
 { #category : 'tests' }
-PlayerTest >> testWhenAPlayerThrowsADieThenItMovesTheAmountRolled [
+PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 
-	| aPlayer aDice aGame  aBoard |
-	aPlayer := Player named: 'Juan'.
-	aBoard := Board withLenght: 20.
-	aDice := LoadedDie rolling: 6.
+	| anErrorHandler |
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler
+		should: [ Player named: 'Juan' withPosition: 1.3 ]
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
+]
 
-	aGame := Game
-		         playedBy: aPlayer 
-		         onBoard: aBoard
-		         withSetOfDie: aDice.
+{ #category : 'tests' }
+PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError [
 
-	aPlayer:= aGame movePlayer: aPlayer distance: aDice throw.
-	self assert: aPlayer position equals: 7
+	| anErrorHandler |
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler
+		should: [ Player named: 'Juan' withPosition: -10 ]
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
+]
+
+{ #category : 'tests' }
+PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
+
+	| anErrorHandler |
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler
+		should: [ Player named: '' ]
+		raiseErrorWithMessageText: 'The name cannot be empty.'
 ]

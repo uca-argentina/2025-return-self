@@ -9,38 +9,28 @@ Class {
 }
 
 { #category : 'instance creation' }
-GameSetup class >> newGame [
+GameSetup class >> newGameWithDie: aSetOfDie withWormhole: aWormhole [
 
-	| gameSetupObject |
-	gameSetupObject := self new.
-	^ gameSetupObject initializeGameSetupWithAnEffect: NoEffect new
-]
-
-{ #category : 'instance creation' }
-GameSetup class >> newGameWithWormhole: wormhole [
-
-	| gameSetupObject |
-	gameSetupObject := self new.
-	^ gameSetupObject initializeGameSetupWithAnEffect: wormhole
+	^ self new
+		  initializeGameSetupWithDie: aSetOfDie
+		  withWormhole: aWormhole
 ]
 
 { #category : 'initialization' }
-GameSetup >> initializeGameSetupWithAnEffect: anEffect [
+GameSetup >> initializeGameSetupWithDie: aSetOfDie withWormhole: aWormhole [
 
-	| firstPlayer secondPlayer aSetOfPlayers aBoard aGame aSetOfDie firstDice secondDice|
+	| firstPlayer secondPlayer aSetOfPlayers aGame |
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
-	firstDice := LoadedDie rolling: 6.
-	secondDice := LoadedDie rolling: 9.
-	aSetOfDie := DieSet having: {
-			             firstDice.
-			             secondDice }.
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
-	aBoard := Board withLenght: 20 and: anEffect.
 
-	aGame := Game playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie .
-	
-	^aGame.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aSetOfDie.
+
+	^ aGame
 ]

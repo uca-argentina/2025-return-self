@@ -5,105 +5,73 @@ Class {
 	#name : 'Game',
 	#superclass : 'Object',
 	#instVars : [
-		'players',
-		'board',
 		'setOfDie',
-		'turn',
-		'stillPlaying',
-		'playerWhoWon'
+		'wormhole',
+		'playersTurn'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'testing' }
+Game class >> boardLengthMustBeGreaterThanThree: aLength [
+
+	aLength > 3 ifFalse: [
+		Error signal: 'The board length must be greater than three.' ]
+]
+
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers onBoard: aBoard withSetOfDie: aDieSet [
-	
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [
+
 	| aXSetOfPlayers |
-	aXSetOfPlayers:=aSetOfPlayers.
-	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
+	self boardLengthMustBeGreaterThanThree: aBoardLength.
+	self wormhole: aWormhole shouldBeInside: aBoardLength.
+
+	aXSetOfPlayers := aSetOfPlayers.
+	aXSetOfPlayers isArray ifFalse: [
+		aXSetOfPlayers := { aXSetOfPlayers } ].
 	^ self new
 		  initializeGamePlay: aXSetOfPlayers
-		  onBoard: aBoard
+		  withBoardLength: aBoardLength
+		  withWormhole: aWormhole
 		  withSetOfDie: aDieSet
 ]
 
-{ #category : 'comparing' }
-Game >> evaluateIfGameIsStillGoing [
+{ #category : 'testing' }
+Game class >> wormhole: aWormhole shouldBeInside: aLength [
 
-	players do: [ :player |
-		player position > board lenght ifTrue: [
-			stillPlaying := false.
-			playerWhoWon := player ] ]
+	(aWormhole areEndsInside: aLength) ifFalse: [
+		Error signal: 'Both wormhole ends must be within the board length.' ]
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aSetOfPlayers onBoard: aBoard withSetOfDie: aSetOfDie [
-	players := aSetOfPlayers.
-	board := aBoard.
-	turn:=0.
-	stillPlaying := true.
-	setOfDie := aSetOfDie.
-	playerWhoWon := 'NO ONE'.
-]
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
-{ #category : 'positioning' }
-Game >> movePlayer: aPlayer distance: aDistance [ 
-	| newDistance anUpdatedPlayer|
-	newDistance:= aPlayer position + aDistance.
-	anUpdatedPlayer := Player named: (aPlayer name) withPosition: newDistance.
-	anUpdatedPlayer := (board checkEffects: newDistance) applyEffectOn: anUpdatedPlayer.
-	
-	self updatePlayerInTurnStatus: anUpdatedPlayer.
-	^anUpdatedPlayer .
-	
+	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
+	wormhole := aWormhole.
+	setOfDie := aSetOfDie
 ]
 
 { #category : 'interaction loop' }
-Game >> nextPlayerThrowsDice: aDice [
-	self evaluateIfGameIsStillGoing.
-	self stillPlaying ifTrue: [
-			| aPlayer |
-			turn := turn + 1.
-			aPlayer := self playerInTurn.
-			aPlayer := self movePlayer: aPlayer distance: aDice throw .
-			
-			^ aPlayer position.
-		].
-		^ 'Game is already over.'
+Game >> nextPlayerThrowsDice [
+
+	| anUpdatedPlayer |
+	playersTurn stillPlaying ifTrue: [
+		anUpdatedPlayer := playersTurn
+			                   playTurnUsing: setOfDie throw
+			                   and: wormhole.
+		^ anUpdatedPlayer position ].
+	^ 'Game is already over.'
 ]
 
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	self evaluateIfGameIsStillGoing.
-	[ stillPlaying ] whileTrue: [
-		self evaluateIfGameIsStillGoing.
-		self nextPlayerThrowsDice: setOfDie ]
-]
-
-{ #category : 'accessing' }
-Game >> playerInTurn [
-	^players at: (turn - 1 \\ players size + 1). "The players whose turn is up"
-]
-
-{ #category : 'accessing' }
-Game >> stillPlaying [
-
-	^ stillPlaying
-]
-
-{ #category : 'accessing' }
-Game >> updatePlayerInTurnStatus: aPlayer [
-	players at: (turn - 1 \\ players size + 1) put: aPlayer . "The players whose turn is up"
-	
+	[ playersTurn stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
 { #category : 'comparing' }
 Game >> whoWon [
 
-	self evaluateIfGameIsStillGoing.
-	self stillPlaying
-		ifTrue: [ ^ 'Game is still on.' ]
-		ifFalse: [ ^ playerWhoWon name , ' WON!' ]
+	^ playersTurn whoWon
 ]

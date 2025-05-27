@@ -11,7 +11,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'Creation' }
+{ #category : 'creation' }
 DieSet class >> having: aSetOfDie [
 
 	^ self new initializeWithDie: aSetOfDie
@@ -26,10 +26,5 @@ DieSet >> initializeWithDie: aSetOfDie [
 { #category : 'accessing' }
 DieSet >> throw [
 
-	| total |
-	total := 0.
-
-	setOfDie do: [ :dice | total := total + dice throw ].
-
-	^ total
+	^ setOfDie sum: [ :dice | dice throw ]
 ]

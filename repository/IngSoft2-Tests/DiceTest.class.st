@@ -5,24 +5,15 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'asserting' }
-DiceTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
-
-	self
-		should: anErrorBlock
-		raise: anErrorClass
-		withExceptionDo: [ :error |
-			self assert: (error messageText) equals:
-				errorMessage ]
-]
-
 { #category : 'tests' }
 DiceTest >> testCreationOfDice [
 
-	self
-		should: [Dice faces: -10]
-		raise: Error
-		withMessageText: 'The number of faces must be greater than one'
+	| anErrorHandler |
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler
+		should: [ Dice faces: -10 ]
+		raiseErrorWithMessageText:
+		'The number of faces must be greater than two.'
 ]
 
 { #category : 'tests' }
@@ -54,5 +45,5 @@ DiceTest >> testThrowMultipleLoadedDie [
 	aSetOfDie := DieSet having: {
 			             firstDice.
 			             secondDice }.
-	self assert: aSetOfDie throw equals: 15.
+	self assert: aSetOfDie throw equals: 15
 ]

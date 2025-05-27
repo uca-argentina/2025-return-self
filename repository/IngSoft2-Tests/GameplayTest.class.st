@@ -8,88 +8,174 @@ Class {
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame firstLoadedDice secondLoadedDice aSetOfDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame firstLoadedDice secondLoadedDice aSetOfDie wormhole |
+	wormhole := Wormhole oneEnd: 5 otherEnd: 14.
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
+	aGame := GameSetup newGameWithDie: aSetOfDie withWormhole: wormhole.
 
-	self
-		assert: (aGame nextPlayerThrowsDice: aSetOfDie )
-		equals: 9.
+	self assert: aGame nextPlayerThrowsDice equals: 9
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aLoadedDie |
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 5.
+
+
+	self assert: aGame nextPlayerThrowsDice equals: 5
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenSteppingIntoWormhole [
+
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 5 otherEnd: 14.
+	aLoadedDie := LoadedDie rolling: 4.
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+
+
+	aGame nextPlayerThrowsDice.
+	"Steps on wormhole here, on next turn it goes through."
+	self assert: aGame nextPlayerThrowsDice equals: 14
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
-	| aGame aLoadedDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextPlayerThrowsDice: aLoadedDie.
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
-		equals: 5.
+	aGame nextPlayerThrowsDice.
+
+	self assert: aGame nextPlayerThrowsDice equals: 5
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
-	| aGame aLoadedDie |
-	
-	aGame := GameSetup newGame.
-
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame nextPlayerThrowsDice: aLoadedDie .
-	aGame nextPlayerThrowsDice: aLoadedDie .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie )
-		equals: 9
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+
+	self assert: aGame nextPlayerThrowsDice equals: 9
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame |
-	
-	aGame := GameSetup newGame.
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aLoadedDie := LoadedDie rolling: 4.
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
 	aGame playFullGame.
 
-	self assert: aGame whoWon equals: 'Juan WON!'
+	self assert: aGame whoWon equals: 'Juan'
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 
-	| aGame aLoadedDie |
-	aGame := GameSetup newGame.
-	aGame playFullGame.
-	
-
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 6.
-	self
-		assert: (aGame nextPlayerThrowsDice: aLoadedDie)
-		equals: 'Game is already over.'.
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
+	aGame playFullGame.
+
+	self
+		assert: aGame nextPlayerThrowsDice
+		equals: 'Game is already over.'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItRaisesError [
+
+	| anErrorHandler aWormhole firstPlayer secondPlayer aSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
+	firstPlayer := Player named: 'Juan'.
+	secondPlayer := Player named: 'Tomi'.
+	aSetOfPlayers := {
+		                 firstPlayer.
+		                 secondPlayer }.
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+
+	aWormhole := Wormhole oneEnd: 2 otherEnd: 3.
+
+	anErrorHandler
+		should: [
+			Game
+				playedBy: aSetOfPlayers
+				withBoardLength: 3
+				withWormhole: aWormhole
+				withSetOfDie: aSetOfDie ]
+		raiseErrorWithMessageText:
+		'The board length must be greater than three.'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
+
+	| anErrorHandler aWormhole firstPlayer secondPlayer aSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
+	firstPlayer := Player named: 'Juan'.
+	secondPlayer := Player named: 'Tomi'.
+	aSetOfPlayers := {
+		                 firstPlayer.
+		                 secondPlayer }.
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+
+	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
+
+	anErrorHandler
+		should: [
+			Game
+				playedBy: aSetOfPlayers
+				withBoardLength: 20
+				withWormhole: aWormhole
+				withSetOfDie: aSetOfDie ]
+		raiseErrorWithMessageText:
+		'Both wormhole ends must be within the board length.'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
+
+	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice |
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+
+	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
+
+	anErrorHandler
+		should: [
+		GameSetup newGameWithDie: aSetOfDie withWormhole: aWormhole ]
+		raiseErrorWithMessageText:
+		'Both wormhole ends must be within the board length.'
 ]
