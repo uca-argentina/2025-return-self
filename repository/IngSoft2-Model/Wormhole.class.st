@@ -41,9 +41,9 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 Wormhole >> applyEffectOn: aPlayer [
 
 	aPlayer position = sideA ifTrue: [
-		^ aPlayer advancePlayer: sideB-sideA ].
+		^ aPlayer advanceTiles: sideB-sideA ].
 	aPlayer position = sideB ifTrue: [
-		^ aPlayer advancePlayer: sideA-sideB ].
+		^ aPlayer advanceTiles: sideA-sideB ].
 	^ aPlayer
 ]
 

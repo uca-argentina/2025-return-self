@@ -87,10 +87,10 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame aLoadedDie wormhole|
-	wormhole:= (Wormhole oneEnd: 3 otherEnd: 14).
+	| aGame aLoadedDie wormhole |
+	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole .
+	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
 
 	aGame playFullGame.
 
@@ -111,6 +111,35 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 		assert: (aGame nextPlayerThrowsDice)
 		equals: 'Game is already over.'.
 
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItRaisesError [
+
+	| anErrorHandler aWormhole firstPlayer secondPlayer aSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
+	firstPlayer := Player named: 'Juan'.
+	secondPlayer := Player named: 'Tomi'.
+	aSetOfPlayers := {
+		                 firstPlayer.
+		                 secondPlayer }.
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+
+	aWormhole := Wormhole oneEnd: 2 otherEnd: 3.
+
+	anErrorHandler
+		should: [
+			Game
+				playedBy: aSetOfPlayers
+				withBoardLength: 3
+				withWormhole: aWormhole
+				withSetOfDie: aSetOfDie ]
+		raiseErrorWithMessageText:
+		'The board length must be greater than three.'
 ]
 
 { #category : 'tests' }
@@ -138,7 +167,26 @@ GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheB
 				withBoardLength: 20
 				withWormhole: aWormhole
 				withSetOfDie: aSetOfDie ]
-		raise: Error
-		withMessageText:
+		raiseErrorWithMessageText:
+		'Both wormhole ends must be within the board length.'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
+
+	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice |
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	anErrorHandler := MyErrorHandler usingTestCase: self.
+
+	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
+
+	anErrorHandler
+		should: [
+		GameSetup newGameWithDie: aSetOfDie withWormhole: aWormhole ]
+		raiseErrorWithMessageText:
 		'Both wormhole ends must be within the board length.'
 ]

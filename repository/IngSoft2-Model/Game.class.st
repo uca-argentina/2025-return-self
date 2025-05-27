@@ -13,11 +13,19 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'testing' }
+Game class >> boardLengthMustBeGreaterThanThree: aLength [
+
+	aLength > 3 ifFalse: [
+		Error signal: 'The board length must be greater than three.' ]
+]
+
 { #category : 'creation' }
 Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [ 
 	
 	| aXSetOfPlayers |
 	
+	self boardLengthMustBeGreaterThanThree: aBoardLength.
 	self wormhole: aWormhole shouldBeInside: aBoardLength.
 	
 	aXSetOfPlayers:=aSetOfPlayers.
@@ -51,7 +59,7 @@ Game >> nextPlayerThrowsDice [
 	
 	| anUpdatedPlayer |
 	players stillPlaying ifTrue: [
-			anUpdatedPlayer := players playTurnUsing: setOfDie and: wormhole.
+			anUpdatedPlayer := players playTurnUsing: setOfDie throw and: wormhole.
 			^ anUpdatedPlayer position.
 		].
 		^ 'Game is already over.'

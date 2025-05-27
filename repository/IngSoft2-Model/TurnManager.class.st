@@ -18,7 +18,7 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength [
 	^self new initializeSetOfPlayers: aSetOfPlayers andBoard: aBoardLength 
 ]
 
-{ #category : 'unclassified' }
+{ #category : 'comparing' }
 TurnManager >> checkifPlayerStillPlaying: player [
 
 	^ player position < boardLength
@@ -31,18 +31,19 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 	boardLength := aBoardLength 
 ]
 
-{ #category : 'as yet unclassified' }
-TurnManager >> playTurnUsing: aSetOfDie and: aWormhole [
+{ #category : 'play interface' }
+TurnManager >> playTurnUsing: aDistance and: aWormhole [
 
 	| activePlayer |
 	turn := turn + 1.
 	activePlayer := players at: self playerInTurn.
-	activePlayer := activePlayer move: aSetOfDie with: aWormhole.
+	activePlayer := activePlayer advanceTiles: aDistance.
+	activePlayer := aWormhole applyEffectOn: activePlayer.
 	players at: self playerInTurn put: activePlayer.
 	^ activePlayer
 ]
 
-{ #category : 'unclassified' }
+{ #category : 'play interface' }
 TurnManager >> playerInTurn [
 	^(turn - 1 \\ players size + 1). "The players whose turn is up"
 ]

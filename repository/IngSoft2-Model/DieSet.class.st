@@ -11,7 +11,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'Creation' }
+{ #category : 'creation' }
 DieSet class >> having: aSetOfDie [
 
 	^ self new initializeWithDie: aSetOfDie

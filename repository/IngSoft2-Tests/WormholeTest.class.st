@@ -6,14 +6,20 @@ Class {
 }
 
 { #category : 'tests' }
-WormholeTest >> testWhenWeCreateAWormholeWithBothEndsLessThanOneThenItRaisesAnError [
+WormholeTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
 
 	| anErrorHandler |
 	anErrorHandler := MyErrorHandler usingTestCase: self.
+	
+	anErrorHandler
+		should: [ Wormhole oneEnd: -10 otherEnd: 2 ]
+		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'.
+	anErrorHandler
+		should: [ Wormhole oneEnd: 2 otherEnd: -10 ]
+		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'.
 	anErrorHandler
 		should: [ Wormhole oneEnd: -10 otherEnd: -10 ]
-		raise: Error
-		withMessageText: 'Both ends of the Wormhole must be greater than 1.'
+		raiseErrorWithMessageText: 'Both ends of the Wormhole must be greater than 1.'
 ]
 
 { #category : 'tests' }
@@ -23,28 +29,5 @@ WormholeTest >> testWhenWeCreateAWormholeWithEqualEndsThenItRaisesAnError [
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Wormhole oneEnd: 2 otherEnd: 2 ]
-		raise: Error
-		withMessageText: 'Wormhole ends must be different tiles.'
-]
-
-{ #category : 'tests' }
-WormholeTest >> testWhenWeCreateAWormholeWithFirstEndLessThanOneThenItRaisesAnError [
-
-	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
-	anErrorHandler
-		should: [ Wormhole oneEnd: -10 otherEnd: 2 ]
-		raise: Error
-		withMessageText: 'Both ends of the Wormhole must be greater than 1.'
-]
-
-{ #category : 'tests' }
-WormholeTest >> testWhenWeCreateAWormholeWithSecondEndLessThanOneThenItRaisesAnError [
-
-	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
-	anErrorHandler
-		should: [ Wormhole oneEnd: 2 otherEnd: -10 ]
-		raise: Error
-		withMessageText: 'Both ends of the Wormhole must be greater than 1.'
+		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
 ]

@@ -6,6 +6,14 @@ Class {
 }
 
 { #category : 'tests' }
+LoadedDieTest >> testTryingToRollLowerThanOneRaisesAnError [
+	| anErrorHandler |
+anErrorHandler := MyErrorHandler usingTestCase: self.
+anErrorHandler should: [ LoadedDie rolling: 0 ] raiseErrorWithMessageText: 'The roll cant be lower than one.'.
+anErrorHandler should: [ LoadedDie rolling: -2 ] raiseErrorWithMessageText: 'The roll cant be lower than one.'
+]
+
+{ #category : 'tests' }
 LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 
 

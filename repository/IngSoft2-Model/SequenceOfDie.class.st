@@ -14,14 +14,20 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-SequenceOfDie class >> withDie: aSequenceOfDie [ 
-	^ self new initializeSequenceOfDie: aSequenceOfDie.
+{ #category : 'testing' }
+SequenceOfDie class >> quantityOfPlayersMustBeGreaterThanOne: aQuantity [
+
+	aQuantity > 1 ifFalse: [
+		Error signal: 'The quantity of players must be at least 2.' ]
 ]
 
-{ #category : 'as yet unclassified' }
-SequenceOfDie class >> withDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [ 
-	^ self new initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: aQuantity .
+{ #category : 'creation' }
+SequenceOfDie class >> withDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [
+
+	self quantityOfPlayersMustBeGreaterThanOne: aQuantity.
+	^ self new
+		  initializeSequenceOfDie: aSequenceOfDie
+		  andQuantityOfPlayers: aQuantity
 ]
 
 { #category : 'initialization' }
@@ -32,7 +38,7 @@ SequenceOfDie >> initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: a
 	currentPlayerIndex := 1.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'iterator' }
 SequenceOfDie >> movePointer [
 
 	currentPlayerIndex := currentPlayerIndex + 1.

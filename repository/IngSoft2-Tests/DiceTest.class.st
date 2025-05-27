@@ -12,8 +12,7 @@ DiceTest >> testCreationOfDice [
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Dice faces: -10 ]
-		raise: Error
-		withMessageText: 'The number of faces must be greater than two.'
+		raiseErrorWithMessageText: 'The number of faces must be greater than two.'
 ]
 
 { #category : 'tests' }

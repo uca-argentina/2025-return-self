@@ -11,7 +11,7 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 MyErrorHandler class >> usingTestCase: aTestCase [
 
 	^ self new initializeWithTestObject: aTestCase
@@ -24,11 +24,11 @@ MyErrorHandler >> initializeWithTestObject: aTestObject [
 ]
 
 { #category : 'asserting' }
-MyErrorHandler >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
+MyErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: errorMessage [
 
 	testcaseObject
 		should: anErrorBlock
-		raise: anErrorClass
+		raise: Error
 		withExceptionDo: [ :error |
 			testcaseObject assert: (error messageText) equals:
 				errorMessage ]

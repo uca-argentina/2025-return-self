@@ -21,8 +21,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: 1.3 ]
-		raise: Error
-		withMessageText: 'Player position cannot be lower than 1 or a float number.'
+		raiseErrorWithMessageText: 'Player position cannot be lower than 1 or a float number.'
 ]
 
 { #category : 'tests' }
@@ -32,8 +31,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: -10 ]
-		raise: Error
-		withMessageText: 'Player position cannot be lower than 1 or a float number.'
+		raiseErrorWithMessageText: 'Player position cannot be lower than 1 or a float number.'
 ]
 
 { #category : 'tests' }
@@ -43,6 +41,5 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 	anErrorHandler := MyErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: '' ]
-		raise: Error
-		withMessageText: 'The name cannot be empty.'
+		raiseErrorWithMessageText: 'The name cannot be empty.'
 ]
