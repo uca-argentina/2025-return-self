@@ -25,7 +25,6 @@ GameSetup >> initializeGameSetupWithDie: aSetOfDie withWormhole: wormhole [
 	aSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
-	"aBoard := Board withLenght: 20 and: wormhole."
 
 	aGame := Game playedBy: aSetOfPlayers withBoardLength: 20 withWormhole:wormhole withSetOfDie: aSetOfDie.
 	

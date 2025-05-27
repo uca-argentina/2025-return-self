@@ -14,16 +14,26 @@ Class {
 }
 
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: boardLength withWormhole: wormhole withSetOfDie: aDieSet [ 
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [ 
 	
 	| aXSetOfPlayers |
+	
+	self wormhole: aWormhole shouldBeInside: aBoardLength.
+	
 	aXSetOfPlayers:=aSetOfPlayers.
 	(aXSetOfPlayers isArray ) ifFalse:[aXSetOfPlayers := {aXSetOfPlayers}].
 	^ self new
 		  initializeGamePlay: aXSetOfPlayers
-		  withBoardLength: boardLength
-		 withWormhole: wormhole
+		  withBoardLength: aBoardLength
+		 withWormhole: aWormhole
 		  withSetOfDie: aDieSet
+]
+
+{ #category : 'testing' }
+Game class >> wormhole: aWormhole shouldBeInside: aLength [
+
+	(aWormhole areEndsInside: aLength) ifFalse: [
+		Error signal: 'Both wormhole ends must be within the board length.' ]
 ]
 
 { #category : 'initialization' }
