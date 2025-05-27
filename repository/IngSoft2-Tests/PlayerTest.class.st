@@ -18,7 +18,7 @@ PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: 1.3 ]
 		raiseErrorWithMessageText:
@@ -29,7 +29,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: 'Juan' withPosition: -10 ]
 		raiseErrorWithMessageText:
@@ -40,7 +40,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError
 PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Player named: '' ]
 		raiseErrorWithMessageText: 'The name cannot be empty.'

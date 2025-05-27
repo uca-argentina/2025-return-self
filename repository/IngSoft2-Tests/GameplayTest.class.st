@@ -97,9 +97,7 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 
 	aGame playFullGame.
 
-	self
-		assert: aGame nextPlayerThrowsDice
-		equals: 'Game is already over.'
+	self assert: aGame nextPlayerThrowsDice equals: aGame
 ]
 
 { #category : 'tests' }
@@ -116,7 +114,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItR
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	aWormhole := Wormhole oneEnd: 2 otherEnd: 3.
 
@@ -145,7 +143,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheB
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
 
@@ -169,7 +167,7 @@ GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideThe
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
 

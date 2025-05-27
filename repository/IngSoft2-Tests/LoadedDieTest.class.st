@@ -9,7 +9,7 @@ Class {
 LoadedDieTest >> testTryingToRollLowerThanOneRaisesAnError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ LoadedDie rolling: 0 ]
 		raiseErrorWithMessageText: 'The roll cant be lower than one.'.

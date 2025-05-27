@@ -9,7 +9,7 @@ Class {
 DiceTest >> testCreationOfDice [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Dice faces: -10 ]
 		raiseErrorWithMessageText:

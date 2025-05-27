@@ -56,12 +56,11 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 Game >> nextPlayerThrowsDice [
 
 	| anUpdatedPlayer |
-	playersTurn stillPlaying ifTrue: [
-		anUpdatedPlayer := playersTurn
-			                   playTurnUsing: setOfDie throw
-			                   and: wormhole.
-		^ anUpdatedPlayer position ].
-	^ 'Game is already over.'
+	playersTurn stillPlaying ifFalse: [ ^ self ].
+	anUpdatedPlayer := playersTurn
+		                   playTurnUsing: setOfDie throw
+		                   and: wormhole.
+	^ anUpdatedPlayer position
 ]
 
 { #category : 'interaction loop' }

@@ -2,7 +2,7 @@
 A special object that has a shortened version of the ""should:raise:withExceptionDo:"" message.
 "
 Class {
-	#name : 'MyErrorHandler',
+	#name : 'ReturnSelfErrorHandler',
 	#superclass : 'Object',
 	#instVars : [
 		'testcaseObject'
@@ -12,19 +12,19 @@ Class {
 }
 
 { #category : 'creation' }
-MyErrorHandler class >> usingTestCase: aTestCase [
+ReturnSelfErrorHandler class >> usingTestCase: aTestCase [
 
 	^ self new initializeWithTestObject: aTestCase
 ]
 
 { #category : 'initialization' }
-MyErrorHandler >> initializeWithTestObject: aTestObject [
+ReturnSelfErrorHandler >> initializeWithTestObject: aTestObject [
 
 	testcaseObject := aTestObject
 ]
 
 { #category : 'asserting' }
-MyErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
+ReturnSelfErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
 	testcaseObject
 		should: anErrorBlock
