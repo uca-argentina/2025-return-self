@@ -38,10 +38,12 @@ withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
+	
+	| anUpdatedPlayer |
 	players stillPlaying ifTrue: [
-			players nextTurn.
-			players updateCurrentlyInTurn: (players currentlyInTurn move: setOfDie with: wormhole).
-			^ players currentlyInTurn position.
+			anUpdatedPlayer := players nextTurn move: setOfDie with: wormhole.
+			players updateCurrentlyInTurn: anUpdatedPlayer.
+			^ anUpdatedPlayer position.
 		].
 		^ 'Game is already over.'
 ]

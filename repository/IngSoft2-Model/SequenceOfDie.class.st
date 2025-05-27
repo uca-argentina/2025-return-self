@@ -33,13 +33,13 @@ SequenceOfDie >> initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: a
 SequenceOfDie >> movePointer [
 
 	currentPlayerIndex := currentPlayerIndex + 1.
-	currentPlayerIndex <= quantityOfPlayers ifTrue: [ ^self ].
+	currentPlayerIndex <= quantityOfPlayers ifTrue: [ ^ self ].
 
 	currentPlayerIndex := 1.
 	currentDiceIndexPlaying := currentDiceIndexPlaying + 1.
-	currentDiceIndexPlaying <= allDie size ifTrue: [ ^self ].
+	currentDiceIndexPlaying <= allDie size ifTrue: [ ^ self ].
 
-	currentDiceIndexPlaying := 1.
+	currentDiceIndexPlaying := 1
 ]
 
 { #category : 'accessing' }
