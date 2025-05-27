@@ -24,12 +24,12 @@ MyErrorHandler >> initializeWithTestObject: aTestObject [
 ]
 
 { #category : 'asserting' }
-MyErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: errorMessage [
+MyErrorHandler >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
 	testcaseObject
 		should: anErrorBlock
 		raise: Error
 		withExceptionDo: [ :error |
 			testcaseObject assert: (error messageText) equals:
-				errorMessage ]
+				anErrorMessage ]
 ]

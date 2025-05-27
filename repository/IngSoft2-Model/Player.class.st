@@ -45,9 +45,9 @@ Player class >> positionHasToBeAPositiveInteger: aPosition [
 ]
 
 { #category : 'positioning' }
-Player >> advanceTiles: distance [
+Player >> advanceTiles: aDistance [
 	|newPlayer|
-	newPlayer:= self class named: playerName withPosition: distance + playerPosition.
+	newPlayer:= self class named: playerName withPosition: aDistance + playerPosition.
 	^newPlayer
 ]
 

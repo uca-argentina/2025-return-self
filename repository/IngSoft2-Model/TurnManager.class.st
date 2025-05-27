@@ -19,9 +19,9 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength [
 ]
 
 { #category : 'comparing' }
-TurnManager >> checkifPlayerStillPlaying: player [
+TurnManager >> checkifPlayerStillPlaying: aPlayer [
 
-	^ player position < boardLength
+	^ aPlayer position < boardLength
 ]
 
 { #category : 'initialization' }
