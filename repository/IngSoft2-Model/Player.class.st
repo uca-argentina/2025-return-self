@@ -45,7 +45,7 @@ Player class >> positionHasToBeAPositiveInteger: aPosition [
 ]
 
 { #category : 'accessing' }
-Player >> advance: distance [
+Player >> advancePlayer: distance [
 	|newPlayer|
 	newPlayer:= self class named: playerName withPosition: distance + playerPosition.
 	^newPlayer
@@ -66,15 +66,9 @@ Player >> initializePlayerWithName: aName withPosition: aPosition [
 ]
 
 { #category : 'accessing' }
-Player >> isAplayer [
-
-	^ true
-]
-
-{ #category : 'accessing' }
 Player >> move: setOfDie with: wormhole [
 	|aPlayer|
-	aPlayer := self advance: setOfDie throw .			
+	aPlayer := self advancePlayer: setOfDie throw .			
 	^aPlayer goThrough: wormhole
 	
 ]
@@ -89,11 +83,4 @@ Player >> name [
 Player >> position [
 
 	^ playerPosition
-]
-
-{ #category : 'accessing' }
-Player >> teleportTo: tile [
-	|newPlayer|
-	newPlayer:= self class named: playerName withPosition: tile.
-	^newPlayer
 ]

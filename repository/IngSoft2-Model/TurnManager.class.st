@@ -31,21 +31,6 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 	boardLength := aBoardLength 
 ]
 
-{ #category : 'unclassified' }
-TurnManager >> nextTurn [
-	"solucion 1
-	|activePlayer|
-	turn := turn + 1.
-	activePlayer := players at: self playerInTurn.
-	activePlayer move: setOfDie with: wormhole.
-	"
-
-	"solucion 2"
-
-	turn := turn + 1.
-	^ players at: self playerInTurn
-]
-
 { #category : 'as yet unclassified' }
 TurnManager >> playTurnUsing: aSetOfDie and: aWormhole [
 
@@ -66,11 +51,6 @@ TurnManager >> playerInTurn [
 TurnManager >> stillPlaying [
 
 	^ players allSatisfy: [ :player | self checkifPlayerStillPlaying: player ]
-]
-
-{ #category : 'unclassified' }
-TurnManager >> updateCurrentlyInTurn: aPlayer [
-	players at: self playerInTurn put: aPlayer.
 ]
 
 { #category : 'comparing' }

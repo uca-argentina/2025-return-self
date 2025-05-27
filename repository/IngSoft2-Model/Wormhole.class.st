@@ -31,9 +31,9 @@ Wormhole class >> positionOfWormholeTileHasToBeGreaterThanOneBoth: anEnd and: an
 Wormhole >> applyEffectOn: aPlayer [
 
 	aPlayer position = sideA ifTrue: [
-		^ aPlayer teleportTo: sideB ].
+		^ aPlayer advancePlayer: sideB-sideA ].
 	aPlayer position = sideB ifTrue: [
-		^ aPlayer teleportTo: sideA ].
+		^ aPlayer advancePlayer: sideA-sideB ].
 	^ aPlayer
 ]
 
