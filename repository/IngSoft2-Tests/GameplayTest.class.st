@@ -1,32 +1,55 @@
 Class {
 	#name : 'GameplayTest',
 	#superclass : 'TestCase',
+	#instVars : [
+		'firstPlayer',
+		'secondPlayer',
+		'aSetOfPlayers'
+	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'running' }
+GameplayTest >> setUp [
+	super setUp.
+
+	firstPlayer := Player named: 'Juan'.
+	secondPlayer := Player named: 'Tomi'.
+	aSetOfPlayers := {
+		                 firstPlayer.
+		                 secondPlayer }
+]
+
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame firstLoadedDice secondLoadedDice aSetOfDie wormhole |
-	wormhole := Wormhole oneEnd: 5 otherEnd: 14.
+	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie |
+	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
 			             firstLoadedDice.
 			             secondLoadedDice }.
-	aGame := GameSetup newGameWithDie: aSetOfDie withWormhole: wormhole.
-
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aSetOfDie.
 	self assert: aGame nextPlayerThrowsDice equals: 9
 ]
 
 { #category : 'tests' }
 GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 
 
@@ -36,10 +59,14 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenSteppingIntoWormhole [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 5 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 
 	aGame nextPlayerThrowsDice.
@@ -50,10 +77,14 @@ GameplayTest >> testWhenSteppingIntoWormhole [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 	aGame nextPlayerThrowsDice.
 
@@ -63,10 +94,14 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 	aGame nextPlayerThrowsDice.
 	aGame nextPlayerThrowsDice.
@@ -77,10 +112,14 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 { #category : 'tests' }
 GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 	aGame playFullGame.
 
@@ -90,10 +129,14 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 { #category : 'tests' }
 GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 
-	| aGame aLoadedDie wormhole |
-	wormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
 	aLoadedDie := LoadedDie rolling: 6.
-	aGame := GameSetup newGameWithDie: aLoadedDie withWormhole: wormhole.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie.
 
 	aGame playFullGame.
 
@@ -103,10 +146,10 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 { #category : 'tests' }
 GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItRaisesError [
 
-	| anErrorHandler aWormhole firstPlayer secondPlayer aSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
+	aFirstPlayer := Player named: 'Juan'.
+	aSecondPlayer := Player named: 'Tomi'.
+	anotherSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 	firstLoadedDice := LoadedDie rolling: 3.
@@ -132,10 +175,10 @@ GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItR
 { #category : 'tests' }
 GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
 
-	| anErrorHandler aWormhole firstPlayer secondPlayer aSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
+	aFirstPlayer := Player named: 'Juan'.
+	aSecondPlayer := Player named: 'Tomi'.
+	anotherSetOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 	firstLoadedDice := LoadedDie rolling: 3.
@@ -161,7 +204,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheB
 { #category : 'tests' }
 GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
 
-	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice |
+	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice aLoadedDie |
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
@@ -170,10 +213,14 @@ GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideThe
 	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
-
+	aLoadedDie := LoadedDie rolling: 4.
 	anErrorHandler
 		should: [
-		GameSetup newGameWithDie: aSetOfDie withWormhole: aWormhole ]
+			Game
+				playedBy: aSetOfPlayers
+				withBoardLength: 20
+				withWormhole: aWormhole
+				withSetOfDie: aLoadedDie ]
 		raiseErrorWithMessageText:
 		'Both wormhole ends must be within the board length.'
 ]

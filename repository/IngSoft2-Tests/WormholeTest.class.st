@@ -9,7 +9,7 @@ Class {
 WormholeTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	anErrorHandler
 		should: [ Wormhole oneEnd: -10 otherEnd: 2 ]
@@ -29,7 +29,7 @@ WormholeTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaise
 WormholeTest >> testWhenWeCreateAWormholeWithEqualEndsThenItRaisesAnError [
 
 	| anErrorHandler |
-	anErrorHandler := MyErrorHandler usingTestCase: self.
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
 		should: [ Wormhole oneEnd: 2 otherEnd: 2 ]
 		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
