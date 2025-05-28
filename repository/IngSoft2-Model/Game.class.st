@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'setOfDie',
 		'wormhole',
-		'playersTurn'
+		'playersTurn',
+		'battle'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -66,6 +67,7 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
+	battle := BattleManager new.
 	wormhole := aWormhole.
 	setOfDie := aSetOfDie
 ]
@@ -74,6 +76,7 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
+	battle := BattleManager new.
 	wormhole := aWormhole.
 	setOfDie := aSetOfDie
 ]
@@ -81,19 +84,15 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| anUpdatedPlayer playersInUpdatedPosition|
+	| anUpdatedPlayer |
 	playersTurn stillPlaying ifFalse: [ ^ self ].
 	anUpdatedPlayer := playersTurn
 		                   playTurnUsing: setOfDie throw
 		                   and: wormhole.
 	"-----Batalla-----"
-	playersInUpdatedPosition := self playersInPosition:(anUpdatedPlayer position).
-	playersInUpdatedPosition size >= 2 ifTrue:[
-			setOfDie throw > setOfDie throw 
-				ifTrue:[(playersInUpdatedPosition at:2 ) loseBattle.]
-				ifFalse:[anUpdatedPlayer := anUpdatedPlayer loseBattle.].
-		].
-	"-----Batalla-----"
+	playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer withDice: setOfDie against: (playersTurn setOfPlayers)) .
+	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex).
+
 	^ anUpdatedPlayer position
 ]
 

@@ -9,7 +9,8 @@ Class {
 		'playerName',
 		'playerPosition',
 		'lap',
-		'shields'
+		'shields',
+		'skipATurn'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,6 +42,24 @@ Player class >> named: aName withPosition: aPosition withLaps: aLap [
 	^ self new initializePlayerWithName: aName withPosition: aPosition withLaps: aLap
 ]
 
+{ #category : 'instance creation' }
+Player class >> named: aName withPosition: aPosition withLaps: aLap withShield: aShield [
+
+	self playerNameCantBeEmpty: aName.
+	self positionHasToBeAPositiveInteger: aPosition.
+
+	^ self new initializePlayerWithName: aName withPosition: aPosition withLaps: aLap withShield: aShield 
+]
+
+{ #category : 'instance creation' }
+Player class >> named: aName withPosition: aPosition withLaps: aLap withShield: aShield withTurnSkipped:aSkip [
+
+	self playerNameCantBeEmpty: aName.
+	self positionHasToBeAPositiveInteger: aPosition.
+
+	^ self new initializePlayerWithName: aName withPosition: aPosition withLaps: aLap withShield: aShield withTurnSkipped:aSkip 
+]
+
 { #category : 'testing' }
 Player class >> playerNameCantBeEmpty: aName [
 
@@ -62,6 +81,7 @@ Player >> advanceTiles: aDistance [
 		  named: playerName
 		  withPosition: aDistance + playerPosition
 		  withLaps: lap
+		  withShield: shields
 ]
 
 { #category : 'positioning' }
@@ -78,6 +98,7 @@ Player >> circleAroundTheTrackWithLength: boardLength [
 		  	named: playerName
 		  	withPosition: playerPosition - amountOfBackTrack
 		 	withLaps: lap + newLap
+			withShield: shields 
 ]
 
 { #category : 'initialization' }
@@ -87,6 +108,7 @@ Player >> initializePlayerWithName: aName withPosition: aPosition [
 	playerPosition := aPosition.
 	lap := 0.
 	shields := 3.
+	skipATurn := 0
 ]
 
 { #category : 'initialization' }
@@ -95,13 +117,49 @@ Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap
 	playerName := aName.
 	playerPosition := aPosition.
 	lap := aLap.
-	shields := 3
+	shields := 3.
+	skipATurn := 0
+]
+
+{ #category : 'initialization' }
+Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap withShield:aShield [
+
+	playerName := aName.
+	playerPosition := aPosition.
+	lap := aLap.
+	shields := aShield.
+	skipATurn := 0
+]
+
+{ #category : 'initialization' }
+Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap withShield:aShield withTurnSkipped: aSkip [
+
+	playerName := aName.
+	playerPosition := aPosition.
+	lap := aLap.
+	shields := aShield.
+	skipATurn := aSkip
 ]
 
 { #category : 'accessing' }
 Player >> lap [
 
 	^ lap
+]
+
+{ #category : 'positioning' }
+Player >> loseBattle [
+	|turnsToSkip|
+	turnsToSkip := 0.
+	shields = 0 ifTrue:[^self].
+	shields = 1 ifTrue:[ turnsToSkip := 2.  ].
+	
+	^ self class
+		  named: playerName
+		  withPosition: 1
+		  withLaps: lap
+		  withShield: shields - 1
+		  withTurnSkipped: turnsToSkip 
 ]
 
 { #category : 'accessing' }
@@ -114,4 +172,21 @@ Player >> name [
 Player >> position [
 
 	^ playerPosition
+]
+
+{ #category : 'accessing' }
+Player >> skipATurn [
+
+	^ skipATurn > 0
+]
+
+{ #category : 'positioning' }
+Player >> turnSkipped [
+
+	^ self class
+		  named: playerName
+		  withPosition: playerPosition
+		  withLaps: lap
+		  withShield: shields
+		  withTurnSkipped: skipATurn - 1
 ]
