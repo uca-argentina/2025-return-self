@@ -151,10 +151,8 @@ Player >> lap [
 Player >> loseBattle [
 	|turnsToSkip shieldLeft|
 	turnsToSkip := 0.
-	shieldLeft := shields -1.
-	
+	shieldLeft := shields -1	.
 	shieldLeft = 0 ifTrue:[turnsToSkip := 2].
-	
 	
 	^ self class
 		  named: playerName
@@ -162,6 +160,12 @@ Player >> loseBattle [
 		  withLaps: lap
 		  withShield: shieldLeft
 		  withTurnSkipped: turnsToSkip 
+]
+
+{ #category : 'accessing' }
+Player >> loseShield [.
+
+	shields := shields -1 
 ]
 
 { #category : 'accessing' }
@@ -174,6 +178,25 @@ Player >> name [
 Player >> position [
 
 	^ playerPosition
+]
+
+{ #category : 'positioning' }
+Player >> resetShieldsAfter2TurnsWithout [
+	|newShield|
+	newShield := shields.
+	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
+	
+	^ self class
+		  named: playerName
+		  withPosition: playerPosition
+		  withLaps: lap
+		  withShield: newShield 
+]
+
+{ #category : 'accessing' }
+Player >> shields [
+
+	^ shields 
 ]
 
 { #category : 'accessing' }

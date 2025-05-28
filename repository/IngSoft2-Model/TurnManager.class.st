@@ -68,6 +68,8 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 		activePlayer := setOfPlayers at: self playerInTurnIndex.
 		].
 	
+	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
+	
 	
 	activePlayer := activePlayer advanceTiles: aDistance.
 	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .

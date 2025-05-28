@@ -107,7 +107,10 @@ Game >> playFullGame [
 { #category : 'interaction loop' }
 Game >> playerPositions [
 
-	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', player position asString, ' , lap: ',player lap asString]
+	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', 
+		player position asString, ' , lap: ',
+		player lap asString, 
+		', shields: ',player shields asString]
 ]
 
 { #category : 'interaction loop' }
