@@ -82,6 +82,23 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 ]
 
 { #category : 'interaction loop' }
+Game >> nextPlayerSkipsTurn [
+
+	| anUpdatedPlayer |
+	playersTurn stillPlaying ifFalse: [ ^ self ].
+	anUpdatedPlayer := playersTurn skipTurn.
+		                   "playTurnUsing: setOfDie throw
+		                   and: wormhole."
+	"-----Batalla-----"
+	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
+												withDice: setOfDie 
+												against: (playersTurn setOfPlayers)) .
+	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex)."
+
+	^ anUpdatedPlayer position
+]
+
+{ #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
 	| anUpdatedPlayer |

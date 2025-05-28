@@ -101,6 +101,16 @@ Player >> circleAroundTheTrackWithLength: boardLength [
 			withShield: shields 
 ]
 
+{ #category : 'positioning' }
+Player >> forceAShieldReset [
+	
+	^ self class
+		  named: playerName
+		  withPosition: playerPosition
+		  withLaps: lap
+		  withShield: 3 
+]
+
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 

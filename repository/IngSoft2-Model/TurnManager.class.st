@@ -97,6 +97,18 @@ TurnManager >> setOfPlayers: aSetOfPlayers [
 	setOfPlayers := aSetOfPlayers 
 ]
 
+{ #category : 'play interface' }
+TurnManager >> skipTurn [
+	| activePlayer |
+	turn := turn + 1.
+	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	activePlayer:= activePlayer forceAShieldReset.
+	
+	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	^ activePlayer
+	
+]
+
 { #category : 'accessing' }
 TurnManager >> stillPlaying [
 
