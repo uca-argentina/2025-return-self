@@ -34,7 +34,7 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
 { #category : 'comparing' }
 TurnManager >> checkifPlayerStillPlaying: aPlayer [
 
-	^ aPlayer lap <= numberOfLaps.
+	^ aPlayer lap < numberOfLaps.
 ]
 
 { #category : 'initialization' }
@@ -61,19 +61,52 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 	| activePlayer |
 	turn := turn + 1.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	
+	[activePlayer skipATurn] whileTrue: [
+		setOfPlayers at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+		turn := turn + 1.
+		activePlayer := setOfPlayers at: self playerInTurnIndex.
+		].
+	
+	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
+	
+	
 	activePlayer := activePlayer advanceTiles: aDistance.
-	
-	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength ."MMMMMMMMMMMMMMMMMMMM"
-	
+	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .
 	activePlayer := aWormhole applyEffectOn: activePlayer.
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
+	
 ]
 
 { #category : 'play interface' }
 TurnManager >> playerInTurnIndex [
 
 	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
+]
+
+{ #category : 'accessing' }
+TurnManager >> setOfPlayers [
+
+	^ setOfPlayers 
+]
+
+{ #category : 'accessing' }
+TurnManager >> setOfPlayers: aSetOfPlayers [
+	
+	setOfPlayers := aSetOfPlayers 
+]
+
+{ #category : 'play interface' }
+TurnManager >> skipTurn [
+	| activePlayer |
+	turn := turn + 1.
+	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	activePlayer:= activePlayer forceAShieldReset.
+	
+	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	^ activePlayer
+	
 ]
 
 { #category : 'accessing' }
