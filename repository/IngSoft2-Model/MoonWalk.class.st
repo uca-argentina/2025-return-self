@@ -38,3 +38,10 @@ MoonWalk >> applyEffectOn: aPlayer onTurn: aTurn [
 	].
 	^aPlayer .
 ]
+
+{ #category : 'initialization' }
+MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfPlayers [
+	tile := aTile.
+	debuff := aDebuff.
+	setOfPlayers := aSetOfPlayers.
+]
