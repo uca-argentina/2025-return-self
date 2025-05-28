@@ -7,7 +7,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'playerName',
-		'playerPosition'
+		'playerPosition',
+		'lap'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -30,6 +31,15 @@ Player class >> named: aName withPosition: aPosition [
 	^ self new initializePlayerWithName: aName withPosition: aPosition
 ]
 
+{ #category : 'instance creation' }
+Player class >> named: aName withPosition: aPosition withLaps: aLap [
+
+	self playerNameCantBeEmpty: aName.
+	self positionHasToBeAPositiveInteger: aPosition.
+
+	^ self new initializePlayerWithName: aName withPosition: aPosition withLaps: aLap
+]
+
 { #category : 'testing' }
 Player class >> playerNameCantBeEmpty: aName [
 
@@ -50,13 +60,45 @@ Player >> advanceTiles: aDistance [
 	^ self class
 		  named: playerName
 		  withPosition: aDistance + playerPosition
+		  withLaps: lap
+]
+
+{ #category : 'positioning' }
+Player >> circleAroundTheTrackWithLength: boardLength [
+	|amountOfBackTrack  newLap|
+	newLap := 0.
+	amountOfBackTrack := 0.
+	playerPosition > boardLength ifTrue:
+		[
+			amountOfBackTrack := boardLength .
+			newLap := 1.
+		].
+	^ self class
+		  	named: playerName
+		  	withPosition: playerPosition - amountOfBackTrack
+		 	withLaps: lap + newLap
 ]
 
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 
 	playerName := aName.
-	playerPosition := aPosition
+	playerPosition := aPosition.
+	lap := 0
+]
+
+{ #category : 'initialization' }
+Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap [
+
+	playerName := aName.
+	playerPosition := aPosition.
+	lap := aLap
+]
+
+{ #category : 'accessing' }
+Player >> lap [
+
+	^ lap
 ]
 
 { #category : 'accessing' }

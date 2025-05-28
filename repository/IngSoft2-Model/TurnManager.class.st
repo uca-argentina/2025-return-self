@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'turn',
 		'boardLength',
-		'setOfPlayers'
+		'setOfPlayers',
+		'numberOfLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,10 +22,19 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength [
 		  andBoard: aBoardLength
 ]
 
+{ #category : 'instance creation' }
+TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
+
+	^ self new
+		  initializeSetOfPlayers: aSetOfPlayers
+		  andBoard: aBoardLength
+		  andLaps: numberOfLaps 
+]
+
 { #category : 'comparing' }
 TurnManager >> checkifPlayerStillPlaying: aPlayer [
 
-	^ aPlayer position < boardLength
+	^ aPlayer lap <= numberOfLaps.
 ]
 
 { #category : 'initialization' }
@@ -32,7 +42,17 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 
 	setOfPlayers := aSet.
 	turn := 0.
-	boardLength := aBoardLength
+	boardLength := aBoardLength.
+	numberOfLaps := 1.
+]
+
+{ #category : 'initialization' }
+TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
+
+	setOfPlayers := aSet.
+	turn := 0.
+	boardLength := aBoardLength.
+	numberOfLaps := anAmountOfLaps 
 ]
 
 { #category : 'play interface' }
@@ -42,6 +62,9 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 	turn := turn + 1.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	activePlayer := activePlayer advanceTiles: aDistance.
+	
+	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength ."MMMMMMMMMMMMMMMMMMMM"
+	
 	activePlayer := aWormhole applyEffectOn: activePlayer.
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
@@ -61,7 +84,7 @@ TurnManager >> stillPlaying [
 ]
 
 { #category : 'comparing' }
-TurnManager >> whoWon [
+TurnManager >> winner [
 
 	| playerWhoWon |
 	playerWhoWon := setOfPlayers

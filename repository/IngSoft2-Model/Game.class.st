@@ -37,6 +37,24 @@ Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole
 		  withSetOfDie: aDieSet
 ]
 
+{ #category : 'creation' }
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet withLaps: numberOfLaps [
+
+	| aXSetOfPlayers |
+	self boardLengthMustBeGreaterThanThree: aBoardLength.
+	self wormhole: aWormhole shouldBeInside: aBoardLength.
+
+	aXSetOfPlayers := aSetOfPlayers.
+	aXSetOfPlayers isArray ifFalse: [
+		aXSetOfPlayers := { aXSetOfPlayers } ].
+	^ self new
+		  initializeGamePlay: aXSetOfPlayers
+		  withBoardLength: aBoardLength
+		  withWormhole: aWormhole
+		  withSetOfDie: aDieSet
+		  withLaps: numberOfLaps 
+]
+
 { #category : 'testing' }
 Game class >> wormhole: aWormhole shouldBeInside: aLength [
 
@@ -48,6 +66,14 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
+	wormhole := aWormhole.
+	setOfDie := aSetOfDie
+]
+
+{ #category : 'initialization' }
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
+
+	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
 	wormhole := aWormhole.
 	setOfDie := aSetOfDie
 ]
@@ -70,7 +96,7 @@ Game >> playFullGame [
 ]
 
 { #category : 'comparing' }
-Game >> whoWon [
+Game >> winner [
 
-	^ playersTurn whoWon
+	^ playersTurn winner
 ]

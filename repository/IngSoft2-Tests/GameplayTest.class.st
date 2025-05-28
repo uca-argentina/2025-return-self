@@ -22,6 +22,45 @@ GameplayTest >> setUp [
 ]
 
 { #category : 'tests' }
+GameplayTest >> testGamePlayedWithASingleLap [
+
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aLoadedDie := LoadedDie rolling: 4.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie
+					withLaps: 1.
+					
+	aGame playFullGame.
+
+	self assert: aGame winner equals: 'Juan'
+"
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+
+	self assert: aGame nextPlayerThrowsDice equals: 9"
+]
+
+{ #category : 'tests' }
+GameplayTest >> testGamePlayedWithATwoLaps [
+
+	| aGame aLoadedDie aWormhole |
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
+	aLoadedDie := LoadedDie rolling: 6.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 5
+		         withWormhole: aWormhole
+		         withSetOfDie: aLoadedDie
+					withLaps: 2.
+	
+	self assert: aGame nextPlayerThrowsDice equals: 2
+]
+
+{ #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
 	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie |
@@ -123,7 +162,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
 	aGame playFullGame.
 
-	self assert: aGame whoWon equals: 'Juan'
+	self assert: aGame winner equals: 'Juan'
 ]
 
 { #category : 'tests' }
