@@ -185,8 +185,7 @@ Player >> loseBattle [
 ]
 
 { #category : 'accessing' }
-Player >> loseShield [.
-
+Player >> loseShield [
 	shields := shields -1 
 ]
 

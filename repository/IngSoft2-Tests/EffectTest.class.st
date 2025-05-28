@@ -142,6 +142,40 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithAnAtomikBombTile [
+	| aGame aSequence anAtomikBomb |
+	anAtomikBomb := AtomikBomb initializeInTile: 7 andSetOfPlayers: aSetOfPlayers.
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+								LoadedDie rolling: 3.
+								LoadedDie rolling: 4.
+								LoadedDie rolling: 3.
+								LoadedDie rolling: 2.
+				             }.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 24
+		         withEffect: anAtomikBomb
+		         withSetOfDie: aSequence
+					withLaps: 1.
+					
+	aGame nextPlayerThrowsDice .
+	self assert:aGame playerPositions equals:{'Juan : 4 , lap: 0, shields: 3' . 'Tomi : 1 , lap: 0, shields: 3'}.
+	
+	aGame nextPlayerThrowsDice .
+	self assert:aGame playerPositions equals:{'Juan : 4 , lap: 0, shields: 3' . 'Tomi : 5 , lap: 0, shields: 3'}.
+	
+	aGame nextPlayerThrowsDice .
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 2' . 'Tomi : 1 , lap: 0, shields: 2'}.
+	
+	aGame nextPlayerThrowsDice .
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 2' . 'Tomi : 3 , lap: 0, shields: 2'}.
+
+
+
+]
+
+{ #category : 'tests' }
 EffectTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
 
 	| anErrorHandler |
