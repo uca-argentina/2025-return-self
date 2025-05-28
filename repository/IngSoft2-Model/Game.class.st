@@ -90,7 +90,9 @@ Game >> nextPlayerThrowsDice [
 		                   playTurnUsing: setOfDie throw
 		                   and: wormhole.
 	"-----Batalla-----"
-	playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer withDice: setOfDie against: (playersTurn setOfPlayers)) .
+	playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
+												withDice: setOfDie 
+												against: (playersTurn setOfPlayers)) .
 	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex).
 
 	^ anUpdatedPlayer position
@@ -105,7 +107,7 @@ Game >> playFullGame [
 { #category : 'interaction loop' }
 Game >> playerPositions [
 
-	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', player position asString ]
+	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', player position asString, ' , lap: ',player lap asString]
 ]
 
 { #category : 'interaction loop' }

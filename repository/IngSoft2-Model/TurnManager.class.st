@@ -34,7 +34,7 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
 { #category : 'comparing' }
 TurnManager >> checkifPlayerStillPlaying: aPlayer [
 
-	^ aPlayer lap <= numberOfLaps.
+	^ aPlayer lap < numberOfLaps.
 ]
 
 { #category : 'initialization' }
@@ -62,7 +62,12 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 	turn := turn + 1.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	
-	activePlayer skipATurn ifTrue:[ ^ activePlayer turnSkipped ].
+	[activePlayer skipATurn] whileTrue: [
+		setOfPlayers at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+		turn := turn + 1.
+		activePlayer := setOfPlayers at: self playerInTurnIndex.
+		].
+	
 	
 	activePlayer := activePlayer advanceTiles: aDistance.
 	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .

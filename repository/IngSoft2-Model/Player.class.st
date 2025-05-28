@@ -149,16 +149,18 @@ Player >> lap [
 
 { #category : 'positioning' }
 Player >> loseBattle [
-	|turnsToSkip|
+	|turnsToSkip shieldLeft|
 	turnsToSkip := 0.
-	shields = 0 ifTrue:[^self].
-	shields = 1 ifTrue:[ turnsToSkip := 2.  ].
+	shieldLeft := shields -1.
+	
+	shieldLeft = 0 ifTrue:[turnsToSkip := 2].
+	
 	
 	^ self class
 		  named: playerName
 		  withPosition: 1
 		  withLaps: lap
-		  withShield: shields - 1
+		  withShield: shieldLeft
 		  withTurnSkipped: turnsToSkip 
 ]
 
