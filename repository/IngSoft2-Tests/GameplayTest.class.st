@@ -22,7 +22,7 @@ GameplayTest >> setUp [
 ]
 
 { #category : 'tests' }
-GameplayTest >> testGamePlayedWithASingleLap [
+GameplayTest >> testGamePlayedWithASingleLapNoBattles [
 
 	| aGame aLoadedDie aWormhole |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
@@ -45,7 +45,7 @@ GameplayTest >> testGamePlayedWithASingleLap [
 ]
 
 { #category : 'tests' }
-GameplayTest >> testGamePlayedWithATwoLaps [
+GameplayTest >> testLoopingOfTheLap [
 
 	| aGame aLoadedDie aWormhole |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
