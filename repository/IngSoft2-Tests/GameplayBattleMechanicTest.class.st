@@ -46,7 +46,7 @@ GameplayBattleMechanicTest >> testBattleSituation [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 10
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -76,7 +76,7 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 10
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -103,7 +103,7 @@ GameplayBattleMechanicTest >> testLoopingOfTheLap [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 5
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 2.
 	
@@ -147,7 +147,7 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 30
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -206,7 +206,7 @@ GameplayBattleMechanicTest >> testSkippingTurnAndReplenishingShield [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 30
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					

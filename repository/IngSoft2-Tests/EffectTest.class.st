@@ -45,11 +45,11 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAMoonWalkTile [
-	| aGame aLoadedDie aMoonWalkTile aSecondLoadedDie aSequence|
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
-	aLoadedDie := LoadedDie rolling: 2. 	     "1 3 5 7 9 11 13 15 17 19 21"
-	aSecondLoadedDie := LoadedDie rolling: 3. "1 4 7 10 13 16 19 22"
+EffectTest >> testGamePlayedWithAHyperJumpTile [
+	| aGame aLoadedDie aHSTile aSecondLoadedDie aSequence|
+	aHSTile := HyperJump initializeInTile: 3 withBuff: 10.
+	aLoadedDie := LoadedDie rolling: 1. "1 2 12 13 14 15 16"
+	aSecondLoadedDie := LoadedDie rolling: 2. "1 13 15 17 19 21"
 	aSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             aLoadedDie.
@@ -57,6 +57,58 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
+		         withEffect: aHSTile
+		         withSetOfDie: aSequence
+					withLaps: 1.
+					
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+
+	self assert:aGame playerPositions equals:{'Juan : 12 , lap: 0, shields: 3' . 'Tomi : 13 , lap: 0, shields: 3'}
+
+	"self assert: aGame winner equals: 'Juan' "
+
+]
+
+{ #category : 'tests' }
+EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
+	| aGame aLoadedDie aHSJTile aSecondLoadedDie aSequence|
+	aHSJTile := HyperSpaceJump initializeInTile: 4 withBuff: 10.
+	aLoadedDie := LoadedDie rolling: 4. "1 5 9 13 17 21"
+	aSecondLoadedDie := LoadedDie rolling: 3. "1 4 14 17 21"
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 20
+		         withEffect: aHSJTile
+		         withSetOfDie: aSequence
+					withLaps: 1.
+					
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+	self assert:aGame playerPositions equals:{'Juan : 5 , lap: 0, shields: 3' . 'Tomi : 14 , lap: 0, shields: 2'}
+
+	"self assert: aGame winner equals: 'Juan' "
+
+]
+
+{ #category : 'tests' }
+EffectTest >> testGamePlayedWithAMoonWalkTile [
+	| aGame aLoadedDie aMoonWalkTile aSecondLoadedDie aSequence|
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
+	aLoadedDie := LoadedDie rolling: 7. 	     
+	aSecondLoadedDie := LoadedDie rolling: 8. 
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: 24
 		         withEffect: aMoonWalkTile
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -68,14 +120,19 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithANoEffectTile [
-	| aGame aLoadedDie aNoEffectTile |
+	| aGame aLoadedDie aNoEffectTile aSecondLoadedDie aSequence|
 	aNoEffectTile := NoEffect new.
-	aLoadedDie := LoadedDie rolling: 4.
+	aLoadedDie := LoadedDie rolling: 4. 	     
+	aSecondLoadedDie := LoadedDie rolling: 1. 
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }.
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
 		         withEffect: aNoEffectTile
-		         withSetOfDie: aLoadedDie
+		         withSetOfDie: aSequence
 					withLaps: 1.
 					
 	aGame playFullGame.

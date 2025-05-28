@@ -28,17 +28,6 @@ MoonWalk >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 	
 ]
 
-{ #category : 'positioning' }
-MoonWalk >> applyEffectOn: aPlayer onTurn: aTurn [
-	| playersToApplyEffect |
-	
-	aPlayer position = tile ifTrue: [
-	playersToApplyEffect := setOfPlayers copyWithout: aPlayer .
-	playersToApplyEffect do: [:player | player goBackTiles: debuff ].
-	].
-	^aPlayer .
-]
-
 { #category : 'initialization' }
 MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfPlayers [
 	tile := aTile.
