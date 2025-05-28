@@ -24,11 +24,10 @@ LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aSetOfPlayers boardLength |
 	aLoadedDie := LoadedDie rolling: 1.
 	aSecondLoadedDie := LoadedDie rolling: 3.
-	aSequence := SequenceOfDie
+	aSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             aLoadedDie.
-				             aSecondLoadedDie }
-		             andQuantityOfPlayers: 2.
+				             aSecondLoadedDie }.
 	aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
@@ -43,11 +42,11 @@ LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 		         withSetOfDie: aSequence.
 
 	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 2)"
-	aGame nextPlayerThrowsDice. "segundo jugador tira 1 (posicion 2)"
-	aGame nextPlayerThrowsDice. "primer jugador tira 3 (posicion 5)"
-	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 5)"
+	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 4)"
+	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 3)"
+	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 7)"
 
-	self assert: aGame nextPlayerThrowsDice equals: 6 "primer jugador tira 1 (posicion 6)"
+	self assert: aGame nextPlayerThrowsDice equals: 4 "primer jugador tira 1 (posicion 4)"
 ]
 
 { #category : 'tests' }

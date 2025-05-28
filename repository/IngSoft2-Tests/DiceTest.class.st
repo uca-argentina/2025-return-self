@@ -47,3 +47,35 @@ DiceTest >> testThrowMultipleLoadedDie [
 			             secondDice }.
 	self assert: aSetOfDie throw equals: 15
 ]
+
+{ #category : 'tests' }
+DiceTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
+
+	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aSetOfPlayers boardLength |
+	aLoadedDie := LoadedDie rolling: 1.
+	aSecondLoadedDie := LoadedDie rolling: 3.
+	aSequence := SequenceOfDie
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }
+				andQuantityOfPlayers: 2.
+	aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
+	firstPlayer := Player named: 'Juan'.
+	secondPlayer := Player named: 'Tomi'.
+	aSetOfPlayers := {
+		                 firstPlayer.
+		                 secondPlayer }.
+	boardLength := 20.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoardLength: boardLength
+		         withWormhole: aWormhole
+		         withSetOfDie: aSequence.
+
+	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 2)"
+	aGame nextPlayerThrowsDice. "segundo jugador tira 1 (posicion 2)"
+	aGame nextPlayerThrowsDice. "primer jugador tira 3 (posicion 5)"
+	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 5)"
+
+	self assert: aGame nextPlayerThrowsDice equals: 6 "primer jugador tira 1 (posicion 6)"
+]
