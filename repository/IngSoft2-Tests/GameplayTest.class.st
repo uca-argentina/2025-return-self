@@ -30,7 +30,7 @@ GameplayTest >> testGamePlayedWithASingleLap [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -53,7 +53,7 @@ GameplayTest >> testGamePlayedWithATwoLaps [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 5
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie
 					withLaps: 2.
 	
@@ -73,7 +73,7 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aSetOfDie.
 	self assert: aGame nextPlayerThrowsDice equals: 9
 ]
@@ -87,7 +87,7 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 
@@ -104,7 +104,7 @@ GameplayTest >> testWhenSteppingIntoWormhole [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 
@@ -122,7 +122,7 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 	aGame nextPlayerThrowsDice.
@@ -139,7 +139,7 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 	aGame nextPlayerThrowsDice.
@@ -157,7 +157,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 	aGame playFullGame.
@@ -174,7 +174,7 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: 20
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aLoadedDie.
 
 	aGame playFullGame.
@@ -205,7 +205,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItR
 			Game
 				playedBy: aSetOfPlayers
 				withBoardLength: 3
-				withWormhole: aWormhole
+				withEffect: aWormhole
 				withSetOfDie: aSetOfDie ]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'
@@ -234,7 +234,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheB
 			Game
 				playedBy: aSetOfPlayers
 				withBoardLength: 20
-				withWormhole: aWormhole
+				withEffect: aWormhole
 				withSetOfDie: aSetOfDie ]
 		raiseErrorWithMessageText:
 		'Both wormhole ends must be within the board length.'
@@ -258,7 +258,7 @@ GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideThe
 			Game
 				playedBy: aSetOfPlayers
 				withBoardLength: 20
-				withWormhole: aWormhole
+				withEffect: aWormhole
 				withSetOfDie: aLoadedDie ]
 		raiseErrorWithMessageText:
 		'Both wormhole ends must be within the board length.'
