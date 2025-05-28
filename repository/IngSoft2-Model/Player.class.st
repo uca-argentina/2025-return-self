@@ -8,7 +8,8 @@ Class {
 	#instVars : [
 		'playerName',
 		'playerPosition',
-		'lap'
+		'lap',
+		'shields'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -84,7 +85,8 @@ Player >> initializePlayerWithName: aName withPosition: aPosition [
 
 	playerName := aName.
 	playerPosition := aPosition.
-	lap := 0
+	lap := 0.
+	shields := 3.
 ]
 
 { #category : 'initialization' }
@@ -92,7 +94,8 @@ Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap
 
 	playerName := aName.
 	playerPosition := aPosition.
-	lap := aLap
+	lap := aLap.
+	shields := 3
 ]
 
 { #category : 'accessing' }

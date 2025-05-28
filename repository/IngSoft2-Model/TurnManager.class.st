@@ -66,6 +66,7 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength ."MMMMMMMMMMMMMMMMMMMM"
 	
 	activePlayer := aWormhole applyEffectOn: activePlayer.
+	
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
 ]
@@ -74,6 +75,12 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 TurnManager >> playerInTurnIndex [
 
 	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
+]
+
+{ #category : 'accessing' }
+TurnManager >> setOfPlayers [
+
+	^ setOfPlayers 
 ]
 
 { #category : 'accessing' }

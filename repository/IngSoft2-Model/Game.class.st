@@ -81,11 +81,19 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| anUpdatedPlayer |
+	| anUpdatedPlayer playersInUpdatedPosition|
 	playersTurn stillPlaying ifFalse: [ ^ self ].
 	anUpdatedPlayer := playersTurn
 		                   playTurnUsing: setOfDie throw
 		                   and: wormhole.
+	"-----Batalla-----"
+	playersInUpdatedPosition := self playersInPosition:(anUpdatedPlayer position).
+	playersInUpdatedPosition size >= 2 ifTrue:[
+			setOfDie throw > setOfDie throw 
+				ifTrue:[(playersInUpdatedPosition at:2 ) loseBattle.]
+				ifFalse:[anUpdatedPlayer := anUpdatedPlayer loseBattle.].
+		].
+	"-----Batalla-----"
 	^ anUpdatedPlayer position
 ]
 
@@ -93,6 +101,18 @@ Game >> nextPlayerThrowsDice [
 Game >> playFullGame [
 
 	[ playersTurn stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
+]
+
+{ #category : 'interaction loop' }
+Game >> playerPositions [
+
+	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', player position asString ]
+]
+
+{ #category : 'interaction loop' }
+Game >> playersInPosition: aPosition [
+
+	^ playersTurn setOfPlayers select:[:player | player position = aPosition ]
 ]
 
 { #category : 'comparing' }
