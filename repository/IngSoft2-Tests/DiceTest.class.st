@@ -69,7 +69,7 @@ DiceTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 	aGame := Game
 		         playedBy: aSetOfPlayers
 		         withBoardLength: boardLength
-		         withWormhole: aWormhole
+		         withEffect: aWormhole
 		         withSetOfDie: aSequence.
 
 	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 2)"

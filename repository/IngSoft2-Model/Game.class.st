@@ -22,11 +22,11 @@ Game class >> boardLengthMustBeGreaterThanThree: aLength [
 ]
 
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet [
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet [
 
 	| aXSetOfPlayers |
 	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	self wormhole: aWormhole shouldBeInside: aBoardLength.
+	"self wormhole: aWormhole shouldBeInside: aBoardLength."
 
 	aXSetOfPlayers := aSetOfPlayers.
 	aXSetOfPlayers isArray ifFalse: [
@@ -34,16 +34,16 @@ Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole
 	^ self new
 		  initializeGamePlay: aXSetOfPlayers
 		  withBoardLength: aBoardLength
-		  withWormhole: aWormhole
+		  withEffect: aWormhole
 		  withSetOfDie: aDieSet
 ]
 
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aDieSet withLaps: numberOfLaps [
+Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet withLaps: numberOfLaps [
 
 	| aXSetOfPlayers |
 	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	self wormhole: aWormhole shouldBeInside: aBoardLength.
+	"self wormhole: aWormhole shouldBeInside: aBoardLength."
 
 	aXSetOfPlayers := aSetOfPlayers.
 	aXSetOfPlayers isArray ifFalse: [
@@ -51,7 +51,7 @@ Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withWormhole
 	^ self new
 		  initializeGamePlay: aXSetOfPlayers
 		  withBoardLength: aBoardLength
-		  withWormhole: aWormhole
+		  withEffect: aWormhole
 		  withSetOfDie: aDieSet
 		  withLaps: numberOfLaps 
 ]
@@ -64,7 +64,7 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie [
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
 	battle := BattleManager new.
@@ -73,7 +73,7 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWor
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withWormhole: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
 	battle := BattleManager new.

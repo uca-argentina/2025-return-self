@@ -111,6 +111,18 @@ Player >> forceAShieldReset [
 		  withShield: 3 
 ]
 
+{ #category : 'as yet unclassified' }
+Player >> goBackTiles: aDistance [ 
+
+	| newPosition |
+	newPosition := playerPosition - aDistance.
+	newPosition := newPosition max: 1.
+		^ self class
+		  named: playerName
+		  withPosition: newPosition 
+		  withLaps: lap
+]
+
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 

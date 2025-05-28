@@ -56,7 +56,7 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAm
 ]
 
 { #category : 'play interface' }
-TurnManager >> playTurnUsing: aDistance and: aWormhole [
+TurnManager >> playTurnUsing: aDistance and: anEffect [
 
 	| activePlayer |
 	turn := turn + 1.
@@ -74,7 +74,10 @@ TurnManager >> playTurnUsing: aDistance and: aWormhole [
 	activePlayer := activePlayer advanceTiles: aDistance.
 	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .
 	activePlayer := aWormhole applyEffectOn: activePlayer.
+
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	setOfPlayers := anEffect applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
+	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	^ activePlayer
 	
 ]
