@@ -81,15 +81,15 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 					withLaps: 1.
 					
 	aGame nextPlayerThrowsDice . "tira 2"
-	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0' . 'Tomi : 1 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0, shields: 3' . 'Tomi : 1 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice . "tira 2, entran en combate, juan tira 1 tomi tira 5. juan pierde y vuelve al inicio"
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 3 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 2' . 'Tomi : 3 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice ."tira 3"
-	self assert:aGame playerPositions equals:{'Juan : 9 , lap: 0' . 'Tomi : 3 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 9 , lap: 0, shields: 2' . 'Tomi : 3 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice ."tira 4"
-	self assert:aGame playerPositions equals:{'Juan : 9 , lap: 0' . 'Tomi : 7 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 9 , lap: 0, shields: 2' . 'Tomi : 7 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice ."tira 2"
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 1' . 'Tomi : 7 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 1, shields: 2' . 'Tomi : 7 , lap: 0, shields: 3'}.
 	self assert:aGame winner equals:'Juan'
 	
 ]
@@ -108,7 +108,8 @@ GameplayBattleMechanicTest >> testLoopingOfTheLap [
 					withLaps: 2.
 	
 	self assert: aGame nextPlayerThrowsDice equals: 2.
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 1' . 'Tomi : 1 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 1, shields: 3' . 'Tomi : 1 , lap: 0, shields: 3'}.
+	
 ]
 
 { #category : 'tests' }
@@ -151,34 +152,34 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 					withLaps: 1.
 					
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0' . 'Tomi : 1 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0, shields: 3' . 'Tomi : 1 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 2 , lap: 0'}."gana tomi - juan tiene 2 escudos"
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 2' . 'Tomi : 2 , lap: 0, shields: 3'}."gana tomi - juan tiene 2 escudos"
 	
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0' . 'Tomi : 2 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0, shields: 2' . 'Tomi : 2 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 3 , lap: 0'}."gana tomi - juan tiene 1 escudo"
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 1' . 'Tomi : 3 , lap: 0, shields: 3'}."gana tomi - juan tiene 1 escudo"
 	
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 4 , lap: 0' . 'Tomi : 3 , lap: 0'}.
+	self assert:aGame playerPositions equals:{'Juan : 4 , lap: 0, shields: 1' . 'Tomi : 3 , lap: 0, shields: 3'}.
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 4 , lap: 0'}."gana tomi - juan no tiene mas escudos"
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 0' . 'Tomi : 4 , lap: 0, shields: 3'}."gana tomi - juan no tiene mas escudos"
 	
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 5 , lap: 0'}."juan se saltea este turno - tomi tira"
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 0' . 'Tomi : 5 , lap: 0, shields: 3'}."juan se saltea este turno - tomi tira"
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 6 , lap: 0'}."juan se saltea este turno - tomi tira"
+	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0, shields: 0' . 'Tomi : 6 , lap: 0, shields: 3'}."juan se saltea este turno - tomi tira"
 	
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0' . 'Tomi : 6 , lap: 0'}."juan recupera los escudos - tira"
+	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0, shields: 3' . 'Tomi : 6 , lap: 0, shields: 3'}."juan recupera los escudos - tira"
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0' . 'Tomi : 29 , lap: 0'}."tomi tira - pasa por el wormhole"
+	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0, shields: 3' . 'Tomi : 29 , lap: 0, shields: 3'}."tomi tira - pasa por el wormhole"
 	
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0' . 'Tomi : 29 , lap: 0'}."juan tira"
+	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0, shields: 3' . 'Tomi : 29 , lap: 0, shields: 3'}."juan tira"
 	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0' . 'Tomi : 1 , lap: 1'}."tomi tira - termina el juego"
+	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0, shields: 3' . 'Tomi : 1 , lap: 1, shields: 3'}."tomi tira - termina el juego"
 	
 	self assert: aGame winner equals: 'Tomi'
 	
