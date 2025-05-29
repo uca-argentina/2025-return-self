@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'turn',
 		'boardLength',
-		'setOfPlayers'
+		'setOfPlayers',
+		'numberOfLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,10 +22,19 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength [
 		  andBoard: aBoardLength
 ]
 
+{ #category : 'instance creation' }
+TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
+
+	^ self new
+		  initializeSetOfPlayers: aSetOfPlayers
+		  andBoard: aBoardLength
+		  andLaps: numberOfLaps 
+]
+
 { #category : 'comparing' }
 TurnManager >> checkifPlayerStillPlaying: aPlayer [
 
-	^ aPlayer position < boardLength
+	^ aPlayer lap < numberOfLaps.
 ]
 
 { #category : 'initialization' }
@@ -32,25 +42,73 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 
 	setOfPlayers := aSet.
 	turn := 0.
-	boardLength := aBoardLength
+	boardLength := aBoardLength.
+	numberOfLaps := 1.
+]
+
+{ #category : 'initialization' }
+TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
+
+	setOfPlayers := aSet.
+	turn := 0.
+	boardLength := aBoardLength.
+	numberOfLaps := anAmountOfLaps 
 ]
 
 { #category : 'play interface' }
-TurnManager >> playTurnUsing: aDistance and: aWormhole [
+TurnManager >> playTurnUsing: aDistance and: aBoard [
 
 	| activePlayer |
 	turn := turn + 1.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	
+	[activePlayer skipATurn] whileTrue: [
+		setOfPlayers at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+		turn := turn + 1.
+		activePlayer := setOfPlayers at: self playerInTurnIndex.
+		].
+	
+	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
+	
+	
 	activePlayer := activePlayer advanceTiles: aDistance.
-	activePlayer := aWormhole applyEffectOn: activePlayer.
+	activePlayer := activePlayer circleAroundTheTrackWithLength: aBoard totalTiles .
+
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
+	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	^ activePlayer
+	
 ]
 
 { #category : 'play interface' }
 TurnManager >> playerInTurnIndex [
 
 	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
+]
+
+{ #category : 'accessing' }
+TurnManager >> setOfPlayers [
+
+	^ setOfPlayers 
+]
+
+{ #category : 'accessing' }
+TurnManager >> setOfPlayers: aSetOfPlayers [
+	
+	setOfPlayers := aSetOfPlayers 
+]
+
+{ #category : 'play interface' }
+TurnManager >> skipTurn [
+	| activePlayer |
+	turn := turn + 1.
+	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	activePlayer:= activePlayer forceAShieldReset.
+	
+	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	^ activePlayer
+	
 ]
 
 { #category : 'accessing' }
@@ -61,7 +119,7 @@ TurnManager >> stillPlaying [
 ]
 
 { #category : 'comparing' }
-TurnManager >> whoWon [
+TurnManager >> winner [
 
 	| playerWhoWon |
 	playerWhoWon := setOfPlayers

@@ -3,7 +3,7 @@ A wormhole Class
 "
 Class {
 	#name : 'Wormhole',
-	#superclass : 'Object',
+	#superclass : 'Effect',
 	#instVars : [
 		'sideA',
 		'sideB'
@@ -11,6 +11,12 @@ Class {
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'initialization' }
+Wormhole class >> effectProbability [
+
+^0.00
+]
 
 { #category : 'testing' }
 Wormhole class >> end: anEnd cantBeTheSameAs: anotherEnd [
@@ -36,13 +42,22 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aPlayer [
+Wormhole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+	| player distance newPlayer |
+	player := aSetOfPlayers at: anIndex.
 
-	aPlayer position = sideA ifTrue: [
-		^ aPlayer advanceTiles: sideB - sideA ].
-	aPlayer position = sideB ifTrue: [
-		^ aPlayer advanceTiles: sideA - sideB ].
-	^ aPlayer
+	(player position = sideA or: [ player position = sideB ]) ifFalse: [
+		^ aSetOfPlayers ].
+
+	distance := sideB - sideA.
+	newPlayer :=player position = sideA ifTrue: [ player advanceTiles: distance ] ifFalse: [player goBackTiles: distance].
+
+	aSetOfPlayers
+		at: anIndex
+		put: newPlayer.
+
+	^ aSetOfPlayers
+
 ]
 
 { #category : 'tests - comparing' }
