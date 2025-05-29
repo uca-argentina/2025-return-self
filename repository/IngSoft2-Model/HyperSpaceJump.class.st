@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : 'initialization' }
+HyperSpaceJump class >> effectProbability [
+
+^0.20
+]
+
+{ #category : 'initialization' }
 HyperSpaceJump class >> initializeInTile: aTile withBuff: aBuff [
  ^ self new initializeInTile: aTile withBuff: aBuff
 ]
@@ -32,4 +38,9 @@ HyperSpaceJump >> initializeInTile: aTile withBuff: aBuff [
 	tile := aTile.
 	buff := aBuff.
 
+]
+
+{ #category : 'initialization' }
+HyperSpaceJump >> tiles [
+ ^tile
 ]

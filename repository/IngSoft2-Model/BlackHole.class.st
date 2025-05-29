@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : 'initialization' }
+BlackHole class >> effectProbability [
+
+^0.20
+]
+
+{ #category : 'initialization' }
 BlackHole class >> initializeInTile: aTile withDebuff: aDebuff [
 	^self new initializeOnTile: aTile withDebuff: aDebuff .
 ]
@@ -30,4 +36,9 @@ BlackHole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 BlackHole >> initializeOnTile: aTile withDebuff: aDebuff [
 	tile := aTile.
 	debuff := aDebuff.
+]
+
+{ #category : 'initialization' }
+BlackHole >> tiles [
+ ^tile
 ]

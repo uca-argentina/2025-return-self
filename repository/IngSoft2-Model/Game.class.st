@@ -6,9 +6,10 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'setOfDie',
-		'wormhole',
 		'playersTurn',
-		'battle'
+		'battle',
+		'effect',
+		'board'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -19,6 +20,11 @@ Game class >> boardLengthMustBeGreaterThanThree: aLength [
 
 	aLength > 3 ifFalse: [
 		Error signal: 'The board length must be greater than three.' ]
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> playedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
+	^ self new initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
 ]
 
 { #category : 'creation' }
@@ -68,7 +74,7 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEff
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
 	battle := BattleManager new.
-	wormhole := aWormhole.
+	effect := aWormhole.
 	setOfDie := aSetOfDie
 ]
 
@@ -77,8 +83,16 @@ Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEff
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
 	battle := BattleManager new.
-	wormhole := aWormhole.
+	effect := aWormhole.
 	setOfDie := aSetOfDie
+]
+
+{ #category : 'initialization' }
+Game >> initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
+	playersTurn := TurnManager with: aSetOfPlayers and: aBoard totalTiles and: laps .
+	battle := BattleManager new.
+	setOfDie := aSetOfDie.
+	board := aBoard
 ]
 
 { #category : 'interaction loop' }
@@ -105,7 +119,7 @@ Game >> nextPlayerThrowsDice [
 	playersTurn stillPlaying ifFalse: [ ^ self ].
 	anUpdatedPlayer := playersTurn
 		                   playTurnUsing: setOfDie throw
-		                   and: wormhole.
+		                   and: board.
 	"-----Batalla-----"
 	playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
 												withDice: setOfDie 

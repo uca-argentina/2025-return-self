@@ -123,6 +123,11 @@ Player >> goBackTiles: aDistance [
 		  withLaps: lap
 ]
 
+{ #category : 'as yet unclassified' }
+Player >> goToFirstTile [
+	playerPosition := 1.
+]
+
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition [
 

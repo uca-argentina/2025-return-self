@@ -3,12 +3,17 @@ Class {
 	#superclass : 'Effect',
 	#instVars : [
 		'tile',
-		'debuff',
 		'setOfPlayers'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'initialization' }
+AtomikBomb class >> effectProbability [
+
+^0.02
+]
 
 { #category : 'initialization' }
 AtomikBomb class >> initializeInTile: aTile andSetOfPlayers: aSetOFPlayers [ 
@@ -17,13 +22,14 @@ AtomikBomb class >> initializeInTile: aTile andSetOfPlayers: aSetOFPlayers [
 
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
-   |aux|
-	(aSetOfPlayers at: anIndex) position = tile ifTrue:[
-		aux := aSetOfPlayers collect: [:player | player goBackTiles: debuff.].
-		aux := aux collect: [:player | player loseShield .].
-		^aux
+
+	| playersToApplyEffect aPlayer |
+	aPlayer:= aSetOfPlayers at: anIndex.
+	aPlayer position = tile ifTrue: [
+	playersToApplyEffect := aSetOfPlayers collect: [:player | (player goToFirstTile) loseShield ].
+	^playersToApplyEffect.
 	].
-	^aSetOfPlayers
+^aSetOfPlayers 
 
 	
 ]
@@ -31,13 +37,13 @@ AtomikBomb >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 { #category : 'initialization' }
 AtomikBomb >> initializeOnTile: aTile andSetOfPlayers: aSetOfPlayers [
 	tile := aTile.
-	debuff := aTile - 1.
+
 	setOfPlayers := aSetOfPlayers.
 ]
 
-{ #category : 'initialization' }
-AtomikBomb >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfPlayers [
-	tile := aTile.
-	debuff := aDebuff.
-	setOfPlayers := aSetOfPlayers.
+{ #category : 'positioning' }
+AtomikBomb >> tiles [
+ ^tile
+
+	
 ]

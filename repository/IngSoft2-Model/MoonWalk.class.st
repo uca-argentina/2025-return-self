@@ -10,6 +10,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'initialization' }
+MoonWalk class >> effectProbability [
+
+^0.10
+]
+
 { #category : 'as yet unclassified' }
 MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOFPlayers [ 
 	^self new initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOFPlayers .
@@ -33,4 +39,9 @@ MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfP
 	tile := aTile.
 	debuff := aDebuff.
 	setOfPlayers := aSetOfPlayers.
+]
+
+{ #category : 'initialization' }
+MoonWalk >> tiles [
+ ^tile
 ]

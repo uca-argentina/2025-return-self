@@ -10,6 +10,7 @@ BattleManager >> engagePlayer: player withDice: setOfDie against: setOfPlayers [
    |playersToEngage|
 	playersToEngage := self selectPlayersInSamePositionAs: player from: setOfPlayers.
 	
+	(player position = 1)  ifTrue:[^setOfPlayers ].
 	playersToEngage size >= 2 ifTrue: ["si encuentra 2 o mas en la misma posicion"
 		  (setOfDie throw > setOfDie throw) ifTrue: ["gana el primero"
 			  playersToEngage at:2 put: (playersToEngage at:2 ) loseBattle.

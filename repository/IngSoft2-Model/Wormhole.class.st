@@ -12,6 +12,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'initialization' }
+Wormhole class >> effectProbability [
+
+^0.00
+]
+
 { #category : 'testing' }
 Wormhole class >> end: anEnd cantBeTheSameAs: anotherEnd [
 

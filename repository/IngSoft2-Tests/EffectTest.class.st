@@ -142,6 +142,31 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithAbannana [
+	| aGame aLoadedDie  aSecondLoadedDie aSequence  aBoard aMoonWalkTile aHSJTile aBlackHoleTile|
+	aHSJTile := HyperSpaceJump initializeInTile: 4 withBuff: 10.
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
+	aBlackHoleTile := BlackHole initializeInTile: 2 withDebuff: 4.
+	aBoard := Board createWithTiles: 20 andEffects: 
+		  { aHSJTile. aMoonWalkTile. aBlackHoleTile }.
+	aLoadedDie := LoadedDie rolling: 7. 	     
+	aSecondLoadedDie := LoadedDie rolling: 8. 
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoard: aBoard
+		         withSetOfDie: aSequence
+					withLaps: 1.
+					
+	aGame playFullGame.
+
+	self assert: aGame winner equals: 'Juan' 
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithAnAtomikBombTile [
 	| aGame aSequence anAtomikBomb |
 	anAtomikBomb := AtomikBomb initializeInTile: 7 andSetOfPlayers: aSetOfPlayers.

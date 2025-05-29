@@ -14,11 +14,6 @@ SequenceOfDieForTesting class >> withDie: aSequenceOfDie [
 	^ self new initializeSequenceOfDie: aSequenceOfDie.
 ]
 
-{ #category : 'as yet unclassified' }
-SequenceOfDieForTesting class >> withDie: aSequenceOfDie andQuantityOfPlayers: aQuantity [ 
-	^ self new initializeSequenceOfDie: aSequenceOfDie andQuantityOfPlayers: aQuantity .
-]
-
 { #category : 'initialization' }
 SequenceOfDieForTesting >> initializeSequenceOfDie: aSequenceOfDie [
 	allDie := aSequenceOfDie.

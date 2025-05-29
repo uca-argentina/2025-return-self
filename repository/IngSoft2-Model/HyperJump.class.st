@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'initialization' }
+HyperJump class >> effectProbability [
+
+^0.08
+]
+
+{ #category : 'initialization' }
 HyperJump class >> initializeInTile: aTile withBuff: aBuff [ 
 	^ self new initializeInTile: aTile withBuff: aBuff 
 ]
@@ -39,4 +45,9 @@ HyperJump >> lowerBuff [
 
 	actualBuff := actualBuff -1.
 	actualBuff < 1 ifTrue: [ actualBuff := initialBuff ]
+]
+
+{ #category : 'as yet unclassified' }
+HyperJump >> tiles [
+ ^tile
 ]

@@ -56,7 +56,7 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAm
 ]
 
 { #category : 'play interface' }
-TurnManager >> playTurnUsing: aDistance and: anEffect [
+TurnManager >> playTurnUsing: aDistance and: aBoard [
 
 	| activePlayer |
 	turn := turn + 1.
@@ -75,7 +75,7 @@ TurnManager >> playTurnUsing: aDistance and: anEffect [
 	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .
 
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
-	setOfPlayers := anEffect applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
+	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	^ activePlayer
 	
