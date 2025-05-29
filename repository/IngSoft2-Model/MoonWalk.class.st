@@ -21,6 +21,11 @@ MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andSetOfPlayers: a
 	^self new initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOFPlayers .
 ]
 
+{ #category : 'as yet unclassified' }
+MoonWalk class >> initializeOnTile: aTile [ 
+	^self new initializeOnTile: aTile.
+]
+
 { #category : 'positioning' }
 MoonWalk >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 	| playersToApplyEffect unaffectedPlayer|
@@ -32,6 +37,12 @@ MoonWalk >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 	].
 ^aSetOfPlayers 
 	
+]
+
+{ #category : 'initialization' }
+MoonWalk >> initializeOnTile: aTile [
+	tile := aTile.
+	debuff := 5.
 ]
 
 { #category : 'initialization' }

@@ -16,8 +16,8 @@ HyperSpaceJump class >> effectProbability [
 ]
 
 { #category : 'initialization' }
-HyperSpaceJump class >> initializeInTile: aTile withBuff: aBuff [
- ^ self new initializeInTile: aTile withBuff: aBuff
+HyperSpaceJump class >> initializeOnTile: aTile [ 
+ ^ self new initializeOnTile: aTile 
 ]
 
 { #category : 'positioning' }
@@ -37,6 +37,13 @@ HyperSpaceJump >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 HyperSpaceJump >> initializeInTile: aTile withBuff: aBuff [
 	tile := aTile.
 	buff := aBuff.
+
+]
+
+{ #category : 'initialization' }
+HyperSpaceJump >> initializeOnTile: aTile [ 
+	tile := aTile.
+	buff := 4.
 
 ]
 

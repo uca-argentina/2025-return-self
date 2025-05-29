@@ -16,8 +16,8 @@ BlackHole class >> effectProbability [
 ]
 
 { #category : 'initialization' }
-BlackHole class >> initializeInTile: aTile withDebuff: aDebuff [
-	^self new initializeOnTile: aTile withDebuff: aDebuff .
+BlackHole class >> initializeOnTile: aTile [ 
+	^self new initializeOnTile: aTile .
 ]
 
 { #category : 'positioning' }
@@ -33,9 +33,9 @@ BlackHole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 ]
 
 { #category : 'initialization' }
-BlackHole >> initializeOnTile: aTile withDebuff: aDebuff [
+BlackHole >> initializeOnTile: aTile [ 
 	tile := aTile.
-	debuff := aDebuff.
+	debuff := 4.
 ]
 
 { #category : 'initialization' }

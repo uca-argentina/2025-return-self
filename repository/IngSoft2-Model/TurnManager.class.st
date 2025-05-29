@@ -72,7 +72,7 @@ TurnManager >> playTurnUsing: aDistance and: aBoard [
 	
 	
 	activePlayer := activePlayer advanceTiles: aDistance.
-	activePlayer := activePlayer circleAroundTheTrackWithLength: boardLength .
+	activePlayer := activePlayer circleAroundTheTrackWithLength: aBoard totalTiles .
 
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
 	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.

@@ -16,8 +16,8 @@ AtomikBomb class >> effectProbability [
 ]
 
 { #category : 'initialization' }
-AtomikBomb class >> initializeInTile: aTile andSetOfPlayers: aSetOFPlayers [ 
-	^self new initializeOnTile: aTile andSetOfPlayers: aSetOFPlayers .
+AtomikBomb class >> initializeOnTile: aTile [ 
+	^self new initializeOnTile: aTile .
 ]
 
 { #category : 'positioning' }
@@ -35,10 +35,10 @@ AtomikBomb >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 ]
 
 { #category : 'initialization' }
-AtomikBomb >> initializeOnTile: aTile andSetOfPlayers: aSetOfPlayers [
+AtomikBomb >> initializeOnTile: aTile [
 	tile := aTile.
 
-	setOfPlayers := aSetOfPlayers.
+
 ]
 
 { #category : 'positioning' }

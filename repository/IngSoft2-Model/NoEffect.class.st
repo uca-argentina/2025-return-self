@@ -14,6 +14,11 @@ NoEffect class >> effectProbability [
 ^0.40
 ]
 
+{ #category : 'initialization' }
+NoEffect class >> initializeOnTile: aTile [
+^ self new initializeOnTile: aTile .
+]
+
 { #category : 'positioning' }
 NoEffect >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
 	^aSetOfPlayers 

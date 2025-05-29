@@ -22,23 +22,39 @@ Board class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [
 { #category : 'positioning' }
 Board >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
 	| detectedEffect |
-	detectedEffect := allEffects detect: [ :effect | effect tiles = ((aSetOfPlayers at: anIndex) position) ] ifNone: [^ aSetOfPlayers ].
+	detectedEffect := tiles detect: [ :effect | effect tiles = ((aSetOfPlayers at: anIndex) position) ].
 	^detectedEffect applyEffectOn: aSetOfPlayers onIndex: anIndex 
 ]
 
 { #category : 'initialization' }
 Board >> initializeWithTiles: aNumberOfTiles [ 
-	tiles := aNumberOfTiles.
-	self generateRandomEffects.
-]
 
-{ #category : 'initialization' }
-Board >> initializeWithTiles: totalTiles andEffects: aCollectionOfEffects [
-	tiles := totalTiles.
-	allEffects := aCollectionOfEffects.
+    | rng cumulativeProbs effectClasses|
+    rng := Random new.                   
+    effectClasses := { AtomikBomb. BlackHole. HyperJump. HyperSpaceJump. MoonWalk. NoEffect }.
+
+    cumulativeProbs := Array new: effectClasses size.
+    effectClasses
+        withIndexDo: [ :cls :i | | acum |
+            acum := (i = 1
+                      ifTrue: [ 0 ]
+                      ifFalse: [ cumulativeProbs at: i - 1 ]) + cls effectProbability.
+            cumulativeProbs at: i put: acum ].
+    
+    "2. Para cada casilla, sortear un efecto con peso:"
+    tiles := (1 to: aNumberOfTiles) collect: [ :idx |
+        | r chosenClass |
+        r := rng next.                         "Número real [0,1)"
+        chosenClass := effectClasses
+            detect: [ :cls | r <= (cumulativeProbs at: (effectClasses indexOf: cls)) ]
+            ifNone: [ effectClasses last ].    "por redondeo"
+        chosenClass initializeOnTile: idx                       "instancia de efecto"
+    ].
+
+
 ]
 
 { #category : 'accessing' }
 Board >> totalTiles [
-	^ tiles
+	^ tiles size.
 ]
