@@ -1,3 +1,6 @@
+"
+A mock class for testing Effects located in a special tile.
+"
 Class {
 	#name : 'BoardForTesting',
 	#superclass : 'Object',

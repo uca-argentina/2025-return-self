@@ -142,6 +142,28 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithARandomizedCreationOfEffectTiles [
+	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard|
+
+	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {}.
+	aLoadedDie := LoadedDie rolling: 7. 	     
+	aSecondLoadedDie := LoadedDie rolling: 8. 
+	aSequence := SequenceOfDieForTesting 
+		             withDie: {
+				             aLoadedDie.
+				             aSecondLoadedDie }.
+	aGame := Game
+		         playedBy: aSetOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequence
+					withLaps: 1.
+					
+	aGame playFullGame.
+
+	self assert: aGame winner equals: 'Juan' 
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithAWormholeTile [
 	| aGame aLoadedDie aWormhole aSequence aTestBoard|
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 19.
@@ -165,35 +187,13 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAbannana [
+EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile|
 	aHSJTile := HyperSpaceJump initializeOnTile: 4 .
 	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
 	aBlackHoleTile := BlackHole initializeOnTile: 2.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: 
 		  { aHSJTile. aMoonWalkTile. aBlackHoleTile }.
-	aLoadedDie := LoadedDie rolling: 7. 	     
-	aSecondLoadedDie := LoadedDie rolling: 8. 
-	aSequence := SequenceOfDieForTesting 
-		             withDie: {
-				             aLoadedDie.
-				             aSecondLoadedDie }.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequence
-					withLaps: 1.
-					
-	aGame playFullGame.
-
-	self assert: aGame winner equals: 'Juan' 
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithAbannana123 [
-	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard|
-
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {}.
 	aLoadedDie := LoadedDie rolling: 7. 	     
 	aSecondLoadedDie := LoadedDie rolling: 8. 
 	aSequence := SequenceOfDieForTesting 

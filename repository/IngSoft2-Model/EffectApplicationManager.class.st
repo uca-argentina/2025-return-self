@@ -2,7 +2,7 @@
 A handler of the turn and game current status with the set of players.
 "
 Class {
-	#name : 'TurnManager',
+	#name : 'EffectApplicationManager',
 	#superclass : 'Object',
 	#instVars : [
 		'turn',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-TurnManager class >> with: aSetOfPlayers and: aBoardLength [
+EffectApplicationManager class >> with: aSetOfPlayers and: aBoardLength [
 
 	^ self new
 		  initializeSetOfPlayers: aSetOfPlayers
@@ -23,7 +23,7 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength [
 ]
 
 { #category : 'instance creation' }
-TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
+EffectApplicationManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
 
 	^ self new
 		  initializeSetOfPlayers: aSetOfPlayers
@@ -32,13 +32,13 @@ TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
 ]
 
 { #category : 'comparing' }
-TurnManager >> checkifPlayerStillPlaying: aPlayer [
+EffectApplicationManager >> checkifPlayerStillPlaying: aPlayer [
 
 	^ aPlayer lap < numberOfLaps.
 ]
 
 { #category : 'initialization' }
-TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
+EffectApplicationManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 
 	setOfPlayers := aSet.
 	turn := 0.
@@ -47,7 +47,7 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
 ]
 
 { #category : 'initialization' }
-TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
+EffectApplicationManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
 
 	setOfPlayers := aSet.
 	turn := 0.
@@ -56,7 +56,7 @@ TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAm
 ]
 
 { #category : 'play interface' }
-TurnManager >> playTurnUsing: aDistance and: aBoard [
+EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 
 	| activePlayer |
 	turn := turn + 1.
@@ -82,25 +82,25 @@ TurnManager >> playTurnUsing: aDistance and: aBoard [
 ]
 
 { #category : 'play interface' }
-TurnManager >> playerInTurnIndex [
+EffectApplicationManager >> playerInTurnIndex [
 
 	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
 ]
 
 { #category : 'accessing' }
-TurnManager >> setOfPlayers [
+EffectApplicationManager >> setOfPlayers [
 
 	^ setOfPlayers 
 ]
 
 { #category : 'accessing' }
-TurnManager >> setOfPlayers: aSetOfPlayers [
+EffectApplicationManager >> setOfPlayers: aSetOfPlayers [
 	
 	setOfPlayers := aSetOfPlayers 
 ]
 
 { #category : 'play interface' }
-TurnManager >> skipTurn [
+EffectApplicationManager >> skipTurn [
 	| activePlayer |
 	turn := turn + 1.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
@@ -112,14 +112,14 @@ TurnManager >> skipTurn [
 ]
 
 { #category : 'accessing' }
-TurnManager >> stillPlaying [
+EffectApplicationManager >> stillPlaying [
 
 	^ setOfPlayers allSatisfy: [ :player |
 		  self checkifPlayerStillPlaying: player ]
 ]
 
 { #category : 'comparing' }
-TurnManager >> winner [
+EffectApplicationManager >> winner [
 
 	| playerWhoWon |
 	playerWhoWon := setOfPlayers
