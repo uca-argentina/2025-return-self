@@ -70,11 +70,11 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie [
+Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: anEffect withSetOfDie: aSetOfDie [
 
 	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
 	battle := BattleManager new.
-	effect := aWormhole.
+	effect := anEffect .
 	setOfDie := aSetOfDie
 ]
 

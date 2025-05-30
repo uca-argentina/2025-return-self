@@ -49,5 +49,5 @@ HyperSpaceJump >> initializeOnTile: aTile [
 
 { #category : 'initialization' }
 HyperSpaceJump >> tiles [
- ^tile
+ ^{tile}
 ]

@@ -15,7 +15,7 @@ AtomikBomb class >> effectProbability [
 ^0.02
 ]
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 AtomikBomb class >> initializeOnTile: aTile [ 
 	^self new initializeOnTile: aTile .
 ]
@@ -41,9 +41,9 @@ AtomikBomb >> initializeOnTile: aTile [
 
 ]
 
-{ #category : 'positioning' }
+{ #category : 'initialization' }
 AtomikBomb >> tiles [
- ^tile
+ ^{tile}
 
 	
 ]

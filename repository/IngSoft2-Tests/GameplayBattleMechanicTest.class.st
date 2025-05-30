@@ -33,7 +33,7 @@ GameplayBattleMechanicTest >> setUp [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> testBattleSituation [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence|
+	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             LoadedDie rolling: 2.
@@ -42,11 +42,11 @@ GameplayBattleMechanicTest >> testBattleSituation [
 								 LoadedDie rolling: 5.}.
 								
 	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
+	aTestBoard := BoardForTesting createWithTiles: 10 andEffects: {aWormhole}.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
 		         playedBy: aSetOfPlayers
-		         withBoardLength: 10
-		         withEffect: aWormhole
+		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -60,7 +60,7 @@ GameplayBattleMechanicTest >> testBattleSituation [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence|
+	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             LoadedDie rolling: 2.
@@ -72,11 +72,11 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 								}.
 								
 	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
+	aTestBoard := BoardForTesting createWithTiles: 10 andEffects: {aWormhole}.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
 		         playedBy: aSetOfPlayers
-		         withBoardLength: 10
-		         withEffect: aWormhole
+		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -97,13 +97,13 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> testLoopingOfTheLap [
 
-	| aGame aLoadedDie aWormhole |
+	| aGame aLoadedDie aWormhole aTestBoard|
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
+	aTestBoard := BoardForTesting createWithTiles: 5 andEffects: {aWormhole}.
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame := Game
 		         playedBy: aSetOfPlayers
-		         withBoardLength: 5
-		         withEffect: aWormhole
+		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 2.
 	
@@ -115,7 +115,7 @@ GameplayBattleMechanicTest >> testLoopingOfTheLap [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence|
+	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             LoadedDie rolling: 1.
@@ -143,11 +143,11 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 				}.
 								
 	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
+	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
 		         playedBy: aSetOfPlayers
-		         withBoardLength: 30
-		         withEffect: aWormhole
+		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					
@@ -188,7 +188,7 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> testSkippingTurnAndReplenishingShield [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence|
+	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
 		             withDie: {
 				             LoadedDie rolling: 1.
@@ -202,11 +202,11 @@ GameplayBattleMechanicTest >> testSkippingTurnAndReplenishingShield [
 				}.
 								
 	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
+	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
 		         playedBy: aSetOfPlayers
-		         withBoardLength: 30
-		         withEffect: aWormhole
+		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
 					

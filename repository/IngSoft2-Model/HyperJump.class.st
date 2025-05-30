@@ -56,5 +56,5 @@ HyperJump >> lowerBuff [
 
 { #category : 'as yet unclassified' }
 HyperJump >> tiles [
- ^tile
+ ^{tile}
 ]

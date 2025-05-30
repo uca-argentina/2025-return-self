@@ -40,5 +40,5 @@ BlackHole >> initializeOnTile: aTile [
 
 { #category : 'initialization' }
 BlackHole >> tiles [
- ^tile
+ ^{tile}
 ]

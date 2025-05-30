@@ -31,5 +31,5 @@ NoEffect >> initializeOnTile: aTile [
 
 { #category : 'initialization' }
 NoEffect >> tiles [
- ^tile
+ ^{tile}
 ]

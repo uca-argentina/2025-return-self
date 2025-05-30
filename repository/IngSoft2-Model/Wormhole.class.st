@@ -72,3 +72,9 @@ Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 	sideA := aSide.
 	sideB := anotherSide
 ]
+
+{ #category : 'initialization' }
+Wormhole >> tiles [ 
+
+	^{ sideA .sideB }
+]

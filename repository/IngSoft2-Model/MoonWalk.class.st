@@ -45,7 +45,7 @@ MoonWalk >> initializeOnTile: aTile [
 	debuff := 5.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfPlayers [
 	tile := aTile.
 	debuff := aDebuff.
@@ -54,5 +54,5 @@ MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfP
 
 { #category : 'initialization' }
 MoonWalk >> tiles [
- ^tile
+ ^{tile}
 ]
