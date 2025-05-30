@@ -21,14 +21,14 @@ BlackHole class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-BlackHole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+BlackHole >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 	| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
+	aPlayer := aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
 		aPlayer := aPlayer goBackTiles: debuff.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
+		 (aGroupOfPlayers at: anIndex put: aPlayer).
 		].
-	^aSetOfPlayers 
+	^aGroupOfPlayers 
 	
 ]
 

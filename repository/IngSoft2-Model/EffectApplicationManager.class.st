@@ -15,18 +15,18 @@ Class {
 }
 
 { #category : 'instance creation' }
-EffectApplicationManager class >> with: aSetOfPlayers and: aBoardLength [
+EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength [
 
 	^ self new
-		  initializeSetOfPlayers: aSetOfPlayers
+		  initializeSetOfPlayers: aGroupOfPlayers
 		  andBoard: aBoardLength
 ]
 
 { #category : 'instance creation' }
-EffectApplicationManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
+EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength and: numberOfLaps [
 
 	^ self new
-		  initializeSetOfPlayers: aSetOfPlayers
+		  initializeSetOfPlayers: aGroupOfPlayers
 		  andBoard: aBoardLength
 		  andLaps: numberOfLaps 
 ]
@@ -75,6 +75,8 @@ EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 	activePlayer := activePlayer circleAroundTheTrackWithLength: aBoard totalTiles .
 
 	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	
+	"Mecanica de efecto"
 	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
 	activePlayer := setOfPlayers at: self playerInTurnIndex.
 	^ activePlayer
@@ -94,9 +96,9 @@ EffectApplicationManager >> setOfPlayers [
 ]
 
 { #category : 'accessing' }
-EffectApplicationManager >> setOfPlayers: aSetOfPlayers [
+EffectApplicationManager >> setOfPlayers: aGroupOfPlayers [
 	
-	setOfPlayers := aSetOfPlayers 
+	setOfPlayers := aGroupOfPlayers 
 ]
 
 { #category : 'play interface' }

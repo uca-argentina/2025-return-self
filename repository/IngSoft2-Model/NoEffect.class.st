@@ -20,8 +20,8 @@ NoEffect class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-NoEffect >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
-	^aSetOfPlayers 
+NoEffect >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
+	^aGroupOfPlayers 
 ]
 
 { #category : 'initialization' }

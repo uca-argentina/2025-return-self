@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'firstPlayer',
 		'secondPlayer',
-		'aSetOfPlayers',
-		'dieThrowSequence1'
+		'dieThrowSequence1',
+		'aGroupOfPlayers'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -17,7 +17,7 @@ GameplayBattleMechanicTest >> setUp [
 
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 
@@ -45,7 +45,7 @@ GameplayBattleMechanicTest >> testBattleSituation [
 	aTestBoard := BoardForTesting createWithTiles: 10 andEffects: {aWormhole}.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -75,7 +75,7 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 	aTestBoard := BoardForTesting createWithTiles: 10 andEffects: {aWormhole}.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -102,7 +102,7 @@ GameplayBattleMechanicTest >> testLoopingOfTheLap [
 	aTestBoard := BoardForTesting createWithTiles: 5 andEffects: {aWormhole}.
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 2.
@@ -146,7 +146,7 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -205,7 +205,7 @@ GameplayBattleMechanicTest >> testSkippingTurnAndReplenishingShield [
 	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
 	aLoadedDie := dieThrowSequence .
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.

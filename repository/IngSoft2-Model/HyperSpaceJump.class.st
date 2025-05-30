@@ -21,15 +21,15 @@ HyperSpaceJump class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
+HyperSpaceJump >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
 		| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
+	aPlayer := aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
 		aPlayer := aPlayer advanceTiles: buff.
 		aPlayer := aPlayer loseShield.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
+		 (aGroupOfPlayers at: anIndex put: aPlayer).
 		].
-	^aSetOfPlayers 
+	^aGroupOfPlayers 
 	
 ]
 

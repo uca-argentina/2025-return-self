@@ -23,44 +23,9 @@ Game class >> boardLengthMustBeGreaterThanThree: aLength [
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> playedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
+Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 	"self boardLengthMustBeGreaterThanThree: aBoard totalTiles."
-	^ self new initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
-]
-
-{ #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet [
-
-	| aXSetOfPlayers |
-	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	"self wormhole: aWormhole shouldBeInside: aBoardLength."
-
-	aXSetOfPlayers := aSetOfPlayers.
-	aXSetOfPlayers isArray ifFalse: [
-		aXSetOfPlayers := { aXSetOfPlayers } ].
-	^ self new
-		  initializeGamePlay: aXSetOfPlayers
-		  withBoardLength: aBoardLength
-		  withEffect: aWormhole
-		  withSetOfDie: aDieSet
-]
-
-{ #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet withLaps: numberOfLaps [
-
-	| aXSetOfPlayers |
-	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	"self wormhole: aWormhole shouldBeInside: aBoardLength."
-
-	aXSetOfPlayers := aSetOfPlayers.
-	aXSetOfPlayers isArray ifFalse: [
-		aXSetOfPlayers := { aXSetOfPlayers } ].
-	^ self new
-		  initializeGamePlay: aXSetOfPlayers
-		  withBoardLength: aBoardLength
-		  withEffect: aWormhole
-		  withSetOfDie: aDieSet
-		  withLaps: numberOfLaps 
+	^ self new initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
 ]
 
 { #category : 'testing' }
@@ -71,26 +36,8 @@ Game class >> wormhole: aWormhole shouldBeInside: aLength [
 ]
 
 { #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: anEffect withSetOfDie: aSetOfDie [
-
-	playersTurn := EffectApplicationManager with: aXSetOfPlayers and: aBoardLength.
-	battle := BattleManager new.
-	effect := anEffect .
-	setOfDie := aSetOfDie
-]
-
-{ #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
-
-	playersTurn := EffectApplicationManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
-	battle := BattleManager new.
-	effect := aWormhole.
-	setOfDie := aSetOfDie
-]
-
-{ #category : 'initialization' }
-Game >> initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
-	playersTurn := EffectApplicationManager with: aSetOfPlayers and: aBoard totalTiles and: laps .
+Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
+	playersTurn := EffectApplicationManager with: aGroupOfPlayers and: aBoard totalTiles and: laps .
 	battle := BattleManager new.
 	setOfDie := aSetOfDie.
 	board := aBoard
@@ -149,6 +96,11 @@ Game >> playerPositions [
 Game >> playersInPosition: aPosition [
 
 	^ playersTurn setOfPlayers select:[:player | player position = aPosition ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> updatePlayersOnManagers [
+
 ]
 
 { #category : 'comparing' }

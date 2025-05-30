@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'firstPlayer',
 		'secondPlayer',
-		'aSetOfPlayers'
+		'aGroupOfPlayers'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -16,7 +16,7 @@ GameplayTest >> setUp [
 
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }
 ]
@@ -29,7 +29,7 @@ GameplayTest >> testGamePlayedWithASingleLapNoBattles [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -52,7 +52,7 @@ GameplayTest >> testLoopingOfTheLap [
 	aTestBoard := BoardForTesting createWithTiles: 5 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aLoadedDie
 					withLaps: 2.
@@ -72,7 +72,7 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 			             firstLoadedDice.
 			             secondLoadedDice }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSetOfDie
 					withLaps:1.
@@ -87,7 +87,7 @@ GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -105,7 +105,7 @@ GameplayTest >> testWhenSteppingIntoWormhole [
 	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -124,7 +124,7 @@ GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -142,7 +142,7 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -161,7 +161,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aLoadedDie
 					withLaps: 1.
@@ -179,7 +179,7 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aLoadedDie := LoadedDie rolling: 6.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aLoadedDie 
 					withLaps:1.
@@ -210,7 +210,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItR
 	anErrorHandler
 		should: [
 			Game
-				playedBy: aSetOfPlayers
+				playedBy: aGroupOfPlayers
 				withBoardLength: 3
 				withEffect: aWormhole
 				withSetOfDie: aSetOfDie ]
@@ -240,7 +240,7 @@ GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheB
 	anErrorHandler
 		should: [
 			Game
-				playedBy: aSetOfPlayers
+				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard 
 				withSetOfDie: aSetOfDie 
 				withLaps: 1]
@@ -265,7 +265,7 @@ GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideThe
 	anErrorHandler
 		should: [
 			Game
-				playedBy: aSetOfPlayers
+				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard 
 				withSetOfDie: aLoadedDie 
 				withLaps: 1]

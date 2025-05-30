@@ -20,10 +20,10 @@ Board class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [
 ]
 
 { #category : 'positioning' }
-Board >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
+Board >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
 	| detectedEffect |
-	detectedEffect := tiles detect: [ :effect | effect tiles = ((aSetOfPlayers at: anIndex) position) ].
-	^detectedEffect applyEffectOn: aSetOfPlayers onIndex: anIndex 
+	detectedEffect := tiles detect: [ :effect | effect tiles = ((aGroupOfPlayers at: anIndex) position) ].
+	^detectedEffect applyEffectOn: aGroupOfPlayers onIndex: anIndex 
 ]
 
 { #category : 'initialization' }

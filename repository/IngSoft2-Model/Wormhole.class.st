@@ -42,21 +42,21 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+Wormhole >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 	| player distance newPlayer |
-	player := aSetOfPlayers at: anIndex.
+	player := aGroupOfPlayers at: anIndex.
 
 	(player position = sideA or: [ player position = sideB ]) ifFalse: [
-		^ aSetOfPlayers ].
+		^ aGroupOfPlayers ].
 
 	distance := sideB - sideA.
 	newPlayer :=player position = sideA ifTrue: [ player advanceTiles: distance ] ifFalse: [player goBackTiles: distance].
 
-	aSetOfPlayers
+	aGroupOfPlayers
 		at: anIndex
 		put: newPlayer.
 
-	^ aSetOfPlayers
+	^ aGroupOfPlayers
 
 ]
 

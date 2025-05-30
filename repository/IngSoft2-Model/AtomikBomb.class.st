@@ -21,15 +21,15 @@ AtomikBomb class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+AtomikBomb >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 
 	| playersToApplyEffect aPlayer |
-	aPlayer:= aSetOfPlayers at: anIndex.
+	aPlayer:= aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
-	playersToApplyEffect := aSetOfPlayers collect: [:player | (player goToFirstTile) loseShield ].
+	playersToApplyEffect := aGroupOfPlayers collect: [:player | (player goToFirstTile) loseShield ].
 	^playersToApplyEffect.
 	].
-^aSetOfPlayers 
+^aGroupOfPlayers 
 
 	
 ]

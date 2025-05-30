@@ -18,10 +18,10 @@ BoardForTesting class >> createWithTiles: totalTiles andEffects: aCollectionOfEf
 ]
 
 { #category : 'accessing' }
-BoardForTesting >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
+BoardForTesting >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
 	| detectedEffect |
-	detectedEffect := effects detect: [ :effect | effect tiles includes: ((aSetOfPlayers at: anIndex) position) ] ifNone:[^aSetOfPlayers ].
-	^detectedEffect applyEffectOn: aSetOfPlayers onIndex: anIndex 
+	detectedEffect := effects detect: [ :effect | effect tiles includes: ((aGroupOfPlayers at: anIndex) position) ] ifNone:[^aGroupOfPlayers ].
+	^detectedEffect applyEffectOn: aGroupOfPlayers onIndex: anIndex 
 
 
 ]

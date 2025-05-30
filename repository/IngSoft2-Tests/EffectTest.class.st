@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'firstPlayer',
 		'secondPlayer',
-		'aSetOfPlayers'
+		'aGroupOfPlayers'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -16,7 +16,7 @@ EffectTest >> setUp [
 
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }
 ]
@@ -33,7 +33,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -56,7 +56,7 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -83,7 +83,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -99,7 +99,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAMoonWalkTile [
 	| aGame aLoadedDie aMoonWalkTile aSecondLoadedDie aSequence aTestBoard|
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aGroupOfPlayers.
 	aTestBoard:= BoardForTesting createWithTiles: 24 andEffects: (Array with: aMoonWalkTile ).
 	aLoadedDie := LoadedDie rolling: 7. 	     
 	aSecondLoadedDie := LoadedDie rolling: 8. 
@@ -108,7 +108,7 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -130,7 +130,7 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -153,7 +153,7 @@ EffectTest >> testGamePlayedWithARandomizedCreationOfEffectTiles [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -174,7 +174,7 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 				             aLoadedDie.
 									}.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -190,7 +190,7 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile|
 	aHSJTile := HyperSpaceJump initializeOnTile: 4 .
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aSetOfPlayers.
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aGroupOfPlayers.
 	aBlackHoleTile := BlackHole initializeOnTile: 2.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: 
 		  { aHSJTile. aMoonWalkTile. aBlackHoleTile }.
@@ -201,7 +201,7 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
 					withLaps: 1.
@@ -224,7 +224,7 @@ EffectTest >> testGamePlayedWithAnAtomikBombTile [
 								LoadedDie rolling: 2.
 				             }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.

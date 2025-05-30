@@ -22,15 +22,15 @@ HyperJump class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-HyperJump >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
+HyperJump >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
 			| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
+	aPlayer := aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
 		aPlayer := aPlayer advanceTiles: actualBuff .
 		self lowerBuff.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
+		 (aGroupOfPlayers at: anIndex put: aPlayer).
 		].
-	^aSetOfPlayers 
+	^aGroupOfPlayers 
 ]
 
 { #category : 'initialization' }

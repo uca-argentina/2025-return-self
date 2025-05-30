@@ -17,8 +17,8 @@ MoonWalk class >> effectProbability [
 ]
 
 { #category : 'as yet unclassified' }
-MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOFPlayers [ 
-	^self new initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOFPlayers .
+MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andSetOfPlayers: aGroupOfPlayers [ 
+	^self new initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aGroupOfPlayers .
 ]
 
 { #category : 'as yet unclassified' }
@@ -27,15 +27,15 @@ MoonWalk class >> initializeOnTile: aTile [
 ]
 
 { #category : 'positioning' }
-MoonWalk >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+MoonWalk >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 	| playersToApplyEffect unaffectedPlayer|
-	unaffectedPlayer:= aSetOfPlayers at: anIndex.
+	unaffectedPlayer:= aGroupOfPlayers at: anIndex.
 	unaffectedPlayer position = tile ifTrue: [
-	playersToApplyEffect := aSetOfPlayers collect: [:player | player goBackTiles: debuff ].
+	playersToApplyEffect := aGroupOfPlayers collect: [:player | player goBackTiles: debuff ].
 	 (playersToApplyEffect at: anIndex put: unaffectedPlayer ).
 	^playersToApplyEffect.
 	].
-^aSetOfPlayers 
+^aGroupOfPlayers 
 	
 ]
 
