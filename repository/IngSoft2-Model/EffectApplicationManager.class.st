@@ -7,8 +7,8 @@ Class {
 	#instVars : [
 		'turn',
 		'boardLength',
-		'setOfPlayers',
-		'numberOfLaps'
+		'numberOfLaps',
+		'players'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -18,7 +18,7 @@ Class {
 EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength [
 
 	^ self new
-		  initializeSetOfPlayers: aGroupOfPlayers
+		  initializePlayers: aGroupOfPlayers
 		  andBoard: aBoardLength
 ]
 
@@ -26,7 +26,7 @@ EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength [
 EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength and: numberOfLaps [
 
 	^ self new
-		  initializeSetOfPlayers: aGroupOfPlayers
+		  initializePlayers: aGroupOfPlayers
 		  andBoard: aBoardLength
 		  andLaps: numberOfLaps 
 ]
@@ -38,18 +38,18 @@ EffectApplicationManager >> checkifPlayerStillPlaying: aPlayer [
 ]
 
 { #category : 'initialization' }
-EffectApplicationManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
+EffectApplicationManager >> initializePlayers: aGroup andBoard: aBoardLength [
 
-	setOfPlayers := aSet.
+	players := aGroup.
 	turn := 0.
 	boardLength := aBoardLength.
 	numberOfLaps := 1.
 ]
 
 { #category : 'initialization' }
-EffectApplicationManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
+EffectApplicationManager >> initializePlayers: aGroup andBoard: aBoardLength andLaps: anAmountOfLaps [
 
-	setOfPlayers := aSet.
+	players := aGroup.
 	turn := 0.
 	boardLength := aBoardLength.
 	numberOfLaps := anAmountOfLaps 
@@ -60,12 +60,12 @@ EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 
 	| activePlayer |
 	turn := turn + 1.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	activePlayer := players at: self playerInTurnIndex.
 	
 	[activePlayer skipATurn] whileTrue: [
-		setOfPlayers at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+		players at: self playerInTurnIndex put:(activePlayer turnSkipped ).
 		turn := turn + 1.
-		activePlayer := setOfPlayers at: self playerInTurnIndex.
+		activePlayer := players at: self playerInTurnIndex.
 		].
 	
 	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
@@ -74,11 +74,11 @@ EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 	activePlayer := activePlayer advanceTiles: aDistance.
 	activePlayer := activePlayer circleAroundTheTrackWithLength: aBoard totalTiles .
 
-	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	players at: self playerInTurnIndex put: activePlayer.
 	
 	"Mecanica de efecto"
-	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	players := aBoard applyEffectOn: players onIndex: self playerInTurnIndex.
+	activePlayer := players at: self playerInTurnIndex.
 	^ activePlayer
 	
 ]
@@ -86,29 +86,29 @@ EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 { #category : 'play interface' }
 EffectApplicationManager >> playerInTurnIndex [
 
-	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
+	^ turn - 1 \\ players size + 1 "The players whose turn is up"
 ]
 
 { #category : 'accessing' }
 EffectApplicationManager >> setOfPlayers [
 
-	^ setOfPlayers 
+	^ players 
 ]
 
 { #category : 'accessing' }
 EffectApplicationManager >> setOfPlayers: aGroupOfPlayers [
 	
-	setOfPlayers := aGroupOfPlayers 
+	players := aGroupOfPlayers 
 ]
 
 { #category : 'play interface' }
 EffectApplicationManager >> skipTurn [
 	| activePlayer |
 	turn := turn + 1.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
+	activePlayer := players at: self playerInTurnIndex.
 	activePlayer:= activePlayer forceAShieldReset.
 	
-	setOfPlayers at: self playerInTurnIndex put: activePlayer.
+	players at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
 	
 ]
@@ -116,7 +116,7 @@ EffectApplicationManager >> skipTurn [
 { #category : 'accessing' }
 EffectApplicationManager >> stillPlaying [
 
-	^ setOfPlayers allSatisfy: [ :player |
+	^ players allSatisfy: [ :player |
 		  self checkifPlayerStillPlaying: player ]
 ]
 
@@ -124,7 +124,7 @@ EffectApplicationManager >> stillPlaying [
 EffectApplicationManager >> winner [
 
 	| playerWhoWon |
-	playerWhoWon := setOfPlayers
+	playerWhoWon := players
 		                detect: [ :player |
 		                (self checkifPlayerStillPlaying: player) not ]
 		                ifNone: [ ^ 'NO ONE WON!' ].

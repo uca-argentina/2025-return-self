@@ -17,8 +17,8 @@ MoonWalk class >> effectProbability [
 ]
 
 { #category : 'as yet unclassified' }
-MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andSetOfPlayers: aGroupOfPlayers [ 
-	^self new initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aGroupOfPlayers .
+MoonWalk class >> initializeInTile: aTile withDebuff: aDebuff andAGroupOfPlayers: aGroupOfPlayers [ 
+	^self new initializeOnTile: aTile withDebuff: aDebuff andAGroupOfPlayers: aGroupOfPlayers .
 ]
 
 { #category : 'as yet unclassified' }
@@ -46,10 +46,10 @@ MoonWalk >> initializeOnTile: aTile [
 ]
 
 { #category : 'as yet unclassified' }
-MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andSetOfPlayers: aSetOfPlayers [
+MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff andAGroupOfPlayers: aGroupOfPlayers [
 	tile := aTile.
 	debuff := aDebuff.
-	setOfPlayers := aSetOfPlayers.
+	setOfPlayers := aGroupOfPlayers.
 ]
 
 { #category : 'initialization' }

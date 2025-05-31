@@ -99,7 +99,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAMoonWalkTile [
 	| aGame aLoadedDie aMoonWalkTile aSecondLoadedDie aSequence aTestBoard|
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aGroupOfPlayers.
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
 	aTestBoard:= BoardForTesting createWithTiles: 24 andEffects: (Array with: aMoonWalkTile ).
 	aLoadedDie := LoadedDie rolling: 7. 	     
 	aSecondLoadedDie := LoadedDie rolling: 8. 
@@ -190,7 +190,7 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile|
 	aHSJTile := HyperSpaceJump initializeOnTile: 4 .
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andSetOfPlayers: aGroupOfPlayers.
+	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
 	aBlackHoleTile := BlackHole initializeOnTile: 2.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: 
 		  { aHSJTile. aMoonWalkTile. aBlackHoleTile }.
