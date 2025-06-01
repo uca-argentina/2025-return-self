@@ -5,8 +5,7 @@ Class {
 	#name : 'Wormhole',
 	#superclass : 'Effect',
 	#instVars : [
-		'sideA',
-		'sideB'
+		'endpoint'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -46,11 +45,11 @@ Wormhole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 	| player distance newPlayer |
 	player := aGroupOfPlayers at: anIndex.
 
-	(player position = sideA or: [ player position = sideB ]) ifFalse: [
+	(player position = tile or: [ player position = endpoint ]) ifFalse: [
 		^ aGroupOfPlayers ].
 
-	distance := sideB - sideA.
-	newPlayer :=player position = sideA ifTrue: [ player advanceTiles: distance ] ifFalse: [player goBackTiles: distance].
+	distance := endpoint - tile.
+	newPlayer :=player position = tile ifTrue: [ player advanceTiles: distance ] ifFalse: [player goBackTiles: distance].
 
 	aGroupOfPlayers
 		at: anIndex
@@ -63,18 +62,18 @@ Wormhole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 { #category : 'tests - comparing' }
 Wormhole >> areEndsInside: aLength [
 
-	^ aLength >= sideA and: aLength >= sideB
+	^ aLength >= tile and: aLength >= endpoint 
 ]
 
 { #category : 'initialization' }
 Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 
-	sideA := aSide.
-	sideB := anotherSide
+	tile := aSide.
+	endpoint := anotherSide
 ]
 
 { #category : 'initialization' }
 Wormhole >> tiles [ 
 
-	^{ sideA .sideB }
+	^{ tile . endpoint }
 ]
