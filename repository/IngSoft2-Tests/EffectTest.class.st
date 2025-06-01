@@ -24,7 +24,7 @@ EffectTest >> setUp [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithABlackHoleTile [
 	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard|
-	aBlackHoleTile := BlackHole initializeOnTile: 4.
+	aBlackHoleTile := BlackHole createOnTile: 4.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aBlackHoleTile }.
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
@@ -47,7 +47,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperJumpTile [
 	| aGame aLoadedDie aHSTile aSecondLoadedDie aSequence aTestBoard|
-	aHSTile := HyperJump initializeOnTile: 3 .
+	aHSTile := HyperJump createOnTile: 3 .
 	aTestBoard:= BoardForTesting createWithTiles: 20 andEffects: (Array with: aHSTile ).
 	aLoadedDie := LoadedDie rolling: 1. "1 2 12 13 14 15 16"
 	aSecondLoadedDie := LoadedDie rolling: 2. "1 13 15 17 19 21"
@@ -74,7 +74,7 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 	| aGame aLoadedDie aHSJTile aSecondLoadedDie aSequence aTestBoard|
-	aHSJTile := HyperSpaceJump initializeOnTile: 4.
+	aHSJTile := HyperSpaceJump createOnTile: 4.
 	aTestBoard:= BoardForTesting createWithTiles: 20 andEffects: (Array with: aHSJTile ).
 	aLoadedDie := LoadedDie rolling: 4. "1 5 9 13 17 21"
 	aSecondLoadedDie := LoadedDie rolling: 3. "1 4 14 17 21"
@@ -99,7 +99,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAMoonWalkTile [
 	| aGame aLoadedDie aMoonWalkTile aSecondLoadedDie aSequence aTestBoard|
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
+	aMoonWalkTile := MoonWalk createInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
 	aTestBoard:= BoardForTesting createWithTiles: 24 andEffects: (Array with: aMoonWalkTile ).
 	aLoadedDie := LoadedDie rolling: 7. 	     
 	aSecondLoadedDie := LoadedDie rolling: 8. 
@@ -143,9 +143,9 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithARandomizedCreationOfEffectTiles [
-	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard|
+	| aGame aLoadedDie  aSecondLoadedDie aSequence  aBoard|
 
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {}.
+	aBoard := Board createWithTiles: 20.
 	aLoadedDie := LoadedDie rolling: 7. 	     
 	aSecondLoadedDie := LoadedDie rolling: 8. 
 	aSequence := SequenceOfDieForTesting 
@@ -154,7 +154,7 @@ EffectTest >> testGamePlayedWithARandomizedCreationOfEffectTiles [
 				             aSecondLoadedDie }.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
+		         withBoard: aBoard
 		         withSetOfDie: aSequence
 					withLaps: 1.
 					
@@ -189,9 +189,9 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	| aGame aLoadedDie  aSecondLoadedDie aSequence  aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile|
-	aHSJTile := HyperSpaceJump initializeOnTile: 4 .
-	aMoonWalkTile := MoonWalk initializeInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
-	aBlackHoleTile := BlackHole initializeOnTile: 2.
+	aHSJTile := HyperSpaceJump createOnTile: 4 .
+	aMoonWalkTile := MoonWalk createInTile: 15 withDebuff: 11 andAGroupOfPlayers: aGroupOfPlayers.
+	aBlackHoleTile := BlackHole createOnTile: 2.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: 
 		  { aHSJTile. aMoonWalkTile. aBlackHoleTile }.
 	aLoadedDie := LoadedDie rolling: 7. 	     
@@ -214,7 +214,7 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAnAtomikBombTile [
 	| aGame aSequence anAtomikBomb aTestBoard|
-	anAtomikBomb := AtomikBomb initializeOnTile: 7."initializeOnTile: 7 andSetOfPlayers: aSetOfPlayers."
+	anAtomikBomb := AtomikBomb createOnTile: 7."initializeOnTile: 7 andSetOfPlayers: aSetOfPlayers."
 	aTestBoard := BoardForTesting createWithTiles: 24 andEffects: { anAtomikBomb }.
 	aSequence := SequenceOfDieForTesting 
 		             withDie: {

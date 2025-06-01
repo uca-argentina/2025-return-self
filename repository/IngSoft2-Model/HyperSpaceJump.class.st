@@ -2,12 +2,17 @@ Class {
 	#name : 'HyperSpaceJump',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
 		'buff'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'as yet unclassified' }
+HyperSpaceJump class >> createIn: aTile with: aBuff [
+
+	^ self new initializeInTile: aTile withBuff: aBuff
+]
 
 { #category : 'initialization' }
 HyperSpaceJump class >> effectProbability [
@@ -15,13 +20,8 @@ HyperSpaceJump class >> effectProbability [
 ^0.20
 ]
 
-{ #category : 'initialization' }
-HyperSpaceJump class >> initializeOnTile: aTile [ 
- ^ self new initializeOnTile: aTile 
-]
-
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
+HyperSpaceJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
 		| aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
@@ -38,16 +38,4 @@ HyperSpaceJump >> initializeInTile: aTile withBuff: aBuff [
 	tile := aTile.
 	buff := aBuff.
 
-]
-
-{ #category : 'initialization' }
-HyperSpaceJump >> initializeOnTile: aTile [ 
-	tile := aTile.
-	buff := 4.
-
-]
-
-{ #category : 'initialization' }
-HyperSpaceJump >> tiles [
- ^{tile}
 ]

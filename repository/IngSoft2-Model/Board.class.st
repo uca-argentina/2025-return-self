@@ -2,56 +2,67 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'tiles',
-		'allEffects'
+		'tiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Board class >> createWithTiles: aNumberOfTiles [ 
-	^ self new initializeWithTiles: aNumberOfTiles
-]
+Board class >> createWithTiles: aNumberOfTiles [
 
-{ #category : 'as yet unclassified' }
-Board class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [ 
-	^self new initializeWithTiles: totalTiles andEffects: aCollectionOfEffects 
+	| rng cumulativeProbs effectClasses aSetOfTiles|
+	rng := Random new.
+	effectClasses := {
+		                 AtomikBomb.
+		                 BlackHole.
+		                 HyperJump.
+		                 HyperSpaceJump.
+		                 MoonWalk.
+		                 NoEffect }.
+
+	cumulativeProbs := Array new: effectClasses size.
+	effectClasses withIndexDo: [ :cls :i |
+		| acum |
+		acum := (i = 1
+			         ifTrue: [ 0 ]
+			         ifFalse: [ cumulativeProbs at: i - 1 ])
+		        + cls effectProbability.
+		cumulativeProbs at: i put: acum ].
+
+	"2. Para cada casilla, sortear un efecto con peso:"
+	aSetOfTiles := (1 to: aNumberOfTiles) collect: [ :idx |
+		         | r chosenClass |
+		         r := rng next. "Número real [0,1)"
+		         chosenClass := effectClasses
+			                        detect: [ :cls |
+			                        r
+			                        <=
+			                        (cumulativeProbs at:
+				                         (effectClasses indexOf: cls)) ]
+			                        ifNone: [ effectClasses last ]. "por redondeo"
+		         chosenClass createOnTile: idx "instancia de efecto" ].
+	^ self new initializeWithTiles: aSetOfTiles
 ]
 
 { #category : 'positioning' }
-Board >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
+Board >> applyEffectTriggeredByPlayerAt: anIndex to: players [
 	| detectedEffect |
-	detectedEffect := tiles detect: [ :effect | effect tiles = ((aGroupOfPlayers at: anIndex) position) ].
-	^detectedEffect applyEffectOn: aGroupOfPlayers onIndex: anIndex 
+	detectedEffect := tiles detect: [ :effect | effect tiles = ((players at: anIndex) position) ].
+	^ detectedEffect applyEffectOn: players triggeredByPlayerAt: anIndex
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithTiles: aNumberOfTiles [ 
+Board >> initializeWithTiles: aSetOfTiles [
 
-    | rng cumulativeProbs effectClasses|
-    rng := Random new.                   
-    effectClasses := { AtomikBomb. BlackHole. HyperJump. HyperSpaceJump. MoonWalk. NoEffect }.
-
-    cumulativeProbs := Array new: effectClasses size.
-    effectClasses
-        withIndexDo: [ :cls :i | | acum |
-            acum := (i = 1
-                      ifTrue: [ 0 ]
-                      ifFalse: [ cumulativeProbs at: i - 1 ]) + cls effectProbability.
-            cumulativeProbs at: i put: acum ].
-    
-    "2. Para cada casilla, sortear un efecto con peso:"
-    tiles := (1 to: aNumberOfTiles) collect: [ :idx |
-        | r chosenClass |
-        r := rng next.                         "Número real [0,1)"
-        chosenClass := effectClasses
-            detect: [ :cls | r <= (cumulativeProbs at: (effectClasses indexOf: cls)) ]
-            ifNone: [ effectClasses last ].    "por redondeo"
-        chosenClass initializeOnTile: idx                       "instancia de efecto"
-    ].
+    tiles := aSetOfTiles.
 
 
+]
+
+{ #category : 'accessing' }
+Board >> tiles [ 
+^tiles
 ]
 
 { #category : 'accessing' }

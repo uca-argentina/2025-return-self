@@ -42,7 +42,7 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
+Wormhole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 	| player distance newPlayer |
 	player := aGroupOfPlayers at: anIndex.
 

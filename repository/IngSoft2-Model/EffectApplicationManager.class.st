@@ -31,12 +31,6 @@ EffectApplicationManager class >> with: aGroupOfPlayers and: aBoardLength and: n
 		  andLaps: numberOfLaps 
 ]
 
-{ #category : 'comparing' }
-EffectApplicationManager >> checkifPlayerStillPlaying: aPlayer [
-
-	^ aPlayer lap < numberOfLaps.
-]
-
 { #category : 'initialization' }
 EffectApplicationManager >> initializePlayers: aGroup andBoard: aBoardLength [
 
@@ -77,7 +71,7 @@ EffectApplicationManager >> playTurnUsing: aDistance and: aBoard [
 	players at: self playerInTurnIndex put: activePlayer.
 	
 	"Mecanica de efecto"
-	players := aBoard applyEffectOn: players onIndex: self playerInTurnIndex.
+	players := aBoard applyEffectTriggeredBy: self playerInTurnIndex.
 	activePlayer := players at: self playerInTurnIndex.
 	^ activePlayer
 	
@@ -111,13 +105,6 @@ EffectApplicationManager >> skipTurn [
 	players at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
 	
-]
-
-{ #category : 'accessing' }
-EffectApplicationManager >> stillPlaying [
-
-	^ players allSatisfy: [ :player |
-		  self checkifPlayerStillPlaying: player ]
 ]
 
 { #category : 'comparing' }

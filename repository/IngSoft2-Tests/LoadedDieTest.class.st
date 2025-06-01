@@ -21,7 +21,7 @@ LoadedDieTest >> testTryingToRollLowerThanOneRaisesAnError [
 { #category : 'tests' }
 LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 
-	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aSetOfPlayers aTestBoard |
+	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aGroupOfPlayers aTestBoard |
 	aLoadedDie := LoadedDie rolling: 1.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting 
@@ -31,12 +31,12 @@ LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 	aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
 	firstPlayer := Player named: 'Juan'.
 	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
+	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
+		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard 
 		         withSetOfDie: aSequence
 					withLaps: 1.

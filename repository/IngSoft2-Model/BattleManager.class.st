@@ -1,36 +1,57 @@
 Class {
 	#name : 'BattleManager',
 	#superclass : 'Object',
+	#instVars : [
+		'players'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-BattleManager >> engagePlayer: player withDice: setOfDie against: aGroupOfPlayers [
-   |playersToEngage|
-	playersToEngage := self selectPlayersInSamePositionAs: player from: aGroupOfPlayers.
+BattleManager class >> createWith: aGroupOfPlayers [
+^self new initializeBattleManagerWith: aGroupOfPlayers
+]
+
+{ #category : 'as yet unclassified' }
+BattleManager class >> updateWith: aGroupOfPlayers [
+^self new initializeBattleManagerWith: aGroupOfPlayers
+]
+
+{ #category : 'as yet unclassified' }
+BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
+   |playersToEngage |
+	(aPlayer position = 1)  ifTrue:[^players ].
+	playersToEngage := self selectPlayersInSamePositionAs: aPlayer.
 	
-	(player position = 1)  ifTrue:[^aGroupOfPlayers ].
 	playersToEngage size >= 2 ifTrue: ["si encuentra 2 o mas en la misma posicion"
-		  (setOfDie throw > setOfDie throw) ifTrue: ["gana el primero"
+		  (someDice throw > someDice throw) ifTrue: ["gana el primero"
 			  playersToEngage at:2 put: (playersToEngage at:2 ) loseBattle.
 			] ifFalse: ["gana el segundo"
 			  playersToEngage at:1 put: (playersToEngage at:1 ) loseBattle.
 			].
 		] .
-	^ self insertPlayers: playersToEngage InsideList: aGroupOfPlayers .
+	self updateFightingPlayersWith: playersToEngage.
+	^players 
+]
+
+{ #category : 'initialization' }
+BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
+
+players := aGroupOfPlayers 
 ]
 
 { #category : 'as yet unclassified' }
-BattleManager >> insertPlayers: playersToEngage InsideList: aGroupOfPlayers [
-	
+BattleManager >> selectPlayersInSamePositionAs: player [
+	^players select:[:each| each position = player position].
+]
+
+{ #category : 'as yet unclassified' }
+BattleManager >> updateFightingPlayersWith: playersToEngage [
+
 	playersToEngage do:[:justBattled |
-		aGroupOfPlayers at:(aGroupOfPlayers findFirst:[:each | each name = justBattled  name]) put: justBattled .
+		players at:(players findFirst:[:each | each name = justBattled  name]) put: justBattled .
 		].
-	^aGroupOfPlayers 
-]
-
-{ #category : 'as yet unclassified' }
-BattleManager >> selectPlayersInSamePositionAs: player from: aGroupOfPlayers [
-	^aGroupOfPlayers select:[:each| each position = player position].
+	
+	
 ]

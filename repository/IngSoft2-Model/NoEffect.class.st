@@ -1,9 +1,6 @@
 Class {
 	#name : 'NoEffect',
 	#superclass : 'Effect',
-	#instVars : [
-		'tile'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -14,22 +11,7 @@ NoEffect class >> effectProbability [
 ^0.40
 ]
 
-{ #category : 'initialization' }
-NoEffect class >> initializeOnTile: aTile [
-^ self new initializeOnTile: aTile .
-]
-
 { #category : 'positioning' }
-NoEffect >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
+NoEffect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 	^aGroupOfPlayers 
-]
-
-{ #category : 'initialization' }
-NoEffect >> initializeOnTile: aTile [
-	tile := aTile.
-]
-
-{ #category : 'initialization' }
-NoEffect >> tiles [
- ^{tile}
 ]

@@ -2,7 +2,6 @@ Class {
 	#name : 'AtomikBomb',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
 		'setOfPlayers'
 	],
 	#category : 'IngSoft2-Model',
@@ -15,13 +14,8 @@ AtomikBomb class >> effectProbability [
 ^0.02
 ]
 
-{ #category : 'as yet unclassified' }
-AtomikBomb class >> initializeOnTile: aTile [ 
-	^self new initializeOnTile: aTile .
-]
-
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
+AtomikBomb >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 
 	| playersToApplyEffect aPlayer |
 	aPlayer:= aGroupOfPlayers at: anIndex.
@@ -30,20 +24,6 @@ AtomikBomb >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 	^playersToApplyEffect.
 	].
 ^aGroupOfPlayers 
-
-	
-]
-
-{ #category : 'initialization' }
-AtomikBomb >> initializeOnTile: aTile [
-	tile := aTile.
-
-
-]
-
-{ #category : 'initialization' }
-AtomikBomb >> tiles [
- ^{tile}
 
 	
 ]

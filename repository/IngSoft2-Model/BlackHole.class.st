@@ -2,7 +2,6 @@ Class {
 	#name : 'BlackHole',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
 		'debuff'
 	],
 	#category : 'IngSoft2-Model',
@@ -15,13 +14,8 @@ BlackHole class >> effectProbability [
 ^0.20
 ]
 
-{ #category : 'initialization' }
-BlackHole class >> initializeOnTile: aTile [ 
-	^self new initializeOnTile: aTile .
-]
-
 { #category : 'positioning' }
-BlackHole >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
+BlackHole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 	| aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
 	aPlayer position = tile ifTrue: [
@@ -30,15 +24,4 @@ BlackHole >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 		].
 	^aGroupOfPlayers 
 	
-]
-
-{ #category : 'initialization' }
-BlackHole >> initializeOnTile: aTile [ 
-	tile := aTile.
-	debuff := 4.
-]
-
-{ #category : 'initialization' }
-BlackHole >> tiles [
- ^{tile}
 ]

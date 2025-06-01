@@ -13,15 +13,15 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-BoardForTesting class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [ 
-	^self new initializeWithTiles: totalTiles andEffects: aCollectionOfEffects 
+BoardForTesting class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [
+	^self new initializeWithTiles: totalTiles andEffects: aCollectionOfEffects
 ]
 
 { #category : 'accessing' }
-BoardForTesting >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [ 
+BoardForTesting >> applyEffectTriggeredByPlayerAt: anIndex to: players [
 	| detectedEffect |
-	detectedEffect := effects detect: [ :effect | effect tiles includes: ((aGroupOfPlayers at: anIndex) position) ] ifNone:[^aGroupOfPlayers ].
-	^detectedEffect applyEffectOn: aGroupOfPlayers onIndex: anIndex 
+	detectedEffect := effects detect: [ :effect | effect tiles includes: ((players at: anIndex) position) ] ifNone:[^players ].
+	^detectedEffect applyEffectOn: players triggeredByPlayerAt: anIndex 
 
 
 ]
@@ -30,8 +30,13 @@ BoardForTesting >> applyEffectOn: aGroupOfPlayers onIndex: anIndex [
 BoardForTesting >> initializeWithTiles: aNumberOfTiles andEffects: aCollectionOfEffects [
 
 	tiles:= aNumberOfTiles .
-	effects:= aCollectionOfEffects 
+	effects:= aCollectionOfEffects.
 
+]
+
+{ #category : 'accessing' }
+BoardForTesting >> tiles [ 
+^effects
 ]
 
 { #category : 'accessing' }
