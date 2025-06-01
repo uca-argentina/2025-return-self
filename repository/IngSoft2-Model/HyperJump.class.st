@@ -34,6 +34,13 @@ HyperJump >> initializeInTile: aTile withBuff: aBuff [
 	actualBuff := aBuff.
 ]
 
+{ #category : 'initialization' }
+HyperJump >> initializeOnTile: aTile [
+	tile := aTile.
+	initialBuff := 5.
+	actualBuff := 5.
+]
+
 { #category : 'as yet unclassified' }
 HyperJump >> lowerBuff [
 

@@ -14,11 +14,6 @@ BattleManager class >> createWith: aGroupOfPlayers [
 ]
 
 { #category : 'as yet unclassified' }
-BattleManager class >> updateWith: aGroupOfPlayers [
-^self new initializeBattleManagerWith: aGroupOfPlayers
-]
-
-{ #category : 'as yet unclassified' }
 BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
    |playersToEngage |
 	(aPlayer position = 1)  ifTrue:[^players ].
@@ -54,4 +49,10 @@ BattleManager >> updateFightingPlayersWith: playersToEngage [
 		].
 	
 	
+]
+
+{ #category : 'updating' }
+BattleManager >> updateWith: aGroupOfPlayers [
+
+^self class createWith: aGroupOfPlayers
 ]

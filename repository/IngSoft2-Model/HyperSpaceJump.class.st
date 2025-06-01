@@ -8,12 +8,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-HyperSpaceJump class >> createIn: aTile with: aBuff [
-
-	^ self new initializeInTile: aTile withBuff: aBuff
-]
-
 { #category : 'initialization' }
 HyperSpaceJump class >> effectProbability [
 
@@ -34,8 +28,8 @@ HyperSpaceJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 ]
 
 { #category : 'initialization' }
-HyperSpaceJump >> initializeInTile: aTile withBuff: aBuff [
+HyperSpaceJump >> initializeOnTile: aTile [
 	tile := aTile.
-	buff := aBuff.
+	buff := 4.
 
 ]

@@ -16,7 +16,7 @@ TurnManager class >> createWith: aGroupOfPlayers [
 ]
 
 { #category : 'as yet unclassified' }
-TurnManager class >> updateWith: aGroupOfPlayers and: aNumberOfTurns [
+TurnManager class >> createWith: aGroupOfPlayers and: aNumberOfTurns [
 
 ^self new initializePlayers: aGroupOfPlayers and: aNumberOfTurns
 ]
@@ -66,4 +66,10 @@ TurnManager >> skipTurn [
 { #category : 'as yet unclassified' }
 TurnManager >> turnsThatPassed [
 ^turn
+]
+
+{ #category : 'updating' }
+TurnManager >> updateWith: aGroupOfPlayers [
+
+^self class createWith: aGroupOfPlayers and: turn
 ]

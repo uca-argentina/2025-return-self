@@ -64,7 +64,7 @@ Game >> nextPlayerSkipsTurn [
 
 	| anUpdatedPlayer |
 	self stillPlaying ifFalse: [ ^ self ].
-	turnManager := turnManager updateWith: players and: turnManager turnsThatPassed.
+	turnManager := turnManager updateWith: players.
 	anUpdatedPlayer := turnManager skipTurn.
 		                   "playTurnUsing: setOfDie throw
 		                   and: wormhole."
@@ -83,7 +83,7 @@ Game >> nextPlayerThrowsDice [
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
 	"---Turno---"
-	turnManager := turnManager updateWith: players and: turnManager turnsThatPassed.
+	turnManager := turnManager updateWith: players.
 	activePlayer := turnManager nextTurnPlayer.
 	activePlayerIndex := self findIndexOf: activePlayer.
 	
@@ -107,22 +107,16 @@ Game >> nextPlayerThrowsDice [
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	[ turnManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
+	[ self stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
 { #category : 'interaction loop' }
 Game >> playerPositions [
 
-	^ turnManager setOfPlayers collect:[:player | player name , ' : ', 
+	^ players collect:[:player | player name , ' : ', 
 		player position asString, ' , lap: ',
 		player lap asString, 
 		', shields: ',player shields asString]
-]
-
-{ #category : 'interaction loop' }
-Game >> playersInPosition: aPosition [
-
-	^ turnManager setOfPlayers select:[:player | player position = aPosition ]
 ]
 
 { #category : 'accessing' }
