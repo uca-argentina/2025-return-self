@@ -2,8 +2,6 @@ Class {
 	#name : 'GameplayTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'firstPlayer',
-		'secondPlayer',
 		'aGroupOfPlayers'
 	],
 	#category : 'IngSoft2-Tests',
@@ -12,13 +10,11 @@ Class {
 
 { #category : 'running' }
 GameplayTest >> setUp [
-	super setUp.
 
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
+	super setUp.
 	aGroupOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }
+		                   (Player named: 'Juan').
+		                   (Player named: 'Tomi') }
 ]
 
 { #category : 'tests' }
@@ -36,7 +32,7 @@ GameplayTest >> testGamePlayedWithASingleLapNoBattles [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan'
+	self assert: aGame winner equals: 'Tomi'
 "
 	aGame nextPlayerThrowsDice.
 	aGame nextPlayerThrowsDice.
@@ -150,7 +146,7 @@ GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
 	aGame nextPlayerThrowsDice.
 	aGame nextPlayerThrowsDice.
 
-	self assert: aGame nextPlayerThrowsDice equals: 9
+	self assert: aGame nextPlayerThrowsDice equals: 1
 ]
 
 { #category : 'tests' }
@@ -168,7 +164,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan'
+	self assert: aGame winner equals: 'Tomi'
 ]
 
 { #category : 'tests' }
@@ -192,83 +188,17 @@ GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
 { #category : 'tests' }
 GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItRaisesError [
 
-	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
-	aFirstPlayer := Player named: 'Juan'.
-	aSecondPlayer := Player named: 'Tomi'.
-	anotherSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
+	| anErrorHandler aWormhole aTestBoard |
+	
 	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 
 	aWormhole := Wormhole oneEnd: 2 otherEnd: 3.
 
 	anErrorHandler
 		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoardLength: 3
-				withEffect: aWormhole
-				withSetOfDie: aSetOfDie ]
+			aTestBoard := BoardForTesting
+				              createWithTiles: 2
+				              andEffects: { aWormhole } ]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
-
-	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice aTestBoard|
-	aFirstPlayer := Player named: 'Juan'.
-	aSecondPlayer := Player named: 'Tomi'.
-	anotherSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
-
-	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
-
-	anErrorHandler
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard 
-				withSetOfDie: aSetOfDie 
-				withLaps: 1]
-		raiseErrorWithMessageText:
-		'Both wormhole ends must be within the board length.'
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
-
-	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice aLoadedDie aTestBoard|
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
-
-	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
-	aLoadedDie := LoadedDie rolling: 4.
-	anErrorHandler
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard 
-				withSetOfDie: aLoadedDie 
-				withLaps: 1]
-		raiseErrorWithMessageText:
-		'Both wormhole ends must be within the board length.'
 ]

@@ -6,7 +6,6 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'setOfDie',
-		'effect',
 		'board',
 		'numberOfLaps',
 		'players',
@@ -17,24 +16,9 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'testing' }
-Game class >> boardLengthMustBeGreaterThanThree: aLength [
-
-	aLength > 3 ifFalse: [
-		Error signal: 'The board length must be greater than three.' ]
-]
-
 { #category : 'as yet unclassified' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
-	self boardLengthMustBeGreaterThanThree: aBoard totalTiles.
 	^ self new initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
-]
-
-{ #category : 'testing' }
-Game class >> wormhole: aWormhole shouldBeInside: aLength [
-
-	(aWormhole areEndsInside: aLength) ifFalse: [
-		Error signal: 'Both wormhole ends must be within the board length.' ]
 ]
 
 { #category : 'comparing' }
@@ -112,11 +96,11 @@ Game >> playFullGame [
 
 { #category : 'interaction loop' }
 Game >> playerPositions [
-
-	^ players collect:[:player | player name , ' : ', 
+|aListOfPositions|
+	aListOfPositions := players collect:[:player | player name , ' : ', 
 		player position asString, ' , lap: ',
-		player lap asString, 
-		', shields: ',player shields asString]
+		player lap asString].
+	^aListOfPositions
 ]
 
 { #category : 'accessing' }

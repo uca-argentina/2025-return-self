@@ -18,11 +18,11 @@ HyperSpaceJump class >> effectProbability [
 HyperSpaceJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
 		| aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
+"	aPlayer position = tile ifTrue: ["
 		aPlayer := aPlayer advanceTiles: buff.
 		aPlayer := aPlayer loseShield.
 		 (aGroupOfPlayers at: anIndex put: aPlayer).
-		].
+"		]."
 	^aGroupOfPlayers 
 	
 ]

@@ -8,10 +8,17 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'testing' }
+Board class >> boardLengthMustBeGreaterThanThree: aLength [
+
+	aLength > 3 ifFalse: [
+		Error signal: 'The board length must be greater than three.' ]
+]
+
 { #category : 'as yet unclassified' }
 Board class >> createWithTiles: aNumberOfTiles [
-
 	| rng cumulativeProbs effectClasses aSetOfTiles|
+	self boardLengthMustBeGreaterThanThree: aNumberOfTiles.
 	rng := Random new.
 	effectClasses := {
 		                 AtomikBomb.
@@ -47,8 +54,11 @@ Board class >> createWithTiles: aNumberOfTiles [
 
 { #category : 'positioning' }
 Board >> applyEffectTriggeredByPlayerAt: anIndex to: players [
-	| detectedEffect |
-	detectedEffect := tiles detect: [ :effect | effect tiles = ((players at: anIndex) position) ].
+
+	| detectedEffect aPlayerPosition |
+	aPlayerPosition := (players at: anIndex) position.
+	detectedEffect := tiles detect: [ :effect |
+		                  effect tiles includes: aPlayerPosition ].
 	^ detectedEffect applyEffectOn: players triggeredByPlayerAt: anIndex
 ]
 

@@ -18,10 +18,16 @@ BlackHole class >> effectProbability [
 BlackHole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 	| aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
+"	aPlayer position = tile ifTrue: ["
 		aPlayer := aPlayer goBackTiles: debuff.
 		 (aGroupOfPlayers at: anIndex put: aPlayer).
-		].
-	^aGroupOfPlayers 
+"		]."
+	^aGroupOfPlayers
 	
+]
+
+{ #category : 'initialization' }
+BlackHole >> initializeOnTile: aTile [
+	tile := aTile.
+	debuff := 4.
 ]

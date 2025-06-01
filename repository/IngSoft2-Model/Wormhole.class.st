@@ -14,7 +14,7 @@ Class {
 
 { #category : 'initialization' }
 Wormhole class >> effectProbability [
-
+"not going to be used, special case of effect, there is only two wormholes"
 ^0.00
 ]
 
