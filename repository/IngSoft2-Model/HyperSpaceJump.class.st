@@ -17,6 +17,7 @@ HyperSpaceJump class >> effectProbability [
 { #category : 'positioning' }
 HyperSpaceJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
 		| aPlayer |
+		"VERIFICAR"
 	aPlayer := aGroupOfPlayers at: anIndex.
 "	aPlayer position = tile ifTrue: ["
 		aPlayer := aPlayer advanceTiles: buff.

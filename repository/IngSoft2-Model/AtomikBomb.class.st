@@ -16,7 +16,7 @@ AtomikBomb class >> effectProbability [
 
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-
+"VERIFICAR"
 	| playersToApplyEffect aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
 	"aPlayer position = tile ifTrue: ["

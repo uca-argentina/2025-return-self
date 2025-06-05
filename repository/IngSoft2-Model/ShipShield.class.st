@@ -42,20 +42,27 @@ ShipShield >> initializeWith: anId and: anAmountOfShields [
 
 { #category : 'positioning' }
 ShipShield >> loseBattle [
+"VERIFICAR"
 	|turnsToSkip shieldLeft|
 	turnsToSkip := 0.
 	shieldLeft := shields -1	.
 	shieldLeft = 0 ifTrue:[turnsToSkip := 2].
 	
-	^ self class
+"	^ self class
 		  named: name
 		  withPosition: 1
 		  withLaps: lap
 		  withShield: shieldLeft
-		  withTurnSkipped: turnsToSkip 
+		  withTurnSkipped: turnsToSkip "
 ]
 
 { #category : 'accessing' }
 ShipShield >> loseShield [
 	shields := shields -1 
+]
+
+{ #category : 'accessing' }
+ShipShield >> shields [
+
+	^ shields
 ]

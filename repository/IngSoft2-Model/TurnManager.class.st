@@ -2,7 +2,6 @@ Class {
 	#name : 'TurnManager',
 	#superclass : 'Object',
 	#instVars : [
-		'turn',
 		'playersTurnsSkipped'
 	],
 	#category : 'IngSoft2-Model',
@@ -21,32 +20,26 @@ TurnManager class >> createWith: aGroupOfPlayers [
 	^ self new initializePlayers: playerTurnAssociationGroup
 ]
 
-{ #category : 'creation' }
-TurnManager class >> createWith: aGroupOfPlayers and: aNumberOfTurns [
-
-^self new initializePlayers: aGroupOfPlayers and: aNumberOfTurns
-]
-
 { #category : 'initialization' }
 TurnManager >> initializePlayers: aGroup [
 
 	playersTurnsSkipped := aGroup
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'play interface' }
 TurnManager >> playNextTurn: aGame [
+
 	| activePlayer playerInTurnIndex |
-	turn := turn + 1.
+	"turn := turn + 1."
 	playerInTurnIndex := self playerInTurnIndexUsing: aGame activePlayer.
 	activePlayer := playersTurnsSkipped at: playerInTurnIndex.
 	"mientras agarre un player salteado..."
-	[activePlayer skipsTurn] whileTrue: [
-		turn := turn + 1.
-		activePlayer := activePlayer turnSkipped.
-		].
-	playersTurnsSkipped at: playerInTurnIndex put: activePlayer.
-	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
-
+	activePlayer skipsTurn
+		ifTrue: [
+			activePlayer := activePlayer turnSkipped.
+			playersTurnsSkipped at: playerInTurnIndex put: activePlayer.
+			aGame nextPlayerThrowsDice]
+		ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -57,22 +50,12 @@ TurnManager >> playerInTurnIndexUsing: aPlayer [
 
 { #category : 'play interface' }
 TurnManager >> skipTurn [
+"VERIFICAR"
 	| activePlayer |
-	turn := turn + 1.
+	"turn := turn + 1."
 	activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
 	activePlayer:= activePlayer forceAShieldReset.
 	
 	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
-]
-
-{ #category : 'as yet unclassified' }
-TurnManager >> turnsThatPassed [
-^turn
-]
-
-{ #category : 'updating' }
-TurnManager >> updateWith: aGroupOfPlayers [
-
-^self class createWith: aGroupOfPlayers and: turn
 ]

@@ -22,7 +22,7 @@ self shouldBeImplemented.
 { #category : 'positioning' }
 Effect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
 
-	self shouldBeImplemented
+	self subclassResponsibility
 ]
 
 { #category : 'initialization' }
