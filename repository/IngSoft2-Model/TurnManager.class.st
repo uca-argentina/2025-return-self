@@ -34,46 +34,25 @@ TurnManager >> initializePlayers: aGroup [
 ]
 
 { #category : 'as yet unclassified' }
-TurnManager >> nextTurnPlayer [
-	| activePlayer |
+TurnManager >> playNextTurn: aGame [
+	| activePlayer playerInTurnIndex |
 	turn := turn + 1.
-	activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
-	
-	"VER"
-	[activePlayer skipATurn] whileTrue: [
-		playersTurnsSkipped at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+	playerInTurnIndex := self playerInTurnIndexUsing: aGame activePlayer.
+	activePlayer := playersTurnsSkipped at: playerInTurnIndex.
+	"mientras agarre un player salteado..."
+	[activePlayer skipsTurn] whileTrue: [
 		turn := turn + 1.
-		activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
+		activePlayer := activePlayer turnSkipped.
 		].
-	
+	playersTurnsSkipped at: playerInTurnIndex put: activePlayer.
 	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
-	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
-	^ activePlayer
+
 ]
 
 { #category : 'as yet unclassified' }
-TurnManager >> nextTurnPlayerBanana: aGame [
-	| activePlayer |
-	turn := turn + 1.
-	aGame nextPlayerTurnBegins.
-	activePlayer := aGame activePlayer.
-	
-	"VER, mientras agarre un player salteado..."
-	[activePlayer skipATurn] whileTrue: [
-		aGame updateWithModified: activePlayer.
-		turn := turn + 1.
-		activePlayer := aGame findPlayerAt: self playerInTurnIndex.
-		].
-	
-	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
-	aGame updateWithModified: activePlayer.
-	^ activePlayer
-]
+TurnManager >> playerInTurnIndexUsing: aPlayer [
 
-{ #category : 'play interface' }
-TurnManager >> playerInTurnIndex [
-
-	^ turn - 1 \\ playersTurnsSkipped size + 1 "The players whose turn is up"
+^ playersTurnsSkipped findFirst: [ :each | each equals: aPlayer ]
 ]
 
 { #category : 'play interface' }

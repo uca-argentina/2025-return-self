@@ -79,13 +79,6 @@ ShipPosition >> circleAroundTheTrackWithLength: boardLength [
 		 	withLaps: lap + newLap
 ]
 
-{ #category : 'comparing' }
-ShipPosition >> equals: anotherPlayerStatus [
-	"In our implementation, ID is a key field data, it is UNIQUE"
-
-	^ id = anotherPlayerStatus id
-]
-
 { #category : 'positioning' }
 ShipPosition >> goBackTiles: aDistance [ 
 

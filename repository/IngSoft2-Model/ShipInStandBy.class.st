@@ -31,18 +31,13 @@ ShipInStandBy >> initializeWith: anId and: aNumberOfTurns [
 ]
 
 { #category : 'accessing' }
-ShipInStandBy >> skipATurn [
+ShipInStandBy >> skipsTurn [
 
-	^ skipATurn > 0
+	^ turnsToSkip > 0
 ]
 
-{ #category : 'positioning' }
+{ #category : 'creation' }
 ShipInStandBy >> turnSkipped [
 
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: shields
-		  withTurnSkipped: skipATurn - 1
+	^ self class createWith: id and: turnsToSkip - 1
 ]
