@@ -2,7 +2,6 @@ Class {
 	#name : 'ShipInStandBy',
 	#superclass : 'SpaceShipComponent',
 	#instVars : [
-		'id',
 		'turnsToSkip'
 	],
 	#category : 'IngSoft2-Model',
@@ -29,4 +28,21 @@ ShipInStandBy >> initializeWith: anId and: aNumberOfTurns [
 
 	id := anId.
 	turnsToSkip := aNumberOfTurns
+]
+
+{ #category : 'accessing' }
+ShipInStandBy >> skipATurn [
+
+	^ skipATurn > 0
+]
+
+{ #category : 'positioning' }
+ShipInStandBy >> turnSkipped [
+
+	^ self class
+		  named: name
+		  withPosition: position
+		  withLaps: lap
+		  withShield: shields
+		  withTurnSkipped: skipATurn - 1
 ]

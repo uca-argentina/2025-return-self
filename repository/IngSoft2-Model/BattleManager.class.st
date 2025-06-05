@@ -2,21 +2,27 @@ Class {
 	#name : 'BattleManager',
 	#superclass : 'Object',
 	#instVars : [
-		'players'
+		'playersShieldData'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 BattleManager class >> createWith: aGroupOfPlayers [
-^self new initializeBattleManagerWith: aGroupOfPlayers
+
+	| playerShieldAssociationGroup |
+	playerShieldAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                                ShipShield
+			                                createWith: each id
+			                                and: 0 ].
+	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
 { #category : 'as yet unclassified' }
 BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
    |playersToEngage |
-	(aPlayer position = 1)  ifTrue:[^players ].
+	(aPlayer position = 1)  ifTrue:[^playersShieldData ].
 	playersToEngage := self selectPlayersInSamePositionAs: aPlayer.
 	
 	playersToEngage size >= 2 ifTrue: ["si encuentra 2 o mas en la misma posicion"
@@ -27,27 +33,27 @@ BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
 			].
 		] .
 	self updateFightingPlayersWith: playersToEngage.
-	^players 
+	^playersShieldData 
 ]
 
 { #category : 'initialization' }
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
-players := aGroupOfPlayers 
+playersShieldData := aGroupOfPlayers 
 ]
 
 { #category : 'as yet unclassified' }
 BattleManager >> selectPlayersInSamePositionAs: player [
-	^players select:[:each| each position = player position].
+	^playersShieldData select:[:each| each position = player position].
 ]
 
 { #category : 'as yet unclassified' }
 BattleManager >> updateFightingPlayersWith: playersToEngage [
 
-	playersToEngage do:[:justBattled |
-		players at:(players findFirst:[:each | each name = justBattled  name]) put: justBattled .
+"	playersToEngage do:[:justBattled |
+		playersShieldData at:(playersShieldData findFirst:[:each | each name = justBattled  name]) put: justBattled .
 		].
-	
+	"
 	
 ]
 

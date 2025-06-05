@@ -13,8 +13,8 @@ GameplayTest >> setUp [
 
 	super setUp.
 	aGroupOfPlayers := {
-		                   (ShipPosition named: 'Juan').
-		                   (ShipPosition named: 'Tomi') }
+		                   (ShipPosition createWith: 1 and: 'Juan').
+		                   (ShipPosition createWith: 2 and: 'Tomi') }
 ]
 
 { #category : 'tests' }
@@ -201,4 +201,25 @@ GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItR
 				              andEffects: { aWormhole } ]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'
+]
+
+{ #category : 'tests' }
+GameplayTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRaisesError [
+
+	| anotherGroupOfPlayers aLoadedDie aTestBoard anErrorHandler |
+	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
+	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	aLoadedDie := LoadedDie rolling: 4.
+	anotherGroupOfPlayers := {
+		                         (ShipPosition createWith: 12 and: 'Pedro').
+		                         (ShipPosition createWith: 12 and: 'Juan') }.
+	anErrorHandler
+		should: [
+			Game
+				playedBy: anotherGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: 1 ]
+		raiseErrorWithMessageText:
+		'You cant have different players with the same ID.'
 ]

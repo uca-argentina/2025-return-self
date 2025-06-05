@@ -37,18 +37,13 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 		  withLaps: laps
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
-"
-aGroupOfPlayers detect: [ :each | (aGroupOfPlayers ) ] ifFound: "
-"
-aGroupOfPlayers do: [:obj1 |
-   aGroupOfPlayers detect: [:obj2 |
-      obj1 ~~ obj2 and: [obj1 value = obj2 value]
-   ] ifFound: [:dup | hayDuplicado := true ]
-     ifNone: [ ].
-].
-"
+	"when passed to Set, repeated values are cleaned"
+
+	(aGroupOfPlayers collect: [ :each | each id ]) size
+	= (aGroupOfPlayers collect: [ :each | each id ]) asSet size ifFalse: [
+		Error signal: 'You cant have different players with the same ID.' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -172,11 +167,26 @@ Game >> playFullGame [
 
 { #category : 'interaction loop' }
 Game >> playerPositions [
-|aListOfPositions|
-	aListOfPositions := players collect:[:player | player name , ' : ', 
-		player position asString, ' , lap: ',
-		player lap asString].
-	^aListOfPositions
+
+	| aListOfPositions |
+	aListOfPositions := players collect: [ :player |
+		                    'Name: ' , player name , ' , Position: '
+		                    , player position asString , ' , Lap: '
+		                    , player lap asString ].
+	^ aListOfPositions
+]
+
+{ #category : 'positioning' }
+Game >> resetShieldsAfter2TurnsWithout [
+	|newShield|
+	newShield := shields.
+	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
+	
+	^ self class
+		  named: name
+		  withPosition: position
+		  withLaps: lap
+		  withShield: newShield 
 ]
 
 { #category : 'accessing' }
@@ -189,9 +199,9 @@ Game >> stillPlaying [
 { #category : 'as yet unclassified' }
 Game >> updateWithModified: aPlayer [
 
-	| anIndex |
+	"| anIndex |
 	anIndex := players findFirst: [ :each | each name = aPlayer name ].
-	players at: anIndex put: aPlayer
+	players at: anIndex put: aPlayer"
 ]
 
 { #category : 'comparing' }
@@ -201,6 +211,6 @@ Game >> winner [
 	playerWhoWon := players
 		                detect: [ :player |
 		                (self checkifPlayerStillPlaying: player) not ]
-		                ifNone: [ ^ 'NO ONE WON!' ].
+		                ifNone: [ ^ nil ].
 	^ playerWhoWon name
 ]

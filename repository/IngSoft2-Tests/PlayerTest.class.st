@@ -9,7 +9,7 @@ Class {
 PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 
 	| aPlayer |
-	aPlayer := ShipPosition named: 'Juan'.
+	aPlayer := ShipPosition createWith: 1 and: 'Juan'.
 
 	self assert: aPlayer name equals: 'Juan'
 ]
@@ -20,7 +20,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithFloatPositionThenItThrowsError [
 	| anErrorHandler |
 	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
-		should: [ ShipPosition named: 'Juan' withPosition: 1.3 ]
+		should: [ ShipPosition createWith: 1 and: 'Juan' and: 1.3 and: 0 ]
 		raiseErrorWithMessageText:
 		'Player position cannot be lower than 1 or a float number.'
 ]
@@ -31,7 +31,7 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithNegativePositionThenItThrowsError
 	| anErrorHandler |
 	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
-		should: [ ShipPosition named: 'Juan' withPosition: -10 ]
+		should: [ ShipPosition createWith: 1 and: 'Juan' and: -10 and: 0 ]
 		raiseErrorWithMessageText:
 		'Player position cannot be lower than 1 or a float number.'
 ]
@@ -42,6 +42,6 @@ PlayerTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 	| anErrorHandler |
 	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
 	anErrorHandler
-		should: [ ShipPosition named: '' ]
+		should: [ ShipPosition createWith: 1 and: '' ]
 		raiseErrorWithMessageText: 'The name cannot be empty.'
 ]

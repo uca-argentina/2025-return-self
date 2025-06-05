@@ -9,19 +9,19 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 TurnManager class >> createWith: aGroupOfPlayers [
 
 	| playerTurnAssociationGroup |
 	playerTurnAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                              {
-			                              each name.
-			                              0 } ].
+		                              ShipInStandBy
+			                              createWith: each id
+			                              and: 0 ].
 
 	^ self new initializePlayers: playerTurnAssociationGroup
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 TurnManager class >> createWith: aGroupOfPlayers and: aNumberOfTurns [
 
 ^self new initializePlayers: aGroupOfPlayers and: aNumberOfTurns

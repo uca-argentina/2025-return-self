@@ -8,8 +8,7 @@ Class {
 	#instVars : [
 		'lap',
 		'name',
-		'position',
-		'id'
+		'position'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -28,6 +27,7 @@ ShipPosition class >> createWith: anId and: aName and: aPosition and: aNumberOfL
 
 	self idShouldBeGreaterThanZero: anId.
 	self playerNameCantBeEmpty: aName.
+	self positionHasToBeAPositiveInteger: aPosition.
 	self lapHasToBeAPositiveInteger: aNumberOfLaps.
 	^ self new initializePlayerWith: anId withName: aName withPosition: aPosition withLaps: aNumberOfLaps
 ]
@@ -87,16 +87,6 @@ ShipPosition >> equals: anotherPlayerStatus [
 ]
 
 { #category : 'positioning' }
-ShipPosition >> forceAShieldReset [
-	
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: 3 
-]
-
-{ #category : 'positioning' }
 ShipPosition >> goBackTiles: aDistance [ 
 
 	| newPosition |
@@ -128,26 +118,6 @@ ShipPosition >> lap [
 	^ lap
 ]
 
-{ #category : 'positioning' }
-ShipPosition >> loseBattle [
-	|turnsToSkip shieldLeft|
-	turnsToSkip := 0.
-	shieldLeft := shields -1	.
-	shieldLeft = 0 ifTrue:[turnsToSkip := 2].
-	
-	^ self class
-		  named: name
-		  withPosition: 1
-		  withLaps: lap
-		  withShield: shieldLeft
-		  withTurnSkipped: turnsToSkip 
-]
-
-{ #category : 'accessing' }
-ShipPosition >> loseShield [
-	shields := shields -1 
-]
-
 { #category : 'accessing' }
 ShipPosition >> name [
 
@@ -158,34 +128,4 @@ ShipPosition >> name [
 ShipPosition >> position [
 
 	^ position
-]
-
-{ #category : 'positioning' }
-ShipPosition >> resetShieldsAfter2TurnsWithout [
-	|newShield|
-	newShield := shields.
-	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
-	
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: newShield 
-]
-
-{ #category : 'accessing' }
-ShipPosition >> skipATurn [
-
-	^ skipATurn > 0
-]
-
-{ #category : 'positioning' }
-ShipPosition >> turnSkipped [
-
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: shields
-		  withTurnSkipped: skipATurn - 1
 ]
