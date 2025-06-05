@@ -15,8 +15,8 @@ Class {
 GameplayBattleMechanicTest >> setUp [
 	super setUp.
 
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
+	firstPlayer := ShipPosition named: 'Juan'.
+	secondPlayer := ShipPosition named: 'Tomi'.
 	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.

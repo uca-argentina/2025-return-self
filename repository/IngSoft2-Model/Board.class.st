@@ -15,7 +15,7 @@ Board class >> boardLengthMustBeGreaterThanThree: aLength [
 		Error signal: 'The board length must be greater than three.' ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 Board class >> createWithTiles: aNumberOfTiles [
 	| rng cumulativeProbs effectClasses aSetOfTiles|
 	self boardLengthMustBeGreaterThanThree: aNumberOfTiles.

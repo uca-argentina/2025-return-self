@@ -17,9 +17,38 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
+Game class >> lapHasToBeGreaterThanZeroAndInteger: aNumberOfLaps [
+
+	(aNumberOfLaps > 0 and: aNumberOfLaps isInteger) ifFalse: [
+		Error signal:
+			'The amount of laps cannot be lower than 1 or a float number.' ]
+]
+
+{ #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
-	^ self new initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
+
+	self lapHasToBeGreaterThanZeroAndInteger: laps.
+	self twoPlayersCantHaveTheSameId: aGroupOfPlayers.
+	^ self new
+		  initializePlayedBy: aGroupOfPlayers
+		  withBoard: aBoard
+		  withSetOfDie: aSetOfDie
+		  withLaps: laps
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
+"
+aGroupOfPlayers detect: [ :each | (aGroupOfPlayers ) ] ifFound: "
+"
+aGroupOfPlayers do: [:obj1 |
+   aGroupOfPlayers detect: [:obj2 |
+      obj1 ~~ obj2 and: [obj1 value = obj2 value]
+   ] ifFound: [:dup | hayDuplicado := true ]
+     ifNone: [ ].
+].
+"
 ]
 
 { #category : 'as yet unclassified' }

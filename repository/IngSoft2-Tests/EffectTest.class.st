@@ -14,8 +14,8 @@ EffectTest >> setUp [
 	super setUp.
 
 	aGroupOfPlayers := {
-		                   (Player named: 'Juan').
-		                   (Player named: 'Tomi') }
+		                   (ShipPosition named: 'Juan').
+		                   (ShipPosition named: 'Tomi') }
 ]
 
 { #category : 'tests' }
