@@ -3,7 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'turn',
-		'players'
+		'playersTurnsSkipped'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -12,7 +12,13 @@ Class {
 { #category : 'as yet unclassified' }
 TurnManager class >> createWith: aGroupOfPlayers [
 
-	^self new initializePlayers: aGroupOfPlayers and: 0
+	| playerTurnAssociationGroup |
+	playerTurnAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                              {
+			                              each name.
+			                              0 } ].
+
+	^ self new initializePlayers: playerTurnAssociationGroup
 ]
 
 { #category : 'as yet unclassified' }
@@ -22,44 +28,62 @@ TurnManager class >> createWith: aGroupOfPlayers and: aNumberOfTurns [
 ]
 
 { #category : 'initialization' }
-TurnManager >> initializePlayers: aGroup and: turnsPassed [
+TurnManager >> initializePlayers: aGroup [
 
-	players := aGroup.
-	turn := turnsPassed
+	playersTurnsSkipped := aGroup
 ]
 
 { #category : 'as yet unclassified' }
 TurnManager >> nextTurnPlayer [
 	| activePlayer |
 	turn := turn + 1.
-	activePlayer := players at: self playerInTurnIndex.
+	activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
 	
 	"VER"
 	[activePlayer skipATurn] whileTrue: [
-		players at: self playerInTurnIndex put:(activePlayer turnSkipped ).
+		playersTurnsSkipped at: self playerInTurnIndex put:(activePlayer turnSkipped ).
 		turn := turn + 1.
-		activePlayer := players at: self playerInTurnIndex.
+		activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
 		].
 	
 	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
-	players at: self playerInTurnIndex put: activePlayer.
+	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
+	^ activePlayer
+]
+
+{ #category : 'as yet unclassified' }
+TurnManager >> nextTurnPlayerBanana: aGame [
+	| activePlayer |
+	turn := turn + 1.
+	aGame nextPlayerTurnBegins.
+	activePlayer := aGame activePlayer.
+	
+	"VER, mientras agarre un player salteado..."
+	[activePlayer skipATurn] whileTrue: [
+		aGame updateWithModified: activePlayer.
+		turn := turn + 1.
+		activePlayer := aGame findPlayerAt: self playerInTurnIndex.
+		].
+	
+	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
+	aGame updateWithModified: activePlayer.
 	^ activePlayer
 ]
 
 { #category : 'play interface' }
 TurnManager >> playerInTurnIndex [
 
-	^ turn - 1 \\ players size + 1 "The players whose turn is up"
+	^ turn - 1 \\ playersTurnsSkipped size + 1 "The players whose turn is up"
 ]
 
 { #category : 'play interface' }
 TurnManager >> skipTurn [
 	| activePlayer |
 	turn := turn + 1.
-	activePlayer := players at: self playerInTurnIndex.
+	activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
 	activePlayer:= activePlayer forceAShieldReset.
 	
-	players at: self playerInTurnIndex put: activePlayer.
+	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
 ]
 

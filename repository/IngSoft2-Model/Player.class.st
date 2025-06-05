@@ -6,11 +6,12 @@ Class {
 	#name : 'Player',
 	#superclass : 'Object',
 	#instVars : [
-		'playerName',
-		'playerPosition',
 		'lap',
 		'shields',
-		'skipATurn'
+		'skipATurn',
+		'name',
+		'position',
+		'id'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -79,8 +80,8 @@ Player class >> positionHasToBeAPositiveInteger: aPosition [
 Player >> advanceTiles: aDistance [
 
 	^ self class
-		  named: playerName
-		  withPosition: aDistance + playerPosition
+		  named: name
+		  withPosition: aDistance + position
 		  withLaps: lap
 		  withShield: shields
 ]
@@ -90,24 +91,31 @@ Player >> circleAroundTheTrackWithLength: boardLength [
 	|amountOfBackTrack  newLap|
 	newLap := 0.
 	amountOfBackTrack := 0.
-	playerPosition > boardLength ifTrue:
+	position > boardLength ifTrue:
 		[
 			amountOfBackTrack := boardLength .
 			newLap := 1.
 		].
 	^ self class
-		  	named: playerName
-		  	withPosition: playerPosition - amountOfBackTrack
+		  	named: name
+		  	withPosition: position - amountOfBackTrack
 		 	withLaps: lap + newLap
 			withShield: shields 
+]
+
+{ #category : 'comparing' }
+Player >> equals: anotherPlayerStatus [
+	"In our implementation, ID is a key field data, it is UNIQUE, and it represents the position in the array"
+
+	^ id = anotherPlayerStatus id
 ]
 
 { #category : 'positioning' }
 Player >> forceAShieldReset [
 	
 	^ self class
-		  named: playerName
-		  withPosition: playerPosition
+		  named: name
+		  withPosition: position
 		  withLaps: lap
 		  withShield: 3 
 ]
@@ -116,24 +124,24 @@ Player >> forceAShieldReset [
 Player >> goBackTiles: aDistance [ 
 
 	| newPosition |
-	newPosition := playerPosition - aDistance.
+	newPosition := position - aDistance.
 	newPosition := newPosition max: 1.
 		^ self class
-		  named: playerName
+		  named: name
 		  withPosition: newPosition 
 		  withLaps: lap
 ]
 
 { #category : 'as yet unclassified' }
 Player >> goToFirstTile [
-	playerPosition := 1.
+	position := 1.
 ]
 
 { #category : 'initialization' }
 Player >> initializePlayerWithName: aName withPosition: aPosition withLaps: aLap withShield:aShield withTurnSkipped: aSkip [
 
-	playerName := aName.
-	playerPosition := aPosition.
+	name := aName.
+	position := aPosition.
 	lap := aLap.
 	shields := aShield.
 	skipATurn := aSkip
@@ -153,7 +161,7 @@ Player >> loseBattle [
 	shieldLeft = 0 ifTrue:[turnsToSkip := 2].
 	
 	^ self class
-		  named: playerName
+		  named: name
 		  withPosition: 1
 		  withLaps: lap
 		  withShield: shieldLeft
@@ -168,13 +176,13 @@ Player >> loseShield [
 { #category : 'accessing' }
 Player >> name [
 
-	^ playerName
+	^ name
 ]
 
 { #category : 'accessing' }
 Player >> position [
 
-	^ playerPosition
+	^ position
 ]
 
 { #category : 'positioning' }
@@ -184,8 +192,8 @@ Player >> resetShieldsAfter2TurnsWithout [
 	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
 	
 	^ self class
-		  named: playerName
-		  withPosition: playerPosition
+		  named: name
+		  withPosition: position
 		  withLaps: lap
 		  withShield: newShield 
 ]
@@ -200,8 +208,8 @@ Player >> skipATurn [
 Player >> turnSkipped [
 
 	^ self class
-		  named: playerName
-		  withPosition: playerPosition
+		  named: name
+		  withPosition: position
 		  withLaps: lap
 		  withShield: shields
 		  withTurnSkipped: skipATurn - 1
