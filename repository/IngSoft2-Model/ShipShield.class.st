@@ -26,11 +26,7 @@ ShipShield class >> shieldsShouldntBeLowerThanZero: anAmountOfShields [
 { #category : 'positioning' }
 ShipShield >> forceAShieldReset [
 	
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: shield
+	^ self class createWith: id and: 3
 ]
 
 { #category : 'initialization' }

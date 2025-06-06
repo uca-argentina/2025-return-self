@@ -15,7 +15,7 @@ BattleManager class >> createWith: aGroupOfPlayers [
 	playerShieldAssociationGroup := aGroupOfPlayers collect: [ :each |
 		                                ShipShield
 			                                createWith: each id
-			                                and: 0 ].
+			                                and: 3 ].
 	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
