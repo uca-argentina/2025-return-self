@@ -101,8 +101,7 @@ Game >> nextPlayerThrowsDice [
 	self stillPlaying ifFalse: [ ^ self ].
 	
 	"---Turno---"
-	turnManager playNextTurn.
-	activePlayerIndex := self activePlayerIndex.
+	activePlayerIndex := self activePlayerIndex: turnManager playNextTurn.
 	activePlayer := players at: activePlayerIndex.
 	
 	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
@@ -120,8 +119,7 @@ Game >> nextPlayerThrowsDice [
 	players := board applyEffectTriggeredByPlayerAt: activePlayerIndex to: players.
 	
 	"---Batalla---"
-	battleManager := battleManager updateWith: players.
-	activePlayer := players at: activePlayerIndex.
+	"battleManager := battleManager updateWith: players."
 	players := battleManager ifBattleThenEngage: activePlayer using: setOfDie.
 	
 	activePlayer := players at: activePlayerIndex.

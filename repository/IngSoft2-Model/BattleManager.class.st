@@ -52,6 +52,25 @@ BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
 	^playersShieldData 
 ]
 
+{ #category : 'play interface' }
+BattleManager >> ifBattleThenEngagePlayerIn: aGame using: someDice [
+
+"
+   |playersToEngage |
+	(aPlayer position = 1)  ifTrue:[^playersShieldData ].
+	playersToEngage := self selectPlayersInSamePositionAs: aPlayer.
+	
+	playersToEngage size >= 2 ifTrue: [""si encuentra 2 o mas en la misma posicion""
+		  (someDice throw > someDice throw) ifTrue: [""gana el primero""
+			  playersToEngage at:2 put: (playersToEngage at:2 ) loseBattle.
+			] ifFalse: [""gana el segundo""
+			  playersToEngage at:1 put: (playersToEngage at:1 ) loseBattle.
+			].
+		] .
+	self updateFightingPlayersWith: playersToEngage.
+	^playersShieldData "
+]
+
 { #category : 'initialization' }
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
