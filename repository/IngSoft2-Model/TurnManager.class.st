@@ -25,7 +25,7 @@ TurnManager class >> createWith: aGroupOfPlayers [
 TurnManager >> checkNoTurnsToSkip [
 
 	| activePlayer |
-	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
+	activePlayer := self playerInTurn.
 	^ activePlayer skipsTurn
 ]
 
@@ -47,7 +47,7 @@ TurnManager >> playNextTurn [
 
 	| activePlayer |
 	self nextPlayerTurnBegins.
-	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
+	activePlayer := self playerInTurn.
 	"mientras agarre un player salteado..."
 	activePlayer skipsTurn
 		"ifTrue: [
@@ -59,19 +59,21 @@ TurnManager >> playNextTurn [
 			activePlayer := activePlayer turnSkipped.
 			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
 			self nextPlayerTurnBegins.
-			activePlayer := playersTurnsSkipped at: nextPlayerIndex].
-	^ activePlayer
+			activePlayer := self playerInTurn].
+]
+
+{ #category : 'as yet unclassified' }
+TurnManager >> playerInTurn [
+
+	^ playersTurnsSkipped at: nextPlayerIndex
 ]
 
 { #category : 'play interface' }
 TurnManager >> skipTurn [
 
-	| activePlayer |
 	"turn := turn + 1."
 	self nextPlayerTurnBegins.
-	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
 	"activePlayer:= activePlayer forceAShieldReset."
 	
 	"playersTurnsSkipped at: nextPlayerIndex put: activePlayer."
-	^ activePlayer
 ]

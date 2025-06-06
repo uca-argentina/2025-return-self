@@ -46,9 +46,11 @@ Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> activePlayerIndex: aPlayer [
+Game >> activePlayerIndex [
 
-^ players findFirst: [ :each | each equals: aPlayer ]
+	| aPlayer |
+	aPlayer := turnManager playerInTurn.
+	^ players findFirst: [ :each | each equals: aPlayer ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -79,8 +81,8 @@ Game >> nextPlayerSkipsTurn [
 
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
-	
-	activePlayerIndex := self activePlayerIndex: turnManager skipTurn.
+	turnManager skipTurn.
+	activePlayerIndex := self activePlayerIndex.
 	activePlayer := players at: activePlayerIndex.
 	battleManager forceAShieldReset: activePlayer.
 	"-----Batalla-----"
@@ -99,7 +101,8 @@ Game >> nextPlayerThrowsDice [
 	self stillPlaying ifFalse: [ ^ self ].
 	
 	"---Turno---"
-	activePlayerIndex := self activePlayerIndex: turnManager playNextTurn.
+	turnManager playNextTurn.
+	activePlayerIndex := self activePlayerIndex.
 	activePlayer := players at: activePlayerIndex.
 	
 	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
