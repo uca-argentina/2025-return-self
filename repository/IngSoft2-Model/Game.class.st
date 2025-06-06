@@ -75,7 +75,7 @@ Game >> nextPlayerSkipsTurn [
 	| anUpdatedPlayer |
 	self stillPlaying ifFalse: [ ^ self ].
 	turnManager := turnManager updateWith: players.
-	anUpdatedPlayer := turnManager skipTurn.
+	anUpdatedPlayer := turnManager skipTurn: self.
 		                   "playTurnUsing: setOfDie throw
 		                   and: wormhole."
 	"-----Batalla-----"

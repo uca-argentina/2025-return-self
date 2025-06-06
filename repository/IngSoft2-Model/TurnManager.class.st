@@ -49,12 +49,13 @@ TurnManager >> playerInTurnIndexUsing: aPlayer [
 ]
 
 { #category : 'play interface' }
-TurnManager >> skipTurn [
+TurnManager >> skipTurn: aGame [
 "VERIFICAR"
-	| activePlayer |
+	| activePlayer playerInTurnIndex |
 	"turn := turn + 1."
-	activePlayer := playersTurnsSkipped at: self playerInTurnIndex.
-	activePlayer:= activePlayer forceAShieldReset.
+	playerInTurnIndex := self playerInTurnIndexUsing: aGame activePlayer.
+	activePlayer := playersTurnsSkipped at: playerInTurnIndex.
+	"activePlayer:= activePlayer forceAShieldReset."
 	
 	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
 	^ activePlayer
