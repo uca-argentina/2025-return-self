@@ -10,8 +10,7 @@ Class {
 		'numberOfLaps',
 		'players',
 		'turnManager',
-		'battleManager',
-		'nextPlayerIndex'
+		'battleManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -47,9 +46,15 @@ Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> activePlayer [
+Game >> activePlayerIndex: aPlayer [
 
-	^ players at: nextPlayerIndex
+^ players findFirst: [ :each | each equals: aPlayer ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> checkIfRecoveryNeeded: aPlayer [
+
+	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsAfter2Turns: aPlayer ]
 ]
 
 { #category : 'comparing' }
@@ -59,32 +64,32 @@ Game >> checkifPlayerStillPlaying: aPlayer [
 ]
 
 { #category : 'initialization' }
-Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [ 
+Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [
+
 	turnManager := TurnManager createWith: aGroupOfPlayers.
 	battleManager := BattleManager createWith: aGroupOfPlayers.
 	setOfDie := aSetOfDie.
 	board := aBoard.
 	numberOfLaps := anAmountOfLaps.
-	players := aGroupOfPlayers.
-	nextPlayerIndex := 0
+	players := aGroupOfPlayers
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerSkipsTurn [
 
-	| anUpdatedPlayer |
+	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
-	turnManager := turnManager updateWith: players.
-	anUpdatedPlayer := turnManager skipTurn: self.
-		                   "playTurnUsing: setOfDie throw
-		                   and: wormhole."
+	
+	activePlayerIndex := self activePlayerIndex: turnManager skipTurn.
+	activePlayer := players at: activePlayerIndex.
+	battleManager forceAShieldReset: activePlayer.
 	"-----Batalla-----"
 	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
 												withDice: setOfDie 
 												against: (playersTurn setOfPlayers)) .
 	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex)."
 
-	^ anUpdatedPlayer position
+	^ activePlayer position
 ]
 
 { #category : 'interaction loop' }
@@ -92,16 +97,23 @@ Game >> nextPlayerThrowsDice [
 
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
+	
 	"---Turno---"
-	activePlayer := turnManager playNextTurn: self.
-	activePlayerIndex := self findIndexOf: activePlayer.
+	activePlayerIndex := self activePlayerIndex: turnManager playNextTurn.
+	activePlayer := players at: activePlayerIndex.
+	
+	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
+	self checkIfRecoveryNeeded: activePlayer.
 	
 	"---Avanza con la tirada---"
 	activePlayer := activePlayer advanceTiles: setOfDie throw.
 	activePlayer := activePlayer circleAroundTheTrackWithLength: board totalTiles.
+	players at: activePlayerIndex put: activePlayer.
 	
 	"---Aplicacion de efecto---"
-	players at: activePlayerIndex put: activePlayer.
+	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
+	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
+	"capaz me convenga simplemente pasar el Game"
 	players := board applyEffectTriggeredByPlayerAt: activePlayerIndex to: players.
 	
 	"---Batalla---"
@@ -112,12 +124,6 @@ Game >> nextPlayerThrowsDice [
 	activePlayer := players at: activePlayerIndex.
 	
 	^ activePlayer position
-]
-
-{ #category : 'as yet unclassified' }
-Game >> nextPlayerTurnBegins [
-
-nextPlayerIndex := (nextPlayerIndex) \\ (players size) + 1
 ]
 
 { #category : 'interaction loop' }
@@ -137,32 +143,11 @@ Game >> playerPositions [
 	^ aListOfPositions
 ]
 
-{ #category : 'positioning' }
-Game >> resetShieldsAfter2TurnsWithout [
-	|newShield|
-	newShield := shields.
-	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
-	
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: newShield 
-]
-
 { #category : 'accessing' }
 Game >> stillPlaying [
 
 	^ players allSatisfy: [ :player |
 		  self checkifPlayerStillPlaying: player ]
-]
-
-{ #category : 'as yet unclassified' }
-Game >> updateWithModified: aPlayer [
-
-	"| anIndex |
-	anIndex := players findFirst: [ :each | each name = aPlayer name ].
-	players at: anIndex put: aPlayer"
 ]
 
 { #category : 'comparing' }

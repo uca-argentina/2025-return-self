@@ -2,7 +2,8 @@ Class {
 	#name : 'TurnManager',
 	#superclass : 'Object',
 	#instVars : [
-		'playersTurnsSkipped'
+		'playersTurnsSkipped',
+		'nextPlayerIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -20,43 +21,57 @@ TurnManager class >> createWith: aGroupOfPlayers [
 	^ self new initializePlayers: playerTurnAssociationGroup
 ]
 
+{ #category : 'checking' }
+TurnManager >> checkNoTurnsToSkip [
+
+	| activePlayer |
+	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
+	^ activePlayer skipsTurn
+]
+
 { #category : 'initialization' }
 TurnManager >> initializePlayers: aGroup [
 
-	playersTurnsSkipped := aGroup
+	playersTurnsSkipped := aGroup.
+	nextPlayerIndex := 0
 ]
 
 { #category : 'play interface' }
-TurnManager >> playNextTurn: aGame [
+TurnManager >> nextPlayerTurnBegins [
 
-	| activePlayer playerInTurnIndex |
-	"turn := turn + 1."
-	playerInTurnIndex := self playerInTurnIndexUsing: aGame activePlayer.
-	activePlayer := playersTurnsSkipped at: playerInTurnIndex.
+nextPlayerIndex := (nextPlayerIndex) \\ (playersTurnsSkipped size) + 1
+]
+
+{ #category : 'play interface' }
+TurnManager >> playNextTurn [
+
+	| activePlayer |
+	self nextPlayerTurnBegins.
+	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
 	"mientras agarre un player salteado..."
 	activePlayer skipsTurn
-		ifTrue: [
+		"ifTrue: [
 			activePlayer := activePlayer turnSkipped.
-			playersTurnsSkipped at: playerInTurnIndex put: activePlayer.
-			aGame nextPlayerThrowsDice]
-		ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]
-]
-
-{ #category : 'as yet unclassified' }
-TurnManager >> playerInTurnIndexUsing: aPlayer [
-
-^ playersTurnsSkipped findFirst: [ :each | each equals: aPlayer ]
+			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
+			aGame nextPlayerThrowsDice]"
+		"ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]"
+		whileTrue: [
+			activePlayer := activePlayer turnSkipped.
+			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
+			self nextPlayerTurnBegins.
+			activePlayer := playersTurnsSkipped at: nextPlayerIndex].
+	^ activePlayer
 ]
 
 { #category : 'play interface' }
-TurnManager >> skipTurn: aGame [
-"VERIFICAR"
-	| activePlayer playerInTurnIndex |
+TurnManager >> skipTurn [
+
+	| activePlayer |
 	"turn := turn + 1."
-	playerInTurnIndex := self playerInTurnIndexUsing: aGame activePlayer.
-	activePlayer := playersTurnsSkipped at: playerInTurnIndex.
+	self nextPlayerTurnBegins.
+	activePlayer := playersTurnsSkipped at: nextPlayerIndex.
 	"activePlayer:= activePlayer forceAShieldReset."
 	
-	playersTurnsSkipped at: self playerInTurnIndex put: activePlayer.
+	"playersTurnsSkipped at: nextPlayerIndex put: activePlayer."
 	^ activePlayer
 ]

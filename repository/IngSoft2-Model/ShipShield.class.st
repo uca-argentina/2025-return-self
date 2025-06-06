@@ -57,6 +57,12 @@ ShipShield >> loseShield [
 	shields := shields -1 
 ]
 
+{ #category : 'testing' }
+ShipShield >> needsRecovery [
+
+	^ shields = 0
+]
+
 { #category : 'accessing' }
 ShipShield >> shields [
 

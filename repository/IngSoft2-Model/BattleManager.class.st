@@ -19,7 +19,23 @@ BattleManager class >> createWith: aGroupOfPlayers [
 	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
+BattleManager >> activePlayerIndex: aPlayer [
+
+^ playersShieldData findFirst: [ :each | each equals: aPlayer ]
+]
+
+{ #category : 'updating' }
+BattleManager >> forceAShieldReset: aPlayer [
+
+	| activePlayer activePlayerIndex |
+	activePlayerIndex := self activePlayerIndex: aPlayer.
+	activePlayer := playersShieldData at: activePlayerIndex.
+	activePlayer := activePlayer forceAShieldReset.
+	playersShieldData at: activePlayerIndex put: activePlayer
+]
+
+{ #category : 'play interface' }
 BattleManager >> ifBattleThenEngage: aPlayer using: someDice [
    |playersToEngage |
 	(aPlayer position = 1)  ifTrue:[^playersShieldData ].
@@ -42,12 +58,34 @@ BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 playersShieldData := aGroupOfPlayers 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
+BattleManager >> resetShieldsAfter2Turns: aPlayer [
+
+	| activePlayer activePlayerIndex |
+	activePlayerIndex := self activePlayerIndex: aPlayer.
+	activePlayer := playersShieldData at: activePlayerIndex.
+	activePlayer needsRecovery ifTrue: [ 
+		activePlayer := activePlayer forceAShieldReset
+	].
+	playersShieldData at: activePlayerIndex put: activePlayer
+	"
+	|newShield|
+	newShield := shields.
+	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
+	
+	^ self class
+		  named: name
+		  withPosition: position
+		  withLaps: lap
+		  withShield: newShield "
+]
+
+{ #category : 'play interface' }
 BattleManager >> selectPlayersInSamePositionAs: player [
 	^playersShieldData select:[:each| each position = player position].
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 BattleManager >> updateFightingPlayersWith: playersToEngage [
 
 "	playersToEngage do:[:justBattled |
@@ -55,10 +93,4 @@ BattleManager >> updateFightingPlayersWith: playersToEngage [
 		].
 	"
 	
-]
-
-{ #category : 'updating' }
-BattleManager >> updateWith: aGroupOfPlayers [
-
-^self class createWith: aGroupOfPlayers
 ]
