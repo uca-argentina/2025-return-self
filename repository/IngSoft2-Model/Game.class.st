@@ -7,10 +7,10 @@ Class {
 	#instVars : [
 		'setOfDie',
 		'board',
-		'numberOfLaps',
 		'players',
 		'turnManager',
-		'battleManager'
+		'battleManager',
+		'positionManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -51,20 +51,14 @@ Game >> checkIfRecoveryNeeded: aPlayer [
 	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsAfter2Turns: aPlayer ]
 ]
 
-{ #category : 'play interface' }
-Game >> findPlayerIndex: aPlayer [
-
-	^ players findFirst: [ :each | each equals: aPlayer ]
-]
-
 { #category : 'initialization' }
 Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [
 
 	turnManager := TurnManager createWith: aGroupOfPlayers.
 	battleManager := BattleManager createWith: aGroupOfPlayers.
+	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps.
 	setOfDie := aSetOfDie.
 	board := aBoard.
-	numberOfLaps := anAmountOfLaps.
 	players := aGroupOfPlayers
 ]
 
@@ -101,10 +95,13 @@ Game >> nextPlayerThrowsDice [
 	self checkIfRecoveryNeeded: activePlayer.
 
 	"---Avanza con la tirada---"
+	"
+	ESTO VA A PASAR A ENCARGARSE EL POSITION MANAGER
 	activePlayer := activePlayer advanceTiles: setOfDie throw.
 	activePlayer := activePlayer circleAroundTheTrackWithLength:
 		                board totalTiles.
 	players at: activePlayerIndex put: activePlayer.
+	"
 
 	"---Aplicacion de efecto---"
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
@@ -139,9 +136,10 @@ Game >> playerPositions [
 	^ aListOfPositions
 ]
 
-{ #category : 'accessing' }
+{ #category : 'undeclared' }
 Game >> stillPlaying [
 
+	| numberOfLaps |
 	^ players allSatisfy: [ :player | player lap < numberOfLaps ]
 ]
 
@@ -162,13 +160,14 @@ Game >> updateAfterBattle: activePlayer [
 	players at: playerIndex put: playerWhoLost goToFirstTile
 ]
 
-{ #category : 'comparing' }
+{ #category : 'undeclared' }
 Game >> winner [
 
-	| playerWhoWon |
+	| playerWhoWon numberOfLaps |
 	playerWhoWon := players
 		                detect: [ :player |
 		                (player lap < numberOfLaps) not ]
 		                ifNone: [ ^ nil ].
+	"players findFirst: [ :each | each equals: aPlayer ]"
 	^ playerWhoWon name
 ]

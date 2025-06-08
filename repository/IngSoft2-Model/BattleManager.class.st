@@ -16,17 +16,6 @@ BattleManager class >> createWith: aGroupOfPlayers [
 	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
-{ #category : 'creation' }
-BattleManager class >> createWith: aGroupOfPlayers and: initialShields [
-
-	| playerShieldAssociationGroup |
-	playerShieldAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                                ShipShield
-			                                createWith: each id
-			                                and: initialShields ].
-	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
-]
-
 { #category : 'updating' }
 BattleManager >> forceAShieldReset: aPlayer [
 

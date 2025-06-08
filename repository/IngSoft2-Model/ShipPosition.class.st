@@ -17,7 +17,7 @@ Class {
 ShipPosition class >> createWith: anId and: aNumberOfLaps [
 
 	self idShouldBeGreaterThanZero: anId.
-	self lapHasToBeAPositiveInteger: aNumberOfLaps.
+	self lapCantBeANegativeInteger: aNumberOfLaps.
 	^ self new initializeWith: anId and: 1 and: aNumberOfLaps
 ]
 
@@ -25,12 +25,12 @@ ShipPosition class >> createWith: anId and: aNumberOfLaps [
 ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
 	self idShouldBeGreaterThanZero: anId.
 	self positionHasToBeAPositiveInteger: aPosition.
-	self lapHasToBeAPositiveInteger: aNumberOfLaps.
+	self lapCantBeANegativeInteger: aNumberOfLaps.
 	^ self new initializeWith: anId and: aPosition and: aNumberOfLaps
 ]
 
 { #category : 'testing' }
-ShipPosition class >> lapHasToBeAPositiveInteger: aNumberOfLaps [
+ShipPosition class >> lapCantBeANegativeInteger: aNumberOfLaps [
 
 	(aNumberOfLaps >= 0 and: aNumberOfLaps isInteger) ifFalse: [
 		Error signal:
@@ -52,22 +52,6 @@ ShipPosition >> advanceTiles: aDistance [
 		  createWith: id
 		  and: aDistance + position
 		  and: lap
-]
-
-{ #category : 'positioning' }
-ShipPosition >> circleAroundTheTrackWithLength: boardLength [
-	|amountOfBackTrack  newLap|
-	newLap := 0.
-	amountOfBackTrack := 0.
-	position > boardLength ifTrue:
-		[
-			amountOfBackTrack := boardLength .
-			newLap := 1.
-		].
-	^ self class
-		  createWith: id
-		  and: position - amountOfBackTrack
-		  and: lap + newLap
 ]
 
 { #category : 'positioning' }
