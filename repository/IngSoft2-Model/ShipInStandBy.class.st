@@ -23,6 +23,12 @@ ShipInStandBy class >> turnsToSkipShouldBePositive: aNumberOfTurns [
 		Error signal: 'The turns to skip cant be negative.' ]
 ]
 
+{ #category : 'adding' }
+ShipInStandBy >> addTwoSkips [
+
+	^ self class createWith: id and: turnsToSkip + 2
+]
+
 { #category : 'initialization' }
 ShipInStandBy >> initializeWith: anId and: aNumberOfTurns [
 

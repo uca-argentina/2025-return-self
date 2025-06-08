@@ -7,7 +7,6 @@ Class {
 	#superclass : 'SpaceShipComponent',
 	#instVars : [
 		'lap',
-		'name',
 		'position'
 	],
 	#category : 'IngSoft2-Model',
@@ -15,21 +14,19 @@ Class {
 }
 
 { #category : 'creation' }
-ShipPosition class >> createWith: anId and: aName [
+ShipPosition class >> createWith: anId and: aNumberOfLaps [
 
 	self idShouldBeGreaterThanZero: anId.
-	self playerNameCantBeEmpty: aName.
-	^ self new initializePlayerWith: anId withName: aName withPosition: 1 withLaps: 0
+	self lapHasToBeAPositiveInteger: aNumberOfLaps.
+	^ self new initializeWith: anId and: 1 and: aNumberOfLaps
 ]
 
 { #category : 'creation' }
-ShipPosition class >> createWith: anId and: aName and: aPosition and: aNumberOfLaps [
-
+ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
 	self idShouldBeGreaterThanZero: anId.
-	self playerNameCantBeEmpty: aName.
 	self positionHasToBeAPositiveInteger: aPosition.
 	self lapHasToBeAPositiveInteger: aNumberOfLaps.
-	^ self new initializePlayerWith: anId withName: aName withPosition: aPosition withLaps: aNumberOfLaps
+	^ self new initializeWith: anId and: aPosition and: aNumberOfLaps
 ]
 
 { #category : 'testing' }
@@ -38,12 +35,6 @@ ShipPosition class >> lapHasToBeAPositiveInteger: aNumberOfLaps [
 	(aNumberOfLaps >= 0 and: aNumberOfLaps isInteger) ifFalse: [
 		Error signal:
 			'Player lap cannot be negative or a float number.' ]
-]
-
-{ #category : 'testing' }
-ShipPosition class >> playerNameCantBeEmpty: aName [
-
-	aName = '' ifTrue: [ Error signal: 'The name cannot be empty.' ]
 ]
 
 { #category : 'testing' }
@@ -58,9 +49,9 @@ ShipPosition class >> positionHasToBeAPositiveInteger: aPosition [
 ShipPosition >> advanceTiles: aDistance [
 
 	^ self class
-		  named: name
-		  withPosition: aDistance + position
-		  withLaps: lap
+		  createWith: id
+		  and: aDistance + position
+		  and: lap
 ]
 
 { #category : 'positioning' }
@@ -74,33 +65,32 @@ ShipPosition >> circleAroundTheTrackWithLength: boardLength [
 			newLap := 1.
 		].
 	^ self class
-		  	named: name
-		  	withPosition: position - amountOfBackTrack
-		 	withLaps: lap + newLap
+		  createWith: id
+		  and: position - amountOfBackTrack
+		  and: lap + newLap
 ]
 
 { #category : 'positioning' }
-ShipPosition >> goBackTiles: aDistance [ 
+ShipPosition >> goBackTiles: aDistance [
 
 	| newPosition |
 	newPosition := position - aDistance.
 	newPosition := newPosition max: 1.
-		^ self class
-		  named: name
-		  withPosition: newPosition 
-		  withLaps: lap
+	^ self class
+		  createWith: id
+		  and: newPosition
+		  and: lap
 ]
 
 { #category : 'positioning' }
 ShipPosition >> goToFirstTile [
-	position := 1.
+	^ self class createWith: id and: 1 and: lap
 ]
 
 { #category : 'initialization' }
-ShipPosition >> initializePlayerWith: anId withName: aName withPosition: aPosition withLaps: aLap [
+ShipPosition >> initializeWith: anId and: aPosition and: aLap [
 
 	id := anId.
-	name := aName.
 	position := aPosition.
 	lap := aLap.
 ]
@@ -112,13 +102,13 @@ ShipPosition >> lap [
 ]
 
 { #category : 'accessing' }
-ShipPosition >> name [
-
-	^ name
-]
-
-{ #category : 'accessing' }
 ShipPosition >> position [
 
 	^ position
+]
+
+{ #category : 'comparing' }
+ShipPosition >> samePositionAs: aPlayer [
+
+	^ position = aPlayer position
 ]

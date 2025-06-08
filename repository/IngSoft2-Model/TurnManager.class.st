@@ -1,8 +1,7 @@
 Class {
 	#name : 'TurnManager',
-	#superclass : 'Object',
+	#superclass : 'SpaceShipFeatureManager',
 	#instVars : [
-		'playersTurnsSkipped',
 		'nextPlayerIndex'
 	],
 	#category : 'IngSoft2-Model',
@@ -18,7 +17,17 @@ TurnManager class >> createWith: aGroupOfPlayers [
 			                              createWith: each id
 			                              and: 0 ].
 
-	^ self new initializePlayers: playerTurnAssociationGroup
+	^ self new initializePlayersTurnWith: playerTurnAssociationGroup
+]
+
+{ #category : 'adding' }
+TurnManager >> addTwoSkipsTo: aPlayer [
+
+	| playerToApply playerIndex |
+	playerIndex := self findPlayerIndex: aPlayer.
+	playerToApply := playersFeature at: playerIndex.
+	playerToApply := playerToApply addTwoSkips.
+	playersFeature at: playerIndex put: playerToApply
 ]
 
 { #category : 'checking' }
@@ -30,16 +39,16 @@ TurnManager >> checkNoTurnsToSkip [
 ]
 
 { #category : 'initialization' }
-TurnManager >> initializePlayers: aGroup [
+TurnManager >> initializePlayersTurnWith: aGroup [
 
-	playersTurnsSkipped := aGroup.
+	playersFeature := aGroup.
 	nextPlayerIndex := 0
 ]
 
 { #category : 'play interface' }
 TurnManager >> nextPlayerTurnBegins [
 
-nextPlayerIndex := (nextPlayerIndex) \\ (playersTurnsSkipped size) + 1
+nextPlayerIndex := (nextPlayerIndex) \\ (playersFeature size) + 1
 ]
 
 { #category : 'play interface' }
@@ -57,15 +66,15 @@ TurnManager >> playNextTurn [
 		"ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]"
 		whileTrue: [
 			activePlayer := activePlayer turnSkipped.
-			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
+			playersFeature at: nextPlayerIndex put: activePlayer.
 			self nextPlayerTurnBegins.
 			activePlayer := self playerInTurn].
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 TurnManager >> playerInTurn [
 
-	^ playersTurnsSkipped at: nextPlayerIndex
+	^ playersFeature at: nextPlayerIndex
 ]
 
 { #category : 'play interface' }

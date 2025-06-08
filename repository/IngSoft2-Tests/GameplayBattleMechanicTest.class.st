@@ -2,9 +2,6 @@ Class {
 	#name : 'GameplayBattleMechanicTest',
 	#superclass : 'TestCase',
 	#instVars : [
-		'firstPlayer',
-		'secondPlayer',
-		'dieThrowSequence1',
 		'aGroupOfPlayers'
 	],
 	#category : 'IngSoft2-Tests',
@@ -15,16 +12,10 @@ Class {
 GameplayBattleMechanicTest >> setUp [
 	super setUp.
 
-	firstPlayer := ShipPosition named: 'Juan'.
-	secondPlayer := ShipPosition named: 'Tomi'.
 	aGroupOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
+		                 ShipPosition named: 'Juan'.
+								ShipPosition named: 'Tomi' }.
 
-	dieThrowSequence1 := SequenceOfDieForTesting 
-		             withDie: {
-				             LoadedDie rolling: 1.
-				             LoadedDie rolling: 3 }.
 				
 	
 	

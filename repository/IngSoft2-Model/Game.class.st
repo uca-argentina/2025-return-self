@@ -45,24 +45,16 @@ Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
 		Error signal: 'You cant have different players with the same ID.' ]
 ]
 
-{ #category : 'as yet unclassified' }
-Game >> activePlayerIndex [
-
-	| aPlayer |
-	aPlayer := turnManager playerInTurn.
-	^ players findFirst: [ :each | each equals: aPlayer ]
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Game >> checkIfRecoveryNeeded: aPlayer [
 
 	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsAfter2Turns: aPlayer ]
 ]
 
-{ #category : 'comparing' }
-Game >> checkifPlayerStillPlaying: aPlayer [
+{ #category : 'play interface' }
+Game >> findPlayerIndex: aPlayer [
 
-	^ aPlayer lap < numberOfLaps.
+	^ players findFirst: [ :each | each equals: aPlayer ]
 ]
 
 { #category : 'initialization' }
@@ -82,7 +74,7 @@ Game >> nextPlayerSkipsTurn [
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
 	turnManager skipTurn.
-	activePlayerIndex := self activePlayerIndex.
+	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
 	activePlayer := players at: activePlayerIndex.
 	battleManager forceAShieldReset: activePlayer.
 	"-----Batalla-----"
@@ -99,31 +91,34 @@ Game >> nextPlayerThrowsDice [
 
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
-	
+
 	"---Turno---"
-	activePlayerIndex := self activePlayerIndex: turnManager playNextTurn.
+	turnManager playNextTurn.
+	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
 	activePlayer := players at: activePlayerIndex.
-	
+
 	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
 	self checkIfRecoveryNeeded: activePlayer.
-	
+
 	"---Avanza con la tirada---"
 	activePlayer := activePlayer advanceTiles: setOfDie throw.
-	activePlayer := activePlayer circleAroundTheTrackWithLength: board totalTiles.
+	activePlayer := activePlayer circleAroundTheTrackWithLength:
+		                board totalTiles.
 	players at: activePlayerIndex put: activePlayer.
-	
+
 	"---Aplicacion de efecto---"
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
-	players := board applyEffectTriggeredByPlayerAt: activePlayerIndex to: players.
-	
+	players := board
+		           applyEffectTriggeredByPlayerAt: activePlayerIndex
+		           to: players.
+
 	"---Batalla---"
 	"battleManager := battleManager updateWith: players."
-	players := battleManager ifBattleThenEngage: activePlayer using: setOfDie.
+	activePlayer position = 1 ifFalse: [ self updateAfterBattle: activePlayer ].
 	
-	activePlayer := players at: activePlayerIndex.
-	
+
 	^ activePlayer position
 ]
 
@@ -147,8 +142,24 @@ Game >> playerPositions [
 { #category : 'accessing' }
 Game >> stillPlaying [
 
-	^ players allSatisfy: [ :player |
-		  self checkifPlayerStillPlaying: player ]
+	^ players allSatisfy: [ :player | player lap < numberOfLaps ]
+]
+
+{ #category : 'play interface' }
+Game >> updateAfterBattle: activePlayer [
+
+	| playersToEngage playerWhoLost playerIndex |
+	playersToEngage := players select: [ :each |
+		                   each samePositionAs: activePlayer ].
+	playersToEngage = 2 ifFalse: [ ^ self ].
+	playerWhoLost := battleManager
+		                 ifBattleThenEngage: playersToEngage
+		                 using: setOfDie.
+	playerWhoLost needsRecovery ifTrue: [
+		turnManager addTwoSkipsTo: playerWhoLost ].
+	playerIndex := self findPlayerIndex: playerWhoLost.
+	playerWhoLost := players at: playerIndex.
+	players at: playerIndex put: playerWhoLost goToFirstTile
 ]
 
 { #category : 'comparing' }
@@ -157,7 +168,7 @@ Game >> winner [
 	| playerWhoWon |
 	playerWhoWon := players
 		                detect: [ :player |
-		                (self checkifPlayerStillPlaying: player) not ]
+		                (player lap < numberOfLaps) not ]
 		                ifNone: [ ^ nil ].
 	^ playerWhoWon name
 ]

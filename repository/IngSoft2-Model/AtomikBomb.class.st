@@ -16,11 +16,12 @@ AtomikBomb class >> effectProbability [
 
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-"VERIFICAR"
+	"VERIFICAR"
+
 	| playersToApplyEffect aPlayer |
 	aPlayer := aGroupOfPlayers at: anIndex.
 	"aPlayer position = tile ifTrue: ["
-	playersToApplyEffect := aGroupOfPlayers collect: [ :player |
+	playersToApplyEffect := aGroupOfPlayers do: [ :player |
 		                        player goToFirstTile loseShield ].
 	^ playersToApplyEffect
 	"]."
