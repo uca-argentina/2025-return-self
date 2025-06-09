@@ -1,5 +1,5 @@
 Class {
-	#name : 'SpaceShipFeatureManager',
+	#name : 'GameFeatureManager',
 	#superclass : 'Object',
 	#instVars : [
 		'playersFeature'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : 'accessing' }
-SpaceShipFeatureManager >> findPlayerIndex: aPlayer [
+GameFeatureManager >> findPlayerIndex: aPlayer [
 
 	^ playersFeature findFirst: [ :each | each equals: aPlayer ]
 ]

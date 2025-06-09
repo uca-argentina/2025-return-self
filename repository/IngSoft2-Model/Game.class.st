@@ -3,11 +3,10 @@ Game handler class
 "
 Class {
 	#name : 'Game',
-	#superclass : 'Object',
+	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'setOfDie',
 		'board',
-		'players',
 		'turnManager',
 		'battleManager',
 		'positionManager'
@@ -59,17 +58,17 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps.
 	setOfDie := aSetOfDie.
 	board := aBoard.
-	players := aGroupOfPlayers
+	playersFeature := aGroupOfPlayers
 ]
 
-{ #category : 'interaction loop' }
+{ #category : 'NEEDCORRECTION' }
 Game >> nextPlayerSkipsTurn [
 
 	| activePlayer activePlayerIndex |
-	self stillPlaying ifFalse: [ ^ self ].
+	positionManager stillPlaying ifFalse: [ ^ self winner ].
 	turnManager skipTurn.
 	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
-	activePlayer := players at: activePlayerIndex.
+	activePlayer := playersFeature at: activePlayerIndex.
 	battleManager forceAShieldReset: activePlayer.
 	"-----Batalla-----"
 	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
@@ -80,16 +79,15 @@ Game >> nextPlayerSkipsTurn [
 	^ activePlayer position
 ]
 
-{ #category : 'interaction loop' }
+{ #category : 'NEEDCORRECTION' }
 Game >> nextPlayerThrowsDice [
-"que still playing llame a winner"
 	| activePlayer activePlayerIndex |
-	self stillPlaying ifFalse: [ ^ self ].
+	positionManager stillPlaying ifFalse: [ ^ self winner ].
 
 	"---Turno---"
 	turnManager playNextTurn.
 	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
-	activePlayer := players at: activePlayerIndex.
+	activePlayer := playersFeature at: activePlayerIndex.
 
 	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
 	self checkIfRecoveryNeeded: activePlayer.
@@ -107,9 +105,9 @@ Game >> nextPlayerThrowsDice [
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
-	players := board
+	playersFeature := board
 		           applyEffectTriggeredByPlayerAt: activePlayerIndex
-		           to: players.
+		           to: playersFeature .
 
 	"---Batalla---"
 	"battleManager := battleManager updateWith: players."
@@ -122,32 +120,25 @@ Game >> nextPlayerThrowsDice [
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	[ self stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
+	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
-{ #category : 'interaction loop' }
+{ #category : 'NEEDCORRECTION' }
 Game >> playerPositions [
 
 	| aListOfPositions |
-	aListOfPositions := players collect: [ :player |
+	aListOfPositions := playersFeature collect: [ :player |
 		                    'Name: ' , player name , ' , Position: '
 		                    , player position asString , ' , Lap: '
 		                    , player lap asString ].
 	^ aListOfPositions
 ]
 
-{ #category : 'undeclared' }
-Game >> stillPlaying [
-
-	| numberOfLaps |
-	^ players allSatisfy: [ :player | player lap < numberOfLaps ]
-]
-
-{ #category : 'play interface' }
+{ #category : 'NEEDCORRECTION' }
 Game >> updateAfterBattle: activePlayer [
 
 	| playersToEngage playerWhoLost playerIndex |
-	playersToEngage := players select: [ :each |
+	playersToEngage := playersFeature select: [ :each |
 		                   each samePositionAs: activePlayer ].
 	playersToEngage = 2 ifFalse: [ ^ self ].
 	playerWhoLost := battleManager
@@ -156,18 +147,14 @@ Game >> updateAfterBattle: activePlayer [
 	playerWhoLost needsRecovery ifTrue: [
 		turnManager addTwoSkipsTo: playerWhoLost ].
 	playerIndex := self findPlayerIndex: playerWhoLost.
-	playerWhoLost := players at: playerIndex.
-	players at: playerIndex put: playerWhoLost goToFirstTile
+	playerWhoLost := playersFeature at: playerIndex.
+	playersFeature at: playerIndex put: playerWhoLost goToFirstTile
 ]
 
-{ #category : 'undeclared' }
+{ #category : 'play interface' }
 Game >> winner [
 
-	| playerWhoWon numberOfLaps |
-	playerWhoWon := players
-		                detect: [ :player |
-		                (player lap < numberOfLaps) not ]
-		                ifNone: [ ^ nil ].
-	"players findFirst: [ :each | each equals: aPlayer ]"
-	^ playerWhoWon name
+	| playerIndex |
+	playerIndex := self findPlayerIndex: positionManager winner.
+	^ (playersFeature at: playerIndex) name
 ]

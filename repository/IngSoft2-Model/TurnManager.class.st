@@ -1,6 +1,6 @@
 Class {
 	#name : 'TurnManager',
-	#superclass : 'SpaceShipFeatureManager',
+	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'nextPlayerIndex'
 	],

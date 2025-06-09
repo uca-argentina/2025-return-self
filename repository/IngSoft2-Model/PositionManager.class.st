@@ -1,6 +1,6 @@
 Class {
 	#name : 'PositionManager',
-	#superclass : 'SpaceShipFeatureManager',
+	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'laps',
 		'boardLength'
@@ -21,7 +21,7 @@ PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: a
 	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps
 ]
 
-{ #category : 'undeclared' }
+{ #category : 'NEEDCORRECTION' }
 PositionManager >> circleAroundTheTrackWithLength [
 	|amountOfBackTrack newLap position id lap |
 	newLap := 0.
@@ -43,4 +43,22 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	playersFeature := aGroupOfPlayers.
 	laps := aNumberOfLaps.
 	boardLength := aNumberOfTiles
+]
+
+{ #category : 'checking' }
+PositionManager >> stillPlaying [
+
+	^ playersFeature allSatisfy: [ :player | player lap < laps ]
+]
+
+{ #category : 'NEEDCORRECTION' }
+PositionManager >> winner [
+
+	| playerWhoWon |
+	playerWhoWon := playersFeature
+		                detect: [ :player |
+		                player lap >= laps ]
+		                ifNone: [ ^ nil ].
+	"players findFirst: [ :each | each equals: aPlayer ]"
+	^ playerWhoWon
 ]
