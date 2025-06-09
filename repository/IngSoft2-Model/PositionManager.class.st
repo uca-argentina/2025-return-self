@@ -21,20 +21,19 @@ PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: a
 	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps
 ]
 
-{ #category : 'NEEDCORRECTION' }
-PositionManager >> circleAroundTheTrackWithLength [
-	|amountOfBackTrack newLap position id lap |
-	newLap := 0.
-	amountOfBackTrack := 0.
-	position > boardLength ifTrue:
-		[
-			amountOfBackTrack := boardLength .
-			newLap := 1.
-		].
-	^ self class
-		  createWith: id
-		  and: position - amountOfBackTrack
-		  and: lap + newLap
+{ #category : 'checking' }
+PositionManager >> checkIfReachedANewLap: aPlayer [
+
+	(aPlayer positionGreaterThan: boardLength) ifFalse: [ ^ aPlayer ].
+	^ aPlayer changeLapAndCorrectPositionWith: boardLength
+]
+
+{ #category : 'as yet unclassified' }
+PositionManager >> checkSafeZone: aPlayer [
+
+	| playerIndex |
+	playerIndex := self findPlayerIndex: aPlayer.
+	^ (playersFeature at: playerIndex) inSafeZone
 ]
 
 { #category : 'initialization' }
@@ -45,13 +44,24 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	boardLength := aNumberOfTiles
 ]
 
+{ #category : 'positioning' }
+PositionManager >> move: aPlayer with: anAmount [
+
+	| aModifiedPlayer playerIndex |
+	playerIndex := self findPlayerIndex: aPlayer.
+	aModifiedPlayer := (playersFeature at: playerIndex) advanceTiles:
+		                   anAmount.
+	aModifiedPlayer := self checkIfReachedANewLap: aModifiedPlayer.
+	playersFeature at: playerIndex put: aModifiedPlayer
+]
+
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
 	^ playersFeature allSatisfy: [ :player | player lap < laps ]
 ]
 
-{ #category : 'NEEDCORRECTION' }
+{ #category : 'checking' }
 PositionManager >> winner [
 
 	| playerWhoWon |

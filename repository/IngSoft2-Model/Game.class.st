@@ -79,8 +79,9 @@ Game >> nextPlayerSkipsTurn [
 	^ activePlayer position
 ]
 
-{ #category : 'NEEDCORRECTION' }
+{ #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
+
 	| activePlayer activePlayerIndex |
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
 
@@ -94,25 +95,22 @@ Game >> nextPlayerThrowsDice [
 
 	"---Avanza con la tirada---"
 	"
-	ESTO VA A PASAR A ENCARGARSE EL POSITION MANAGER
-	activePlayer := activePlayer advanceTiles: setOfDie throw.
-	activePlayer := activePlayer circleAroundTheTrackWithLength:
-		                board totalTiles.
-	players at: activePlayerIndex put: activePlayer.
-	"
+	ESTO VA A PASAR A ENCARGARSE EL POSITION MANAGER"
+	positionManager move: activePlayer with: setOfDie throw.
 
 	"---Aplicacion de efecto---"
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
 	playersFeature := board
-		           applyEffectTriggeredByPlayerAt: activePlayerIndex
-		           to: playersFeature .
+		                  applyEffectTriggeredByPlayerAt: activePlayerIndex
+		                  to: playersFeature.
 
 	"---Batalla---"
 	"battleManager := battleManager updateWith: players."
-	activePlayer position = 1 ifFalse: [ self updateAfterBattle: activePlayer ].
-	
+	(positionManager checkSafeZone: activePlayer) ifFalse: [
+		self updateAfterBattle: activePlayer ].
+
 
 	^ activePlayer position
 ]

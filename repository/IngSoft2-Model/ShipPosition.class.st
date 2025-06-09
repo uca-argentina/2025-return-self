@@ -55,6 +55,12 @@ ShipPosition >> advanceTiles: aDistance [
 ]
 
 { #category : 'positioning' }
+ShipPosition >> changeLapAndCorrectPositionWith: aBacktrackDistance [
+
+	^ self class createWith: id and: position - aBacktrackDistance and: lap + 1
+]
+
+{ #category : 'positioning' }
 ShipPosition >> goBackTiles: aDistance [
 
 	| newPosition |
@@ -69,6 +75,12 @@ ShipPosition >> goBackTiles: aDistance [
 { #category : 'positioning' }
 ShipPosition >> goToFirstTile [
 	^ self class createWith: id and: 1 and: lap
+]
+
+{ #category : 'as yet unclassified' }
+ShipPosition >> inSafeZone [
+
+	^ position = 1
 ]
 
 { #category : 'initialization' }
@@ -89,6 +101,12 @@ ShipPosition >> lap [
 ShipPosition >> position [
 
 	^ position
+]
+
+{ #category : 'comparing' }
+ShipPosition >> positionGreaterThan: aLength [
+
+	^ position > aLength
 ]
 
 { #category : 'comparing' }
