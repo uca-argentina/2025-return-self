@@ -50,7 +50,7 @@ ShipPosition >> advanceTiles: aDistance [
 
 	^ self class
 		  createWith: id
-		  and: aDistance + position
+		  and: position + aDistance
 		  and: lap
 ]
 
