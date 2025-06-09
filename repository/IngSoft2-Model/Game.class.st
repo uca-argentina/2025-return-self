@@ -82,7 +82,7 @@ Game >> nextPlayerSkipsTurn [
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
-
+"que still playing llame a winner"
 	| activePlayer activePlayerIndex |
 	self stillPlaying ifFalse: [ ^ self ].
 

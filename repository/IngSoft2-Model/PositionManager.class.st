@@ -21,9 +21,9 @@ PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: a
 	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps
 ]
 
-{ #category : 'positioning' }
-PositionManager >> circleAroundTheTrackWithLength: boardLength [
-	|amountOfBackTrack  newLap|
+{ #category : 'undeclared' }
+PositionManager >> circleAroundTheTrackWithLength [
+	|amountOfBackTrack newLap position id lap |
 	newLap := 0.
 	amountOfBackTrack := 0.
 	position > boardLength ifTrue:
