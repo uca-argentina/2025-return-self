@@ -61,6 +61,11 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 	playersFeature := aGroupOfPlayers
 ]
 
+{ #category : 'testing' }
+Game >> isWinner: aPlayer [
+^ aPlayer equals: positionManager winner
+]
+
 { #category : 'NEEDCORRECTION' }
 Game >> nextPlayerSkipsTurn [
 

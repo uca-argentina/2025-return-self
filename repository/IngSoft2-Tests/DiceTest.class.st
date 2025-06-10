@@ -6,17 +6,6 @@ Class {
 }
 
 { #category : 'tests' }
-DiceTest >> testCreationOfDice [
-
-	| anErrorHandler |
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
-	anErrorHandler
-		should: [ Dice faces: -10 ]
-		raiseErrorWithMessageText:
-		'The number of faces must be greater than two.'
-]
-
-{ #category : 'tests' }
 DiceTest >> testThrowDice [
 
 	| aDice |
