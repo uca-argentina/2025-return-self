@@ -20,7 +20,7 @@ ShipInStandBy class >> createWith: anId and: aNumberOfTurns [
 ShipInStandBy class >> turnsToSkipShouldBePositive: aNumberOfTurns [
 
 	aNumberOfTurns < 0 ifTrue: [
-		Error signal: 'The turns to skip cant be negative.' ]
+		Error signal: 'The SpaceShip cant skip negative turns.' ]
 ]
 
 { #category : 'adding' }

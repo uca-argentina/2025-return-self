@@ -1,7 +1,3 @@
-"
-a Player Object
-
-"
 Class {
 	#name : 'ShipPosition',
 	#superclass : 'SpaceShipComponent',
@@ -17,30 +13,30 @@ Class {
 ShipPosition class >> createWith: anId and: aNumberOfLaps [
 
 	self idShouldBeGreaterThanZero: anId.
-	self lapCantBeANegativeInteger: aNumberOfLaps.
+	self lapCantBeNegative: aNumberOfLaps.
 	^ self new initializeWith: anId and: 1 and: aNumberOfLaps
 ]
 
 { #category : 'creation' }
 ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
 	self idShouldBeGreaterThanZero: anId.
-	self positionHasToBeAPositiveInteger: aPosition.
-	self lapCantBeANegativeInteger: aNumberOfLaps.
+	self positionHasToBePositive: aPosition.
+	self lapCantBeNegative: aNumberOfLaps.
 	^ self new initializeWith: anId and: aPosition and: aNumberOfLaps
 ]
 
 { #category : 'testing' }
-ShipPosition class >> lapCantBeANegativeInteger: aNumberOfLaps [
+ShipPosition class >> lapCantBeNegative: aNumberOfLaps [
 
 	(aNumberOfLaps >= 0 and: aNumberOfLaps isInteger) ifFalse: [
 		Error signal:
-			'Player lap cannot be negative or a float number.' ]
+			'Player lap cannot be negative.' ]
 ]
 
 { #category : 'testing' }
-ShipPosition class >> positionHasToBeAPositiveInteger: aPosition [
+ShipPosition class >> positionHasToBePositive: aPosition [
 
-	(aPosition > 0 and: aPosition isInteger) ifFalse: [
+	aPosition > 0 ifFalse: [
 		Error signal:
 			'Player position cannot be lower than 1 or a float number.' ]
 ]

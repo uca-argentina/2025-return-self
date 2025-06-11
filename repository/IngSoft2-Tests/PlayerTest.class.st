@@ -9,7 +9,7 @@ Class {
 PlayerTest >> testWhenAPlayerIsAskedItsNameThenReturnsItsName [
 
 	| aPlayer |
-	aPlayer := ShipPosition createWith: 1 and: 'Juan'.
+	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 
 	self assert: aPlayer name equals: 'Juan'
 ]

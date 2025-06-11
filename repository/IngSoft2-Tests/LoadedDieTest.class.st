@@ -16,8 +16,8 @@ LoadedDieTest >> testWhenTheGameIsPlayedWithASequenceOfDie [
 				             aLoadedDie.
 				             aSecondLoadedDie }.
 	aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
-	firstPlayer := ShipPosition named: 'Juan'.
-	secondPlayer := ShipPosition named: 'Tomi'.
+	firstPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
+	secondPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aGroupOfPlayers := {
 		                 firstPlayer.
 		                 secondPlayer }.
