@@ -11,5 +11,5 @@ Class {
 { #category : 'accessing' }
 GameFeatureManager >> findPlayerIndex: aPlayer [
 
-	^ playersFeature findFirst: [ :each | each equals: aPlayer ]
+	^ playersFeature findFirst: [ :each | each equalsID: aPlayer ]
 ]

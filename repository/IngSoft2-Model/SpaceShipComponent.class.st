@@ -22,7 +22,7 @@ SpaceShipComponent class >> idShouldBeGreaterThanZero: anId [
 ]
 
 { #category : 'comparing' }
-SpaceShipComponent >> equals: anotherPlayerStatus [
+SpaceShipComponent >> equalsID: anotherPlayerStatus [
 	"In our implementation, ID is a key field data, it is UNIQUE"
 
 	^ id = anotherPlayerStatus id

@@ -63,7 +63,7 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 
 { #category : 'testing' }
 Game >> isWinner: aPlayer [
-^ aPlayer equals: positionManager winner
+^ aPlayer equalsID: positionManager winner
 ]
 
 { #category : 'NEEDCORRECTION' }

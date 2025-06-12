@@ -92,6 +92,6 @@ BattleManager >> updateFightingPlayersWith: playersToEngage [
 	playersToEngage do: [ :justBattled |
 		playersFeature
 			at:
-			(playersFeature findFirst: [ :each | each equals: justBattled ])
+			(playersFeature findFirst: [ :each | each equalsID: justBattled ])
 			put: justBattled ]
 ]
