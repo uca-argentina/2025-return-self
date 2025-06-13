@@ -23,9 +23,17 @@ Game class >> lapHasToBeGreaterThanZeroAndInteger: aNumberOfLaps [
 			'The amount of laps cannot be lower than 1 or a float number.' ]
 ]
 
+{ #category : 'testing' }
+Game class >> mustHaveAtLeastTwoPlayers: aGroupOfPlayers [
+
+	aGroupOfPlayers size < 2 ifTrue: [
+		Error signal: 'You cant play with less than two players.' ]
+]
+
 { #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 
+	self mustHaveAtLeastTwoPlayers: aGroupOfPlayers.
 	self lapHasToBeGreaterThanZeroAndInteger: laps.
 	self twoPlayersCantHaveTheSameId: aGroupOfPlayers.
 	^ self new

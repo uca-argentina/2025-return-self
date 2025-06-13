@@ -6,6 +6,23 @@ Class {
 }
 
 { #category : 'tests' }
+GameCreationTest >> test002WhenTryingToCreateAGameWithOnePlayersThenItRaisesError [
+
+	| aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	aLoadedDie := LoadedDie rolling: 4.
+	self
+		should: [
+			Game
+				playedBy: (ShipPlayerAssociation createWith: 1 and: 'Julian')
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: 1 ]
+		raiseErrorWithMessageText:
+		'You cant play with less than two players.'
+]
+
+{ #category : 'tests' }
 GameCreationTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRaisesError [
 
 	| anotherGroupOfPlayers aLoadedDie aTestBoard |
@@ -23,4 +40,20 @@ GameCreationTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRais
 				withLaps: 1 ]
 		raiseErrorWithMessageText:
 		'You cant have different players with the same ID.'
+]
+
+{ #category : 'tests' }
+GameCreationTest >> testWhenTryingToCreateAGameWithoutPlayersThenItRaisesError [
+| aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	aLoadedDie := LoadedDie rolling: 4.
+	self
+		should: [
+			Game
+				playedBy: {}
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: 1 ]
+		raiseErrorWithMessageText:
+		'You cant play with less than two players.'
 ]
