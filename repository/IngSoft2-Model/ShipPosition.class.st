@@ -73,7 +73,7 @@ ShipPosition >> goToFirstTile [
 	^ self class createWith: id and: 1 and: lap
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 ShipPosition >> inSafeZone [
 
 	^ position = 1
@@ -109,4 +109,9 @@ ShipPosition >> positionGreaterThan: aLength [
 ShipPosition >> samePositionAs: aPlayer [
 
 	^ position = aPlayer position
+]
+
+{ #category : 'comparing' }
+ShipPosition >> surpasses: aNumberOfLaps [
+	^ lap >= aNumberOfLaps
 ]
