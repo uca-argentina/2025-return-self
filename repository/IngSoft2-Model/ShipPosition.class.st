@@ -93,6 +93,11 @@ ShipPosition >> lap [
 	^ lap
 ]
 
+{ #category : 'comparing' }
+ShipPosition >> lapGreaterThan: aNumberOfLaps [
+	^ lap >= aNumberOfLaps
+]
+
 { #category : 'accessing' }
 ShipPosition >> position [
 
@@ -109,9 +114,4 @@ ShipPosition >> positionGreaterThan: aLength [
 ShipPosition >> samePositionAs: aPlayer [
 
 	^ position = aPlayer position
-]
-
-{ #category : 'comparing' }
-ShipPosition >> surpasses: aNumberOfLaps [
-	^ lap >= aNumberOfLaps
 ]

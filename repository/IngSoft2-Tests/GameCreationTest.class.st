@@ -6,24 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-GameCreationTest >> test002WhenTryingToCreateAGameWithOnePlayersThenItRaisesError [
-
-	| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
-	aLoadedDie := LoadedDie rolling: 4.
-	self
-		should: [
-			Game
-				playedBy: (ShipPlayerAssociation createWith: 1 and: 'Julian')
-				withBoard: aTestBoard
-				withSetOfDie: aLoadedDie
-				withLaps: 1 ]
-		raiseErrorWithMessageText:
-		'You cant play with less than two players.'
-]
-
-{ #category : 'tests' }
-GameCreationTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRaisesError [
+GameCreationTest >> test001WhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRaisesError [
 
 	| anotherGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
@@ -43,7 +26,7 @@ GameCreationTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRais
 ]
 
 { #category : 'tests' }
-GameCreationTest >> testWhenTryingToCreateAGameWithoutPlayersThenItRaisesError [
+GameCreationTest >> test002WhenTryingToCreateAGameWithoutPlayersThenItRaisesError [
 | aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
 	aLoadedDie := LoadedDie rolling: 4.
@@ -51,6 +34,23 @@ GameCreationTest >> testWhenTryingToCreateAGameWithoutPlayersThenItRaisesError [
 		should: [
 			Game
 				playedBy: {}
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: 1 ]
+		raiseErrorWithMessageText:
+		'You cant play with less than two players.'
+]
+
+{ #category : 'tests' }
+GameCreationTest >> test003WhenTryingToCreateAGameWithOnePlayersThenItRaisesError [
+
+	| aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	aLoadedDie := LoadedDie rolling: 4.
+	self
+		should: [
+			Game
+				playedBy: (ShipPlayerAssociation createWith: 1 and: 'Julian')
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
 				withLaps: 1 ]

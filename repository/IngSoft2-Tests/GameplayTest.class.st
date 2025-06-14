@@ -13,8 +13,8 @@ GameplayTest >> setUp [
 
 	super setUp.
 	aGroupOfPlayers := {
-		                   (ShipPosition createWith: 1 and: 'Juan').
-		                   (ShipPosition createWith: 2 and: 'Tomi') }
+		                   (ShipPlayerAssociation createWith: 1 and: 'Juan').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }
 ]
 
 { #category : 'tests' }
@@ -59,7 +59,7 @@ GameplayTest >> testLoopingOfTheLap [
 { #category : 'tests' }
 GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 
-	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard|
+	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard aPlayer |
 	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
 	firstLoadedDice := LoadedDie rolling: 3.
@@ -72,7 +72,8 @@ GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
 		         withBoard: aTestBoard
 		         withSetOfDie: aSetOfDie
 					withLaps:1.
-	self assert: aGame nextPlayerThrowsDice equals: 9
+	aPlayer := aGame nextPlayerThrowsDice.
+	self assert: aPlayer position equals: 9
 ]
 
 { #category : 'tests' }

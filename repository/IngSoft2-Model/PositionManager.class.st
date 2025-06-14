@@ -52,7 +52,16 @@ PositionManager >> move: aPlayer with: anAmount [
 	self updateShipReference: aModifiedPlayer
 ]
 
-{ #category : 'positioning' }
+{ #category : 'checking' }
+PositionManager >> playerInSamePositionThan: aPlayer [
+
+	| aPlayerShipPosition |
+	aPlayerShipPosition := self findShipReference: aPlayer.
+	^ playersFeature select: [ :each |
+		  each samePositionAs: aPlayerShipPosition ]
+]
+
+{ #category : 'NEEDREVISION' }
 PositionManager >> playerPositions [
 
 	| aListOfPositions |
@@ -73,7 +82,7 @@ PositionManager >> resetLapTo: aPlayer [
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
-	^ playersFeature allSatisfy: [ :player | (player surpasses: laps) not ]
+	^ playersFeature allSatisfy: [ :player | (player lapGreaterThan: laps) not ]
 ]
 
 { #category : 'checking' }
@@ -82,8 +91,8 @@ PositionManager >> winner [
 	| playerWhoWon |
 	playerWhoWon := playersFeature
 		                detect: [ :player |
-		                player surpasses: laps ]
+		                player lapGreaterThan: laps ]
 		                ifNone: [ ^ nil ].
-	"players findFirst: [ :each | each equals: aPlayer ]"
+	
 	^ playerWhoWon
 ]

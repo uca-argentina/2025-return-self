@@ -16,30 +16,13 @@ BattleManager class >> createWith: aGroupOfPlayers [
 	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
-{ #category : 'updating' }
-BattleManager >> forceAShieldReset: aPlayer [
-
-	| activePlayer |
-	activePlayer := self findShipReference: aPlayer.
-	activePlayer := activePlayer forceAShieldReset.
-	self updateShipReference: activePlayer
-]
-
 { #category : 'play interface' }
-BattleManager >> ifBattleThenEngage: playersToEngage using: someDice [
-	"   |playersToEngage |
-	(aPlayer position = 1)  ifTrue:[^playersShieldData ].
-	playersToEngage := self selectPlayersInSamePositionAs: aPlayer.
-	"
-
-	"playersToEngage size >= 2 ifTrue: [""si encuentra 2 o mas en la misma posicion""
-		ACA IRIA TODO PERO SIN EL WHILE
-		] ."
+BattleManager >> engage: playersToEngage inBattleUsing: someDice [
 	| firstPlayerThrow secondPlayerThrow playerWhoLost |
 	firstPlayerThrow := someDice throw.
 	secondPlayerThrow := someDice throw.
 
-	firstPlayerThrow = secondPlayerThrow whileTrue: [
+	[ firstPlayerThrow = secondPlayerThrow ] whileTrue: [
 		firstPlayerThrow := someDice throw.
 		secondPlayerThrow := someDice throw ].
 
@@ -57,6 +40,15 @@ BattleManager >> ifBattleThenEngage: playersToEngage using: someDice [
 	^ playerWhoLost
 ]
 
+{ #category : 'updating' }
+BattleManager >> forceAShieldReset: aPlayer [
+
+	| activePlayer |
+	activePlayer := self findShipReference: aPlayer.
+	activePlayer := activePlayer forceAShieldReset.
+	self updateShipReference: activePlayer
+]
+
 { #category : 'initialization' }
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
@@ -67,24 +59,11 @@ playersFeature := aGroupOfPlayers
 BattleManager >> resetShieldsAfter2Turns: aPlayer [
 
 	| activePlayer |
-	"activePlayerIndex := self findShipReference: aPlayer.
-	activePlayer := playersFeature at: activePlayerIndex."
 	activePlayer := self findShipReference: aPlayer.
 	activePlayer needsRecovery ifTrue: [ 
 		activePlayer := activePlayer forceAShieldReset
 	].
-	"playersFeature at: activePlayerIndex put: activePlayer"
 	self updateShipReference: activePlayer
-	"
-	|newShield|
-	newShield := shields.
-	(shields <= 0) ifTrue:[ skipATurn <= 0 ifTrue:[newShield:=3]].
-	
-	^ self class
-		  named: name
-		  withPosition: position
-		  withLaps: lap
-		  withShield: newShield "
 ]
 
 { #category : 'updating' }

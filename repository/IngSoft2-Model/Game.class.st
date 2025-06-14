@@ -18,7 +18,7 @@ Class {
 { #category : 'testing' }
 Game class >> lapHasToBeGreaterThanZeroAndInteger: aNumberOfLaps [
 
-	(aNumberOfLaps > 0 and: aNumberOfLaps isInteger) ifFalse: [
+	aNumberOfLaps > 0 ifFalse: [
 		Error signal:
 			'The amount of laps cannot be lower than 1 or a float number.' ]
 ]
@@ -33,11 +33,13 @@ Game class >> mustHaveAtLeastTwoPlayers: aGroupOfPlayers [
 { #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 
-	self mustHaveAtLeastTwoPlayers: aGroupOfPlayers.
+	| aGroupOfXPlayers |
+	aGroupOfXPlayers := aGroupOfPlayers asOrderedCollection.
+	self mustHaveAtLeastTwoPlayers: aGroupOfXPlayers.
 	self lapHasToBeGreaterThanZeroAndInteger: laps.
-	self twoPlayersCantHaveTheSameId: aGroupOfPlayers.
+	self twoPlayersCantHaveTheSameId: aGroupOfXPlayers.
 	^ self new
-		  initializePlayedBy: aGroupOfPlayers
+		  initializePlayedBy: aGroupOfXPlayers asArray
 		  withBoard: aBoard
 		  withSetOfDie: aSetOfDie
 		  withLaps: laps
@@ -50,6 +52,21 @@ Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
 	(aGroupOfPlayers collect: [ :each | each id ]) size
 	= (aGroupOfPlayers collect: [ :each | each id ]) asSet size ifFalse: [
 		Error signal: 'You cant have different players with the same ID.' ]
+]
+
+{ #category : 'play interface' }
+Game >> checkIfBattle: activePlayer [
+
+	| playersToEngage playerWhoLost |
+	playersToEngage := positionManager playerInSamePositionThan:
+		                   activePlayer.
+	playersToEngage = 2 ifFalse: [ ^ self ].
+	playerWhoLost := battleManager
+		                 engage: playersToEngage
+		                 inBattleUsing: setOfDie.
+	playerWhoLost needsRecovery ifTrue: [
+		turnManager addTwoSkipsTo: playerWhoLost ].
+	positionManager resetLapTo: playerWhoLost
 ]
 
 { #category : 'comparing' }
@@ -70,8 +87,12 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 ]
 
 { #category : 'testing' }
-Game >> isWinner: aPlayer [
-^ aPlayer equalsID: positionManager winner
+Game >> isWinner: aPlayerName [
+	"Used for testing"
+
+	| aPlayer |
+	aPlayer := self findShipReference: positionManager winner.
+	^ aPlayer equalsName: aPlayerName
 ]
 
 { #category : 'interaction loop' }
@@ -82,13 +103,6 @@ Game >> nextPlayerSkipsTurn [
 	turnManager nextPlayerTurnBegins.
 	activePlayer := turnManager playerInTurn.
 	battleManager forceAShieldReset: activePlayer.
-	"-----Batalla-----"
-	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
-												withDice: setOfDie 
-												against: (playersTurn setOfPlayers)) .
-	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex)."
-
-	^ activePlayer
 ]
 
 { #category : 'interaction loop' }
@@ -105,8 +119,6 @@ Game >> nextPlayerThrowsDice [
 	self checkIfRecoveryNeeded: activePlayer.
 
 	"---Avanza con la tirada---"
-	"
-	ESTO VA A PASAR A ENCARGARSE EL POSITION MANAGER"
 	positionManager move: activePlayer with: setOfDie throw.
 
 	"---Aplicacion de efecto---"
@@ -118,12 +130,8 @@ Game >> nextPlayerThrowsDice [
 		                  to: playersFeature.
 
 	"---Batalla---"
-	"battleManager := battleManager updateWith: players."
 	(positionManager checkSafeZone: activePlayer) ifFalse: [
-		self updateAfterBattle: activePlayer ].
-
-
-	^ activePlayer
+		self checkIfBattle: activePlayer ].
 ]
 
 { #category : 'interaction loop' }
@@ -138,17 +146,23 @@ Game >> playerPositions [
 	^ positionManager playerPositions
 ]
 
-{ #category : 'play interface' }
-Game >> updateAfterBattle: activePlayer [
+{ #category : 'testing' }
+Game >> positionFeatureOf: aShip [
+	"Used for testing"
 
-	| playersToEngage playerWhoLost |
-	playersToEngage := playersFeature select: [ :each |
-		                   each samePositionAs: activePlayer ].
-	playersToEngage = 2 ifFalse: [ ^ self ].
-	playerWhoLost := battleManager
-		                 ifBattleThenEngage: playersToEngage
-		                 using: setOfDie.
-	playerWhoLost needsRecovery ifTrue: [
-		turnManager addTwoSkipsTo: playerWhoLost ].
-	positionManager resetLapTo: playerWhoLost
+	^ positionManager findShipReference: aShip
+]
+
+{ #category : 'testing' }
+Game >> shieldsFeatureOf: aShip [
+	"Used for testing"
+
+	^ battleManager findShipReference: aShip
+]
+
+{ #category : 'testing' }
+Game >> turnsFeatureOf: aShip [
+	"Used for testing"
+
+	^ turnManager findShipReference: aShip
 ]

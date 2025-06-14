@@ -13,8 +13,8 @@ GameplayBattleMechanicTest >> setUp [
 	super setUp.
 
 	aGroupOfPlayers := {
-		                 ShipPosition named: 'Juan'.
-								ShipPosition named: 'Tomi' }.
+		                 (ShipPlayerAssociation createWith: 1 and: 'Juan').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
 
 				
 	

@@ -57,17 +57,11 @@ TurnManager >> playNextTurn [
 	self nextPlayerTurnBegins.
 	activePlayer := self playerInTurn.
 	"mientras agarre un player salteado..."
-	activePlayer skipsTurn
-		"ifTrue: [
-			activePlayer := activePlayer turnSkipped.
-			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
-			aGame nextPlayerThrowsDice]"
-		"ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]"
-		whileTrue: [
-			activePlayer := activePlayer turnSkipped.
-			playersFeature at: nextPlayerIndex put: activePlayer.
-			self nextPlayerTurnBegins.
-			activePlayer := self playerInTurn].
+	[ activePlayer skipsTurn ] whileTrue: [
+		activePlayer := activePlayer turnSkipped.
+		self updateShipReference: activePlayer.
+		self nextPlayerTurnBegins.
+		activePlayer := self playerInTurn ]
 ]
 
 { #category : 'accessing' }

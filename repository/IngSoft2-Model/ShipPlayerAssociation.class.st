@@ -22,6 +22,11 @@ ShipPlayerAssociation class >> playerNameCantBeEmpty: aName [
 	aName = '' ifTrue: [ Error signal: 'The name cannot be empty.' ]
 ]
 
+{ #category : 'comparing' }
+ShipPlayerAssociation >> equalsName: aName [
+^ name = aName 
+]
+
 { #category : 'initialization' }
 ShipPlayerAssociation >> initializeWith: anId and: aName [
 
