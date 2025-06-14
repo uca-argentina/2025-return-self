@@ -37,7 +37,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan' "gana juan porque tomi se queda en un loop hasta que gane juan a proposito"
+	self assert: (aGame isWinner: 'Juan') "gana juan porque tomi se queda en un loop hasta que gane juan a proposito"
 
 ]
 
@@ -112,7 +112,7 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan' 
+	self assert: (aGame isWinner: 'Juan') 
 ]
 
 { #category : 'tests' }
@@ -134,7 +134,7 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan'
+	self assert: (aGame isWinner: 'Juan') 
 
 ]
 
@@ -183,7 +183,7 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan' 
+	self assert: (aGame isWinner: 'Juan') 
 ]
 
 { #category : 'tests' }

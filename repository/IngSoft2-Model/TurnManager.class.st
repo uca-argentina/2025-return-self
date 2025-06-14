@@ -23,11 +23,10 @@ TurnManager class >> createWith: aGroupOfPlayers [
 { #category : 'adding' }
 TurnManager >> addTwoSkipsTo: aPlayer [
 
-	| playerToApply playerIndex |
-	playerIndex := self findPlayerIndex: aPlayer.
-	playerToApply := playersFeature at: playerIndex.
+	| playerToApply |
+	playerToApply := self findShipReference: aPlayer.
 	playerToApply := playerToApply addTwoSkips.
-	playersFeature at: playerIndex put: playerToApply
+	self updateShipReference: playerToApply
 ]
 
 { #category : 'checking' }
@@ -75,14 +74,4 @@ TurnManager >> playNextTurn [
 TurnManager >> playerInTurn [
 
 	^ playersFeature at: nextPlayerIndex
-]
-
-{ #category : 'play interface' }
-TurnManager >> skipTurn [
-
-	"turn := turn + 1."
-	self nextPlayerTurnBegins.
-	"activePlayer:= activePlayer forceAShieldReset."
-	
-	"playersTurnsSkipped at: nextPlayerIndex put: activePlayer."
 ]

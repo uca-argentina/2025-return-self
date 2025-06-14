@@ -74,14 +74,13 @@ Game >> isWinner: aPlayer [
 ^ aPlayer equalsID: positionManager winner
 ]
 
-{ #category : 'NEEDCORRECTION' }
+{ #category : 'interaction loop' }
 Game >> nextPlayerSkipsTurn [
 
-	| activePlayer activePlayerIndex |
-	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	turnManager skipTurn.
-	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
-	activePlayer := playersFeature at: activePlayerIndex.
+	| activePlayer |
+	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
+	turnManager nextPlayerTurnBegins.
+	activePlayer := turnManager playerInTurn.
 	battleManager forceAShieldReset: activePlayer.
 	"-----Batalla-----"
 	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
@@ -89,19 +88,18 @@ Game >> nextPlayerSkipsTurn [
 												against: (playersTurn setOfPlayers)) .
 	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex)."
 
-	^ activePlayer position
+	^ activePlayer
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
 	| activePlayer activePlayerIndex |
-	positionManager stillPlaying ifFalse: [ ^ self winner ].
+	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
 
 	"---Turno---"
 	turnManager playNextTurn.
-	activePlayerIndex := self findPlayerIndex: turnManager playerInTurn.
-	activePlayer := playersFeature at: activePlayerIndex.
+	activePlayer := turnManager playerInTurn.
 
 	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
 	self checkIfRecoveryNeeded: activePlayer.
@@ -125,7 +123,7 @@ Game >> nextPlayerThrowsDice [
 		self updateAfterBattle: activePlayer ].
 
 
-	^ activePlayer position
+	^ activePlayer
 ]
 
 { #category : 'interaction loop' }
@@ -134,21 +132,16 @@ Game >> playFullGame [
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
-{ #category : 'NEEDCORRECTION' }
+{ #category : 'play interface' }
 Game >> playerPositions [
 
-	| aListOfPositions |
-	aListOfPositions := playersFeature collect: [ :player |
-		                    'Name: ' , player name , ' , Position: '
-		                    , player position asString , ' , Lap: '
-		                    , player lap asString ].
-	^ aListOfPositions
+	^ positionManager playerPositions
 ]
 
-{ #category : 'NEEDCORRECTION' }
+{ #category : 'play interface' }
 Game >> updateAfterBattle: activePlayer [
 
-	| playersToEngage playerWhoLost playerIndex |
+	| playersToEngage playerWhoLost |
 	playersToEngage := playersFeature select: [ :each |
 		                   each samePositionAs: activePlayer ].
 	playersToEngage = 2 ifFalse: [ ^ self ].
@@ -157,15 +150,5 @@ Game >> updateAfterBattle: activePlayer [
 		                 using: setOfDie.
 	playerWhoLost needsRecovery ifTrue: [
 		turnManager addTwoSkipsTo: playerWhoLost ].
-	playerIndex := self findPlayerIndex: playerWhoLost.
-	playerWhoLost := playersFeature at: playerIndex.
-	playersFeature at: playerIndex put: playerWhoLost goToFirstTile
-]
-
-{ #category : 'play interface' }
-Game >> winner [
-
-	| playerIndex |
-	playerIndex := self findPlayerIndex: positionManager winner.
-	^ (playersFeature at: playerIndex) name
+	positionManager resetLapTo: playerWhoLost
 ]

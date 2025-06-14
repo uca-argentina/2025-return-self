@@ -81,7 +81,7 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 	self assert:aGame playerPositions equals:{'Juan : 9 , lap: 0' . 'Tomi : 7 , lap: 0'}.
 	aGame nextPlayerThrowsDice ."tira 2"
 	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 1' . 'Tomi : 7 , lap: 0'}.
-	self assert:aGame winner equals:'Juan'
+	self assert:(aGame isWinner: 'Juan') 
 	
 ]
 
@@ -172,7 +172,7 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 	aGame nextPlayerThrowsDice .
 	self assert:aGame playerPositions equals:{'Juan : 3 , lap: 0' . 'Tomi : 1 , lap: 1'}."tomi tira - termina el juego"
 	
-	self assert: aGame winner equals: 'Tomi'
+	self assert: (aGame isWinner: 'Tomi') 
 	
 ]
 

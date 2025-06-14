@@ -19,11 +19,10 @@ BattleManager class >> createWith: aGroupOfPlayers [
 { #category : 'updating' }
 BattleManager >> forceAShieldReset: aPlayer [
 
-	| activePlayer activePlayerIndex |
-	activePlayerIndex := self findPlayerIndex: aPlayer.
-	activePlayer := playersFeature at: activePlayerIndex.
+	| activePlayer |
+	activePlayer := self findShipReference: aPlayer.
 	activePlayer := activePlayer forceAShieldReset.
-	playersFeature at: activePlayerIndex put: activePlayer
+	self updateShipReference: activePlayer
 ]
 
 { #category : 'play interface' }
@@ -67,13 +66,15 @@ playersFeature := aGroupOfPlayers
 { #category : 'updating' }
 BattleManager >> resetShieldsAfter2Turns: aPlayer [
 
-	| activePlayer activePlayerIndex |
-	activePlayerIndex := self findPlayerIndex: aPlayer.
-	activePlayer := playersFeature at: activePlayerIndex.
+	| activePlayer |
+	"activePlayerIndex := self findShipReference: aPlayer.
+	activePlayer := playersFeature at: activePlayerIndex."
+	activePlayer := self findShipReference: aPlayer.
 	activePlayer needsRecovery ifTrue: [ 
 		activePlayer := activePlayer forceAShieldReset
 	].
-	playersFeature at: activePlayerIndex put: activePlayer
+	"playersFeature at: activePlayerIndex put: activePlayer"
+	self updateShipReference: activePlayer
 	"
 	|newShield|
 	newShield := shields.
@@ -90,8 +91,5 @@ BattleManager >> resetShieldsAfter2Turns: aPlayer [
 BattleManager >> updateFightingPlayersWith: playersToEngage [
 
 	playersToEngage do: [ :justBattled |
-		playersFeature
-			at:
-			(playersFeature findFirst: [ :each | each equalsID: justBattled ])
-			put: justBattled ]
+		self updateShipReference: justBattled ]
 ]

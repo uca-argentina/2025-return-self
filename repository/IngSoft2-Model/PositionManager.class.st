@@ -28,12 +28,10 @@ PositionManager >> checkIfReachedANewLap: aPlayer [
 	^ aPlayer changeLapAndCorrectPositionWith: boardLength
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'checking' }
 PositionManager >> checkSafeZone: aPlayer [
 
-	| playerIndex |
-	playerIndex := self findPlayerIndex: aPlayer.
-	^ (playersFeature at: playerIndex) inSafeZone
+	^ (self findShipReference: aPlayer) inSafeZone
 ]
 
 { #category : 'initialization' }
@@ -47,18 +45,35 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 { #category : 'positioning' }
 PositionManager >> move: aPlayer with: anAmount [
 
-	| aModifiedPlayer playerIndex |
-	playerIndex := self findPlayerIndex: aPlayer.
-	aModifiedPlayer := (playersFeature at: playerIndex) advanceTiles:
+	| aModifiedPlayer |
+	aModifiedPlayer := (self findShipReference: aPlayer) advanceTiles:
 		                   anAmount.
 	aModifiedPlayer := self checkIfReachedANewLap: aModifiedPlayer.
-	playersFeature at: playerIndex put: aModifiedPlayer
+	self updateShipReference: aModifiedPlayer
+]
+
+{ #category : 'positioning' }
+PositionManager >> playerPositions [
+
+	| aListOfPositions |
+	aListOfPositions := playersFeature collect: [ :player |
+		                    'Name: ' , player name , ' , Position: '
+		                    , player position asString , ' , Lap: '
+		                    , player lap asString ].
+	^ aListOfPositions
+]
+
+{ #category : 'initialization' }
+PositionManager >> resetLapTo: aPlayer [
+	| playerToReset |
+	playerToReset := self findShipReference: aPlayer.
+	self updateShipReference: playerToReset goToFirstTile
 ]
 
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
-	^ playersFeature allSatisfy: [ :player | player lap < laps ]
+	^ playersFeature allSatisfy: [ :player | (player surpasses: laps) not ]
 ]
 
 { #category : 'checking' }
@@ -67,7 +82,7 @@ PositionManager >> winner [
 	| playerWhoWon |
 	playerWhoWon := playersFeature
 		                detect: [ :player |
-		                player lap >= laps ]
+		                player surpasses: laps ]
 		                ifNone: [ ^ nil ].
 	"players findFirst: [ :each | each equals: aPlayer ]"
 	^ playerWhoWon

@@ -32,7 +32,7 @@ GameplayTest >> testGamePlayedWithASingleLapNoBattles [
 					
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Tomi'
+	self assert: (aGame isWinner: 'Tomi') 
 "
 	aGame nextPlayerThrowsDice.
 	aGame nextPlayerThrowsDice.
@@ -164,7 +164,7 @@ GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
 
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Tomi'
+	self assert: (aGame isWinner: 'Tomi') 
 ]
 
 { #category : 'tests' }

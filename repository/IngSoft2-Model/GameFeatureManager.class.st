@@ -9,7 +9,19 @@ Class {
 }
 
 { #category : 'accessing' }
-GameFeatureManager >> findPlayerIndex: aPlayer [
+GameFeatureManager >> findShipReference: aSpaceShipComponent [
 
-	^ playersFeature findFirst: [ :each | each equalsID: aPlayer ]
+	| shipIndex |
+	shipIndex := playersFeature findFirst: [ :each |
+		             each equalsID: aSpaceShipComponent ].
+	^ playersFeature at: shipIndex
+]
+
+{ #category : 'updating' }
+GameFeatureManager >> updateShipReference: selfSpaceShipComponent [
+
+	| shipIndex |
+	shipIndex := playersFeature findFirst: [ :each |
+		             each equalsID: selfSpaceShipComponent ].
+	playersFeature at: shipIndex put: selfSpaceShipComponent
 ]
