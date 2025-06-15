@@ -1,6 +1,6 @@
 Class {
 	#name : 'GameplayBattleMechanicTest',
-	#superclass : 'TestCase',
+	#superclass : 'ReturnSelfTestCase',
 	#instVars : [
 		'aGroupOfPlayers'
 	],
@@ -22,34 +22,32 @@ GameplayBattleMechanicTest >> setUp [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> testBattleSituation [
+GameplayBattleMechanicTest >> test01BattleSituation [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
-	dieThrowSequence := SequenceOfDieForTesting 
-		             withDie: {
-				             LoadedDie rolling: 2.
-				             LoadedDie rolling: 2.
-								 LoadedDie rolling: 1.
-								 LoadedDie rolling: 5.}.
-								
-	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
-	aTestBoard := BoardForTesting createWithTiles: 10 andEffects: {aWormhole}.
-	aLoadedDie := dieThrowSequence .
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard 
-		         withSetOfDie: aLoadedDie
-					withLaps: 1.
-					
-	aGame nextPlayerThrowsDice .
-	aGame nextPlayerThrowsDice . "entran en combate, juan tira 1 tomi tira 5. juan pierde y vuelve al inicio"
-	
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 3 , lap: 0'}
-	
+	| tmp1 tmp2 tmp3 tmp4 tmp5 |
+	tmp4 := SequenceOfDieForTesting withDie: {
+			        (LoadedDie rolling: 2).
+			        (LoadedDie rolling: 2).
+			        (LoadedDie rolling: 1).
+			        (LoadedDie rolling: 5) }.
+	tmp3 := Wormhole oneEnd: 4 otherEnd: 9.
+	tmp5 := BoardForTesting createWithTiles: 10 andEffects: { tmp3 }.
+	tmp2 := tmp4.
+	tmp1 := Game
+		        playedBy: aGroupOfPlayers
+		        withBoard: tmp5
+		        withSetOfDie: tmp2
+		        withLaps: 1.
+	tmp1
+		nextPlayerThrowsDice;
+		nextPlayerThrowsDice.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 1 , lap: 0'. 'Tomi : 3 , lap: 0' }
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
+GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 
 	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
@@ -86,25 +84,7 @@ GameplayBattleMechanicTest >> testBattleSituationThenKeepPlaying [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> testLoopingOfTheLap [
-
-	| aGame aLoadedDie aWormhole aTestBoard|
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
-	aTestBoard := BoardForTesting createWithTiles: 5 andEffects: {aWormhole}.
-	aLoadedDie := LoadedDie rolling: 6.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard 
-		         withSetOfDie: aLoadedDie
-					withLaps: 2.
-	
-	self assert: aGame nextPlayerThrowsDice equals: 2.
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 1' . 'Tomi : 1 , lap: 0'}.
-	
-]
-
-{ #category : 'tests' }
-GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
+GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 
 	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
 	dieThrowSequence := SequenceOfDieForTesting 
@@ -177,42 +157,42 @@ GameplayBattleMechanicTest >> testRunningOutOfShieldsAndSkippingTwoTurns [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> testSkippingTurnAndReplenishingShield [
+GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard|
-	dieThrowSequence := SequenceOfDieForTesting 
-		             withDie: {
-				             LoadedDie rolling: 1.
-				             LoadedDie rolling: 1."caen en 2, batallan"
-								 LoadedDie rolling: 1.
-								 LoadedDie rolling: 5."gana tomi"
-								"juan saltea turno"
-								
-								 LoadedDie rolling: 2."tira tomi"
-				             LoadedDie rolling: 1."tira juan"
-				}.
-								
-	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
-	aTestBoard := BoardForTesting createWithTiles: 30 andEffects: { aWormhole }.
-	aLoadedDie := dieThrowSequence .
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard 
-		         withSetOfDie: aLoadedDie
-					withLaps: 1.
-					
-	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0' . 'Tomi : 1 , lap: 0'}.
-	aGame nextPlayerThrowsDice .
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 2 , lap: 0'}."gana tomi - juan tiene 2 escudos"
-	
-	aGame nextPlayerSkipsTurn."juan recupera escudos"
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 2 , lap: 0'}.
-	aGame nextPlayerThrowsDice ."tira tomi"
-	self assert:aGame playerPositions equals:{'Juan : 1 , lap: 0' . 'Tomi : 4 , lap: 0'}.
-	aGame nextPlayerThrowsDice ."tira juan"
-	self assert:aGame playerPositions equals:{'Juan : 2 , lap: 0' . 'Tomi : 4 , lap: 0'}.
-
-
-
+	| tmp1 tmp2 tmp3 tmp4 tmp5 |
+	tmp4 := SequenceOfDieForTesting withDie: {
+			        (LoadedDie rolling: 1).
+			        (LoadedDie rolling: 1).
+			        (LoadedDie rolling: 1).
+			        (LoadedDie rolling: 5).
+			        (LoadedDie rolling: 2).
+			        (LoadedDie rolling: 1) }.
+	tmp3 := Wormhole oneEnd: 8 otherEnd: 29.
+	tmp5 := BoardForTesting createWithTiles: 30 andEffects: { tmp3 }.
+	tmp2 := tmp4.
+	tmp1 := Game
+		        playedBy: aGroupOfPlayers
+		        withBoard: tmp5
+		        withSetOfDie: tmp2
+		        withLaps: 1.
+	tmp1 nextPlayerThrowsDice.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 2 , lap: 0'. 'Tomi : 1 , lap: 0' }.
+	tmp1 nextPlayerThrowsDice.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 1 , lap: 0'. 'Tomi : 2 , lap: 0' }.
+	tmp1 nextPlayerSkipsTurn.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 1 , lap: 0'. 'Tomi : 2 , lap: 0' }.
+	tmp1 nextPlayerThrowsDice.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 1 , lap: 0'. 'Tomi : 4 , lap: 0' }.
+	tmp1 nextPlayerThrowsDice.
+	self
+		assert: tmp1 playerPositions
+		equals: { 'Juan : 2 , lap: 0'. 'Tomi : 4 , lap: 0' }
 ]

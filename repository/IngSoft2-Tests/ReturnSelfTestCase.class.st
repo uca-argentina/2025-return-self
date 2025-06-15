@@ -1,18 +1,21 @@
+"
+Abstract middle class for ""should:raise:withExceptionDo:"" abreviation
+"
 Class {
-	#name : 'InstanceCreationTest',
+	#name : 'ReturnSelfTestCase',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'testing' }
-InstanceCreationTest class >> isAbstract [
+ReturnSelfTestCase class >> isAbstract [
 
-	^ self == InstanceCreationTest
+	^ self == ReturnSelfTestCase
 ]
 
 { #category : 'asserting' }
-InstanceCreationTest >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
+ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
 	self
 		should: anErrorBlock

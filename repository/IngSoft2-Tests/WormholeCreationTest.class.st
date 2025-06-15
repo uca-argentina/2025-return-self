@@ -1,12 +1,12 @@
 Class {
 	#name : 'WormholeCreationTest',
-	#superclass : 'InstanceCreationTest',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-WormholeCreationTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
+WormholeCreationTest >> test01WhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
 
 	self
 		should: [ Wormhole oneEnd: -10 otherEnd: 2 ]
@@ -23,7 +23,7 @@ WormholeCreationTest >> testWhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThe
 ]
 
 { #category : 'tests' }
-WormholeCreationTest >> testWhenWeCreateAWormholeWithEqualEndsThenItRaisesAnError [
+WormholeCreationTest >> test02WhenWeCreateAWormholeWithEqualEndsThenItRaisesAnError [
 
 	self
 		should: [ Wormhole oneEnd: 2 otherEnd: 2 ]

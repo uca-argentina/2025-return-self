@@ -47,3 +47,10 @@ ShipShield >> needsRecovery [
 
 	^ shields = 0
 ]
+
+{ #category : 'accessing' }
+ShipShield >> shields [
+	"Used for testing os displaying"
+
+	^ shields
+]

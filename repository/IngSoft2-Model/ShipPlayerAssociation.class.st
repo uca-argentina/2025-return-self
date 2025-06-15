@@ -39,3 +39,16 @@ ShipPlayerAssociation >> name [
 
 	^ name
 ]
+
+{ #category : 'tests - printing' }
+ShipPlayerAssociation >> searchReferenceAndConcatName: positionsWithoutName [
+	"Used for testing and printing"
+
+	| playerPositionInfo |
+	playerPositionInfo := positionsWithoutName
+		                      detect: [ :each | (each at: 1) = id ]
+		                      ifNone: [
+		                      Error signal:
+			                      'Fatal Error: A Ship Reference is lost.' ].
+	^ 'Name: ' , name , ', ' , (playerPositionInfo at: 2)
+]

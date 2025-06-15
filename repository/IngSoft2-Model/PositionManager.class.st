@@ -13,12 +13,21 @@ Class {
 PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: aNumberOfLaps [
 
 	| playerPositionAssociationGroup |
+	self lapHasToBeGreaterThanZero: aNumberOfLaps.
 	playerPositionAssociationGroup := aGroupOfPlayers collect: [ :each |
 		                              ShipPosition
 			                              createWith: each id	
 			                              and: 0 ].
 
 	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps
+]
+
+{ #category : 'testing' }
+PositionManager class >> lapHasToBeGreaterThanZero: aNumberOfLaps [
+
+	aNumberOfLaps > 0 ifFalse: [
+		Error signal:
+			'The amount of laps cannot be lower than 1.' ]
 ]
 
 { #category : 'checking' }
@@ -43,7 +52,16 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 ]
 
 { #category : 'positioning' }
-PositionManager >> move: aPlayer with: anAmount [
+PositionManager >> move: aPlayer backwardWith: anAmount [
+
+	| aModifiedPlayer |
+	aModifiedPlayer := (self findShipReference: aPlayer) goBackTiles:
+		                   anAmount.
+	self updateShipReference: aModifiedPlayer
+]
+
+{ #category : 'positioning' }
+PositionManager >> move: aPlayer forwardWith: anAmount [
 
 	| aModifiedPlayer |
 	aModifiedPlayer := (self findShipReference: aPlayer) advanceTiles:
@@ -61,14 +79,16 @@ PositionManager >> playerInSamePositionThan: aPlayer [
 		  each samePositionAs: aPlayerShipPosition ]
 ]
 
-{ #category : 'NEEDREVISION' }
+{ #category : 'tests - printing' }
 PositionManager >> playerPositions [
+	"Used for testing"
 
 	| aListOfPositions |
 	aListOfPositions := playersFeature collect: [ :player |
-		                    'Name: ' , player name , ' , Position: '
-		                    , player position asString , ' , Lap: '
-		                    , player lap asString ].
+		                    {
+			                    player id.
+			                    ('Position: ' , player position asString
+			                     , ' , Lap: ' , player lap asString) } ].
 	^ aListOfPositions
 ]
 
@@ -82,7 +102,7 @@ PositionManager >> resetLapTo: aPlayer [
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
-	^ playersFeature allSatisfy: [ :player | (player lapGreaterThan: laps) not ]
+	^ playersFeature allSatisfy: [ :player | (player lapGreaterOrEqualThan: laps) not ]
 ]
 
 { #category : 'checking' }
@@ -91,8 +111,8 @@ PositionManager >> winner [
 	| playerWhoWon |
 	playerWhoWon := playersFeature
 		                detect: [ :player |
-		                player lapGreaterThan: laps ]
-		                ifNone: [ ^ nil ].
+		                player lapGreaterOrEqualThan: laps ]
+		                ifNone: [ Error signal: 'There is no winner yet.' ].
 	
 	^ playerWhoWon
 ]

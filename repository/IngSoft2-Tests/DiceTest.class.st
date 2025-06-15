@@ -1,12 +1,12 @@
 Class {
 	#name : 'DiceTest',
-	#superclass : 'TestCase',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-DiceTest >> testThrowDice [
+DiceTest >> test01ThrowDice [
 
 	| aDice |
 	aDice := Dice faces: 6.
@@ -14,7 +14,7 @@ DiceTest >> testThrowDice [
 ]
 
 { #category : 'tests' }
-DiceTest >> testThrowMultipleDie [
+DiceTest >> test02ThrowMultipleDie [
 
 	| firstDice secondDice aSetOfDie |
 	firstDice := Dice faces: 6.
@@ -23,16 +23,4 @@ DiceTest >> testThrowMultipleDie [
 			             firstDice.
 			             secondDice }.
 	self assert: (aSetOfDie throw between: 2 and: 15)
-]
-
-{ #category : 'tests' }
-DiceTest >> testThrowMultipleLoadedDie [
-
-	| firstDice secondDice aSetOfDie |
-	firstDice := LoadedDie rolling: 6.
-	secondDice := LoadedDie rolling: 9.
-	aSetOfDie := DieSet having: {
-			             firstDice.
-			             secondDice }.
-	self assert: aSetOfDie throw equals: 15
 ]

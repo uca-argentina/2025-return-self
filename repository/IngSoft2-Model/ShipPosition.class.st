@@ -28,9 +28,8 @@ ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
 { #category : 'testing' }
 ShipPosition class >> lapCantBeNegative: aNumberOfLaps [
 
-	(aNumberOfLaps >= 0 and: aNumberOfLaps isInteger) ifFalse: [
-		Error signal:
-			'Player lap cannot be negative.' ]
+	aNumberOfLaps >= 0 ifFalse: [
+		Error signal: 'Player lap cannot be negative.' ]
 ]
 
 { #category : 'testing' }
@@ -89,18 +88,18 @@ ShipPosition >> initializeWith: anId and: aPosition and: aLap [
 
 { #category : 'accessing' }
 ShipPosition >> lap [
-
+"Used for testing os displaying"
 	^ lap
 ]
 
 { #category : 'comparing' }
-ShipPosition >> lapGreaterThan: aNumberOfLaps [
+ShipPosition >> lapGreaterOrEqualThan: aNumberOfLaps [
 	^ lap >= aNumberOfLaps
 ]
 
 { #category : 'accessing' }
 ShipPosition >> position [
-
+"Used for testing os displaying"
 	^ position
 ]
 

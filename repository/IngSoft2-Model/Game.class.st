@@ -16,18 +16,9 @@ Class {
 }
 
 { #category : 'testing' }
-Game class >> lapHasToBeGreaterThanZeroAndInteger: aNumberOfLaps [
+Game class >> mustHaveAtLeastOneDieToPlay: aSetOfDie [
 
-	aNumberOfLaps > 0 ifFalse: [
-		Error signal:
-			'The amount of laps cannot be lower than 1 or a float number.' ]
-]
-
-{ #category : 'testing' }
-Game class >> mustHaveAtLeastTwoPlayers: aGroupOfPlayers [
-
-	aGroupOfPlayers size < 2 ifTrue: [
-		Error signal: 'You cant play with less than two players.' ]
+	aSetOfDie isEmpty ifTrue: [ Error signal: 'You must have at least one die to play.' ]
 ]
 
 { #category : 'creation' }
@@ -36,8 +27,8 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 	| aGroupOfXPlayers |
 	aGroupOfXPlayers := aGroupOfPlayers asOrderedCollection.
 	self mustHaveAtLeastTwoPlayers: aGroupOfXPlayers.
-	self lapHasToBeGreaterThanZeroAndInteger: laps.
 	self twoPlayersCantHaveTheSameId: aGroupOfXPlayers.
+	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
 	^ self new
 		  initializePlayedBy: aGroupOfXPlayers asArray
 		  withBoard: aBoard
@@ -45,16 +36,7 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 		  withLaps: laps
 ]
 
-{ #category : 'testing' }
-Game class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
-	"when passed to Set, repeated values are cleaned"
-
-	(aGroupOfPlayers collect: [ :each | each id ]) size
-	= (aGroupOfPlayers collect: [ :each | each id ]) asSet size ifFalse: [
-		Error signal: 'You cant have different players with the same ID.' ]
-]
-
-{ #category : 'play interface' }
+{ #category : 'checking' }
 Game >> checkIfBattle: activePlayer [
 
 	| playersToEngage playerWhoLost |
@@ -69,7 +51,7 @@ Game >> checkIfBattle: activePlayer [
 	positionManager resetLapTo: playerWhoLost
 ]
 
-{ #category : 'comparing' }
+{ #category : 'checking' }
 Game >> checkIfRecoveryNeeded: aPlayer [
 
 	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsAfter2Turns: aPlayer ]
@@ -119,7 +101,7 @@ Game >> nextPlayerThrowsDice [
 	self checkIfRecoveryNeeded: activePlayer.
 
 	"---Avanza con la tirada---"
-	positionManager move: activePlayer with: setOfDie throw.
+	positionManager move: activePlayer forwardWith: setOfDie throw.
 
 	"---Aplicacion de efecto---"
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
@@ -140,10 +122,14 @@ Game >> playFullGame [
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
-{ #category : 'play interface' }
+{ #category : 'tests - printing' }
 Game >> playerPositions [
+	"Used for testing"
 
-	^ positionManager playerPositions
+	| positionsWithoutName |
+	positionsWithoutName := positionManager playerPositions.
+	^ playersFeature collect: [ :each |
+		  each searchReferenceAndConcatName: positionsWithoutName ]
 ]
 
 { #category : 'testing' }

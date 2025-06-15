@@ -1,3 +1,6 @@
+"
+A Board mock object for testing
+"
 Class {
 	#name : 'BoardForTesting',
 	#superclass : 'Object',
