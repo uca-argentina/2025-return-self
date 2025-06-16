@@ -32,27 +32,31 @@ LoadedDieTest >> test03WhenTheGameIsPlayedWithASequenceOfDie [
 	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aGroupOfPlayers aTestBoard |
 	aLoadedDie := LoadedDie rolling: 1.
 	aSecondLoadedDie := LoadedDie rolling: 3.
-	aSequence := SequenceOfDieForTesting 
-		             withDie: {
-				             aLoadedDie.
-				             aSecondLoadedDie }.
+	aSequence := SequenceOfDieForTesting withDie: {
+			             aLoadedDie.
+			             aSecondLoadedDie }.
 	aWormhole := Wormhole oneEnd: 18 otherEnd: 19.
 	firstPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 	secondPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aGroupOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: { aWormhole }.
+		                   firstPlayer.
+		                   secondPlayer }.
+	aTestBoard := BoardForTesting
+		              createWithTiles: 20
+		              andEffects: { aWormhole }.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard 
+		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
-					withLaps: 1.
+		         withLaps: 1.
 
 	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 2)"
 	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 4)"
 	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 3)"
 	aGame nextPlayerThrowsDice. "segundo jugador tira 3 (posicion 7)"
+	aGame nextPlayerThrowsDice. "primer jugador tira 1 (posicion 4)"
 
-	self assert: aGame nextPlayerThrowsDice equals: 4 "primer jugador tira 1 (posicion 4)"
+	self
+		assert: (aGame positionFeatureOf: firstPlayer) position
+		equals: 4
 ]

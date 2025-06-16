@@ -42,7 +42,7 @@ Game >> checkIfBattle: activePlayer [
 	| playersToEngage playerWhoLost |
 	playersToEngage := positionManager playerInSamePositionThan:
 		                   activePlayer.
-	playersToEngage = 2 ifFalse: [ ^ self ].
+	playersToEngage size = 2 ifFalse: [ ^ self ].
 	playerWhoLost := battleManager
 		                 engage: playersToEngage
 		                 inBattleUsing: setOfDie.
@@ -91,6 +91,7 @@ Game >> nextPlayerSkipsTurn [
 Game >> nextPlayerThrowsDice [
 
 	| activePlayer activePlayerIndex |
+	activePlayerIndex := 'PARA QUE NO ROMPA LOS HUEVOS EN LOS COMMIT, DESPUES LO BORRAMOS'.
 	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
 
 	"---Turno---"
@@ -107,9 +108,10 @@ Game >> nextPlayerThrowsDice [
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
-	playersFeature := board
+	
+	"playersFeature := board
 		                  applyEffectTriggeredByPlayerAt: activePlayerIndex
-		                  to: playersFeature.
+		                  to: playersFeature."
 
 	"---Batalla---"
 	(positionManager checkSafeZone: activePlayer) ifFalse: [
