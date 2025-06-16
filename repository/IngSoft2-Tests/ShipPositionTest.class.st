@@ -13,7 +13,7 @@ ShipPositionTest >> test01WhenTellingAShipToAdvanceADistanceThenItReturnsANewShi
 	anUpdatedShipPosition := aShipPosition advanceTiles: 10.
 
 	self assert: anUpdatedShipPosition position equals: 11.
-	self deny: aShipPosition position equals: 11 "Here you cant be sure that original object is not affected"
+	self deny: aShipPosition position equals: 11 "Here you can be sure that original object is not affected"
 ]
 
 { #category : 'tests' }
@@ -24,7 +24,7 @@ ShipPositionTest >> test02WhenTellingAShipToGoBackADistanceThenItReturnsANewShip
 	anUpdatedShipPosition := aShipPosition goBackTiles: 10.
 
 	self assert: anUpdatedShipPosition position equals: 1.
-	self deny: aShipPosition position equals: 1 "Here you cant be sure that original object is not affected"
+	self deny: aShipPosition position equals: 1 "Here you can be sure that original object is not affected"
 ]
 
 { #category : 'tests' }

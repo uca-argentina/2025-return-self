@@ -34,7 +34,7 @@ TurnManager >> checkNoTurnsToSkip [
 
 	| activePlayer |
 	activePlayer := self playerInTurn.
-	^ activePlayer skipsTurn
+	^ activePlayer hasTurnsToSkip
 ]
 
 { #category : 'initialization' }
@@ -57,8 +57,8 @@ TurnManager >> playNextTurn [
 	self nextPlayerTurnBegins.
 	activePlayer := self playerInTurn.
 	"mientras agarre un player salteado..."
-	[ activePlayer skipsTurn ] whileTrue: [
-		activePlayer := activePlayer turnSkipped.
+	[ activePlayer hasTurnsToSkip ] whileTrue: [
+		activePlayer := activePlayer skipATurn.
 		self updateShipReference: activePlayer.
 		self nextPlayerTurnBegins.
 		activePlayer := self playerInTurn ]
