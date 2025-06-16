@@ -88,7 +88,7 @@ PositionManager >> playerPositions [
 		                    {
 			                    player id.
 			                    ('Position: ' , player position asString
-			                     , ' , Lap: ' , player lap asString) } ].
+			                     , ', Lap: ' , player lap asString) } ].
 	^ aListOfPositions
 ]
 
