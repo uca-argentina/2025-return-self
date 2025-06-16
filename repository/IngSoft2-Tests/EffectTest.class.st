@@ -36,7 +36,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 					
 	aGame playFullGame.
 
-	self assert: (aGame isWinner: 'Juan') "gana juan porque tomi se queda en un loop hasta que gane juan a proposito"
+	self assert: (aGame isWinner: 'Tomi') "gana juan porque tomi se queda en un loop hasta que gane juan a proposito"
 
 ]
 

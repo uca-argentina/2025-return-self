@@ -73,8 +73,8 @@ TurnManagerTest >> test04ATurnManagerCanCheckIfPlayerInTurnHasToSkip [
 	aTurnManager addTwoSkipsTo: aTurnManager playerInTurn.
 	newTurnStatus := aTurnManager checkNoTurnsToSkip.
 
-	self deny: originalTurnStatus.
-	self assert: newTurnStatus
+	self assert: originalTurnStatus.
+	self deny: newTurnStatus
 ]
 
 { #category : 'tests' }

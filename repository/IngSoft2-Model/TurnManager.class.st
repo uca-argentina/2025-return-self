@@ -34,7 +34,7 @@ TurnManager >> checkNoTurnsToSkip [
 
 	| activePlayer |
 	activePlayer := self playerInTurn.
-	^ activePlayer hasTurnsToSkip
+	^ activePlayer hasTurnsToSkip not
 ]
 
 { #category : 'initialization' }
