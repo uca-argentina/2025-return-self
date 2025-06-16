@@ -109,9 +109,9 @@ Game >> nextPlayerThrowsDice [
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
 	
-	"playersFeature := board
+	playersFeature := board
 		                  applyEffectTriggeredByPlayerAt: activePlayerIndex
-		                  to: playersFeature."
+		                  to: playersFeature.
 
 	"---Batalla---"
 	(positionManager checkSafeZone: activePlayer) ifFalse: [
