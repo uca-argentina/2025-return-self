@@ -8,9 +8,8 @@ Class {
 { #category : 'tests' }
 PositionManagerCreationTest >> test01WhenTryingToCreateAPositionManagerWithNegativeLapsThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
+	| aGroupOfPlayers aTestBoard |
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
-	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
 			                    createWith: 1

@@ -1,12 +1,12 @@
 Class {
-	#name : 'PositionManagerTest',
+	#name : 'BattleManagerTest',
 	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-PositionManagerTest >> test01Bananini [
+BattleManagerTest >> test01Chimpancini [
 
 self assert: 1 equals: 2
 ]
