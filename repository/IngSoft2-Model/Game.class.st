@@ -54,7 +54,7 @@ Game >> checkIfBattle: activePlayer [
 { #category : 'checking' }
 Game >> checkIfRecoveryNeeded: aPlayer [
 
-	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsAfter2Turns: aPlayer ]
+	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsIfNeeded: aPlayer ]
 ]
 
 { #category : 'initialization' }

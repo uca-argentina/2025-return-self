@@ -17,8 +17,12 @@ BattleManager class >> createWith: aGroupOfPlayers [
 ]
 
 { #category : 'play interface' }
-BattleManager >> engage: playersToEngage inBattleUsing: someDice [
-	| firstPlayerThrow secondPlayerThrow playerWhoLost |
+BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
+
+	| firstPlayerThrow secondPlayerThrow playerWhoLost playersToEngage |
+	playersToEngage := aPairOfPlayers collect: [ :each |
+		                   self findShipReference: each ].
+
 	firstPlayerThrow := someDice throw.
 	secondPlayerThrow := someDice throw.
 
@@ -28,15 +32,11 @@ BattleManager >> engage: playersToEngage inBattleUsing: someDice [
 
 	playerWhoLost := firstPlayerThrow > secondPlayerThrow
 		                 ifTrue: [ "gana el primero"
-			                 playersToEngage
-				                 at: 2
-				                 put: (playersToEngage at: 2) loseShield ]
+		                 (playersToEngage at: 2) loseShield ]
 		                 ifFalse: [ "gana el segundo"
-			                 playersToEngage
-				                 at: 1
-				                 put: (playersToEngage at: 1) loseShield ].
-	
-	self updateFightingPlayersWith: playersToEngage.
+		                 (playersToEngage at: 1) loseShield ].
+
+	self updateShipReference: playerWhoLost.
 	^ playerWhoLost
 ]
 
@@ -56,7 +56,7 @@ playersFeature := aGroupOfPlayers
 ]
 
 { #category : 'updating' }
-BattleManager >> resetShieldsAfter2Turns: aPlayer [
+BattleManager >> resetShieldsIfNeeded: aPlayer [
 
 	| activePlayer |
 	activePlayer := self findShipReference: aPlayer.
@@ -64,11 +64,4 @@ BattleManager >> resetShieldsAfter2Turns: aPlayer [
 		activePlayer := activePlayer forceAShieldReset
 	].
 	self updateShipReference: activePlayer
-]
-
-{ #category : 'updating' }
-BattleManager >> updateFightingPlayersWith: playersToEngage [
-
-	playersToEngage do: [ :justBattled |
-		self updateShipReference: justBattled ]
 ]

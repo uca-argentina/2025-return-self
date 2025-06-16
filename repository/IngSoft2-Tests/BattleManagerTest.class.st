@@ -1,12 +1,77 @@
 Class {
 	#name : 'BattleManagerTest',
 	#superclass : 'ReturnSelfTestCase',
+	#instVars : [
+		'aPlayer',
+		'aBattleManager'
+	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'tests' }
-BattleManagerTest >> test01Chimpancini [
+{ #category : 'running' }
+BattleManagerTest >> setUp [
 
-self assert: 1 equals: 2
+	| aGroupOfPlayers anotherPlayer |
+	super setUp.
+	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
+	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	aGroupOfPlayers := {
+		                   aPlayer.
+		                   anotherPlayer }.
+
+	aBattleManager := BattleManager createWith: aGroupOfPlayers.
+]
+
+{ #category : 'tests' }
+BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
+	"A little internal touching is needed, using findShipReference and updateShipReference"
+
+	| aShieldStatus aNewShieldStatus |
+	aShieldStatus := aBattleManager findShipReference: aPlayer.
+	aShieldStatus := aShieldStatus loseShield.
+	aBattleManager updateShipReference: aShieldStatus.
+
+	aBattleManager forceAShieldReset: aPlayer.
+	aNewShieldStatus := aBattleManager findShipReference: aShieldStatus. "Better for seeing the change"
+
+	self assert: aNewShieldStatus shields equals: 3.
+	self deny: aShieldStatus shields equals: 3
+]
+
+{ #category : 'tests' }
+BattleManagerTest >> test02WhenManagerSeesAPlayerNeedsShieldsThenItForcesAShieldReset [
+	"A little internal touching is needed, using findShipReference and updateShipReference"
+
+	| aShieldStatus aNewShieldStatus |
+	aShieldStatus := aBattleManager findShipReference: aPlayer.
+	aShieldStatus := aShieldStatus loseShield.
+	aShieldStatus := aShieldStatus loseShield.
+	aShieldStatus := aShieldStatus loseShield.
+	aBattleManager updateShipReference: aShieldStatus.
+
+	aBattleManager resetShieldsIfNeeded: aPlayer.
+	aNewShieldStatus := aBattleManager findShipReference: aPlayer.
+
+	self assert: aNewShieldStatus shields equals: 3
+]
+
+{ #category : 'tests' }
+BattleManagerTest >> test03WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArrayWithLosingShip [
+
+	| aGroupOfPlayers anotherPlayer playerWhoLost aSequence aLoadedDie aSecondLoadedDie |
+	aLoadedDie := LoadedDie rolling: 2.
+	aSecondLoadedDie := LoadedDie rolling: 3.
+	aSequence := SequenceOfDieForTesting withDie: {
+			             aLoadedDie.
+			             aSecondLoadedDie }.
+	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	aGroupOfPlayers := {
+		                   aPlayer.
+		                   anotherPlayer }.
+	playerWhoLost := aBattleManager
+		                 engage: aGroupOfPlayers
+		                 inBattleUsing: aSequence.
+
+	self assert: playerWhoLost shields equals: 2
 ]
