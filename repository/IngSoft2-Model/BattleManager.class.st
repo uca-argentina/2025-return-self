@@ -32,9 +32,9 @@ BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
 
 	playerWhoLost := firstPlayerThrow > secondPlayerThrow
 		                 ifTrue: [ "gana el primero"
-		                 (playersToEngage at: 2) loseShield ]
+		                 (playersToEngage at: 2) loseShields: 1 ]
 		                 ifFalse: [ "gana el segundo"
-		                 (playersToEngage at: 1) loseShield ].
+		                 (playersToEngage at: 1) loseShields: 1 ].
 
 	self updateShipReference: playerWhoLost.
 	^ playerWhoLost

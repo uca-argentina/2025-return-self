@@ -29,7 +29,7 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 
 	| aShieldStatus aNewShieldStatus |
 	aShieldStatus := aBattleManager findShipReference: aPlayer.
-	aShieldStatus := aShieldStatus loseShield.
+	aShieldStatus := aShieldStatus loseShields: 1.
 	aBattleManager updateShipReference: aShieldStatus.
 
 	aBattleManager forceAShieldReset: aPlayer.
@@ -45,9 +45,9 @@ BattleManagerTest >> test02WhenManagerSeesAPlayerNeedsShieldsThenItForcesAShield
 
 	| aShieldStatus aNewShieldStatus |
 	aShieldStatus := aBattleManager findShipReference: aPlayer.
-	aShieldStatus := aShieldStatus loseShield.
-	aShieldStatus := aShieldStatus loseShield.
-	aShieldStatus := aShieldStatus loseShield.
+	aShieldStatus := aShieldStatus loseShields: 1.
+	aShieldStatus := aShieldStatus loseShields: 1.
+	aShieldStatus := aShieldStatus loseShields: 1.
 	aBattleManager updateShipReference: aShieldStatus.
 
 	aBattleManager resetShieldsIfNeeded: aPlayer.

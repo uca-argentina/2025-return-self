@@ -46,7 +46,7 @@ ShipInStandbyTest >> test04WhenAShipIsAddedTurnsToSkipThenItReturnsANewShipInSta
 	| aShipInStandBy aModifiedShipInStandBy |
 	aShipInStandBy := ShipInStandBy createWith: 1 and: 2.
 
-	aModifiedShipInStandBy := aShipInStandBy addTwoSkips.
+	aModifiedShipInStandBy := aShipInStandBy addSkips: 2.
 
 	self assert: aModifiedShipInStandBy turnsToSkip equals: 4.
 	self deny: aShipInStandBy turnsToSkip equals: 4 "Here you can be sure that original object is not affected"

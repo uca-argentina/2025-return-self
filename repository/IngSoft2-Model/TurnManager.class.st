@@ -25,7 +25,7 @@ TurnManager >> addTwoSkipsTo: aPlayer [
 
 	| playerToApply |
 	playerToApply := self findShipReference: aPlayer.
-	playerToApply := playerToApply addTwoSkips.
+	playerToApply := playerToApply addSkips: 2.
 	self updateShipReference: playerToApply
 ]
 

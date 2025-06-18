@@ -39,9 +39,9 @@ ship position"
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Pedro'.
 
 	self
-		should: [ aPlayer addTwoSkips ]
+		should: [ aPlayer addSkips: 2 ]
 		raiseErrorWithMessageText:
-		'Message not understood: ShipPlayerAssociation >> #addTwoSkips'
+		'Message not understood: ShipPlayerAssociation >> #addSkips:'
 ]
 
 { #category : 'tests' }
@@ -54,7 +54,7 @@ ship position"
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Pedro'.
 
 	self
-		should: [ aPlayer loseShield ]
+		should: [ aPlayer loseShields: 1 ]
 		raiseErrorWithMessageText:
-		'Message not understood: ShipPlayerAssociation >> #loseShield'
+		'Message not understood: ShipPlayerAssociation >> #loseShields:'
 ]

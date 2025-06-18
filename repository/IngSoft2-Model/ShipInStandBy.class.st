@@ -24,9 +24,9 @@ ShipInStandBy class >> turnsToSkipShouldBePositive: aNumberOfTurns [
 ]
 
 { #category : 'adding' }
-ShipInStandBy >> addTwoSkips [
+ShipInStandBy >> addSkips: aNumber [
 
-	^ self class createWith: id and: turnsToSkip + 2
+	^ self class createWith: id and: turnsToSkip + aNumber
 ]
 
 { #category : 'accessing' }

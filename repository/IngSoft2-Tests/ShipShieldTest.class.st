@@ -11,7 +11,7 @@ ShipShieldTest >> test01ShipCanLoseShieldsIfItHasAtLeastOne [
 	| aShipShield aModifidiedShipShield |
 	aShipShield := ShipShield createWith: 1 and: 1.
 
-	aModifidiedShipShield := aShipShield loseShield.
+	aModifidiedShipShield := aShipShield loseShields: 1.
 
 	self assert: aModifidiedShipShield shields equals: 0.
 	self deny: aShipShield shields equals: 0 "Here you can be sure that original object is not affected"
@@ -24,7 +24,7 @@ ShipShieldTest >> test02ShipCantLoseShieldsIfItHasNone [
 	aShipShield := ShipShield createWith: 1 and: 0.
 
 	self
-		should: [ aShipShield loseShield ]
+		should: [ aShipShield loseShields: 1 ]
 		raiseErrorWithMessageText:
 		'The SpaceShip cant have negative shields.'
 ]

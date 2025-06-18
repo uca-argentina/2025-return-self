@@ -92,7 +92,8 @@ Game >> nextPlayerThrowsDice [
 
 	| activePlayer activePlayerIndex |
 	activePlayerIndex := 'PARA QUE NO ROMPA LOS HUEVOS EN LOS COMMIT, DESPUES LO BORRAMOS'.
-	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
+	positionManager stillPlaying ifFalse: [
+		^ self findShipReference: positionManager winner ].
 
 	"---Turno---"
 	turnManager playNextTurn.
@@ -108,14 +109,14 @@ Game >> nextPlayerThrowsDice [
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
-	
+
 	playersFeature := board
 		                  applyEffectTriggeredByPlayerAt: activePlayerIndex
 		                  to: playersFeature.
 
 	"---Batalla---"
 	(positionManager checkSafeZone: activePlayer) ifFalse: [
-		self checkIfBattle: activePlayer ].
+		self checkIfBattle: activePlayer ]
 ]
 
 { #category : 'interaction loop' }
