@@ -24,9 +24,15 @@ ShipInStandBy class >> turnsToSkipShouldBePositive: aNumberOfTurns [
 ]
 
 { #category : 'adding' }
-ShipInStandBy >> addTwoSkips [
+ShipInStandBy >> addSkips: aNumber [
 
-	^ self class createWith: id and: turnsToSkip + 2
+	^ self class createWith: id and: turnsToSkip + aNumber
+]
+
+{ #category : 'accessing' }
+ShipInStandBy >> hasTurnsToSkip [
+
+	^ turnsToSkip > 0
 ]
 
 { #category : 'initialization' }
@@ -36,14 +42,15 @@ ShipInStandBy >> initializeWith: anId and: aNumberOfTurns [
 	turnsToSkip := aNumberOfTurns
 ]
 
-{ #category : 'accessing' }
-ShipInStandBy >> skipsTurn [
-
-	^ turnsToSkip > 0
-]
-
 { #category : 'creation' }
-ShipInStandBy >> turnSkipped [
+ShipInStandBy >> skipATurn [
 
 	^ self class createWith: id and: turnsToSkip - 1
+]
+
+{ #category : 'accessing' }
+ShipInStandBy >> turnsToSkip [
+	"Used for testing"
+
+	^ turnsToSkip
 ]

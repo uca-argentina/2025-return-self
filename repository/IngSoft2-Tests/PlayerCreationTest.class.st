@@ -1,12 +1,12 @@
 Class {
 	#name : 'PlayerCreationTest',
-	#superclass : 'InstanceCreationTest',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-PlayerCreationTest >> testWhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
+PlayerCreationTest >> test01WhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 
 	self
 		should: [ ShipPlayerAssociation createWith: 1 and: '' ]

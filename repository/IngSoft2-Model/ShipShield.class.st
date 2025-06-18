@@ -37,13 +37,20 @@ ShipShield >> initializeWith: anId and: anAmountOfShields [
 ]
 
 { #category : 'accessing' }
-ShipShield >> loseShield [
+ShipShield >> loseShields: anAmount [
 
-	^ self class createWith: id and: shields - 1
+	^ self class createWith: id and: shields - anAmount
 ]
 
 { #category : 'testing' }
 ShipShield >> needsRecovery [
 
 	^ shields = 0
+]
+
+{ #category : 'accessing' }
+ShipShield >> shields [
+	"Used for testing os displaying"
+
+	^ shields
 ]

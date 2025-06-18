@@ -25,7 +25,7 @@ TurnManager >> addTwoSkipsTo: aPlayer [
 
 	| playerToApply |
 	playerToApply := self findShipReference: aPlayer.
-	playerToApply := playerToApply addTwoSkips.
+	playerToApply := playerToApply addSkips: 2.
 	self updateShipReference: playerToApply
 ]
 
@@ -34,7 +34,7 @@ TurnManager >> checkNoTurnsToSkip [
 
 	| activePlayer |
 	activePlayer := self playerInTurn.
-	^ activePlayer skipsTurn
+	^ activePlayer hasTurnsToSkip not
 ]
 
 { #category : 'initialization' }
@@ -57,17 +57,11 @@ TurnManager >> playNextTurn [
 	self nextPlayerTurnBegins.
 	activePlayer := self playerInTurn.
 	"mientras agarre un player salteado..."
-	activePlayer skipsTurn
-		"ifTrue: [
-			activePlayer := activePlayer turnSkipped.
-			playersTurnsSkipped at: nextPlayerIndex put: activePlayer.
-			aGame nextPlayerThrowsDice]"
-		"ifFalse: [ aGame resetShieldsAfter2TurnsWithout ]"
-		whileTrue: [
-			activePlayer := activePlayer turnSkipped.
-			playersFeature at: nextPlayerIndex put: activePlayer.
-			self nextPlayerTurnBegins.
-			activePlayer := self playerInTurn].
+	[ activePlayer hasTurnsToSkip ] whileTrue: [
+		activePlayer := activePlayer skipATurn.
+		self updateShipReference: activePlayer.
+		self nextPlayerTurnBegins.
+		activePlayer := self playerInTurn ]
 ]
 
 { #category : 'accessing' }

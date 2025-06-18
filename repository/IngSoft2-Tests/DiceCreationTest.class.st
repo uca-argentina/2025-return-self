@@ -1,12 +1,12 @@
 Class {
 	#name : 'DiceCreationTest',
-	#superclass : 'InstanceCreationTest',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-DiceCreationTest >> testCreationOfDice [
+DiceCreationTest >> test01CreationOfDice [
 
 	self
 		should: [ Dice faces: -10 ]

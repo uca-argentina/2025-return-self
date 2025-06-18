@@ -1,59 +1,50 @@
 Class {
 	#name : 'GameCreationTest',
-	#superclass : 'InstanceCreationTest',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-GameCreationTest >> test002WhenTryingToCreateAGameWithOnePlayersThenItRaisesError [
+GameCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
 
-	| aLoadedDie aTestBoard |
+	| aGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
 	aLoadedDie := LoadedDie rolling: 4.
+	aGroupOfPlayers := {
+		                   (ShipPlayerAssociation
+			                    createWith: 1
+			                    and: 'Pedro').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			Game
-				playedBy: (ShipPlayerAssociation createWith: 1 and: 'Julian')
+				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
-				withLaps: 1 ]
+				withLaps: -10 ]
 		raiseErrorWithMessageText:
-		'You cant play with less than two players.'
+		'The amount of laps cannot be lower than 1.'
 ]
 
 { #category : 'tests' }
-GameCreationTest >> testWhenTryingToCreateAGameWithTwoPlayersSharingIDThenItRaisesError [
+GameCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
 
-	| anotherGroupOfPlayers aLoadedDie aTestBoard |
+	| aGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
 	aLoadedDie := LoadedDie rolling: 4.
-	anotherGroupOfPlayers := {
-		                         (ShipPlayerAssociation createWith: 12 and: 'Pedro').
-		                         (ShipPlayerAssociation createWith: 12 and: 'Juan') }.
+	aGroupOfPlayers := {
+		                   (ShipPlayerAssociation
+			                    createWith: 1
+			                    and: 'Pedro').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			Game
-				playedBy: anotherGroupOfPlayers
+				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard
-				withSetOfDie: aLoadedDie
-				withLaps: 1 ]
+				withSetOfDie: {}
+				withLaps: 10 ]
 		raiseErrorWithMessageText:
-		'You cant have different players with the same ID.'
-]
-
-{ #category : 'tests' }
-GameCreationTest >> testWhenTryingToCreateAGameWithoutPlayersThenItRaisesError [
-| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
-	aLoadedDie := LoadedDie rolling: 4.
-	self
-		should: [
-			Game
-				playedBy: {}
-				withBoard: aTestBoard
-				withSetOfDie: aLoadedDie
-				withLaps: 1 ]
-		raiseErrorWithMessageText:
-		'You cant play with less than two players.'
+		'You must have at least one die to play.'
 ]

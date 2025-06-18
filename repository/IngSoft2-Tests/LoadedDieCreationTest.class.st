@@ -1,12 +1,12 @@
 Class {
 	#name : 'LoadedDieCreationTest',
-	#superclass : 'InstanceCreationTest',
+	#superclass : 'ReturnSelfTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-LoadedDieCreationTest >> testTryingToRollLowerThanOneRaisesAnError [
+LoadedDieCreationTest >> test01TryingToRollLowerThanOneRaisesAnError [
 
 	self
 		should: [ LoadedDie rolling: 0 ]
