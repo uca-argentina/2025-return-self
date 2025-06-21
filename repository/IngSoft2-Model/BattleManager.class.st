@@ -41,7 +41,7 @@ BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
 ]
 
 { #category : 'updating' }
-BattleManager >> forceAShieldReset: aPlayer [
+BattleManager >> forceAShieldResetTo: aPlayer [
 
 	| activePlayer |
 	activePlayer := self findShipReference: aPlayer.
@@ -53,15 +53,4 @@ BattleManager >> forceAShieldReset: aPlayer [
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
 playersFeature := aGroupOfPlayers 
-]
-
-{ #category : 'updating' }
-BattleManager >> resetShieldsIfNeeded: aPlayer [
-
-	| activePlayer |
-	activePlayer := self findShipReference: aPlayer.
-	activePlayer needsRecovery ifTrue: [ 
-		activePlayer := activePlayer forceAShieldReset
-	].
-	self updateShipReference: activePlayer
 ]

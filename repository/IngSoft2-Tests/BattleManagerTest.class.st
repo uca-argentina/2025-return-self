@@ -32,7 +32,7 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 	aShieldStatus := aShieldStatus loseShields: 1.
 	aBattleManager updateShipReference: aShieldStatus.
 
-	aBattleManager forceAShieldReset: aPlayer.
+	aBattleManager forceAShieldResetTo: aPlayer.
 	aNewShieldStatus := aBattleManager findShipReference: aShieldStatus. "Better for seeing the change"
 
 	self assert: aNewShieldStatus shields equals: 3.
@@ -40,24 +40,7 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test02WhenManagerSeesAPlayerNeedsShieldsThenItForcesAShieldReset [
-	"A little internal touching is needed, using findShipReference and updateShipReference"
-
-	| aShieldStatus aNewShieldStatus |
-	aShieldStatus := aBattleManager findShipReference: aPlayer.
-	aShieldStatus := aShieldStatus loseShields: 1.
-	aShieldStatus := aShieldStatus loseShields: 1.
-	aShieldStatus := aShieldStatus loseShields: 1.
-	aBattleManager updateShipReference: aShieldStatus.
-
-	aBattleManager resetShieldsIfNeeded: aPlayer.
-	aNewShieldStatus := aBattleManager findShipReference: aPlayer.
-
-	self assert: aNewShieldStatus shields equals: 3
-]
-
-{ #category : 'tests' }
-BattleManagerTest >> test03WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArrayWithLosingShip [
+BattleManagerTest >> test02WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArrayWithLosingShip [
 
 	| aGroupOfPlayers anotherPlayer playerWhoLost aSequence aLoadedDie aSecondLoadedDie |
 	aLoadedDie := LoadedDie rolling: 2.

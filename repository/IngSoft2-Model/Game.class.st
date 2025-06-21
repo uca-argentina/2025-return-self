@@ -30,31 +30,25 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 	self twoPlayersCantHaveTheSameId: aGroupOfXPlayers.
 	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
 	^ self new
-		  initializePlayedBy: aGroupOfXPlayers asArray
+		  initializePlayedBy: aGroupOfXPlayers
 		  withBoard: aBoard
 		  withSetOfDie: aSetOfDie
 		  withLaps: laps
 ]
 
 { #category : 'checking' }
-Game >> checkIfBattle: activePlayer [
+Game >> engageInBattle: activePlayer [
 
 	| playersToEngage playerWhoLost |
 	playersToEngage := positionManager playerInSamePositionThan:
 		                   activePlayer.
-	playersToEngage size = 2 ifFalse: [ ^ self ].
 	playerWhoLost := battleManager
 		                 engage: playersToEngage
 		                 inBattleUsing: setOfDie.
 	playerWhoLost needsRecovery ifTrue: [
-		turnManager addTwoSkipsTo: playerWhoLost ].
+		turnManager addTwoSkipsTo: playerWhoLost.
+		battleManager forceAShieldResetTo: playerWhoLost ].
 	positionManager resetLapTo: playerWhoLost
-]
-
-{ #category : 'checking' }
-Game >> checkIfRecoveryNeeded: aPlayer [
-
-	turnManager checkNoTurnsToSkip ifTrue: [ battleManager resetShieldsIfNeeded: aPlayer ]
 ]
 
 { #category : 'initialization' }
@@ -84,7 +78,7 @@ Game >> nextPlayerSkipsTurn [
 	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
 	turnManager nextPlayerTurnBegins.
 	activePlayer := turnManager playerInTurn.
-	battleManager forceAShieldReset: activePlayer.
+	battleManager forceAShieldResetTo: activePlayer.
 ]
 
 { #category : 'interaction loop' }
@@ -99,9 +93,6 @@ Game >> nextPlayerThrowsDice [
 	turnManager playNextTurn.
 	activePlayer := turnManager playerInTurn.
 
-	"---Resetea, si es necesario, los escudos luego de los dos turnos de penalizacion---"
-	self checkIfRecoveryNeeded: activePlayer.
-
 	"---Avanza con la tirada---"
 	positionManager move: activePlayer forwardWith: setOfDie throw.
 
@@ -115,8 +106,8 @@ Game >> nextPlayerThrowsDice [
 		                  to: playersFeature.
 
 	"---Batalla---"
-	(positionManager checkSafeZone: activePlayer) ifFalse: [
-		self checkIfBattle: activePlayer ]
+	(positionManager checkIfBattle: activePlayer) ifTrue: [
+		self engageInBattle: activePlayer ]
 ]
 
 { #category : 'interaction loop' }

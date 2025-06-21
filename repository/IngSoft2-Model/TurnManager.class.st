@@ -29,14 +29,6 @@ TurnManager >> addTwoSkipsTo: aPlayer [
 	self updateShipReference: playerToApply
 ]
 
-{ #category : 'checking' }
-TurnManager >> checkNoTurnsToSkip [
-
-	| activePlayer |
-	activePlayer := self playerInTurn.
-	^ activePlayer hasTurnsToSkip not
-]
-
 { #category : 'initialization' }
 TurnManager >> initializePlayersTurnWith: aGroup [
 

@@ -48,12 +48,9 @@ PositionManagerTest >> test02PositionManagerCanTellItsShipsToMoveBackwardsADista
 ]
 
 { #category : 'tests' }
-PositionManagerTest >> test03WhenAPlayerIsInFirstTileThenManagerTellsItsInSafeZone [
+PositionManagerTest >> test03WhenAPlayerIsInFirstTileThenManagerTellsCantBattle [
 
-	aPositionManager move: anotherPlayer forwardWith: 5.
-
-	self assert: (aPositionManager checkSafeZone: aPlayer).
-	self deny: (aPositionManager checkSafeZone: anotherPlayer)
+	self deny: (aPositionManager checkIfBattle: aPlayer).
 ]
 
 { #category : 'tests' }
@@ -158,4 +155,13 @@ PositionManagerTest >> test12PositionManagerCanReturn2DArrayWithIdAndAStringCont
 	self
 		assert: aPositionManager playerPositions
 		equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+PositionManagerTest >> test13WhenTwoPlayersAreNotInFirstTileAndInASameTileThenManagerTellsTheyCanBattle [
+
+	aPositionManager move: aPlayer forwardWith: 5.
+	aPositionManager move: anotherPlayer forwardWith: 5.
+	
+	self assert: (aPositionManager checkIfBattle: aPlayer).
 ]

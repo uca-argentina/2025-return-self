@@ -65,20 +65,7 @@ TurnManagerTest >> test03ATurnManagerNotStartedWithNextPlayerTurnBeginsCantRetur
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test04ATurnManagerCanCheckIfPlayerInTurnHasToSkip [
-
-	| originalTurnStatus newTurnStatus |
-	originalTurnStatus := aTurnManager checkNoTurnsToSkip.
-
-	aTurnManager addTwoSkipsTo: aTurnManager playerInTurn.
-	newTurnStatus := aTurnManager checkNoTurnsToSkip.
-
-	self assert: originalTurnStatus.
-	self deny: newTurnStatus
-]
-
-{ #category : 'tests' }
-TurnManagerTest >> test05WhenManagerAddsSkipsToBothShipsAndPlaysNextTurnThenItDiscountsTurnsAndChangesNextPlayerIndex [
+TurnManagerTest >> test04WhenManagerAddsSkipsToBothShipsAndPlaysNextTurnThenItDiscountsTurnsAndChangesNextPlayerIndex [
 
 	| originalTurnStatus newTurnStatus |
 	aTurnManager addTwoSkipsTo: aPlayer.

@@ -31,16 +31,17 @@ PositionManager class >> lapHasToBeGreaterThanZero: aNumberOfLaps [
 ]
 
 { #category : 'checking' }
+PositionManager >> checkIfBattle: aPlayer [
+
+	^ (self findShipReference: aPlayer) inSafeZone not and:
+		  (self playerInSamePositionThan: aPlayer) size = 2
+]
+
+{ #category : 'checking' }
 PositionManager >> checkIfReachedANewLap: aPlayer [
 
 	(aPlayer positionGreaterThan: boardLength) ifFalse: [ ^ aPlayer ].
 	^ aPlayer changeLapAndCorrectPositionWith: boardLength
-]
-
-{ #category : 'checking' }
-PositionManager >> checkSafeZone: aPlayer [
-
-	^ (self findShipReference: aPlayer) inSafeZone
 ]
 
 { #category : 'initialization' }
