@@ -141,52 +141,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test04WhenPlayerWaits2TurnsAfterLosingAllSHieldsThenItReplenishesShields [
-
-	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
-	loadedDiceToMove1 := {
-		                     (LoadedDie rolling: 1).
-		                     (LoadedDie rolling: 1) }.
-	loadedDiceToMove2 := {
-		                     (LoadedDie rolling: 2).
-		                     (LoadedDie rolling: 1) }.
-	loadedDiceToMove3 := {
-		                     (LoadedDie rolling: 3).
-		                     (LoadedDie rolling: 1) }.
-	loadedDiceToFight := {
-		                     (LoadedDie rolling: 1).
-		                     (LoadedDie rolling: 5) }.
-	dieThrowSequence := SequenceOfDieForTesting withDie:
-		                    loadedDiceToMove1 , loadedDiceToFight
-		                    , loadedDiceToMove2 , loadedDiceToFight
-		                    , loadedDiceToMove3 , loadedDiceToFight
-		                    , loadedDiceToMove1 , loadedDiceToMove1
-		                    , loadedDiceToMove1.
-
-	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 30
-		              andEffects: { aWormhole }.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: dieThrowSequence
-		         withLaps: 1.
-
-	self play: 6 in: aGame.
-
-	aShipShield := aGame shieldsFeatureOf: aPlayer.
-
-	self play: 3 in: aGame.
-
-	aNewShipShield := aGame shieldsFeatureOf: aPlayer.
-
-	self assert: aShipShield shields equals: 0.
-	self assert: aNewShipShield shields equals: 3
-]
-
-{ #category : 'tests' }
-GameplayBattleMechanicTest >> test05SkippingTurnAndReplenishingShield [
+GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 
 	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
 	loadedDiceToMove1 := {

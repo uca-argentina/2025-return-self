@@ -87,9 +87,12 @@ PositionManager >> playerPositions [
 	| aListOfPositions |
 	aListOfPositions := playersFeature collect: [ :player |
 		                    {
-			                    player id.
-			                    ('Position: ' , player position asString
-			                     , ', Lap: ' , player lap asString) } ].
+			                    player.
+			                    (String streamContents: [ :s |
+				                     s nextPutAll: 'Position: '.
+				                     s nextPutAll: player position asString.
+				                     s nextPutAll: ', Lap: '.
+				                     s nextPutAll: player lap asString ]) } ].
 	^ aListOfPositions
 ]
 
