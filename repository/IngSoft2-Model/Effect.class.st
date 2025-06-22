@@ -20,9 +20,9 @@ self shouldBeImplemented.
 ]
 
 { #category : 'positioning' }
-Effect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
+Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	self subclassResponsibility
+self subclassResponsibility.
 ]
 
 { #category : 'initialization' }

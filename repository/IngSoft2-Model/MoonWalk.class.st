@@ -26,17 +26,9 @@ MoonWalk class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-MoonWalk >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
+MoonWalk >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	| playersToApplyEffect unaffectedPlayer |
-	unaffectedPlayer := aGroupOfPlayers at: anIndex.
-	"	unaffectedPlayer position = tile ifTrue: ["
-	playersToApplyEffect := aGroupOfPlayers collect: [ :player |
-		                        player goBackTiles: debuff ].
-	playersToApplyEffect at: anIndex put: unaffectedPlayer.
-	^ playersToApplyEffect
-	"	].
-^aGroupOfPlayers"
+	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff.
 ]
 
 { #category : 'as yet unclassified' }

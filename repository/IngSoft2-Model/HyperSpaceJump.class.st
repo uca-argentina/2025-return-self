@@ -15,17 +15,13 @@ HyperSpaceJump class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
-		| aPlayer |
-		"VERIFICAR"
-	aPlayer := aGroupOfPlayers at: anIndex.
-"	aPlayer position = tile ifTrue: ["
-		aPlayer := aPlayer advanceTiles: buff.
-		aPlayer := aPlayer loseShield.
-		 (aGroupOfPlayers at: anIndex put: aPlayer).
-"		]."
-	^aGroupOfPlayers 
-	
+HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+
+
+		positionManager move: aPlayer forwardWith: buff.
+		battleManager playerLoseShield: aPlayer.
+
 ]
 
 { #category : 'initialization' }

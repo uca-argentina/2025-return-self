@@ -2,29 +2,32 @@ Class {
 	#name : 'Tile',
 	#superclass : 'Object',
 	#instVars : [
-		'effect',
-		'parsec'
+		'effect'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Tile class >> createWithPosition: aPosition andEffect: anEffect [ 
-	self parsecsMustBePositive: aPosition.
-	^self new initializeTileWithPosition: aPosition andEffect: anEffect.
+Tile class >> createWithEffect: anEffect [ 
+
+	^self new initializeTileWithEffect: anEffect.
 ]
 
 { #category : 'as yet unclassified' }
-Tile class >> parsecsMustBePositive: aPosition [
+Tile >> applyEffectOn: aPlayer using: aSetOfManagers [
 
-aPosition <= 0 ifTrue: [ Error signal: 'a tile must have positive parsecs' ]
+effect applyEffectOn: aPlayer using: aSetOfManagers
+]
 
+{ #category : 'accessing' }
+Tile >> effect [
+
+^effect 
 ]
 
 { #category : 'initialization' }
-Tile >> initializeTileWithPosition: aPosition andEffect: anEffect [
+Tile >> initializeTileWithEffect: anEffect [
 
-parsec := aPosition .
 effect := anEffect .
 ]

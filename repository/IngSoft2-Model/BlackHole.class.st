@@ -15,14 +15,10 @@ BlackHole class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-BlackHole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-	| aPlayer |
-	aPlayer := aGroupOfPlayers at: anIndex.
-"	aPlayer position = tile ifTrue: ["
-		aPlayer := aPlayer goBackTiles: debuff.
-		 (aGroupOfPlayers at: anIndex put: aPlayer).
-"		]."
-	^aGroupOfPlayers
+BlackHole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+	positionManager move: aPlayer backwardWith: debuff.
+
 	
 ]
 

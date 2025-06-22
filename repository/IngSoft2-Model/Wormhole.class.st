@@ -41,21 +41,12 @@ Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-	| player distance newPlayer |
-	player := aGroupOfPlayers at: anIndex.
-
-	(player position = tile or: [ player position = endpoint ]) ifFalse: [
-		^ aGroupOfPlayers ].
+Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+	| distance |
 
 	distance := endpoint - tile.
-	newPlayer :=player position = tile ifTrue: [ player advanceTiles: distance ] ifFalse: [player goBackTiles: distance].
+	distance > 0 ifTrue: [ positionManager move: aPlayer forwardWith: distance ] ifFalse: [positionManager move: aPlayer backwardWith: -1*(distance)].
 
-	aGroupOfPlayers
-		at: anIndex
-		put: newPlayer.
-
-	^ aGroupOfPlayers
 
 ]
 

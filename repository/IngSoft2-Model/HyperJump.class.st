@@ -22,15 +22,12 @@ HyperJump class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-HyperJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
-			| aPlayer |
-	aPlayer := aGroupOfPlayers at: anIndex.
-"	aPlayer position = tile ifTrue: ["
-		aPlayer := aPlayer advanceTiles: actualBuff .
+HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+	positionManager move: aPlayer forwardWith: actualBuff .
+
 		self lowerBuff.
-		(aGroupOfPlayers at: anIndex put: aPlayer).
-"		]."
-	^aGroupOfPlayers
+
 ]
 
 { #category : 'initialization' }

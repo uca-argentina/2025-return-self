@@ -16,6 +16,14 @@ BattleManager class >> createWith: aGroupOfPlayers [
 	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
+{ #category : 'as yet unclassified' }
+BattleManager >> allDecreaseAShield [
+
+playersFeature do: [ :player | self updateShipReference: (player loseShields: 1) ].
+
+^ playersFeature select: [ :player | player needsRecovery ].
+]
+
 { #category : 'play interface' }
 BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
 
@@ -53,4 +61,13 @@ BattleManager >> forceAShieldResetTo: aPlayer [
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
 playersFeature := aGroupOfPlayers 
+]
+
+{ #category : 'as yet unclassified' }
+BattleManager >> playerLoseShield: aPlayer [
+
+| aShipShield |
+aShipShield := self findShipReference: aPlayer.
+
+self updateShipReference: (aShipShield loseShields: 1).
 ]

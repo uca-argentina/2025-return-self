@@ -12,6 +12,6 @@ NoEffect class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-NoEffect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-	^aGroupOfPlayers 
+NoEffect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
 ]

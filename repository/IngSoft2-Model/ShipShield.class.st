@@ -38,8 +38,9 @@ ShipShield >> initializeWith: anId and: anAmountOfShields [
 
 { #category : 'accessing' }
 ShipShield >> loseShields: anAmount [
-
-	^ self class createWith: id and: shields - anAmount
+	| newShields |
+	newShields := shields - anAmount max: 0.
+	^ self class createWith: id and: newShields
 ]
 
 { #category : 'testing' }

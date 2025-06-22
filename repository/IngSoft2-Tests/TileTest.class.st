@@ -12,17 +12,5 @@ TileTest >> testBanana [
 aPosition := 1.
 anEffect := NoEffect new.
 
-aTile := Tile createWithPosition: aPosition andEffect: anEffect.
-]
-
-{ #category : 'tests' }
-TileTest >> testWhenTryingToCreateATileWithNegativeParsecThenItRaisesError [
-
-	| aPosition anEffect |
-	aPosition := -2.
-	anEffect := NoEffect new.
-
-	self
-		should: [ Tile createWithPosition: aPosition andEffect: anEffect ]
-		raiseErrorWithMessageText: 'a tile must have positive parsecs'
+aTile := Tile createWithEffect: anEffect.
 ]
