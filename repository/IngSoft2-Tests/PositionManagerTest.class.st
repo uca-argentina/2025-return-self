@@ -165,3 +165,18 @@ PositionManagerTest >> test13WhenTwoPlayersAreNotInFirstTileAndInASameTileThenMa
 	
 	self assert: (aPositionManager checkIfBattle: aPlayer).
 ]
+
+{ #category : 'tests' }
+PositionManagerTest >> test14PositionManagerCanReturn2DArrayWithIdAndAStringContainingThePlaceRankingOfShips [
+
+	| assertingVariableData |
+	assertingVariableData := {
+		                         { 2. 'Place: 1' }.
+		                         { 1. 'Place: 2' } }.
+
+	aPositionManager move: anotherPlayer forwardWith: 5.
+
+	self
+		assert: aPositionManager playerRanking
+		equals: assertingVariableData
+]

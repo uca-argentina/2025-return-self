@@ -55,6 +55,12 @@ ShipPosition >> changeLapAndCorrectPositionWith: aBacktrackDistance [
 	^ self class createWith: id and: position - aBacktrackDistance and: lap + 1
 ]
 
+{ #category : 'accessing' }
+ShipPosition >> distanceTravelledWith: boardLength [
+
+	^ lap * boardLength + position
+]
+
 { #category : 'positioning' }
 ShipPosition >> goBackTiles: aDistance [
 

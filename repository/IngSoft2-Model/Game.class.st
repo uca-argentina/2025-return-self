@@ -122,8 +122,20 @@ Game >> playerPositions [
 
 	| positionsWithoutName |
 	positionsWithoutName := positionManager playerPositions.
-	^ playersFeature collect: [ :each |
-		  each searchReferenceAndConcatName: positionsWithoutName ]
+	^ (playersFeature collect: [ :each |
+		   each searchReferenceAndConcatName: positionsWithoutName ])
+		  asArray
+]
+
+{ #category : 'tests - printing' }
+Game >> playerRanking [
+	"Used for testing"
+
+	| positionsWithoutName |
+	positionsWithoutName := positionManager playerRanking.
+	^ (playersFeature collect: [ :each |
+		   each searchReferenceAndConcatName: positionsWithoutName ])
+		  asArray
 ]
 
 { #category : 'testing' }

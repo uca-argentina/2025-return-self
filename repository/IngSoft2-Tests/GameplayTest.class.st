@@ -204,3 +204,28 @@ GameplayTest >> test08LoopingOfTheLap [
 
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+GameplayTest >> test09LoopingOfTheLapWithRanking [
+
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Place: 1'.
+	                         'Name: Tomi, Place: 2' }.
+	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
+	aTestBoard := BoardForTesting
+		              createWithTiles: 5
+		              andEffects: { aWormhole }.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 6).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 2.
+
+	self play: 1 in: aGame.
+
+	self assert: aGame playerRanking equals: assertingVariableData
+]

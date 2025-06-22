@@ -93,6 +93,23 @@ PositionManager >> playerPositions [
 	^ aListOfPositions
 ]
 
+{ #category : 'tests - printing' }
+PositionManager >> playerRanking [
+	"Used for testing"
+
+	| anOrderListOfPositions |
+	anOrderListOfPositions := playersFeature sorted: [ :player :nextOne |
+		                          (player distanceTravelledWith: boardLength)
+		                          >
+		                          (nextOne distanceTravelledWith:
+			                           boardLength) ].
+
+	^ anOrderListOfPositions withIndexCollect: [ :player :index |
+		  {
+			  player id.
+			  ('Place: ' , index asString) } ]
+]
+
 { #category : 'initialization' }
 PositionManager >> resetLapTo: aPlayer [
 	| playerToReset |
