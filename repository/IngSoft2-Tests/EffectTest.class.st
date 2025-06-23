@@ -21,7 +21,7 @@ EffectTest >> setUp [
 EffectTest >> testGamePlayedWithABlackHoleTile [
 
 	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard aTileList |
-	aBlackHoleTile := BlackHole createOnTile: 4.
+	aBlackHoleTile := BlackHole create.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 4 put: (Tile createWithEffect: aBlackHoleTile).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -47,7 +47,7 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Position: 7, Lap: 0'.
 	                         'Name: Tomi, Position: 8, Lap: 0' }.
-	hyperJumpEffect := HyperJump createOnTile: 3.
+	hyperJumpEffect := HyperJump create.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: hyperJumpEffect).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -71,7 +71,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
 	                         'Name: Tomi, Position: 8, Lap: 0' }.
-	aHyperSpaceJumpEffect := HyperSpaceJump createOnTile: 4.
+	aHyperSpaceJumpEffect := HyperSpaceJump create.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 4 put: (Tile createWithEffect: aHyperSpaceJumpEffect).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -94,7 +94,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 EffectTest >> testGamePlayedWithAMoonWalkTile [
 
 	| aGame aLoadedDie aMoonWalkEffect aSecondLoadedDie aSequence aTestBoard aTileList |
-	aMoonWalkEffect := MoonWalk createOnTile: 15 withDebuff: 11.
+	aMoonWalkEffect := MoonWalk createEspeciallyWith: 11.
 	aTileList := self createTileListWith: 24.
 	aTileList at: 4 put: (Tile createWithEffect: aMoonWalkEffect).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -140,7 +140,7 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList assertingVariable |
 	assertingVariable := { 'Name: Juan, Position: 19, Lap: 0'. 'Name: Tomi, Position: 1, Lap: 0' }.
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 19.
+	aWormhole := Wormhole createWith: 19.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -161,9 +161,9 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 
 	| aGame aSequence aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile aTileList |
-	aHSJTile := HyperSpaceJump createOnTile: 4.
-	aMoonWalkTile := MoonWalk createOnTile: 15 withDebuff: 11.
-	aBlackHoleTile := BlackHole createOnTile: 2.
+	aHSJTile := HyperSpaceJump create.
+	aMoonWalkTile := MoonWalk createEspeciallyWith: 11.
+	aBlackHoleTile := BlackHole create.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 4 put: (Tile createWithEffect: aHSJTile).
 	aTileList at: 15 put: (Tile createWithEffect: aMoonWalkTile).
@@ -192,7 +192,7 @@ EffectTest >> testGamePlayedWithAnAtomikBombTile [
 	                          'Name: Tomi, Position: 5, Lap: 0' }.
 	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
 	                          'Name: Tomi, Position: 1, Lap: 0' }.
-	anAtomikBombEffect := AtomikBomb new.
+	anAtomikBombEffect := AtomikBomb create.
 	aTileList := self createTileListWith: 24.
 	aTileList at: 7 put: (Tile createWithEffect: anAtomikBombEffect).
 	aTestBoard := BoardForTesting createWith: aTileList.

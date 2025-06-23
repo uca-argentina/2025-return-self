@@ -23,7 +23,7 @@ GameplayTest >> setUp [
 GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 
 	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard aTileList |
-	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 5 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -46,7 +46,7 @@ GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 
 	| aGame aLoadedDie aWormhole aTestBoard aTileList |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -66,7 +66,7 @@ GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -89,7 +89,7 @@ GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -113,7 +113,7 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls anotherPlayer aTileList |
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
-	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 30.
 	aTileList at: 5 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -139,7 +139,7 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -161,7 +161,7 @@ GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner 
 GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	aWormhole := Wormhole createWith: 14.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -186,7 +186,7 @@ GameplayTest >> test08LoopingOfTheLap [
 	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 1'.
 	                         'Name: Tomi, Position: 1, Lap: 0' }.
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
+	aWormhole := Wormhole createWith: 4.
 	aTileList := self createTileListWith: 5.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -211,7 +211,7 @@ GameplayTest >> test09LoopingOfTheLapWithRanking [
 	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Place: 1'.
 	                         'Name: Tomi, Place: 2' }.
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
+	aWormhole := Wormhole createWith: 4.
 	aTileList := self createTileListWith: 5.
 	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.

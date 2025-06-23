@@ -49,6 +49,12 @@ ShipPosition >> advanceTiles: aDistance [
 		  and: lap
 ]
 
+{ #category : 'accessing' }
+ShipPosition >> calculateDelta: anotherPosition [
+
+^ anotherPosition - position
+]
+
 { #category : 'positioning' }
 ShipPosition >> changeLapAndCorrectPositionWith: aBacktrackDistance [
 

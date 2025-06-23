@@ -9,14 +9,20 @@ Class {
 }
 
 { #category : 'creation' }
-MoonWalk class >> createOnTile: aTile [
-	"ver en la generacion automatica"
-	^self new initializeOnTile: aTile withDebuff: 4.
+MoonWalk class >> create [
+	^self new initializeEffectWith: (1 to: 5) atRandom
 ]
 
 { #category : 'creation' }
-MoonWalk class >> createOnTile: aTile withDebuff: aDebuff [
-	^self new initializeOnTile: aTile withDebuff: aDebuff.
+MoonWalk class >> createEspeciallyWith: aSpecificDebuff [
+
+	^ self new initializeEffectWith: aSpecificDebuff
+]
+
+{ #category : 'creation' }
+MoonWalk class >> createWith: aMaxDebuff [
+
+	^ self new initializeEffectWith: (1 to: aMaxDebuff) atRandom
 ]
 
 { #category : 'creation' }
@@ -31,14 +37,14 @@ MoonWalk >> applyEffectOn: aPlayer using: positionManager and: battleManager and
 	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff.
 ]
 
-{ #category : 'as yet unclassified' }
-MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff [
-	tile := aTile.
-	debuff := aDebuff.
+{ #category : 'initialization' }
+MoonWalk >> initializeEffectWith: aDebuff [
+
+	debuff := aDebuff
 ]
 
-{ #category : 'positioning' }
-MoonWalk >> isOf:type [
+{ #category : 'testing' }
+MoonWalk >> isMoonWalk [
 
-^type='MoonWalk'
+	^ true
 ]

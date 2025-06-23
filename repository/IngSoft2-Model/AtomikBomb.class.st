@@ -25,8 +25,8 @@ AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager a
 
 ]
 
-{ #category : 'positioning' }
-AtomikBomb >> isOf: type [
+{ #category : 'testing' }
+AtomikBomb >> isAtomikBomb [
 
-	^ type = 'AtomikBomb'
+	^ true
 ]

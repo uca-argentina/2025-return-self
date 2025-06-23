@@ -1,17 +1,14 @@
 Class {
 	#name : 'Effect',
 	#superclass : 'Object',
-	#instVars : [
-		'tile'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Effect class >> createOnTile: aTile [
+Effect class >> create [
 
-^ self new initializeOnTile: aTile
+	^ self new
 ]
 
 { #category : 'creation' }
@@ -29,4 +26,46 @@ self subclassResponsibility.
 { #category : 'testing' }
 Effect >> hasAnEffect [
 	^true
+]
+
+{ #category : 'testing' }
+Effect >> isAtomikBomb [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isBlackHole [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isHyperJump [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isHyperSpaceJump [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isMoonWalk [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isNoEffect [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isWormhole [
+
+	^ false
 ]

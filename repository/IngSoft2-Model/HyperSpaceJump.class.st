@@ -2,11 +2,22 @@ Class {
 	#name : 'HyperSpaceJump',
 	#superclass : 'Effect',
 	#instVars : [
-		'buff'
+		'buff',
+		'shieldDebuff'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'creation' }
+HyperSpaceJump class >> create [
+	^self new initializeEffectWith: 4 and: 1
+]
+
+{ #category : 'creation' }
+HyperSpaceJump class >> createWith: aBoost and: aShieldDebuff [
+	^self new initializeEffectWith: aBoost and: aShieldDebuff 
+]
 
 { #category : 'creation' }
 HyperSpaceJump class >> effectProbability [
@@ -25,14 +36,14 @@ HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManag
 ]
 
 { #category : 'initialization' }
-HyperSpaceJump >> initializeOnTile: aTile [
-	tile := aTile.
-	buff := 4.
+HyperSpaceJump >> initializeEffectWith: aBoost and: aShieldDebuff [
 
+	buff := aBoost.
+	shieldDebuff:=aShieldDebuff 
 ]
 
-{ #category : 'positioning' }
-HyperSpaceJump >> isOf:type [
+{ #category : 'testing' }
+HyperSpaceJump >> isHyperSpaceJump [ 
 
-^type='HyperSpaceJump'
+	^ true
 ]

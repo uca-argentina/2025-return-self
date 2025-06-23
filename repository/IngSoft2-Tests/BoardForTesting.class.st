@@ -26,12 +26,11 @@ BoardForTesting class >> createWith: aCollectionOfTiles [
 ]
 
 { #category : 'positioning' }
-BoardForTesting >> applyEffectTriggeredBy: aPlayer [ 
+BoardForTesting >> applyEffectTriggeredBy: aPlayer [
 
 	| detectedTile |
-	
 	detectedTile := tiles at: aPlayer position.
-^ detectedTile effect.
+	^ detectedTile effect
 ]
 
 { #category : 'accessing' }

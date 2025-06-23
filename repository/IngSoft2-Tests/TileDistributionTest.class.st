@@ -22,17 +22,16 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 
 	| aTestBoard aBuilder blackHoles noEffect |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101
-		            andParsecs: 1000.
+		            forBoardWithLength: 101.
 	aBuilder addEffectToBuilder: BlackHole.
-	aTestBoard := aBuilder buildBoard.
+	aTestBoard := aBuilder buildBoardWith:1000.
 
 	blackHoles := 0.
 	noEffect := 0.
 	aTestBoard tiles do: [ :tile |
-		(tile effect isOf: 'BlackHole') ifTrue: [
+		(tile effect isBlackHole) ifTrue: [
 			blackHoles := blackHoles + 1 ].
-		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ] ].
+		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ] ].
 
 	self assert: blackHoles equals: 20.
 	self assert: noEffect equals: 81.
@@ -43,20 +42,19 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 
 	| aTestBoard aBuilder blackHoles atomikBombs noEffect |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101
-		            andParsecs: 1000.
+		            forBoardWithLength: 101.
 	aBuilder addEffectToBuilder: BlackHole.
 	aBuilder addEffectToBuilder: AtomikBomb.
-	aTestBoard := aBuilder buildBoard.
+	aTestBoard := aBuilder buildBoardWith:1000.
 
 	blackHoles := 0.
 	atomikBombs := 0.
 	noEffect := 0.
 	aTestBoard tiles do: [ :tile |
-		(tile effect isOf: 'BlackHole') ifTrue: [
+		(tile effect isBlackHole) ifTrue: [
 			blackHoles := blackHoles + 1 ].
-		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ].
-		(tile effect isOf: 'AtomikBomb') ifTrue: [
+		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ].
+		(tile effect isAtomikBomb) ifTrue: [
 			atomikBombs := atomikBombs + 1 ] ].
 
 
@@ -68,12 +66,11 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 { #category : 'tests' }
 TileDistributionTest >> testBoardWithEveryThing [
 
-	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole|
+	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101
-		            andParsecs: 1000.
-	aBuilder addEveryEffectToBuilder .
-	aTestBoard := aBuilder buildBoard.
+		            forBoardWithLength: 101.
+	aBuilder addEveryEffectToBuilder.
+	aTestBoard := aBuilder buildBoardWith:1000.
 
 	blackHoles := 0.
 	atomikBombs := 0.
@@ -83,15 +80,14 @@ TileDistributionTest >> testBoardWithEveryThing [
 	noEffect := 0.
 	wormhole := 0.
 	aTestBoard tiles do: [ :tile |
-		(tile effect isOf: 'BlackHole') ifTrue: [
-			blackHoles := blackHoles + 1 ].
-		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ].
-		(tile effect isOf: 'HyperJump') ifTrue: [ hyperJump := hyperJump + 1 ].
-		(tile effect isOf: 'HyperSpaceJump') ifTrue: [ hyperSpaceJump := hyperSpaceJump + 1 ].
-		(tile effect isOf: 'MoonWalk') ifTrue: [ moonWalk := moonWalk + 1 ].
-		(tile effect isOf: 'Wormhole') ifTrue: [ wormhole := wormhole + 1 ].
-		(tile effect isOf: 'AtomikBomb') ifTrue: [
-			atomikBombs := atomikBombs + 1 ] ].
+		tile effect isBlackHole ifTrue: [ blackHoles := blackHoles + 1 ].
+		tile effect isNoEffect ifTrue: [ noEffect := noEffect + 1 ].
+		tile effect isHyperJump ifTrue: [ hyperJump := hyperJump + 1 ].
+		tile effect isHyperSpaceJump ifTrue: [
+			hyperSpaceJump := hyperSpaceJump + 1 ].
+		tile effect isMoonWalk ifTrue: [ moonWalk := moonWalk + 1 ].
+		tile effect isWormhole ifTrue: [ wormhole := wormhole + 1 ].
+		tile effect isAtomikBomb ifTrue: [ atomikBombs := atomikBombs + 1 ] ].
 
 
 	self assert: blackHoles equals: 20.
@@ -108,10 +104,9 @@ TileDistributionTest >> testBoardWithEveryThingButWormhole [
 
 	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101
-		            andParsecs: 1000.
+		            forBoardWithLength: 101.
 	aBuilder addEveryEffectToBuilder .
-	aTestBoard := aBuilder buildBoard.
+	aTestBoard := aBuilder buildBoardWith:1000.
 
 	blackHoles := 0.
 	atomikBombs := 0.
@@ -120,13 +115,13 @@ TileDistributionTest >> testBoardWithEveryThingButWormhole [
 	moonWalk := 0.
 	noEffect := 0.
 	aTestBoard tiles do: [ :tile |
-		(tile effect isOf: 'BlackHole') ifTrue: [
+		(tile effect isBlackHole) ifTrue: [
 			blackHoles := blackHoles + 1 ].
-		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ].
-		(tile effect isOf: 'HyperJump') ifTrue: [ hyperJump := hyperJump + 1 ].
-		(tile effect isOf: 'HyperSpaceJump') ifTrue: [ hyperSpaceJump := hyperSpaceJump + 1 ].
-		(tile effect isOf: 'MoonWalk') ifTrue: [ moonWalk := moonWalk + 1 ].
-		(tile effect isOf: 'AtomikBomb') ifTrue: [
+		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ].
+		(tile effect isHyperJump) ifTrue: [ hyperJump := hyperJump + 1 ].
+		(tile effect isHyperSpaceJump) ifTrue: [ hyperSpaceJump := hyperSpaceJump + 1 ].
+		(tile effect isMoonWalk) ifTrue: [ moonWalk := moonWalk + 1 ].
+		(tile effect isAtomikBomb) ifTrue: [
 			atomikBombs := atomikBombs + 1 ] ].
 
 

@@ -9,6 +9,16 @@ Class {
 }
 
 { #category : 'creation' }
+BlackHole class >> create [
+	^self new initializeEffectWith: 4
+]
+
+{ #category : 'creation' }
+BlackHole class >> createWith: aDebuff [
+	^self new initializeEffectWith: aDebuff
+]
+
+{ #category : 'creation' }
 BlackHole class >> effectProbability [
 
 ^0.20
@@ -23,13 +33,13 @@ BlackHole >> applyEffectOn: aPlayer using: positionManager and: battleManager an
 ]
 
 { #category : 'initialization' }
-BlackHole >> initializeOnTile: aTile [
-	tile := aTile.
-	debuff := 4.
+BlackHole >> initializeEffectWith: aDebuff [
+
+	debuff := aDebuff
 ]
 
-{ #category : 'positioning' }
-BlackHole >> isOf:type [
+{ #category : 'testing' }
+BlackHole >> isBlackHole [
 
-^type='BlackHole'
+	^ true
 ]

@@ -21,8 +21,8 @@ NoEffect >> hasAnEffect [
 	^false
 ]
 
-{ #category : 'positioning' }
-NoEffect >> isOf:type [
+{ #category : 'testing' }
+NoEffect >> isNoEffect [ 
 
-^type='NoEffect'
+	^ true
 ]

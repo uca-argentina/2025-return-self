@@ -18,7 +18,7 @@ ReturnSelfTestCase class >> isAbstract [
 ReturnSelfTestCase >> createTileListWith: aBoardLength [
 
 	^ (1 to: aBoardLength) collect: [ :x |
-		  Tile createWithEffect: NoEffect new ]
+		  Tile createWithEffect: NoEffect create ]
 ]
 
 { #category : 'interaction loop' }

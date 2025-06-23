@@ -2,17 +2,21 @@ Class {
 	#name : 'HyperJump',
 	#superclass : 'Effect',
 	#instVars : [
-		'actualBuff',
-		'initialBuff'
+		'buffList',
+		'actualBuffIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-HyperJump class >> createOnTile: aTile [
-"ver en la generacion automatica"
-^ self new initializeOnTile: aTile with: 5.
+HyperJump class >> create [
+	^self new initializeEffectWith: #(13 9 5)
+]
+
+{ #category : 'creation' }
+HyperJump class >> createWith: aListOfParsecs [
+	^self new initializeEffectWith: aListOfParsecs
 ]
 
 { #category : 'creation' }
@@ -24,28 +28,27 @@ HyperJump class >> effectProbability [
 { #category : 'positioning' }
 HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	positionManager move: aPlayer forwardWith: actualBuff .
+	positionManager move: aPlayer forwardWith: (buffList at: actualBuffIndex) .
 
-		self lowerBuff.
+		self nextBuff.
 
 ]
 
 { #category : 'initialization' }
-HyperJump >> initializeOnTile: aTile with: parsecs [
-	tile := aTile.
-	initialBuff := parsecs.
-	actualBuff := parsecs.
+HyperJump >> initializeEffectWith: aListOfParsecs [
+
+	buffList := aListOfParsecs.
+	actualBuffIndex := 1
+]
+
+{ #category : 'testing' }
+HyperJump >> isHyperJump [
+
+	^ true
 ]
 
 { #category : 'positioning' }
-HyperJump >> isOf: type [
+HyperJump >> nextBuff [
 
-^type = 'HyperJump'
-]
-
-{ #category : 'as yet unclassified' }
-HyperJump >> lowerBuff [
-
-	actualBuff := actualBuff -1.
-	actualBuff < 1 ifTrue: [ actualBuff := initialBuff ]
+	actualBuffIndex := actualBuffIndex \\ buffList size + 1
 ]

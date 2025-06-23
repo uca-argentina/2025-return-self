@@ -12,6 +12,13 @@ Class {
 }
 
 { #category : 'creation' }
+Wormhole class >> createWith: anEndpoint [
+
+	self endpointMustBeGreaterThanOne: anEndpoint.
+	^ self new initializeEffectWith: anEndpoint
+]
+
+{ #category : 'creation' }
 Wormhole class >> effectProbability [
 "not going to be used, special case of effect, there is only two wormholes"
 ^0.00
@@ -19,58 +26,42 @@ Wormhole class >> effectProbability [
 
 { #category : 'testing' }
 Wormhole class >> end: anEnd cantBeTheSameAs: anotherEnd [
-
+"Desde la tile set"
 	anEnd = anotherEnd ifTrue: [
 		Error signal: 'Wormhole ends must be different tiles.' ]
 ]
 
 { #category : 'testing' }
-Wormhole class >> mustBeGreaterThanOneBoth: anEnd and: anotherEnd [
+Wormhole class >> endpointMustBeGreaterThanOne: anEndpoint [
 
-	(anEnd > 1 and: anotherEnd > 1) ifFalse: [
+	(anEndpoint > 1) ifFalse: [
 		Error signal: 'Both ends of the Wormhole must be greater than 1.' ]
-]
-
-{ #category : 'creation' }
-Wormhole class >> oneEnd: aSideA otherEnd: aSideB [
-
-	self mustBeGreaterThanOneBoth: aSideA and: aSideB.
-	self end: aSideA cantBeTheSameAs: aSideB.
-
-	^ self new initializeOneEnd: aSideA otherEnd: aSideB
 ]
 
 { #category : 'positioning' }
 Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 	| distance |
 
-	distance := endpoint - tile.
+	distance := aPlayer calculateDelta: endpoint.
 	distance > 0 ifTrue: [ positionManager move: aPlayer forwardWith: distance ] ifFalse: [positionManager move: aPlayer backwardWith: -1*(distance)].
 
 
 ]
 
+{ #category : 'initialization' }
+Wormhole >> initializeEffectWith: anEndpoint [
+
+	endpoint := anEndpoint 
+]
+
 { #category : 'tests - comparing' }
-Wormhole >> areEndsInside: aLength [
+Wormhole >> isEndInside: aLength [
 
-	^ aLength >= tile and: aLength >= endpoint 
+	^ aLength >= endpoint
 ]
 
-{ #category : 'initialization' }
-Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
+{ #category : 'testing' }
+Wormhole >> isWormhole [
 
-	tile := aSide.
-	endpoint := anotherSide
-]
-
-{ #category : 'positioning' }
-Wormhole >> isOf:type [
-
-^type='WormHole'
-]
-
-{ #category : 'initialization' }
-Wormhole >> tiles [ 
-
-	^{ tile . endpoint }
+	^ true
 ]

@@ -33,7 +33,7 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 		                     (LoadedDie rolling: 5) }.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
 		                    loadedDiceToMove , loadedDiceToFight.
-	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
+	aWormhole := Wormhole createWith: 9.
 	aTileList := self createTileListWith: 10.
 	aTileList at: 4 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -70,7 +70,7 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 		                    loadedDiceToMove1 , loadedDiceToFight
 		                    , loadedDiceToMove2.
 
-	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
+	aWormhole := Wormhole createWith: 9.
 	aTileList := self createTileListWith: 10.
 	aTileList at: 4 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -117,7 +117,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 		                    , loadedDiceToMove1 , loadedDiceToMove1
 		                    , loadedDiceToMove1.
 
-	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
+	aWormhole := Wormhole createWith: 29.
 	aTileList := self createTileListWith: 30.
 	aTileList at: 8 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
@@ -163,7 +163,7 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 		                    , loadedDiceToMove1 , loadedDiceToMove1
 		                    , loadedDiceToMove1.
 
-	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
+	aWormhole := Wormhole createWith: 29.
 	aTileList := self createTileListWith: 30.
 	aTileList at: 8 put: (Tile createWithEffect: aWormhole).
 	aTestBoard := BoardForTesting createWith: aTileList.
