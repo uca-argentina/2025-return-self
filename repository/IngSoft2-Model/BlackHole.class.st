@@ -8,7 +8,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 BlackHole class >> effectProbability [
 
 ^0.20

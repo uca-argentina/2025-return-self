@@ -11,7 +11,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 Wormhole class >> effectProbability [
 "not going to be used, special case of effect, there is only two wormholes"
 ^0.00

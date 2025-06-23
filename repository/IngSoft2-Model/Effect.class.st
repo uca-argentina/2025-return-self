@@ -8,13 +8,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 Effect class >> createOnTile: aTile [
 
 ^ self new initializeOnTile: aTile
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 Effect class >> effectProbability [
 
 self subclassResponsibility.

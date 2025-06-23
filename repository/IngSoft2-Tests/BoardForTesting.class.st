@@ -18,7 +18,7 @@ BoardForTesting class >> boardLengthMustBeGreaterThanThree: aLength [
 		Error signal: 'The board length must be greater than three.' ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation tests' }
 BoardForTesting class >> createWith: aCollectionOfTiles [
 
 	self boardLengthMustBeGreaterThanThree: aCollectionOfTiles size.

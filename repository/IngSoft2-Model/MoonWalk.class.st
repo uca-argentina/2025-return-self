@@ -8,18 +8,18 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 MoonWalk class >> createOnTile: aTile [
 	"ver en la generacion automatica"
 	^self new initializeOnTile: aTile withDebuff: 4.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 MoonWalk class >> createOnTile: aTile withDebuff: aDebuff [
 	^self new initializeOnTile: aTile withDebuff: aDebuff.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 MoonWalk class >> effectProbability [
 
 ^0.10

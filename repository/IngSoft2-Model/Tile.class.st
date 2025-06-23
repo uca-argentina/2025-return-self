@@ -8,13 +8,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 Tile class >> createWithEffect: anEffect [ 
 
 	^self new initializeTileWithEffect: anEffect.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'positioning' }
 Tile >> applyEffectOn: aPlayer using: aSetOfManagers [
 
 effect applyEffectOn: aPlayer using: aSetOfManagers

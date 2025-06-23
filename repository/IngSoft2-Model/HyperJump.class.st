@@ -9,13 +9,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 HyperJump class >> createOnTile: aTile [
 "ver en la generacion automatica"
 ^ self new initializeOnTile: aTile with: 5.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 HyperJump class >> effectProbability [
 
 ^0.08

@@ -5,7 +5,7 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 NoEffect class >> effectProbability [
 
 ^0.40
