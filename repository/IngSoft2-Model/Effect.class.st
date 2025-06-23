@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : 'initialization' }
+Effect class >> createOnTile: aTile [
+
+^ self new initializeOnTile: aTile
+]
+
+{ #category : 'initialization' }
 Effect class >> effectProbability [
 
 self subclassResponsibility.

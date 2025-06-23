@@ -22,7 +22,7 @@ GameplayBattleMechanicTest >> setUp [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test01BattleSituation [
 
-	| aGame aWormhole aSequenceOfRolls aTestBoard loadedDiceToMove loadedDiceToFight assertingVariableData |
+	| aGame aWormhole aSequenceOfRolls aTestBoard loadedDiceToMove loadedDiceToFight assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
 	                         'Name: Tomi, Position: 3, Lap: 0' }.
 	loadedDiceToMove := {
@@ -34,15 +34,15 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
 		                    loadedDiceToMove , loadedDiceToFight.
 	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 10
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 10.
+	aTileList at: 4 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequenceOfRolls
 		         withLaps: 1.
-	
+
 	self play: 2 in: aGame.
 
 	self assert: aGame playerPositions equals: assertingVariableData
@@ -51,7 +51,7 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 
-	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToFight assertingVariableData1 assertingVariableData2 |
+	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToFight assertingVariableData1 assertingVariableData2 aTileList |
 	loadedDiceToMove1 := {
 		                     (LoadedDie rolling: 2).
 		                     (LoadedDie rolling: 2) }.
@@ -71,13 +71,13 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 		                    , loadedDiceToMove2.
 
 	aWormhole := Wormhole oneEnd: 4 otherEnd: 9.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 10
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 10.
+	aTileList at: 4 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
-		         withSetOfDie: dieThrowSequence 
+		         withSetOfDie: dieThrowSequence
 		         withLaps: 1.
 
 	self play: 1 in: aGame.
@@ -91,7 +91,7 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 
-	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight assertingVariableData1 assertingVariableData2 assertingVariableData3 |
+	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight assertingVariableData1 assertingVariableData2 assertingVariableData3 aTileList |
 	assertingVariableData1 := { 'Name: Juan, Position: 1, Lap: 0'.
 	                          'Name: Tomi, Position: 4, Lap: 0' }.
 	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -118,13 +118,13 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 		                    , loadedDiceToMove1.
 
 	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 30
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 30.
+	aTileList at: 8 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
-		         withSetOfDie: dieThrowSequence 
+		         withSetOfDie: dieThrowSequence
 		         withLaps: 1.
 
 	self play: 6 in: aGame.
@@ -143,7 +143,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
+	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield aTileList |
 	loadedDiceToMove1 := {
 		                     (LoadedDie rolling: 1).
 		                     (LoadedDie rolling: 1) }.
@@ -164,9 +164,9 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 		                    , loadedDiceToMove1.
 
 	aWormhole := Wormhole oneEnd: 8 otherEnd: 29.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 30
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 30.
+	aTileList at: 8 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := dieThrowSequence.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
@@ -175,9 +175,9 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 		         withLaps: 1.
 
 	self play: 2 in: aGame.
-	
+
 	aShipShield := aGame shieldsFeatureOf: aPlayer.
-	
+
 	self skip: 1 in: aGame.
 
 	aNewShipShield := aGame shieldsFeatureOf: aPlayer.

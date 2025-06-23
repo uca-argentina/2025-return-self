@@ -29,7 +29,7 @@ LoadedDieTest >> test02ThrowMultipleLoadedDie [
 { #category : 'tests' }
 LoadedDieTest >> test03WhenTheGameIsPlayedWithASequenceOfDie [
 
-	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aGroupOfPlayers aTestBoard |
+	| aLoadedDie aSecondLoadedDie aSequence aWormhole aGame firstPlayer secondPlayer aGroupOfPlayers aTestBoard aTileSet |
 	aLoadedDie := LoadedDie rolling: 1.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -41,9 +41,9 @@ LoadedDieTest >> test03WhenTheGameIsPlayedWithASequenceOfDie [
 	aGroupOfPlayers := {
 		                   firstPlayer.
 		                   secondPlayer }.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileSet := self createTileListWith: 20.
+	aTileSet at: 18 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileSet.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard

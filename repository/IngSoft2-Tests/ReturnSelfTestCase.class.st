@@ -17,7 +17,7 @@ ReturnSelfTestCase class >> isAbstract [
 { #category : 'creation tests' }
 ReturnSelfTestCase >> createTileListWith: aBoardLength [
 
-	^ (1 to: aBoardLength) collect: [
+	^ (1 to: aBoardLength) collect: [ :x |
 		  Tile createWithEffect: NoEffect new ]
 ]
 
