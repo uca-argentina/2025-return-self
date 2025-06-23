@@ -20,7 +20,7 @@ TileDistributionBuilder class >> forBoardWithLength: aLength andParsecs: somePar
 ^self new initializeBuilderForBoardWithLength: aLength andParsecs: someParsecs 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'adding' }
 TileDistributionBuilder >> addEffect: anEffect withProbability: aProbability [
 
 	| tilesWithNoEffect amountNeeded tileIndex |
@@ -35,12 +35,21 @@ TileDistributionBuilder >> addEffect: anEffect withProbability: aProbability [
 			amountNeeded := amountNeeded - 1 ]
 ]
 
-{ #category : 'initialization' }
-TileDistributionBuilder >> addEffectToBuilder: anEffect withProbability: aProbability [
+{ #category : 'adding' }
+TileDistributionBuilder >> addEffectToBuilder: anEffectClass [
 
-	EffectsWithProbabilities add: {
-			anEffect.
-			aProbability }
+	EffectsWithProbabilities add: anEffectClass
+]
+
+{ #category : 'adding' }
+TileDistributionBuilder >> addEveryEffectToBuilder [
+
+	EffectsWithProbabilities add: AtomikBomb.
+	EffectsWithProbabilities add: BlackHole.
+	EffectsWithProbabilities add: HyperJump.
+	EffectsWithProbabilities add: HyperSpaceJump.
+	EffectsWithProbabilities add: MoonWalk
+	"EffectsWithProbabilities add: anotherEffectClass"
 ]
 
 { #category : 'initialization' }

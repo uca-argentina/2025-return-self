@@ -71,7 +71,7 @@ TileDistributionTest >> testBoardWithEveryThing [
 	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk |
 	aBuilder := TileDistributionBuilder
 		            forBoardWithLength: 101
-		            andParsecs: 100.
+		            andParsecs: 1000.
 	aBuilder addEffect: AtomikBomb new withProbability: 0.02.
 	aBuilder addEffect: BlackHole new withProbability: 0.2.
 	aBuilder addEffect: HyperJump new withProbability: 0.08.
