@@ -9,28 +9,13 @@ Class {
 }
 
 { #category : 'initialization' }
-Effect class >> createOnTile: aTile [
-^ self new initializeOnTile: aTile .
-]
-
-{ #category : 'initialization' }
 Effect class >> effectProbability [
 
-self shouldBeImplemented.
+self subclassResponsibility.
 ]
 
 { #category : 'positioning' }
 Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
 self subclassResponsibility.
-]
-
-{ #category : 'initialization' }
-Effect >> initializeOnTile: aTile [
-tile := aTile 
-]
-
-{ #category : 'initialization' }
-Effect >> tiles [ 
- ^{tile}
 ]
