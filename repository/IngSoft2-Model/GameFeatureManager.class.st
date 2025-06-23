@@ -33,7 +33,7 @@ GameFeatureManager >> findShipReference: aSpaceShipComponent [
 	^ playersFeature at: shipIndex
 ]
 
-{ #category : 'updating' }
+{ #category : 'private - updating' }
 GameFeatureManager >> updateShipReference: selfSpaceShipComponent [
 
 	| shipIndex |

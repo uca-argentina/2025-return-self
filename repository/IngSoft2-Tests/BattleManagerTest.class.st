@@ -30,7 +30,10 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 	| aShieldStatus aNewShieldStatus |
 	aShieldStatus := aBattleManager findShipReference: aPlayer.
 	aShieldStatus := aShieldStatus loseShields: 1.
+	
+	"SOLO PARA TESTEO, NO DEBERIAMOS USAR updateShipReference por fuera de implementacion interna"
 	aBattleManager updateShipReference: aShieldStatus.
+	"SOLO PARA TESTEO, NO DEBERIAMOS USAR updateShipReference por fuera de implementacion interna"
 
 	aBattleManager forceAShieldResetTo: aPlayer.
 	aNewShieldStatus := aBattleManager findShipReference: aShieldStatus. "Better for seeing the change"
