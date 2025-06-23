@@ -1,16 +1,27 @@
 Class {
 	#name : 'GameFeatureManagerCreationTest',
 	#superclass : 'ReturnSelfTestCase',
+	#instVars : [
+		'aTileListCreator'
+	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'running' }
+GameFeatureManagerCreationTest >> setUp [
+
+	super setUp.
+
+
+	aTileListCreator := TileListCreationForTesting createTileListWith: 20
+]
+
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aGroupOfPlayers aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
@@ -31,9 +42,8 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsT
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aGroupOfPlayers aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
@@ -71,9 +81,8 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aGroupOfPlayers aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation createWith: 1 and: 'Pedro').
@@ -91,9 +100,8 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRai
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
 
-	| aLoadedDie aTestBoard aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aLoadedDie aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	self
 		should: [
@@ -124,9 +132,8 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
-	| aLoadedDie aTestBoard aPlayer aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aLoadedDie aTestBoard aPlayer |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Julian'.
 	self

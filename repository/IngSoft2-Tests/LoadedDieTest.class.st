@@ -52,9 +52,9 @@ LoadedDieTest >> test03WhenTheGameIsPlayedWithASequenceOfDie [
 	aGroupOfPlayers := {
 		                   firstPlayer.
 		                   secondPlayer }.
-	aTileSet := self createTileListWith: 20.
-	aTileSet at: 18 put: (Tile createWithEffect: aWormhole).
-	aTestBoard := BoardForTesting createWith: aTileSet.
+	aTileSet := TileListCreationForTesting createTileListWith: 20.
+	aTileSet at: 18 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileSet tileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard

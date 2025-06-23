@@ -48,6 +48,18 @@ Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and
 
 ]
 
+{ #category : 'testing' }
+Wormhole >> endpointInside: aLength [
+
+	^ endpoint <= aLength
+]
+
+{ #category : 'testing' }
+Wormhole >> endpointSameAs: aPosition [
+
+	^ endpoint = aPosition
+]
+
 { #category : 'initialization' }
 Wormhole >> initializeEffectWith: anEndpoint [
 

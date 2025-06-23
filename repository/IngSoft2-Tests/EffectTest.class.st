@@ -2,7 +2,8 @@ Class {
 	#name : 'EffectTest',
 	#superclass : 'ReturnSelfTestCase',
 	#instVars : [
-		'aGroupOfPlayers'
+		'aGroupOfPlayers',
+		'aTileListCreator1'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -14,7 +15,8 @@ EffectTest >> setUp [
 	super setUp.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation createWith: 1 and: 'Juan').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }
+		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
+	aTileListCreator1 := TileListCreationForTesting createTileListWith: 20
 ]
 
 { #category : 'tests' }
@@ -29,11 +31,11 @@ EffectTest >> test01WhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaise
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithABlackHoleTile [
 
-	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard aTileList |
+	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard |
 	aBlackHoleTile := BlackHole create.
-	aTileList := self createTileListWith: 20.
-	aTileList at: 4 put: (Tile createWithEffect: aBlackHoleTile).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	
+	aTileListCreator1 at: 4 put: aBlackHoleTile.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -53,13 +55,12 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperJumpTile [
 
-	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileList |
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
 	                         'Name: Tomi, Position: 4, Lap: 0' }.
 	hyperJumpEffect := HyperJump create.
-	aTileList := self createTileListWith: 20.
-	aTileList at: 3 put: (Tile createWithEffect: hyperJumpEffect).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator1 at: 3 put: hyperJumpEffect.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 2) }.
@@ -77,13 +78,13 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperJumpTileChangingLap [
 
-	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileList |
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileListCreator |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 1'.
 	                         'Name: Tomi, Position: 4, Lap: 0' }.
 	hyperJumpEffect := HyperJump create.
-	aTileList := self createTileListWith: 4.
-	aTileList at: 3 put: (Tile createWithEffect: hyperJumpEffect).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 4.
+	aTileListCreator at: 3 put: hyperJumpEffect.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 2) }.
@@ -101,13 +102,12 @@ EffectTest >> testGamePlayedWithAHyperJumpTileChangingLap [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 
-	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData aTileList |
+	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
 	                         'Name: Tomi, Position: 8, Lap: 0' }.
 	aHyperSpaceJumpEffect := HyperSpaceJump create.
-	aTileList := self createTileListWith: 20.
-	aTileList at: 4 put: (Tile createWithEffect: aHyperSpaceJumpEffect).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator1 at: 4 put: aHyperSpaceJumpEffect.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 4).
@@ -126,11 +126,11 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAMoonWalkTile [
 
-	| aGame aLoadedDie aMoonWalkEffect aSecondLoadedDie aSequence aTestBoard aTileList |
+	| aGame aLoadedDie aMoonWalkEffect aSecondLoadedDie aSequence aTestBoard aTileListCreator |
 	aMoonWalkEffect := MoonWalk createEspeciallyWith: 11.
-	aTileList := self createTileListWith: 24.
-	aTileList at: 4 put: (Tile createWithEffect: aMoonWalkEffect).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
+	aTileListCreator at: 4 put: aMoonWalkEffect.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 7.
 	aSecondLoadedDie := LoadedDie rolling: 8.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -150,9 +150,8 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithANoEffectTile [
 
-	| aGame aSequence aTestBoard aTileList |
-	aTileList := self createTileListWith: 20.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	| aGame aSequence aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
 			             (LoadedDie rolling: 4).
@@ -171,12 +170,12 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAWormholeTile [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList assertingVariable |
-	assertingVariable := { 'Name: Juan, Position: 19, Lap: 0'. 'Name: Tomi, Position: 1, Lap: 0' }.
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariable |
+	assertingVariable := { 'Name: Juan, Position: 19, Lap: 0'.
+	                     'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole createWith: 19.
-	aTileList := self createTileListWith: 20.
-	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator1 at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
 		                    { (LoadedDie rolling: 2) }.
 	aGame := Game
@@ -185,23 +184,40 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 		         withSetOfDie: aSequenceOfRolls
 		         withLaps: 1.
 	aGame nextPlayerThrowsDice.
-	self
-		assert: aGame playerPositions
-		equals: assertingVariable
+	self assert: aGame playerPositions equals: assertingVariable
+]
+
+{ #category : 'tests' }
+EffectTest >> testGamePlayedWithAWormholeTileGoingBackwards [
+
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariable |
+	assertingVariable := { 'Name: Juan, Position: 2, Lap: 0'.
+	                     'Name: Tomi, Position: 1, Lap: 0' }.
+	aWormhole := Wormhole createWith: 2.
+	aTileListCreator1 at: 8 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie:
+		                    { (LoadedDie rolling: 7) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
+	aGame nextPlayerThrowsDice.
+	self assert: aGame playerPositions equals: assertingVariable
 ]
 
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 
-	| aGame aSequence aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile aTileList |
+	| aGame aSequence aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile |
 	aHSJTile := HyperSpaceJump create.
 	aMoonWalkTile := MoonWalk createEspeciallyWith: 11.
 	aBlackHoleTile := BlackHole create.
-	aTileList := self createTileListWith: 20.
-	aTileList at: 4 put: (Tile createWithEffect: aHSJTile).
-	aTileList at: 15 put: (Tile createWithEffect: aMoonWalkTile).
-	aTileList at: 2 put: (Tile createWithEffect: aBlackHoleTile).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator1 at: 4 put: aHSJTile.
+	aTileListCreator1 at: 15 put: aMoonWalkTile.
+	aTileListCreator1 at: 2 put: aBlackHoleTile.
+	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
 			             (LoadedDie rolling: 7).
@@ -220,15 +236,15 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithAnAtomikBombTile [
 
-	| aGame anAtomikBombEffect aSequenceOfRolls aTestBoard assertingVariableData1 assertingVariableData2 aTileList |
+	| aGame anAtomikBombEffect aSequenceOfRolls aTestBoard assertingVariableData1 assertingVariableData2 aTileListCreator |
 	assertingVariableData1 := { 'Name: Juan, Position: 4, Lap: 0'.
 	                          'Name: Tomi, Position: 5, Lap: 0' }.
 	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
 	                          'Name: Tomi, Position: 1, Lap: 0' }.
 	anAtomikBombEffect := AtomikBomb create.
-	aTileList := self createTileListWith: 24.
-	aTileList at: 7 put: (Tile createWithEffect: anAtomikBombEffect).
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
+	aTileListCreator at: 7 put: anAtomikBombEffect.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 3).
 			                    (LoadedDie rolling: 4).

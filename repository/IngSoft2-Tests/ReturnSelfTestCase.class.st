@@ -14,13 +14,6 @@ ReturnSelfTestCase class >> isAbstract [
 	^ self == ReturnSelfTestCase
 ]
 
-{ #category : 'creation tests' }
-ReturnSelfTestCase >> createTileListWith: aBoardLength [
-
-	^ (1 to: aBoardLength) collect: [ :x |
-		  Tile createWithEffect: NoEffect create ]
-]
-
 { #category : 'interaction loop' }
 ReturnSelfTestCase >> play: aNumberOfTurns in: aGame [
 

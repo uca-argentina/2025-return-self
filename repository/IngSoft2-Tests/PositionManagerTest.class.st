@@ -40,8 +40,8 @@ PositionManagerTest >> test01PositionManagerCanTellItsShipsToMoveForwardADistanc
 PositionManagerTest >> test01WhenTryingToCreateAPositionManagerWithNegativeLapsThenItRaisesError [
 
 	| aGroupOfPlayers aTestBoard aTileList|
-	aTileList := self createTileListWith: 5.
-	aTestBoard := BoardForTesting createWith: aTileList.
+	aTileList := TileListCreationForTesting createTileListWith: 5.
+	aTestBoard := BoardForTesting createWith: aTileList tileList.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
 			                    createWith: 1

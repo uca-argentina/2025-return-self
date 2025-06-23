@@ -120,9 +120,49 @@ TileDistributionTest >> testBoardWithEveryThing [
 ]
 
 { #category : 'tests' }
-TileDistributionTest >> testWhenWeCreateAWormholeWithEqualEndsThenItRaisesAnError [
+TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEndpointOutsideTheBoardLengthThenItRaisesAnError [
 
+	| aTileListCreator aWormhole |
+	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	aWormhole := Wormhole createWith: 7.
+	
 	self
-		should: [ Wormhole oneEnd: 2 otherEnd: 2 ]
+		should: [ aTileListCreator at: 3 put: aWormhole ]
+		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEqualEndsThenItRaisesAnError [
+
+	| aTileListCreator aWormhole |
+	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	aWormhole := Wormhole createWith: 3.
+	
+	self
+		should: [ aTileListCreator at: 3 put: aWormhole ]
 		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectInFirstTileThenItRaisesError [
+
+	| aTileListCreator aWormhole |
+	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	aWormhole := Wormhole createWith: 3.
+	
+	self
+		should: [ aTileListCreator at: 1 put: aWormhole ]
+		raiseErrorWithMessageText: 'Effect cant be in first tile.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectOutsideTheBoardLengthThenItRaisesError [
+
+	| aTileListCreator aWormhole |
+	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	aWormhole := Wormhole createWith: 3.
+	
+	self
+		should: [ aTileListCreator at: 7 put: aWormhole ]
+		raiseErrorWithMessageText: 'Effect cant be outside the board.'
 ]
