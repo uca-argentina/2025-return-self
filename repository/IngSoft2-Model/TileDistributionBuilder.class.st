@@ -21,21 +21,6 @@ TileDistributionBuilder class >> forBoardWithLength: aLength andParsecs: somePar
 ]
 
 { #category : 'adding' }
-TileDistributionBuilder >> addEffect: anEffect withProbability: aProbability [
-
-	| tilesWithNoEffect amountNeeded tileIndex |
-	amountNeeded := aProbability * (tileList size - 1). "NOT COUNTING FIRST TILE"
-	tilesWithNoEffect := self collectTilesWithNoEffect.
-
-	"LOOPEO HASTA QUE AMOUNT NEEDED SEA CERO O TILESWNOEFFECT SEA CERO, "
-	[ amountNeeded > 0 and: [ tilesWithNoEffect isNotEmpty ] ]
-		whileTrue: [
-			tileIndex := self removeFromCollectionAtRandom: tilesWithNoEffect.
-			tileList at: tileIndex put: (Tile createWithEffect: anEffect).
-			amountNeeded := amountNeeded - 1 ]
-]
-
-{ #category : 'adding' }
 TileDistributionBuilder >> addEffectToBuilder: anEffectClass [
 
 	EffectsWithProbabilities add: anEffectClass
@@ -54,23 +39,8 @@ TileDistributionBuilder >> addEveryEffectToBuilder [
 
 { #category : 'initialization' }
 TileDistributionBuilder >> buildBoard [
-
+	EffectsWithProbabilities do:[:effect | self distributeEffectIntoTileList: effect].
 	^ Board generateWithTiles: tileList andParsecs: parsecs
-]
-
-{ #category : 'initialization' }
-TileDistributionBuilder >> buildEffectIntoTileList: anEffect withProbability: aProbability [
-
-	| tilesWithNoEffect amountNeeded tileIndex |
-	amountNeeded := aProbability * (tileList size - 1). "NOT COUNTING FIRST TILE"
-	tilesWithNoEffect := self collectTilesWithNoEffect.
-
-	"LOOPEO HASTA QUE AMOUNT NEEDED SEA CERO O TILESWNOEFFECT SEA CERO, "
-	[ amountNeeded > 0 and: [ tilesWithNoEffect isNotEmpty ] ]
-		whileTrue: [
-			tileIndex := self removeFromCollectionAtRandom: tilesWithNoEffect.
-			tileList at: tileIndex put: (Tile createWithEffect: anEffect).
-			amountNeeded := amountNeeded - 1 ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -82,6 +52,24 @@ TileDistributionBuilder >> collectTilesWithNoEffect [
 		index > 1 ifTrue: [ "NOT COLLECTING FIRST TILE"
 			tile effect hasAnEffect ifFalse: [ tilesWithNoEffect add: index ] ] ].
 	^ tilesWithNoEffect
+]
+
+{ #category : 'initialization' }
+TileDistributionBuilder >> distributeEffectIntoTileList: anEffectClass [
+
+	| aProbability tilesWithNoEffect amountNeeded tileIndex |
+	aProbability := anEffectClass effectProbability.
+	amountNeeded := aProbability * (tileList size - 1). "NOT COUNTING FIRST TILE"
+	tilesWithNoEffect := self collectTilesWithNoEffect.
+
+	"LOOPEO HASTA QUE AMOUNT NEEDED SEA CERO O TILESWNOEFFECT SEA CERO, "
+	[ amountNeeded > 0 and: [ tilesWithNoEffect isNotEmpty ] ]
+		whileTrue: [
+			tileIndex := self removeFromCollectionAtRandom: tilesWithNoEffect.
+			tileList
+				at: tileIndex
+				put: (Tile createWithEffect: anEffectClass new).
+			amountNeeded := amountNeeded - 1 ]
 ]
 
 { #category : 'initialization' }

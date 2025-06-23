@@ -22,9 +22,9 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 
 	| aTestBoard aBuilder blackHoles noEffect |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 11
-		            andParsecs: 100.
-	aBuilder addEffect: BlackHole new withProbability: 0.3.
+		            forBoardWithLength: 101
+		            andParsecs: 1000.
+	aBuilder addEffectToBuilder: BlackHole.
 	aTestBoard := aBuilder buildBoard.
 
 	blackHoles := 0.
@@ -34,8 +34,8 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 			blackHoles := blackHoles + 1 ].
 		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ] ].
 
-	self assert: blackHoles equals: 3.
-	self assert: noEffect equals: 8.
+	self assert: blackHoles equals: 20.
+	self assert: noEffect equals: 81.
 ]
 
 { #category : 'tests' }
@@ -43,10 +43,10 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 
 	| aTestBoard aBuilder blackHoles atomikBombs noEffect |
 	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 21
-		            andParsecs: 100.
-	aBuilder addEffect: BlackHole new withProbability: 0.3.
-	aBuilder addEffect: AtomikBomb new withProbability: 0.2.
+		            forBoardWithLength: 101
+		            andParsecs: 1000.
+	aBuilder addEffectToBuilder: BlackHole.
+	aBuilder addEffectToBuilder: AtomikBomb.
 	aTestBoard := aBuilder buildBoard.
 
 	blackHoles := 0.
@@ -60,9 +60,9 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 			atomikBombs := atomikBombs + 1 ] ].
 
 
-	self assert: blackHoles equals: 6.
-	self assert: atomikBombs equals: 4.
-	self assert: noEffect equals: 11
+	self assert: blackHoles equals: 20.
+	self assert: atomikBombs equals: 2.
+	self assert: noEffect equals: 79
 ]
 
 { #category : 'tests' }
@@ -72,11 +72,7 @@ TileDistributionTest >> testBoardWithEveryThing [
 	aBuilder := TileDistributionBuilder
 		            forBoardWithLength: 101
 		            andParsecs: 1000.
-	aBuilder addEffect: AtomikBomb new withProbability: 0.02.
-	aBuilder addEffect: BlackHole new withProbability: 0.2.
-	aBuilder addEffect: HyperJump new withProbability: 0.08.
-	aBuilder addEffect: HyperSpaceJump new withProbability: 0.2.
-	aBuilder addEffect: MoonWalk new withProbability: 0.1.
+	aBuilder addEveryEffectToBuilder .
 	aTestBoard := aBuilder buildBoard.
 
 	blackHoles := 0.
