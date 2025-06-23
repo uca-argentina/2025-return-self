@@ -90,6 +90,13 @@ Board class >> createWithTiles: aNumberOfTiles andParsecs: aNumberOfParsecs [
 	^ self new initializeWithTiles: aSetOfTiles andParsecs: aNumberOfParsecs
 ]
 
+{ #category : 'creation' }
+Board class >> generateWithTiles: aSetOfTiles andParsecs: aNumberOfParsecs [
+	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
+	
+	^ self new initializeWithTiles: aSetOfTiles andParsecs: aNumberOfParsecs
+]
+
 { #category : 'positioning' }
 Board >> applyEffectTriggeredBy: aPlayer [ 
 

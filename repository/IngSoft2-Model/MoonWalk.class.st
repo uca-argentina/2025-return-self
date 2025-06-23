@@ -36,3 +36,9 @@ MoonWalk >> initializeOnTile: aTile withDebuff: aDebuff [
 	tile := aTile.
 	debuff := aDebuff.
 ]
+
+{ #category : 'positioning' }
+MoonWalk >> isOf:type [
+
+^type='MoonWalk'
+]

@@ -37,6 +37,12 @@ HyperJump >> initializeOnTile: aTile with: parsecs [
 	actualBuff := parsecs.
 ]
 
+{ #category : 'positioning' }
+HyperJump >> isOf: type [
+
+^type = 'HyperJump'
+]
+
 { #category : 'as yet unclassified' }
 HyperJump >> lowerBuff [
 

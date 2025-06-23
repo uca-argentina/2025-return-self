@@ -24,3 +24,9 @@ AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager a
 		battleManager forceAShieldResetTo: player ].
 
 ]
+
+{ #category : 'positioning' }
+AtomikBomb >> isOf: type [
+
+	^ type = 'AtomikBomb'
+]

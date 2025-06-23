@@ -15,3 +15,14 @@ NoEffect class >> effectProbability [
 NoEffect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
 ]
+
+{ #category : 'testing' }
+NoEffect >> hasAnEffect [
+	^false
+]
+
+{ #category : 'positioning' }
+NoEffect >> isOf:type [
+
+^type='NoEffect'
+]

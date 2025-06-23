@@ -27,3 +27,9 @@ BlackHole >> initializeOnTile: aTile [
 	tile := aTile.
 	debuff := 4.
 ]
+
+{ #category : 'positioning' }
+BlackHole >> isOf:type [
+
+^type='BlackHole'
+]

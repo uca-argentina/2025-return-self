@@ -30,3 +30,9 @@ HyperSpaceJump >> initializeOnTile: aTile [
 	buff := 4.
 
 ]
+
+{ #category : 'positioning' }
+HyperSpaceJump >> isOf:type [
+
+^type='HyperSpaceJump'
+]

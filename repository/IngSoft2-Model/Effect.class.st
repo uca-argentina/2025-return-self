@@ -25,3 +25,8 @@ Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: 
 
 self subclassResponsibility.
 ]
+
+{ #category : 'testing' }
+Effect >> hasAnEffect [
+	^true
+]

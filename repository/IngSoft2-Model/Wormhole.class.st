@@ -63,6 +63,12 @@ Wormhole >> initializeOneEnd: aSide otherEnd: anotherSide [
 	endpoint := anotherSide
 ]
 
+{ #category : 'positioning' }
+Wormhole >> isOf:type [
+
+^type='WormHole'
+]
+
 { #category : 'initialization' }
 Wormhole >> tiles [ 
 
