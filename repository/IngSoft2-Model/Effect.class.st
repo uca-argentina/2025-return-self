@@ -24,11 +24,6 @@ self subclassResponsibility.
 ]
 
 { #category : 'testing' }
-Effect >> hasAnEffect [
-	^true
-]
-
-{ #category : 'testing' }
 Effect >> isAtomikBomb [
 
 	^ false

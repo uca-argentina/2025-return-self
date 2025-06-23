@@ -33,10 +33,16 @@ BoardForTesting >> applyEffectTriggeredBy: aPlayer [
 	^ detectedTile effect
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 BoardForTesting >> initializeWith: aCollectionOfTiles [
 
 	tiles := aCollectionOfTiles
+]
+
+{ #category : 'accessing' }
+BoardForTesting >> parsecsPerTile [
+
+^ (tiles at: 1) parsecs
 ]
 
 { #category : 'accessing' }

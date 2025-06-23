@@ -1,17 +1,24 @@
+"
+fasd
+"
 Class {
 	#name : 'TileDistributionBuilder',
 	#superclass : 'Object',
 	#instVars : [
 		'tileList',
-		'effectsWithProbabilities'
+		'effectsWithProbabilities',
+		'parsecs'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-TileDistributionBuilder class >> forBoardWithLength: aLength [
-^self new initializeBuilderForBoardWithLength: aLength
+TileDistributionBuilder class >> forBoardWithLength: aLength and: parsecsPerTile [
+
+	^ self new
+		  initializeBuilderForBoardWithLength: aLength
+		  and: parsecsPerTile
 ]
 
 { #category : 'adding' }
@@ -31,24 +38,24 @@ TileDistributionBuilder >> addEveryEffectToBuilder [
 	"EffectsWithProbabilities add: anotherEffectClass"
 ]
 
-{ #category : 'initialization' }
-TileDistributionBuilder >> buildBoardWith: amountOfParsecs [ 
+{ #category : 'building' }
+TileDistributionBuilder >> buildBoard [
 	effectsWithProbabilities do:[:effect | self distributeEffectIntoTileList: effect].
-	^ Board generateWithTiles: tileList andParsecs: amountOfParsecs
+	^ Board generateWithTiles: tileList
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'listing' }
 TileDistributionBuilder >> collectTilesWithNoEffect [
 
 	| tilesWithNoEffect |
 	tilesWithNoEffect := OrderedCollection new.
 	tileList withIndexDo: [ :tile :index |
 		index > 1 ifTrue: [ "NOT COLLECTING FIRST TILE"
-			tile effect hasAnEffect ifFalse: [ tilesWithNoEffect add: index ] ] ].
+			tile hasNoEffect ifTrue: [ tilesWithNoEffect add: index ] ] ].
 	^ tilesWithNoEffect
 ]
 
-{ #category : 'initialization' }
+{ #category : 'building' }
 TileDistributionBuilder >> distributeEffectIntoTileList: anEffectClass [
 
 	| aProbability tilesWithNoEffect amountNeeded tileIndex |
@@ -62,16 +69,30 @@ TileDistributionBuilder >> distributeEffectIntoTileList: anEffectClass [
 			tileIndex := self removeFromCollectionAtRandom: tilesWithNoEffect.
 			tileList
 				at: tileIndex
-				put: (Tile createWithEffect: anEffectClass create).
+				put: (Tile createWithEffect: anEffectClass create and: parsecs).
 			amountNeeded := amountNeeded - 1 ]
 ]
 
 { #category : 'initialization' }
-TileDistributionBuilder >> initializeBuilderForBoardWithLength: aLength [
+TileDistributionBuilder >> initializeBuilderForBoardWithLength: aLength and: parsecsPerTile [
 
+	| oneEnd otherEnd |
+	oneEnd := (2 to: aLength) atRandom.
+	otherEnd := (2 to: aLength) atRandom.
+	[ oneEnd = otherEnd ] whileTrue: [
+		otherEnd := (2 to: aLength) atRandom ].
 	tileList := (1 to: aLength) collect: [ :x |
-		            Tile createWithEffect: NoEffect create ].
-	effectsWithProbabilities := OrderedCollection new
+		            Tile
+			            createWithEffect: NoEffect create
+			            and: parsecsPerTile ].
+	tileList at: oneEnd put: (Tile
+			 createWithEffect: (Wormhole createWith: otherEnd)
+			 and: parsecsPerTile).
+	tileList at: otherEnd put: (Tile
+			 createWithEffect: (Wormhole createWith: oneEnd)
+			 and: parsecsPerTile).
+	effectsWithProbabilities := OrderedCollection new.
+	parsecs := parsecsPerTile
 ]
 
 { #category : 'removing' }

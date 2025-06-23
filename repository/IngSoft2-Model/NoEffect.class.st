@@ -17,11 +17,6 @@ NoEffect >> applyEffectOn: aPlayer using: positionManager and: battleManager and
 ]
 
 { #category : 'testing' }
-NoEffect >> hasAnEffect [
-	^false
-]
-
-{ #category : 'testing' }
 NoEffect >> isNoEffect [ 
 
 	^ true

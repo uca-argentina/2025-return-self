@@ -28,7 +28,7 @@ HyperJump class >> effectProbability [
 { #category : 'positioning' }
 HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	positionManager move: aPlayer forwardWith: (buffList at: actualBuffIndex) .
+	positionManager move: aPlayer forwardWithParsecs: (buffList at: actualBuffIndex) .
 
 		self nextBuff.
 

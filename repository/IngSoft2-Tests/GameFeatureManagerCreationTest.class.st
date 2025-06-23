@@ -6,6 +6,29 @@ Class {
 }
 
 { #category : 'tests' }
+GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
+
+	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
+	aLoadedDie := LoadedDie rolling: 4.
+	aGroupOfPlayers := {
+		                   (ShipPlayerAssociation
+			                    createWith: 1
+			                    and: 'Pedro').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: -10 ]
+		raiseErrorWithMessageText:
+		'The amount of laps cannot be lower than 1.'
+]
+
+{ #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
 	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
@@ -43,6 +66,26 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 		should: [ TurnManager twoPlayersCantHaveTheSameId: aGroupOfPlayers ]
 		raiseErrorWithMessageText:
 		'You cant have different players with the same ID.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
+
+	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
+	aLoadedDie := LoadedDie rolling: 4.
+	aGroupOfPlayers := {
+		                   (ShipPlayerAssociation createWith: 1 and: 'Pedro').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: {  }
+				withLaps: 10 ]
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
 ]
 
 { #category : 'tests' }

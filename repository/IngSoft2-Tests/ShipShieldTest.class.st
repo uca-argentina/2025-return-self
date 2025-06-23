@@ -18,6 +18,14 @@ ShipShieldTest >> test01ShipCanLoseShieldsIfItHasAtLeastOne [
 ]
 
 { #category : 'tests' }
+ShipShieldTest >> test01WhenTryingToCreateASpaceShipWithNegativeShieldsThenItRaisesError [
+	self
+		should: [ ShipShield createWith: 1 and: -10 ]
+		raiseErrorWithMessageText:
+		'The SpaceShip cant have negative shields.'
+]
+
+{ #category : 'tests' }
 ShipShieldTest >> test02ShipCantLoseShieldsIfItHasNone [
 
 	| aShipShield anotherShipShield |

@@ -17,6 +17,15 @@ ShipPositionTest >> test01WhenTellingAShipToAdvanceADistanceThenItReturnsANewShi
 ]
 
 { #category : 'tests' }
+ShipPositionTest >> test01WhenTryingToCreateASpaceShipWithNegativePositionThenItThrowsError [
+
+	self
+		should: [ ShipPosition createWith: 1 and: -10 and: 0 ]
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
+]
+
+{ #category : 'tests' }
 ShipPositionTest >> test02WhenTellingAShipToGoBackADistanceThenItReturnsANewShipWithNewPosition [
 
 	| aShipPosition anUpdatedShipPosition |
@@ -25,6 +34,15 @@ ShipPositionTest >> test02WhenTellingAShipToGoBackADistanceThenItReturnsANewShip
 
 	self assert: anUpdatedShipPosition position equals: 1.
 	self deny: aShipPosition position equals: 1 "Here you can be sure that original object is not affected"
+]
+
+{ #category : 'tests' }
+ShipPositionTest >> test02WhenTryingToCreateASpaceShipWithNegativeLapThenItThrowsError [
+
+	self
+		should: [ ShipPosition createWith: 1 and: 10 and: -2 ]
+		raiseErrorWithMessageText:
+		'Player lap cannot be negative.'
 ]
 
 { #category : 'tests' }

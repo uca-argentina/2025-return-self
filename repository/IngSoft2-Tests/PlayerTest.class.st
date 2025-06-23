@@ -15,6 +15,14 @@ PlayerTest >> test01WhenAPlayerIsAskedItsNameThenReturnsItsName [
 ]
 
 { #category : 'tests' }
+PlayerTest >> test01WhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
+
+	self
+		should: [ ShipPlayerAssociation createWith: 1 and: '' ]
+		raiseErrorWithMessageText: 'The name cannot be empty.'
+]
+
+{ #category : 'tests' }
 PlayerTest >> test02WhenTryingToMoveAPlayerFromOutsideTheGameItRasiesError [
 	"Take into account that although we create or return a ShipPosition 
 component, those objects are non-mutable, so it wont affect the game

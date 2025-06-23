@@ -6,6 +6,15 @@ Class {
 }
 
 { #category : 'tests' }
+DiceTest >> test01CreationOfDice [
+
+	self
+		should: [ Dice faces: -10 ]
+		raiseErrorWithMessageText:
+		'The number of faces must be greater than two.'
+]
+
+{ #category : 'tests' }
 DiceTest >> test01ThrowDice [
 
 	| aDice |

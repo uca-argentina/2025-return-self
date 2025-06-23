@@ -3,7 +3,8 @@ Class {
 	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'laps',
-		'boardLength'
+		'boardLength',
+		'parsecs'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -19,7 +20,20 @@ PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: a
 			                              createWith: each id	
 			                              and: 0 ].
 
-	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps
+	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps and: 5
+]
+
+{ #category : 'creation' }
+PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: aNumberOfLaps and: parsecsPerTile [
+
+	| playerPositionAssociationGroup |
+	self lapHasToBeGreaterThanZero: aNumberOfLaps.
+	playerPositionAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                              ShipPosition
+			                              createWith: each id	
+			                              and: 0 ].
+
+	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps and: parsecsPerTile
 ]
 
 { #category : 'testing' }
@@ -44,12 +58,20 @@ PositionManager >> checkIfReachedANewLap: aPlayer [
 	^ aPlayer changeLapAndCorrectPositionWith: boardLength
 ]
 
+{ #category : 'checking' }
+PositionManager >> checkIfReachedANewPosition: aPlayer [
+
+	(aPlayer parsecGreaterThan: parsecs) ifFalse: [ ^ aPlayer ].
+	^ aPlayer changePositionAndCorrectParsecsWith: parsecs
+]
+
 { #category : 'initialization' }
-PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTiles and: aNumberOfLaps [
+PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTiles and: aNumberOfLaps and: parsecsPerTile [
 
 	playersFeature := aGroupOfPlayers.
 	laps := aNumberOfLaps.
-	boardLength := aNumberOfTiles
+	boardLength := aNumberOfTiles.
+	parsecs := parsecsPerTile
 ]
 
 { #category : 'positioning' }
@@ -71,7 +93,18 @@ PositionManager >> move: aPlayer forwardWith: anAmount [
 	self updateShipReference: aModifiedPlayer
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'positioning' }
+PositionManager >> move: aPlayer forwardWithParsecs: anAmount [
+
+	| aModifiedPlayer |
+	aModifiedPlayer := (self findShipReference: aPlayer) advanceParsecs:
+		                   anAmount.
+	aModifiedPlayer := self checkIfReachedANewPosition: aModifiedPlayer.
+	aModifiedPlayer := self checkIfReachedANewLap: aModifiedPlayer.
+	self updateShipReference: aModifiedPlayer
+]
+
+{ #category : 'positioning' }
 PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
 
 	playersFeature do: [ :player |
@@ -111,10 +144,13 @@ PositionManager >> playerRanking [
 
 	| anOrderListOfPositions |
 	anOrderListOfPositions := playersFeature sorted: [ :player :nextOne |
-		                          (player distanceTravelledWith: boardLength)
+		                          (player
+			                           distanceTravelledWith: boardLength
+			                           and: parsecs)
 		                          >
-		                          (nextOne distanceTravelledWith:
-			                           boardLength) ].
+		                          (nextOne
+			                           distanceTravelledWith: boardLength
+			                           and: parsecs) ].
 
 	^ anOrderListOfPositions withIndexCollect: [ :player :index |
 		  {
@@ -122,14 +158,14 @@ PositionManager >> playerRanking [
 			  ('Place: ' , index asString) } ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'positioning' }
 PositionManager >> resetLapTo: aPlayer [
 	| playerToReset |
 	playerToReset := self findShipReference: aPlayer.
 	self updateShipReference: playerToReset goToFirstTile
 ]
 
-{ #category : 'initialization' }
+{ #category : 'positioning' }
 PositionManager >> resetPlayersPosition [
 
 playersFeature do: [ :player | self updateShipReference: player goToFirstTile ].

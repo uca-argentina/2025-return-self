@@ -2,16 +2,23 @@ Class {
 	#name : 'Tile',
 	#superclass : 'Object',
 	#instVars : [
-		'effect'
+		'effect',
+		'parsecs'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Tile class >> createWithEffect: anEffect [ 
+Tile class >> createWithEffect: anEffect [
 
-	^self new initializeTileWithEffect: anEffect.
+	^ self new initializeTileWithEffect: anEffect and: 5
+]
+
+{ #category : 'creation' }
+Tile class >> createWithEffect: anEffect and: parsecsNumber [
+
+	^ self new initializeTileWithEffect: anEffect and: parsecsNumber
 ]
 
 { #category : 'positioning' }
@@ -26,8 +33,21 @@ Tile >> effect [
 ^effect 
 ]
 
-{ #category : 'initialization' }
-Tile >> initializeTileWithEffect: anEffect [
+{ #category : 'testing' }
+Tile >> hasNoEffect [
 
-effect := anEffect .
+	^ effect isNoEffect
+]
+
+{ #category : 'initialization' }
+Tile >> initializeTileWithEffect: anEffect and: parsecsNumber [
+
+	effect := anEffect.
+	parsecs := parsecsNumber
+]
+
+{ #category : 'accessing' }
+Tile >> parsecs [
+
+	^ parsecs
 ]

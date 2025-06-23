@@ -6,6 +6,17 @@ Class {
 }
 
 { #category : 'tests' }
+LoadedDieTest >> test01TryingToRollLowerThanOneRaisesAnError [
+
+	self
+		should: [ LoadedDie rolling: 0 ]
+		raiseErrorWithMessageText: 'The roll cant be lower than one.'.
+	self
+		should: [ LoadedDie rolling: -2 ]
+		raiseErrorWithMessageText: 'The roll cant be lower than one.'
+]
+
+{ #category : 'tests' }
 LoadedDieTest >> test01WhenThrowingLoadedDieThenReturnsGivenNumber [
 
 	| aLoadedDie |

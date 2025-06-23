@@ -18,6 +18,15 @@ EffectTest >> setUp [
 ]
 
 { #category : 'tests' }
+EffectTest >> test01WhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
+
+	self
+		should: [ Wormhole createWith: -10 ]
+		raiseErrorWithMessageText:
+		'Both ends of the Wormhole must be greater than 1.'.
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithABlackHoleTile [
 
 	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard aTileList |
@@ -45,14 +54,14 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 EffectTest >> testGamePlayedWithAHyperJumpTile [
 
 	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileList |
-	assertingVariableData := { 'Name: Juan, Position: 7, Lap: 0'.
-	                         'Name: Tomi, Position: 8, Lap: 0' }.
+	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
+	                         'Name: Tomi, Position: 4, Lap: 0' }.
 	hyperJumpEffect := HyperJump create.
 	aTileList := self createTileListWith: 20.
 	aTileList at: 3 put: (Tile createWithEffect: hyperJumpEffect).
 	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 2) }.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
@@ -60,7 +69,31 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 		         withSetOfDie: aSequenceOfRolls
 		         withLaps: 1.
 
-	self play: 3 in: aGame.
+	self play: 2 in: aGame.
+
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+EffectTest >> testGamePlayedWithAHyperJumpTileChangingLap [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData aTileList |
+	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 1'.
+	                         'Name: Tomi, Position: 4, Lap: 0' }.
+	hyperJumpEffect := HyperJump create.
+	aTileList := self createTileListWith: 4.
+	aTileList at: 3 put: (Tile createWithEffect: hyperJumpEffect).
+	aTestBoard := BoardForTesting createWith: aTileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 2.
+
+	self play: 2 in: aGame.
 
 	self assert: aGame playerPositions equals: assertingVariableData
 ]

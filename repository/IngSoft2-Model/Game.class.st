@@ -56,7 +56,7 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 
 	turnManager := TurnManager createWith: aGroupOfPlayers.
 	battleManager := BattleManager createWith: aGroupOfPlayers.
-	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps.
+	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps and: aBoard parsecsPerTile.
 	setOfDie := aSetOfDie.
 	board := aBoard.
 	playersFeature := aGroupOfPlayers

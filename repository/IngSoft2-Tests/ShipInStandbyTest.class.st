@@ -18,6 +18,14 @@ ShipInStandbyTest >> test01WhenAShipInStandBySkipsATurnThenTheNumberOfTurnsItHas
 ]
 
 { #category : 'tests' }
+ShipInStandbyTest >> test01WhenTryingToCreateASpaceShipWithNegativeTurnsToSkipThenItRaisesError [
+	self
+		should: [ ShipInStandBy createWith: 1 and: -10 ]
+		raiseErrorWithMessageText:
+		'The SpaceShip cant skip negative turns.'
+]
+
+{ #category : 'tests' }
 ShipInStandbyTest >> test02WhenAShipInStandByHasNotTurnsToSkipThenSkippingRaisesError [
 
 	| aShipInStandBy |
