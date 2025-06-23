@@ -22,11 +22,11 @@ GameplayTest >> setUp [
 { #category : 'tests' }
 GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 
-	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard |
+	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard aTileList |
 	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 5 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
@@ -45,11 +45,11 @@ GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 { #category : 'tests' }
 GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aLoadedDie aWormhole aTestBoard |
+	| aGame aLoadedDie aWormhole aTestBoard aTileList |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
@@ -65,11 +65,11 @@ GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 { #category : 'tests' }
 GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -82,17 +82,17 @@ GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 
 	self play: 3 in: aGame.
 
-	self assert: (aGame positionFeatureOf: aPlayer) position equals: 5
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 16
 ]
 
 { #category : 'tests' }
 GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -111,12 +111,12 @@ GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 { #category : 'tests' }
 GameplayTest >> test05WhenSteppingIntoWormhole [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls anotherPlayer |
+	| aGame aWormhole aTestBoard aSequenceOfRolls anotherPlayer aTileList |
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 30
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 30.
+	aTileList at: 5 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -138,11 +138,11 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 { #category : 'tests' }
 GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -160,11 +160,11 @@ GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner 
 { #category : 'tests' }
 GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	| aGame aWormhole aTestBoard aSequenceOfRolls aTileList |
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 20
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 20.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -183,13 +183,13 @@ GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
 { #category : 'tests' }
 GameplayTest >> test08LoopingOfTheLap [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData |
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 1'.
 	                         'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 5
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 5.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 6).
 			                    (LoadedDie rolling: 1).
@@ -208,13 +208,13 @@ GameplayTest >> test08LoopingOfTheLap [
 { #category : 'tests' }
 GameplayTest >> test09LoopingOfTheLapWithRanking [
 
-	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData |
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileList |
 	assertingVariableData := { 'Name: Juan, Place: 1'.
 	                         'Name: Tomi, Place: 2' }.
 	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
-	aTestBoard := BoardForTesting
-		              createWithTiles: 5
-		              andEffects: { aWormhole }.
+	aTileList := self createTileListWith: 5.
+	aTileList at: 3 put: (Tile createWithEffect: aWormhole).
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 6).
 			                    (LoadedDie rolling: 1).

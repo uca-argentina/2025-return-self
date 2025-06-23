@@ -8,22 +8,19 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 AtomikBomb class >> effectProbability [
 
 ^0.02
 ]
 
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-	"VERIFICAR"
+AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	| playersToApplyEffect aPlayer |
-	aPlayer := aGroupOfPlayers at: anIndex.
-	"aPlayer position = tile ifTrue: ["
-	playersToApplyEffect := aGroupOfPlayers do: [ :player |
-		                        player goToFirstTile loseShield ].
-	^ playersToApplyEffect
-	"]."
-	"^aGroupOfPlayers "
+	| aGroupOfPlayers |
+	positionManager resetPlayersPosition .
+	aGroupOfPlayers := battleManager allDecreaseAShield.
+	aGroupOfPlayers do: [ :player | turnManager addTwoSkipsTo: player. 
+		battleManager forceAShieldResetTo: player ].
+
 ]

@@ -9,7 +9,9 @@ Class {
 BoardCreationTest >> test01WhenTryingToCreateATestBoardWithLengthLowerThanThreeThenItRaisesError [
 
 	self
-		should: [ BoardForTesting createWithTiles: 2 andEffects: {}]
+		should: [
+			BoardForTesting createWith:
+				{ (Tile createWithEffect: NoEffect new) } ]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'
 ]

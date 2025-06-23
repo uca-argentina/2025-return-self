@@ -8,8 +8,9 @@ Class {
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
@@ -46,13 +47,15 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
-| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+
+	| aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	self
 		should: [
 			Game
-				playedBy: {}
+				playedBy: {  }
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
 				withLaps: 1 ]
@@ -60,14 +63,12 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 		'You cant play with less than two players.'.
 
 	self
-		should: [
-		PositionManager mustHaveAtLeastTwoPlayers: {} ]
+		should: [ PositionManager mustHaveAtLeastTwoPlayers: {  } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
-		should: [
-		BattleManager mustHaveAtLeastTwoPlayers: {  } ]
+		should: [ BattleManager mustHaveAtLeastTwoPlayers: {  } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
@@ -80,10 +81,11 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
-	| aLoadedDie aTestBoard aPlayer |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	| aLoadedDie aTestBoard aPlayer aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
-	aPlayer := (ShipPlayerAssociation createWith: 1 and: 'Julian').
+	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Julian'.
 	self
 		should: [
 			Game
@@ -96,18 +98,21 @@ GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOneP
 
 	self
 		should: [
-		PositionManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
+			PositionManager mustHaveAtLeastTwoPlayers:
+				aPlayer asOrderedCollection ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
 		should: [
-		BattleManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
+			BattleManager mustHaveAtLeastTwoPlayers:
+				aPlayer asOrderedCollection ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
-		should: [ TurnManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
+		should: [
+		TurnManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'
 ]

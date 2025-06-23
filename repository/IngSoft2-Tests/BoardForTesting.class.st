@@ -5,8 +5,7 @@ Class {
 	#name : 'BoardForTesting',
 	#superclass : 'Object',
 	#instVars : [
-		'tiles',
-		'effects'
+		'tiles'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -19,39 +18,29 @@ BoardForTesting class >> boardLengthMustBeGreaterThanThree: aLength [
 		Error signal: 'The board length must be greater than three.' ]
 ]
 
-{ #category : 'as yet unclassified' }
-BoardForTesting class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [
+{ #category : 'creation tests' }
+BoardForTesting class >> createWith: aCollectionOfTiles [
+
+	self boardLengthMustBeGreaterThanThree: aCollectionOfTiles size.
+	^ self new initializeWith: aCollectionOfTiles
+]
+
+{ #category : 'positioning' }
+BoardForTesting >> applyEffectTriggeredBy: aPlayer [ 
+
+	| detectedTile |
 	
-	self boardLengthMustBeGreaterThanThree: totalTiles.
-	^self new initializeWithTiles: totalTiles andEffects: aCollectionOfEffects
+	detectedTile := tiles at: aPlayer position.
+^ detectedTile effect.
 ]
 
 { #category : 'accessing' }
-BoardForTesting >> applyEffectTriggeredByPlayerAt: anIndex to: players [
+BoardForTesting >> initializeWith: aCollectionOfTiles [
 
-	| detectedEffect aPlayerPosition |
-	aPlayerPosition := (players at: anIndex) position.
-	detectedEffect := effects
-		                  detect: [ :effect |
-		                  effect tiles includes: aPlayerPosition ]
-		                  ifNone: [ ^ players ].
-	^ detectedEffect applyEffectOn: players triggeredByPlayerAt: anIndex
-]
-
-{ #category : 'accessing' }
-BoardForTesting >> initializeWithTiles: aNumberOfTiles andEffects: aCollectionOfEffects [
-
-	tiles:= aNumberOfTiles .
-	effects:= aCollectionOfEffects.
-
-]
-
-{ #category : 'accessing' }
-BoardForTesting >> tiles [ 
-^effects
+	tiles := aCollectionOfTiles
 ]
 
 { #category : 'accessing' }
 BoardForTesting >> totalTiles [
-	^ tiles.
+	^ tiles size.
 ]

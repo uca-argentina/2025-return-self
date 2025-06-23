@@ -84,8 +84,8 @@ Game >> nextPlayerSkipsTurn [
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| activePlayer activePlayerIndex |
-	activePlayerIndex := 'PARA QUE NO ROMPA LOS HUEVOS EN LOS COMMIT, DESPUES LO BORRAMOS'.
+	| activePlayer anEffect |
+
 	positionManager stillPlaying ifFalse: [
 		^ self findShipReference: positionManager winner ].
 
@@ -100,11 +100,9 @@ Game >> nextPlayerThrowsDice [
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
 	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
 	"capaz me convenga simplemente pasar el Game"
-
-	playersFeature := board
-		                  applyEffectTriggeredByPlayerAt: activePlayerIndex
-		                  to: playersFeature.
-
+	activePlayer := positionManager findShipReference: activePlayer.
+	anEffect := board applyEffectTriggeredBy: activePlayer.
+	anEffect applyEffectOn: activePlayer using: positionManager and: battleManager and: turnManager.
 	"---Batalla---"
 	(positionManager checkIfBattle: activePlayer) ifTrue: [
 		self engageInBattle: activePlayer ]
@@ -122,9 +120,15 @@ Game >> playerPositions [
 
 	| positionsWithoutName |
 	positionsWithoutName := positionManager playerPositions.
-	^ (playersFeature collect: [ :each |
-		   each searchReferenceAndConcatName: positionsWithoutName ])
-		  asArray
+	^ (positionsWithoutName
+		   inject: OrderedCollection new
+		   into: [ :col :each |
+			   col add: (String streamContents: [ :s |
+					    s nextPutAll: 'Name: '.
+					    s nextPutAll: (self findShipReference: (each at: 1)) name.
+					    s nextPutAll: ', '.
+					    s nextPutAll: (each at: 2) ]).
+			   col ]) asArray
 ]
 
 { #category : 'tests - printing' }

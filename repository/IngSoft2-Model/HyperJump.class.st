@@ -9,28 +9,25 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 HyperJump class >> createOnTile: aTile [
 "ver en la generacion automatica"
 ^ self new initializeOnTile: aTile with: 5.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 HyperJump class >> effectProbability [
 
 ^0.08
 ]
 
 { #category : 'positioning' }
-HyperJump >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [ 
-			| aPlayer |
-	aPlayer := aGroupOfPlayers at: anIndex.
-"	aPlayer position = tile ifTrue: ["
-		aPlayer := aPlayer advanceTiles: actualBuff .
+HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+	positionManager move: aPlayer forwardWith: actualBuff .
+
 		self lowerBuff.
-		(aGroupOfPlayers at: anIndex put: aPlayer).
-"		]."
-	^aGroupOfPlayers
+
 ]
 
 { #category : 'initialization' }

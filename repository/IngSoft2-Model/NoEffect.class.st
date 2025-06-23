@@ -5,13 +5,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 NoEffect class >> effectProbability [
 
 ^0.40
 ]
 
 { #category : 'positioning' }
-NoEffect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
-	^aGroupOfPlayers 
+NoEffect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
 ]

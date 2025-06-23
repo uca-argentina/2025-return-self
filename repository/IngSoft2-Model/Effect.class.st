@@ -8,29 +8,20 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 Effect class >> createOnTile: aTile [
-^ self new initializeOnTile: aTile .
+
+^ self new initializeOnTile: aTile
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 Effect class >> effectProbability [
 
-self shouldBeImplemented.
+self subclassResponsibility.
 ]
 
 { #category : 'positioning' }
-Effect >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
+Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	self subclassResponsibility
-]
-
-{ #category : 'initialization' }
-Effect >> initializeOnTile: aTile [
-tile := aTile 
-]
-
-{ #category : 'initialization' }
-Effect >> tiles [ 
- ^{tile}
+self subclassResponsibility.
 ]

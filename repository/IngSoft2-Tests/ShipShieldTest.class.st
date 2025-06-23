@@ -20,13 +20,11 @@ ShipShieldTest >> test01ShipCanLoseShieldsIfItHasAtLeastOne [
 { #category : 'tests' }
 ShipShieldTest >> test02ShipCantLoseShieldsIfItHasNone [
 
-	| aShipShield |
+	| aShipShield anotherShipShield |
 	aShipShield := ShipShield createWith: 1 and: 0.
+	anotherShipShield := aShipShield loseShields: 1.
+	self assert: (anotherShipShield shields) equals: 0.
 
-	self
-		should: [ aShipShield loseShields: 1 ]
-		raiseErrorWithMessageText:
-		'The SpaceShip cant have negative shields.'
 ]
 
 { #category : 'tests' }

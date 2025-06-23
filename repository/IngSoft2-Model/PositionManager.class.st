@@ -71,6 +71,15 @@ PositionManager >> move: aPlayer forwardWith: anAmount [
 	self updateShipReference: aModifiedPlayer
 ]
 
+{ #category : 'as yet unclassified' }
+PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
+
+	playersFeature do: [ :player |
+		self updateShipReference: (player goBackTiles: aDistance) ].
+
+	self updateShipReference: aPlayer
+]
+
 { #category : 'checking' }
 PositionManager >> playerInSamePositionThan: aPlayer [
 
@@ -87,9 +96,12 @@ PositionManager >> playerPositions [
 	| aListOfPositions |
 	aListOfPositions := playersFeature collect: [ :player |
 		                    {
-			                    player id.
-			                    ('Position: ' , player position asString
-			                     , ', Lap: ' , player lap asString) } ].
+			                    player.
+			                    (String streamContents: [ :s |
+				                     s nextPutAll: 'Position: '.
+				                     s nextPutAll: player position asString.
+				                     s nextPutAll: ', Lap: '.
+				                     s nextPutAll: player lap asString ]) } ].
 	^ aListOfPositions
 ]
 
@@ -115,6 +127,15 @@ PositionManager >> resetLapTo: aPlayer [
 	| playerToReset |
 	playerToReset := self findShipReference: aPlayer.
 	self updateShipReference: playerToReset goToFirstTile
+]
+
+{ #category : 'initialization' }
+PositionManager >> resetPlayersPosition [
+
+playersFeature do: [ :player | self updateShipReference: player goToFirstTile ].
+
+
+
 ]
 
 { #category : 'checking' }

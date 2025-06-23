@@ -8,8 +8,9 @@ Class {
 { #category : 'tests' }
 GameCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
@@ -30,21 +31,19 @@ GameCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesErr
 { #category : 'tests' }
 GameCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWithTiles: 20 andEffects: {  }.
+	| aGroupOfPlayers aLoadedDie aTestBoard aTileList |
+	aTileList := self createTileListWith: 20.
+	aTestBoard := BoardForTesting createWith: aTileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation
-			                    createWith: 1
-			                    and: 'Pedro').
+		                   (ShipPlayerAssociation createWith: 1 and: 'Pedro').
 		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			Game
 				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard
-				withSetOfDie: {}
+				withSetOfDie: {  }
 				withLaps: 10 ]
-		raiseErrorWithMessageText:
-		'You must have at least one die to play.'
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
 ]

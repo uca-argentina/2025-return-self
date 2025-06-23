@@ -8,35 +8,27 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 MoonWalk class >> createOnTile: aTile [
 	"ver en la generacion automatica"
 	^self new initializeOnTile: aTile withDebuff: 4.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 MoonWalk class >> createOnTile: aTile withDebuff: aDebuff [
 	^self new initializeOnTile: aTile withDebuff: aDebuff.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 MoonWalk class >> effectProbability [
 
 ^0.10
 ]
 
 { #category : 'positioning' }
-MoonWalk >> applyEffectOn: aGroupOfPlayers triggeredByPlayerAt: anIndex [
+MoonWalk >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	| playersToApplyEffect unaffectedPlayer |
-	unaffectedPlayer := aGroupOfPlayers at: anIndex.
-	"	unaffectedPlayer position = tile ifTrue: ["
-	playersToApplyEffect := aGroupOfPlayers collect: [ :player |
-		                        player goBackTiles: debuff ].
-	playersToApplyEffect at: anIndex put: unaffectedPlayer.
-	^ playersToApplyEffect
-	"	].
-^aGroupOfPlayers"
+	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff.
 ]
 
 { #category : 'as yet unclassified' }

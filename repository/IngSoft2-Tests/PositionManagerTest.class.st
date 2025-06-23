@@ -143,14 +143,21 @@ PositionManagerTest >> test11WhenNoShipReachedTheAmountOfLapsToWinThenManagerCan
 ]
 
 { #category : 'tests' }
-PositionManagerTest >> test12PositionManagerCanReturn2DArrayWithIdAndAStringContainingThePositionInfoOfEveryShipInGame [
+PositionManagerTest >> test12PositionManagerCanReturn2DArrayWithShipPositionAndAStringContainingThePositionInfoOfEveryShipInGame [
 
 	| assertingVariableData |
-	assertingVariableData := {
-		                         { 1. 'Position: 6, Lap: 0' }.
-		                         { 2. 'Position: 1, Lap: 0' } }.
 
 	aPositionManager move: aPlayer forwardWith: 5.
+	
+	assertingVariableData := {
+		                         {
+			                         (aPositionManager findShipReference:
+				                          aPlayer).
+			                         'Position: 6, Lap: 0' }.
+		                         {
+			                         (aPositionManager findShipReference:
+				                          anotherPlayer).
+			                         'Position: 1, Lap: 0' } }.
 
 	self
 		assert: aPositionManager playerPositions
