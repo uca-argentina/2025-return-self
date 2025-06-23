@@ -68,6 +68,44 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 { #category : 'tests' }
 TileDistributionTest >> testBoardWithEveryThing [
 
+	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole|
+	aBuilder := TileDistributionBuilder
+		            forBoardWithLength: 101
+		            andParsecs: 1000.
+	aBuilder addEveryEffectToBuilder .
+	aTestBoard := aBuilder buildBoard.
+
+	blackHoles := 0.
+	atomikBombs := 0.
+	hyperJump := 0.
+	hyperSpaceJump := 0.
+	moonWalk := 0.
+	noEffect := 0.
+	wormhole := 0.
+	aTestBoard tiles do: [ :tile |
+		(tile effect isOf: 'BlackHole') ifTrue: [
+			blackHoles := blackHoles + 1 ].
+		(tile effect isOf: 'NoEffect') ifTrue: [ noEffect := noEffect + 1 ].
+		(tile effect isOf: 'HyperJump') ifTrue: [ hyperJump := hyperJump + 1 ].
+		(tile effect isOf: 'HyperSpaceJump') ifTrue: [ hyperSpaceJump := hyperSpaceJump + 1 ].
+		(tile effect isOf: 'MoonWalk') ifTrue: [ moonWalk := moonWalk + 1 ].
+		(tile effect isOf: 'Wormhole') ifTrue: [ wormhole := wormhole + 1 ].
+		(tile effect isOf: 'AtomikBomb') ifTrue: [
+			atomikBombs := atomikBombs + 1 ] ].
+
+
+	self assert: blackHoles equals: 20.
+	self assert: atomikBombs equals: 2.
+	self assert: noEffect equals: 39.
+	self assert: hyperJump equals: 8.
+	self assert: hyperSpaceJump equals: 20.
+	self assert: moonWalk equals: 10.
+	self assert: wormhole equals: 2
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> testBoardWithEveryThingButWormhole [
+
 	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk |
 	aBuilder := TileDistributionBuilder
 		            forBoardWithLength: 101
