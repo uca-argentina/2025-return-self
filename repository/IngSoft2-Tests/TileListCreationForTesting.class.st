@@ -22,7 +22,14 @@ TileListCreationForTesting class >> boardLengthMustBeGreaterThanThree: aLength [
 TileListCreationForTesting class >> createTileListWith: aBoardLength [
 
 	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	^ self new initializeTileListWith: aBoardLength
+	^ self new initializeTileListWith: aBoardLength and: 5
+]
+
+{ #category : 'creation tests' }
+TileListCreationForTesting class >> createTileListWith: aBoardLength and: parsecsPerTile [
+
+	self boardLengthMustBeGreaterThanThree: aBoardLength.
+	^ self new initializeTileListWith: aBoardLength and: parsecsPerTile
 ]
 
 { #category : 'accessing' }
@@ -50,10 +57,10 @@ tileList size < anIndex ifTrue: [ Error signal: 'Effect cant be outside the boar
 ]
 
 { #category : 'initialization' }
-TileListCreationForTesting >> initializeTileListWith: aBoardLength [
+TileListCreationForTesting >> initializeTileListWith: aBoardLength and: parsecsPerTile [
 
 	tileList := (1 to: aBoardLength) collect: [ :x |
-		  Tile createWithEffect: NoEffect create ]
+		  Tile createWithEffect: NoEffect create and: parsecsPerTile ]
 ]
 
 { #category : 'accessing' }

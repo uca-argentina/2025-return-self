@@ -14,7 +14,15 @@ Class {
 }
 
 { #category : 'creation' }
-TileDistributionBuilder class >> forBoardWithLength: aLength and: parsecsPerTile [
+TileDistributionBuilder class >> createTileListWith: aLength [
+
+	^ self new
+		  initializeBuilderForBoardWithLength: aLength
+		  and: 5
+]
+
+{ #category : 'creation' }
+TileDistributionBuilder class >> createTileListWith: aLength and: parsecsPerTile [
 
 	^ self new
 		  initializeBuilderForBoardWithLength: aLength
@@ -41,7 +49,7 @@ TileDistributionBuilder >> addEveryEffectToBuilder [
 { #category : 'building' }
 TileDistributionBuilder >> buildBoard [
 	effectsWithProbabilities do:[:effect | self distributeEffectIntoTileList: effect].
-	^ Board generateWithTiles: tileList
+	^ Board createWith: tileList
 ]
 
 { #category : 'listing' }

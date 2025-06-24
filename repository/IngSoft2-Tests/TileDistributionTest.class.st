@@ -2,7 +2,8 @@ Class {
 	#name : 'TileDistributionTest',
 	#superclass : 'ReturnSelfTestCase',
 	#instVars : [
-		'aGroupOfPlayers'
+		'aBuilder',
+		'aTileListCreator'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -12,9 +13,10 @@ Class {
 TileDistributionTest >> setUp [
 
 	super setUp.
-	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation createWith: 1 and: 'Juan').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }
+
+	aBuilder := TileDistributionBuilder createTileListWith: 101.
+
+	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
 ]
 
 { #category : 'tests' }
@@ -32,7 +34,7 @@ TileDistributionTest >> test01WhenTryingToCreateATestBoardWithLengthLowerThanThr
 TileDistributionTest >> test02WhenTryingToCreateABoardWithLengthLowerThanThreeThenItRaisesError [
 
 	self
-		should: [ Board generateWithTiles: {}]
+		should: [ Board createWith: {}]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'
 ]
@@ -40,9 +42,7 @@ TileDistributionTest >> test02WhenTryingToCreateABoardWithLengthLowerThanThreeTh
 { #category : 'tests' }
 TileDistributionTest >> testBoardBuiltWithBlackHoles [
 
-	| aTestBoard aBuilder blackHoles noEffect |
-	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101 and: 5.
+	| aTestBoard blackHoles noEffect |
 	aBuilder addEffectToBuilder: BlackHole.
 	aTestBoard := aBuilder buildBoard.
 
@@ -60,9 +60,7 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 { #category : 'tests' }
 TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 
-	| aTestBoard aBuilder blackHoles atomikBombs noEffect |
-	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101 and: 5.
+	| aTestBoard blackHoles atomikBombs noEffect |
 	aBuilder addEffectToBuilder: BlackHole.
 	aBuilder addEffectToBuilder: AtomikBomb.
 	aTestBoard := aBuilder buildBoard.
@@ -86,9 +84,7 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 { #category : 'tests' }
 TileDistributionTest >> testBoardWithEveryThing [
 
-	| aTestBoard aBuilder blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole |
-	aBuilder := TileDistributionBuilder
-		            forBoardWithLength: 101 and: 5.
+	| aTestBoard blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole |
 	aBuilder addEveryEffectToBuilder.
 	aTestBoard := aBuilder buildBoard.
 
@@ -122,8 +118,7 @@ TileDistributionTest >> testBoardWithEveryThing [
 { #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEndpointOutsideTheBoardLengthThenItRaisesAnError [
 
-	| aTileListCreator aWormhole |
-	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	| aWormhole |
 	aWormhole := Wormhole createWith: 7.
 	
 	self
@@ -134,8 +129,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWith
 { #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEqualEndsThenItRaisesAnError [
 
-	| aTileListCreator aWormhole |
-	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
 	
 	self
@@ -146,8 +140,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWith
 { #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectInFirstTileThenItRaisesError [
 
-	| aTileListCreator aWormhole |
-	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
 	
 	self
@@ -158,8 +151,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectInFir
 { #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectOutsideTheBoardLengthThenItRaisesError [
 
-	| aTileListCreator aWormhole |
-	aTileListCreator := TileListCreationForTesting createTileListWith: 5.
+	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
 	
 	self

@@ -16,7 +16,7 @@ Board class >> boardLengthMustBeGreaterThanThree: aLength [
 ]
 
 { #category : 'creation' }
-Board class >> generateWithTiles: aSetOfTiles [
+Board class >> createWith: aSetOfTiles [
 	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
 	
 	^ self new initializeWithTiles: aSetOfTiles
