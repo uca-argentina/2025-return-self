@@ -61,7 +61,7 @@ TurnManagerTest >> test03ATurnManagerNotStartedWithNextPlayerTurnBeginsCantRetur
 	self
 		should: [ anotherTurnManager playerInTurn ]
 		raiseErrorWithMessageText:
-		'0 in an Array(a ShipInStandBy a ShipInStandBy)'
+		'The game did not begin.'
 ]
 
 { #category : 'tests' }

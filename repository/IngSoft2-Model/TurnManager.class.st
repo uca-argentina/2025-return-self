@@ -59,5 +59,6 @@ TurnManager >> playNextTurn [
 { #category : 'accessing' }
 TurnManager >> playerInTurn [
 
+	nextPlayerIndex = 0 ifTrue: [ Error signal: 'The game did not begin.' ].
 	^ playersFeature at: nextPlayerIndex
 ]
