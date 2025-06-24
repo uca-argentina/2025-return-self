@@ -2,43 +2,44 @@ Class {
 	#name : 'BlackHole',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
 		'debuff'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
+BlackHole class >> create [
+	^self new initializeEffectWith: 4
+]
+
+{ #category : 'creation' }
+BlackHole class >> createWith: aDebuff [
+	^self new initializeEffectWith: aDebuff
+]
+
+{ #category : 'creation' }
 BlackHole class >> effectProbability [
 
 ^0.20
 ]
 
-{ #category : 'initialization' }
-BlackHole class >> initializeOnTile: aTile [ 
-	^self new initializeOnTile: aTile .
-]
-
 { #category : 'positioning' }
-BlackHole >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
-	| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
-		aPlayer := aPlayer goBackTiles: debuff.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
-		].
-	^aSetOfPlayers 
+BlackHole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+	positionManager move: aPlayer backwardWith: debuff.
+
 	
 ]
 
 { #category : 'initialization' }
-BlackHole >> initializeOnTile: aTile [ 
-	tile := aTile.
-	debuff := 4.
+BlackHole >> initializeEffectWith: aDebuff [
+
+	debuff := aDebuff
 ]
 
-{ #category : 'initialization' }
-BlackHole >> tiles [
- ^tile
+{ #category : 'testing' }
+BlackHole >> isBlackHole [
+
+	^ true
 ]

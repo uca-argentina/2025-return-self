@@ -2,56 +2,52 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'tiles',
-		'allEffects'
+		'tiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-Board class >> createWithTiles: aNumberOfTiles [ 
-	^ self new initializeWithTiles: aNumberOfTiles
+{ #category : 'testing' }
+Board class >> boardLengthMustBeGreaterThanThree: aLength [
+
+	aLength > 3 ifFalse: [
+		Error signal: 'The board length must be greater than three.' ]
 ]
 
-{ #category : 'as yet unclassified' }
-Board class >> createWithTiles: totalTiles andEffects: aCollectionOfEffects [ 
-	^self new initializeWithTiles: totalTiles andEffects: aCollectionOfEffects 
+{ #category : 'creation' }
+Board class >> createWith: aSetOfTiles [
+	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
+	
+	^ self new initializeWithTiles: aSetOfTiles
 ]
 
 { #category : 'positioning' }
-Board >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
-	| detectedEffect |
-	detectedEffect := tiles detect: [ :effect | effect tiles = ((aSetOfPlayers at: anIndex) position) ].
-	^detectedEffect applyEffectOn: aSetOfPlayers onIndex: anIndex 
+Board >> applyEffectTriggeredBy: aPlayer [ 
+
+	| detectedTile |
+	
+	detectedTile := tiles at: aPlayer position.
+^ detectedTile effect.
 ]
 
 { #category : 'initialization' }
-Board >> initializeWithTiles: aNumberOfTiles [ 
+Board >> initializeWithTiles: aSetOfTiles [
 
-    | rng cumulativeProbs effectClasses|
-    rng := Random new.                   
-    effectClasses := { AtomikBomb. BlackHole. HyperJump. HyperSpaceJump. MoonWalk. NoEffect }.
-
-    cumulativeProbs := Array new: effectClasses size.
-    effectClasses
-        withIndexDo: [ :cls :i | | acum |
-            acum := (i = 1
-                      ifTrue: [ 0 ]
-                      ifFalse: [ cumulativeProbs at: i - 1 ]) + cls effectProbability.
-            cumulativeProbs at: i put: acum ].
-    
-    "2. Para cada casilla, sortear un efecto con peso:"
-    tiles := (1 to: aNumberOfTiles) collect: [ :idx |
-        | r chosenClass |
-        r := rng next.                         "Número real [0,1)"
-        chosenClass := effectClasses
-            detect: [ :cls | r <= (cumulativeProbs at: (effectClasses indexOf: cls)) ]
-            ifNone: [ effectClasses last ].    "por redondeo"
-        chosenClass initializeOnTile: idx                       "instancia de efecto"
-    ].
+    tiles := aSetOfTiles.
 
 
+]
+
+{ #category : 'accessing' }
+Board >> parsecsPerTile [
+
+^ (tiles at: 1) parsecs
+]
+
+{ #category : 'accessing' }
+Board >> tiles [ 
+^tiles
 ]
 
 { #category : 'accessing' }

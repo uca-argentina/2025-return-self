@@ -1,130 +1,64 @@
-"
-A handler of the turn and game current status with the set of players.
-"
 Class {
 	#name : 'TurnManager',
-	#superclass : 'Object',
+	#superclass : 'GameFeatureManager',
 	#instVars : [
-		'turn',
-		'boardLength',
-		'setOfPlayers',
-		'numberOfLaps'
+		'nextPlayerIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'instance creation' }
-TurnManager class >> with: aSetOfPlayers and: aBoardLength [
+{ #category : 'creation' }
+TurnManager class >> createWith: aGroupOfPlayers [
 
-	^ self new
-		  initializeSetOfPlayers: aSetOfPlayers
-		  andBoard: aBoardLength
+	| playerTurnAssociationGroup |
+	playerTurnAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                              ShipInStandBy
+			                              createWith: each id
+			                              and: 0 ].
+
+	^ self new initializePlayersTurnWith: playerTurnAssociationGroup
 ]
 
-{ #category : 'instance creation' }
-TurnManager class >> with: aSetOfPlayers and: aBoardLength and: numberOfLaps [
+{ #category : 'adding' }
+TurnManager >> addTwoSkipsTo: aPlayer [
 
-	^ self new
-		  initializeSetOfPlayers: aSetOfPlayers
-		  andBoard: aBoardLength
-		  andLaps: numberOfLaps 
-]
-
-{ #category : 'comparing' }
-TurnManager >> checkifPlayerStillPlaying: aPlayer [
-
-	^ aPlayer lap < numberOfLaps.
-]
-
-{ #category : 'initialization' }
-TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength [
-
-	setOfPlayers := aSet.
-	turn := 0.
-	boardLength := aBoardLength.
-	numberOfLaps := 1.
+	| playerToApply |
+	playerToApply := self findShipReference: aPlayer.
+	playerToApply := playerToApply addSkips: 2.
+	self updateShipReference: playerToApply
 ]
 
 { #category : 'initialization' }
-TurnManager >> initializeSetOfPlayers: aSet andBoard: aBoardLength andLaps: anAmountOfLaps [
+TurnManager >> initializePlayersTurnWith: aGroup [
 
-	setOfPlayers := aSet.
-	turn := 0.
-	boardLength := aBoardLength.
-	numberOfLaps := anAmountOfLaps 
+	playersFeature := aGroup.
+	nextPlayerIndex := 0
 ]
 
 { #category : 'play interface' }
-TurnManager >> playTurnUsing: aDistance and: aBoard [
+TurnManager >> nextPlayerTurnBegins [
+
+nextPlayerIndex := (nextPlayerIndex) \\ (playersFeature size) + 1
+]
+
+{ #category : 'play interface' }
+TurnManager >> playNextTurn [
 
 	| activePlayer |
-	turn := turn + 1.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
-	
-	[activePlayer skipATurn] whileTrue: [
-		setOfPlayers at: self playerInTurnIndex put:(activePlayer turnSkipped ).
-		turn := turn + 1.
-		activePlayer := setOfPlayers at: self playerInTurnIndex.
-		].
-	
-	activePlayer:= activePlayer resetShieldsAfter2TurnsWithout.
-	
-	
-	activePlayer := activePlayer advanceTiles: aDistance.
-	activePlayer := activePlayer circleAroundTheTrackWithLength: aBoard totalTiles .
-
-	setOfPlayers at: self playerInTurnIndex put: activePlayer.
-	setOfPlayers := aBoard applyEffectOn: setOfPlayers onIndex: self playerInTurnIndex.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
-	^ activePlayer
-	
-]
-
-{ #category : 'play interface' }
-TurnManager >> playerInTurnIndex [
-
-	^ turn - 1 \\ setOfPlayers size + 1 "The players whose turn is up"
+	self nextPlayerTurnBegins.
+	activePlayer := self playerInTurn.
+	"mientras agarre un player salteado..."
+	[ activePlayer hasTurnsToSkip ] whileTrue: [
+		activePlayer := activePlayer skipATurn.
+		self updateShipReference: activePlayer.
+		self nextPlayerTurnBegins.
+		activePlayer := self playerInTurn ]
 ]
 
 { #category : 'accessing' }
-TurnManager >> setOfPlayers [
+TurnManager >> playerInTurn [
 
-	^ setOfPlayers 
-]
-
-{ #category : 'accessing' }
-TurnManager >> setOfPlayers: aSetOfPlayers [
-	
-	setOfPlayers := aSetOfPlayers 
-]
-
-{ #category : 'play interface' }
-TurnManager >> skipTurn [
-	| activePlayer |
-	turn := turn + 1.
-	activePlayer := setOfPlayers at: self playerInTurnIndex.
-	activePlayer:= activePlayer forceAShieldReset.
-	
-	setOfPlayers at: self playerInTurnIndex put: activePlayer.
-	^ activePlayer
-	
-]
-
-{ #category : 'accessing' }
-TurnManager >> stillPlaying [
-
-	^ setOfPlayers allSatisfy: [ :player |
-		  self checkifPlayerStillPlaying: player ]
-]
-
-{ #category : 'comparing' }
-TurnManager >> winner [
-
-	| playerWhoWon |
-	playerWhoWon := setOfPlayers
-		                detect: [ :player |
-		                (self checkifPlayerStillPlaying: player) not ]
-		                ifNone: [ ^ 'NO ONE WON!' ].
-	^ playerWhoWon name
+	nextPlayerIndex = 0 ifTrue: [ Error signal: 'The game did not begin.' ].
+	^ playersFeature at: nextPlayerIndex
 ]

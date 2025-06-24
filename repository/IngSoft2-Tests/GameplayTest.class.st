@@ -1,265 +1,210 @@
 Class {
 	#name : 'GameplayTest',
-	#superclass : 'TestCase',
-	#instVars : [
-		'firstPlayer',
-		'secondPlayer',
-		'aSetOfPlayers'
-	],
+	#superclass : 'GameplayFullInteractionTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'running' }
-GameplayTest >> setUp [
-	super setUp.
+{ #category : 'tests' }
+GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 
-	firstPlayer := Player named: 'Juan'.
-	secondPlayer := Player named: 'Tomi'.
-	aSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }
+	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard |
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 5 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	firstLoadedDice := LoadedDie rolling: 3.
+	secondLoadedDice := LoadedDie rolling: 5.
+	aSetOfDie := DieSet having: {
+			             firstLoadedDice.
+			             secondLoadedDice }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSetOfDie
+		         withLaps: 1.
+
+	self play: 1 in: aGame.
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 9
 ]
 
 { #category : 'tests' }
-GameplayTest >> testGamePlayedWithASingleLapNoBattles [
+GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
+	| aGame aLoadedDie aWormhole aTestBoard |
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
 		         withSetOfDie: aLoadedDie
-					withLaps: 1.
-					
-	aGame playFullGame.
+		         withLaps: 1.
 
-	self assert: aGame winner equals: 'Juan'
-"
-	aGame nextPlayerThrowsDice.
-	aGame nextPlayerThrowsDice.
+	self play: 1 in: aGame.
 
-	self assert: aGame nextPlayerThrowsDice equals: 9"
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 5
 ]
 
 { #category : 'tests' }
-GameplayTest >> testLoopingOfTheLap [
+GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 4.
-	aLoadedDie := LoadedDie rolling: 6.
+	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	aWormhole := Wormhole createWith: 14.
+
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 5
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie
-					withLaps: 2.
-	
-	self assert: aGame nextPlayerThrowsDice equals: 2
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
+
+	self play: 3 in: aGame.
+
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 16
 ]
 
 { #category : 'tests' }
-GameplayTest >> testWhenAGameIsPlayedWithASetOfDie [
+GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 
-	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie |
-	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
+	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aSetOfDie.
-	self assert: aGame nextPlayerThrowsDice equals: 9
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenAGameStartsTheresTheFirstTurn [
-
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
-
-
-
-	self assert: aGame nextPlayerThrowsDice equals: 5
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenSteppingIntoWormhole [
-
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 5 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
-
-
-	aGame nextPlayerThrowsDice.
-	"Steps on wormhole here, on next turn it goes through."
-	self assert: aGame nextPlayerThrowsDice equals: 14
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTheGameIsAtTheSecondTurn [
-
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
-
-	aGame nextPlayerThrowsDice.
-
-	self assert: aGame nextPlayerThrowsDice equals: 5
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTheGameIsAtTheThirdTurn [
-
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
-
-	aGame nextPlayerThrowsDice.
-	aGame nextPlayerThrowsDice.
-
-	self assert: aGame nextPlayerThrowsDice equals: 9
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTheGamePlaysItselfThenThereIsAWinner [
-
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
 
 	aGame playFullGame.
 
-	self assert: aGame winner equals: 'Juan'
+	self assert: (aGame isWinner: 'Juan')
 ]
 
 { #category : 'tests' }
-GameplayTest >> testWhenThereIsATurnAfterGameIsFinishedTHenItIsInvalid [
+GameplayTest >> test05WhenSteppingIntoWormhole [
 
-	| aGame aLoadedDie aWormhole |
-	aWormhole := Wormhole oneEnd: 3 otherEnd: 14.
-	aLoadedDie := LoadedDie rolling: 6.
+	| aGame aWormhole aTestBoard aSequenceOfRolls anotherPlayer |
+	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 5 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aSetOfPlayers
-		         withBoardLength: 20
-		         withEffect: aWormhole
-		         withSetOfDie: aLoadedDie.
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
+
+
+	self play: 2 in: aGame.
+	"Steps on wormhole here, on next turn it goes through. VAMOS A TENER QUE CORREGIR ESTO"
+	self
+		assert: (aGame positionFeatureOf: anotherPlayer) position
+		equals: 2
+]
+
+{ #category : 'tests' }
+GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner [
+
+	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
+
+	aGame playFullGame.
+	self assert: (aGame isWinner: 'Juan')
+]
+
+{ #category : 'tests' }
+GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
+
+	| aGame aWormhole aTestBoard aSequenceOfRolls |
+	aWormhole := Wormhole createWith: 14.
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 2).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 1.
 
 	aGame playFullGame.
 
-	self assert: aGame nextPlayerThrowsDice equals: aGame
+	self assert: (aGame isWinner: 'Juan')
 ]
 
 { #category : 'tests' }
-GameplayTest >> testWhenTryingToCreateAGameWithABoardLengthLowerThanThreeThenItRaisesError [
+GameplayTest >> test08LoopingOfTheLap [
 
-	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
-	aFirstPlayer := Player named: 'Juan'.
-	aSecondPlayer := Player named: 'Tomi'.
-	anotherSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileListCreator2 |
+	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 1'.
+	                         'Name: Tomi, Position: 1, Lap: 0' }.
+	aWormhole := Wormhole createWith: 4.
+	aTileListCreator2 := TileListCreationForTesting createTileListWith: 5.
+	aTileListCreator2 at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator2 tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 6).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 2.
 
-	aWormhole := Wormhole oneEnd: 2 otherEnd: 3.
+	self play: 1 in: aGame.
 
-	anErrorHandler
-		should: [
-			Game
-				playedBy: aSetOfPlayers
-				withBoardLength: 3
-				withEffect: aWormhole
-				withSetOfDie: aSetOfDie ]
-		raiseErrorWithMessageText:
-		'The board length must be greater than three.'
+	self assert: aGame playerPositions equals: assertingVariableData
 ]
 
 { #category : 'tests' }
-GameplayTest >> testWhenTryingToCreateAGameWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
+GameplayTest >> test09LoopingOfTheLapWithRanking [
 
-	| anErrorHandler aWormhole aFirstPlayer aSecondPlayer anotherSetOfPlayers aSetOfDie firstLoadedDice secondLoadedDice |
-	aFirstPlayer := Player named: 'Juan'.
-	aSecondPlayer := Player named: 'Tomi'.
-	anotherSetOfPlayers := {
-		                 firstPlayer.
-		                 secondPlayer }.
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Place: 1'.
+	                         'Name: Tomi, Place: 2' }.
+	aWormhole := Wormhole createWith: 4.
+	aTileListCreator at: 3 put: aWormhole.
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			                    (LoadedDie rolling: 6).
+			                    (LoadedDie rolling: 1).
+			                    (LoadedDie rolling: 2) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequenceOfRolls
+		         withLaps: 2.
 
-	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
+	self play: 1 in: aGame.
 
-	anErrorHandler
-		should: [
-			Game
-				playedBy: aSetOfPlayers
-				withBoardLength: 20
-				withEffect: aWormhole
-				withSetOfDie: aSetOfDie ]
-		raiseErrorWithMessageText:
-		'Both wormhole ends must be within the board length.'
-]
-
-{ #category : 'tests' }
-GameplayTest >> testWhenTryingToUseGameSetupWithAWormholeWhoseOneEndIsOutsideTheBoardLengthItRaisesError [
-
-	| anErrorHandler aWormhole aSetOfDie firstLoadedDice secondLoadedDice aLoadedDie |
-	firstLoadedDice := LoadedDie rolling: 3.
-	secondLoadedDice := LoadedDie rolling: 5.
-	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
-	anErrorHandler := ReturnSelfErrorHandler usingTestCase: self.
-
-	aWormhole := Wormhole oneEnd: 12 otherEnd: 30.
-	aLoadedDie := LoadedDie rolling: 4.
-	anErrorHandler
-		should: [
-			Game
-				playedBy: aSetOfPlayers
-				withBoardLength: 20
-				withEffect: aWormhole
-				withSetOfDie: aLoadedDie ]
-		raiseErrorWithMessageText:
-		'Both wormhole ends must be within the board length.'
+	self assert: aGame playerRanking equals: assertingVariableData
 ]

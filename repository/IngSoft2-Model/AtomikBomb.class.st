@@ -2,48 +2,31 @@ Class {
 	#name : 'AtomikBomb',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
 		'setOfPlayers'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
 AtomikBomb class >> effectProbability [
 
 ^0.02
 ]
 
-{ #category : 'initialization' }
-AtomikBomb class >> initializeOnTile: aTile [ 
-	^self new initializeOnTile: aTile .
-]
-
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aSetOfPlayers onIndex: anIndex [
+AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-	| playersToApplyEffect aPlayer |
-	aPlayer:= aSetOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
-	playersToApplyEffect := aSetOfPlayers collect: [:player | (player goToFirstTile) loseShield ].
-	^playersToApplyEffect.
-	].
-^aSetOfPlayers 
-
-	
-]
-
-{ #category : 'initialization' }
-AtomikBomb >> initializeOnTile: aTile [
-	tile := aTile.
-
+	| aGroupOfPlayers |
+	positionManager resetPlayersPosition .
+	aGroupOfPlayers := battleManager allDecreaseAShield.
+	aGroupOfPlayers do: [ :player | turnManager addTwoSkipsTo: player. 
+		battleManager forceAShieldResetTo: player ].
 
 ]
 
-{ #category : 'positioning' }
-AtomikBomb >> tiles [
- ^tile
+{ #category : 'testing' }
+AtomikBomb >> isAtomikBomb [
 
-	
+	^ true
 ]

@@ -2,59 +2,53 @@ Class {
 	#name : 'HyperJump',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
-		'actualBuff',
-		'initialBuff'
+		'buffList',
+		'actualBuffIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
+HyperJump class >> create [
+	^self new initializeEffectWith: #(13 9 5)
+]
+
+{ #category : 'creation' }
+HyperJump class >> createWith: aListOfParsecs [
+	^self new initializeEffectWith: aListOfParsecs
+]
+
+{ #category : 'creation' }
 HyperJump class >> effectProbability [
 
 ^0.08
 ]
 
+{ #category : 'positioning' }
+HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+
+	positionManager move: aPlayer forwardWithParsecs: (buffList at: actualBuffIndex) .
+
+		self nextBuff.
+
+]
+
 { #category : 'initialization' }
-HyperJump class >> initializeOnTile: aTile [
-	^ self new initializeOnTile: aTile
+HyperJump >> initializeEffectWith: aListOfParsecs [
+
+	buffList := aListOfParsecs.
+	actualBuffIndex := 1
+]
+
+{ #category : 'testing' }
+HyperJump >> isHyperJump [
+
+	^ true
 ]
 
 { #category : 'positioning' }
-HyperJump >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
-			| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
-		aPlayer := aPlayer advanceTiles: actualBuff .
-		self lowerBuff.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
-		].
-	^aSetOfPlayers 
-]
+HyperJump >> nextBuff [
 
-{ #category : 'initialization' }
-HyperJump >> initializeInTile: aTile withBuff: aBuff [
-	tile := aTile.
-	initialBuff := aBuff.
-	actualBuff := aBuff.
-]
-
-{ #category : 'initialization' }
-HyperJump >> initializeOnTile: aTile [ 
-	tile := aTile.
-	initialBuff := 5.
-	actualBuff := 5.
-]
-
-{ #category : 'as yet unclassified' }
-HyperJump >> lowerBuff [
-
-	actualBuff := actualBuff -1.
-	actualBuff < 1 ifTrue: [ actualBuff := initialBuff ]
-]
-
-{ #category : 'as yet unclassified' }
-HyperJump >> tiles [
- ^tile
+	actualBuffIndex := actualBuffIndex \\ buffList size + 1
 ]

@@ -1,3 +1,6 @@
+"
+A mock test for testing a particular sequence.
+"
 Class {
 	#name : 'SequenceOfDieForTesting',
 	#superclass : 'Object',

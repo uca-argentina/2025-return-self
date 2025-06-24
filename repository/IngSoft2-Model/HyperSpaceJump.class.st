@@ -2,52 +2,48 @@ Class {
 	#name : 'HyperSpaceJump',
 	#superclass : 'Effect',
 	#instVars : [
-		'tile',
-		'buff'
+		'buff',
+		'shieldDebuff'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'initialization' }
+{ #category : 'creation' }
+HyperSpaceJump class >> create [
+	^self new initializeEffectWith: 4 and: 1
+]
+
+{ #category : 'creation' }
+HyperSpaceJump class >> createWith: aBoost and: aShieldDebuff [
+	^self new initializeEffectWith: aBoost and: aShieldDebuff 
+]
+
+{ #category : 'creation' }
 HyperSpaceJump class >> effectProbability [
 
 ^0.20
 ]
 
-{ #category : 'initialization' }
-HyperSpaceJump class >> initializeOnTile: aTile [ 
- ^ self new initializeOnTile: aTile 
-]
-
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aSetOfPlayers onIndex: anIndex [ 
-		| aPlayer |
-	aPlayer := aSetOfPlayers at: anIndex.
-	aPlayer position = tile ifTrue: [
-		aPlayer := aPlayer advanceTiles: buff.
-		aPlayer := aPlayer loseShield.
-		 (aSetOfPlayers at: anIndex put: aPlayer).
-		].
-	^aSetOfPlayers 
-	
-]
+HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
 
-{ #category : 'initialization' }
-HyperSpaceJump >> initializeInTile: aTile withBuff: aBuff [
-	tile := aTile.
-	buff := aBuff.
+
+
+		positionManager move: aPlayer forwardWith: buff.
+		battleManager playerLoseShield: aPlayer.
 
 ]
 
 { #category : 'initialization' }
-HyperSpaceJump >> initializeOnTile: aTile [ 
-	tile := aTile.
-	buff := 4.
+HyperSpaceJump >> initializeEffectWith: aBoost and: aShieldDebuff [
 
+	buff := aBoost.
+	shieldDebuff:=aShieldDebuff 
 ]
 
-{ #category : 'initialization' }
-HyperSpaceJump >> tiles [
- ^tile
+{ #category : 'testing' }
+HyperSpaceJump >> isHyperSpaceJump [ 
+
+	^ true
 ]

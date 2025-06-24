@@ -3,155 +3,162 @@ Game handler class
 "
 Class {
 	#name : 'Game',
-	#superclass : 'Object',
+	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'setOfDie',
-		'playersTurn',
-		'battle',
-		'effect',
-		'board'
+		'board',
+		'turnManager',
+		'battleManager',
+		'positionManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'testing' }
-Game class >> boardLengthMustBeGreaterThanThree: aLength [
+Game class >> mustHaveAtLeastOneDieToPlay: aSetOfDie [
 
-	aLength > 3 ifFalse: [
-		Error signal: 'The board length must be greater than three.' ]
-]
-
-{ #category : 'as yet unclassified' }
-Game class >> playedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
-	^ self new initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps 
+	aSetOfDie isEmpty ifTrue: [ Error signal: 'You must have at least one die to play.' ]
 ]
 
 { #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet [
+Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 
-	| aXSetOfPlayers |
-	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	"self wormhole: aWormhole shouldBeInside: aBoardLength."
-
-	aXSetOfPlayers := aSetOfPlayers.
-	aXSetOfPlayers isArray ifFalse: [
-		aXSetOfPlayers := { aXSetOfPlayers } ].
+	| aGroupOfXPlayers |
+	aGroupOfXPlayers := aGroupOfPlayers asOrderedCollection.
+	self mustHaveAtLeastTwoPlayers: aGroupOfXPlayers.
+	self twoPlayersCantHaveTheSameId: aGroupOfXPlayers.
+	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
 	^ self new
-		  initializeGamePlay: aXSetOfPlayers
-		  withBoardLength: aBoardLength
-		  withEffect: aWormhole
-		  withSetOfDie: aDieSet
+		  initializePlayedBy: aGroupOfXPlayers
+		  withBoard: aBoard
+		  withSetOfDie: aSetOfDie
+		  withLaps: laps
 ]
 
-{ #category : 'creation' }
-Game class >> playedBy: aSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aDieSet withLaps: numberOfLaps [
+{ #category : 'checking' }
+Game >> engageInBattle: activePlayer [
 
-	| aXSetOfPlayers |
-	self boardLengthMustBeGreaterThanThree: aBoardLength.
-	"self wormhole: aWormhole shouldBeInside: aBoardLength."
+	| playersToEngage playerWhoLost |
+	playersToEngage := positionManager playerInSamePositionThan:
+		                   activePlayer.
+	playerWhoLost := battleManager
+		                 engage: playersToEngage
+		                 inBattleUsing: setOfDie.
+	playerWhoLost needsRecovery ifTrue: [
+		turnManager addTwoSkipsTo: playerWhoLost.
+		battleManager forceAShieldResetTo: playerWhoLost ].
+	positionManager resetLapTo: playerWhoLost
+]
 
-	aXSetOfPlayers := aSetOfPlayers.
-	aXSetOfPlayers isArray ifFalse: [
-		aXSetOfPlayers := { aXSetOfPlayers } ].
-	^ self new
-		  initializeGamePlay: aXSetOfPlayers
-		  withBoardLength: aBoardLength
-		  withEffect: aWormhole
-		  withSetOfDie: aDieSet
-		  withLaps: numberOfLaps 
+{ #category : 'initialization' }
+Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [
+
+	turnManager := TurnManager createWith: aGroupOfPlayers.
+	battleManager := BattleManager createWith: aGroupOfPlayers.
+	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps and: aBoard parsecsPerTile.
+	setOfDie := aSetOfDie.
+	board := aBoard.
+	playersFeature := aGroupOfPlayers
 ]
 
 { #category : 'testing' }
-Game class >> wormhole: aWormhole shouldBeInside: aLength [
+Game >> isWinner: aPlayerName [
+	"Used for testing"
 
-	(aWormhole areEndsInside: aLength) ifFalse: [
-		Error signal: 'Both wormhole ends must be within the board length.' ]
-]
-
-{ #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie [
-
-	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength.
-	battle := BattleManager new.
-	effect := aWormhole.
-	setOfDie := aSetOfDie
-]
-
-{ #category : 'initialization' }
-Game >> initializeGamePlay: aXSetOfPlayers withBoardLength: aBoardLength withEffect: aWormhole withSetOfDie: aSetOfDie withLaps: numberOfLaps [
-
-	playersTurn := TurnManager with: aXSetOfPlayers and: aBoardLength and: numberOfLaps .
-	battle := BattleManager new.
-	effect := aWormhole.
-	setOfDie := aSetOfDie
-]
-
-{ #category : 'initialization' }
-Game >> initializePlayedBy: aSetOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [ 
-	playersTurn := TurnManager with: aSetOfPlayers and: aBoard totalTiles and: laps .
-	battle := BattleManager new.
-	setOfDie := aSetOfDie.
-	board := aBoard
+	| aPlayer |
+	aPlayer := self findShipReference: positionManager winner.
+	^ aPlayer equalsName: aPlayerName
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerSkipsTurn [
 
-	| anUpdatedPlayer |
-	playersTurn stillPlaying ifFalse: [ ^ self ].
-	anUpdatedPlayer := playersTurn skipTurn.
-		                   "playTurnUsing: setOfDie throw
-		                   and: wormhole."
-	"-----Batalla-----"
-	"playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
-												withDice: setOfDie 
-												against: (playersTurn setOfPlayers)) .
-	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex)."
-
-	^ anUpdatedPlayer position
+	| activePlayer |
+	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
+	turnManager nextPlayerTurnBegins.
+	activePlayer := turnManager playerInTurn.
+	battleManager forceAShieldResetTo: activePlayer.
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| anUpdatedPlayer |
-	playersTurn stillPlaying ifFalse: [ ^ self ].
-	anUpdatedPlayer := playersTurn
-		                   playTurnUsing: setOfDie throw
-		                   and: board.
-	"-----Batalla-----"
-	playersTurn setOfPlayers: (battle engagePlayer: anUpdatedPlayer 
-												withDice: setOfDie 
-												against: (playersTurn setOfPlayers)) .
-	anUpdatedPlayer := playersTurn setOfPlayers at:(playersTurn playerInTurnIndex).
+	| activePlayer anEffect |
 
-	^ anUpdatedPlayer position
+	positionManager stillPlaying ifFalse: [
+		^ self findShipReference: positionManager winner ].
+
+	"---Turno---"
+	turnManager playNextTurn.
+	activePlayer := turnManager playerInTurn.
+
+	"---Avanza con la tirada---"
+	positionManager move: activePlayer forwardWith: setOfDie throw.
+
+	"---Aplicacion de efecto---"
+	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
+	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
+	"capaz me convenga simplemente pasar el Game"
+	activePlayer := positionManager findShipReference: activePlayer.
+	anEffect := board applyEffectTriggeredBy: activePlayer.
+	anEffect applyEffectOn: activePlayer using: positionManager and: battleManager and: turnManager.
+	"---Batalla---"
+	(positionManager checkIfBattle: activePlayer) ifTrue: [
+		self engageInBattle: activePlayer ]
 ]
 
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
-	[ playersTurn stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
+	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
-{ #category : 'interaction loop' }
+{ #category : 'tests - printing' }
 Game >> playerPositions [
+	"Used for testing"
 
-	^ playersTurn setOfPlayers collect:[:player | player name , ' : ', 
-		player position asString, ' , lap: ',
-		player lap asString, 
-		', shields: ',player shields asString]
+	| positionsWithoutName |
+	positionsWithoutName := positionManager playerPositions.
+	^ (positionsWithoutName
+		   inject: OrderedCollection new
+		   into: [ :col :each |
+			   col add: (String streamContents: [ :s |
+					    s nextPutAll: 'Name: '.
+					    s nextPutAll: (self findShipReference: (each at: 1)) name.
+					    s nextPutAll: ', '.
+					    s nextPutAll: (each at: 2) ]).
+			   col ]) asArray
 ]
 
-{ #category : 'interaction loop' }
-Game >> playersInPosition: aPosition [
+{ #category : 'tests - printing' }
+Game >> playerRanking [
+	"Used for testing"
 
-	^ playersTurn setOfPlayers select:[:player | player position = aPosition ]
+	| positionsWithoutName |
+	positionsWithoutName := positionManager playerRanking.
+	^ (playersFeature collect: [ :each |
+		   each searchReferenceAndConcatName: positionsWithoutName ])
+		  asArray
 ]
 
-{ #category : 'comparing' }
-Game >> winner [
+{ #category : 'testing' }
+Game >> positionFeatureOf: aShip [
+	"Used for testing"
 
-	^ playersTurn winner
+	^ positionManager findShipReference: aShip
+]
+
+{ #category : 'testing' }
+Game >> shieldsFeatureOf: aShip [
+	"Used for testing"
+
+	^ battleManager findShipReference: aShip
+]
+
+{ #category : 'testing' }
+Game >> turnsFeatureOf: aShip [
+	"Used for testing"
+
+	^ turnManager findShipReference: aShip
 ]

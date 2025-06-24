@@ -1,36 +1,73 @@
 Class {
 	#name : 'BattleManager',
-	#superclass : 'Object',
+	#superclass : 'GameFeatureManager',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-BattleManager >> engagePlayer: player withDice: setOfDie against: setOfPlayers [
-   |playersToEngage|
-	playersToEngage := self selectPlayersInSamePositionAs: player from: setOfPlayers.
-	
-	(player position = 1)  ifTrue:[^setOfPlayers ].
-	playersToEngage size >= 2 ifTrue: ["si encuentra 2 o mas en la misma posicion"
-		  (setOfDie throw > setOfDie throw) ifTrue: ["gana el primero"
-			  playersToEngage at:2 put: (playersToEngage at:2 ) loseBattle.
-			] ifFalse: ["gana el segundo"
-			  playersToEngage at:1 put: (playersToEngage at:1 ) loseBattle.
-			].
-		] .
-	^ self insertPlayers: playersToEngage InsideList: setOfPlayers .
+{ #category : 'creation' }
+BattleManager class >> createWith: aGroupOfPlayers [
+
+	| playerShieldAssociationGroup |
+	playerShieldAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                                ShipShield
+			                                createWith: each id
+			                                and: 3 ].
+	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
 ]
 
 { #category : 'as yet unclassified' }
-BattleManager >> insertPlayers: playersToEngage InsideList: setOfPlayers [
-	
-	playersToEngage do:[:justBattled |
-		setOfPlayers at:(setOfPlayers findFirst:[:each | each name = justBattled  name]) put: justBattled .
-		].
-	^setOfPlayers 
+BattleManager >> allDecreaseAShield [
+
+playersFeature do: [ :player | self updateShipReference: (player loseShields: 1) ].
+
+^ playersFeature select: [ :player | player needsRecovery ].
+]
+
+{ #category : 'play interface' }
+BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
+
+	| firstPlayerThrow secondPlayerThrow playerWhoLost playersToEngage |
+	playersToEngage := aPairOfPlayers collect: [ :each |
+		                   self findShipReference: each ].
+
+	firstPlayerThrow := someDice throw.
+	secondPlayerThrow := someDice throw.
+
+	[ firstPlayerThrow = secondPlayerThrow ] whileTrue: [
+		firstPlayerThrow := someDice throw.
+		secondPlayerThrow := someDice throw ].
+
+	playerWhoLost := firstPlayerThrow > secondPlayerThrow
+		                 ifTrue: [ "gana el primero"
+		                 (playersToEngage at: 2) loseShields: 1 ]
+		                 ifFalse: [ "gana el segundo"
+		                 (playersToEngage at: 1) loseShields: 1 ].
+
+	self updateShipReference: playerWhoLost.
+	^ playerWhoLost
+]
+
+{ #category : 'updating' }
+BattleManager >> forceAShieldResetTo: aPlayer [
+
+	| activePlayer |
+	activePlayer := self findShipReference: aPlayer.
+	activePlayer := activePlayer forceAShieldReset.
+	self updateShipReference: activePlayer
+]
+
+{ #category : 'initialization' }
+BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
+
+playersFeature := aGroupOfPlayers 
 ]
 
 { #category : 'as yet unclassified' }
-BattleManager >> selectPlayersInSamePositionAs: player from: setOfPlayers [
-	^setOfPlayers select:[:each| each position = player position].
+BattleManager >> playerLoseShield: aPlayer [
+
+| aShipShield |
+aShipShield := self findShipReference: aPlayer.
+
+self updateShipReference: (aShipShield loseShields: 1).
 ]
