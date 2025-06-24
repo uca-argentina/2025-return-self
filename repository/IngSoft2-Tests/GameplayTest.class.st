@@ -1,25 +1,9 @@
 Class {
 	#name : 'GameplayTest',
-	#superclass : 'ReturnSelfTestCase',
-	#instVars : [
-		'aGroupOfPlayers',
-		'aPlayer',
-		'aTileListCreator'
-	],
+	#superclass : 'GameplayFullInteractionTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
-
-{ #category : 'running' }
-GameplayTest >> setUp [
-
-	super setUp.
-	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
-	aGroupOfPlayers := {
-		                   aPlayer.
-		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
-	aTileListCreator := TileListCreationForTesting createTileListWith: 20
-]
 
 { #category : 'tests' }
 GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [

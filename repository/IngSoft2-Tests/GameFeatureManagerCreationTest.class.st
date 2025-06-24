@@ -1,33 +1,16 @@
 Class {
 	#name : 'GameFeatureManagerCreationTest',
-	#superclass : 'ReturnSelfTestCase',
-	#instVars : [
-		'aTileListCreator'
-	],
+	#superclass : 'GameplayFullInteractionTestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'running' }
-GameFeatureManagerCreationTest >> setUp [
-
-	super setUp.
-
-
-	aTileListCreator := TileListCreationForTesting createTileListWith: 20
-]
-
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
+	| aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation
-			                    createWith: 1
-			                    and: 'Pedro').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			Game
@@ -42,10 +25,10 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsT
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
+	| anotherGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
-	aGroupOfPlayers := {
+	anotherGroupOfPlayers := {
 		                   (ShipPlayerAssociation
 			                    createWith: 12
 			                    and: 'Pedro').
@@ -53,7 +36,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 	self
 		should: [
 			Game
-				playedBy: aGroupOfPlayers
+				playedBy: anotherGroupOfPlayers
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
 				withLaps: 1 ]
@@ -62,18 +45,18 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 
 	self
 		should: [
-		PositionManager twoPlayersCantHaveTheSameId: aGroupOfPlayers ]
+		PositionManager twoPlayersCantHaveTheSameId: anotherGroupOfPlayers ]
 		raiseErrorWithMessageText:
 		'You cant have different players with the same ID.'.
 
 	self
 		should: [
-		BattleManager twoPlayersCantHaveTheSameId: aGroupOfPlayers ]
+		BattleManager twoPlayersCantHaveTheSameId: anotherGroupOfPlayers ]
 		raiseErrorWithMessageText:
 		'You cant have different players with the same ID.'.
 
 	self
-		should: [ TurnManager twoPlayersCantHaveTheSameId: aGroupOfPlayers ]
+		should: [ TurnManager twoPlayersCantHaveTheSameId: anotherGroupOfPlayers ]
 		raiseErrorWithMessageText:
 		'You cant have different players with the same ID.'
 ]
@@ -81,12 +64,8 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
 
-	| aGroupOfPlayers aLoadedDie aTestBoard |
+	| aTestBoard |
 	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation createWith: 1 and: 'Pedro').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			Game
@@ -132,10 +111,9 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 { #category : 'tests' }
 GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
-	| aLoadedDie aTestBoard aPlayer |
+	| aLoadedDie aTestBoard |
 	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
-	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Julian'.
 	self
 		should: [
 			Game

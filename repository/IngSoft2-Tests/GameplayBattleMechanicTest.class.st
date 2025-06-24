@@ -1,11 +1,12 @@
 Class {
 	#name : 'GameplayBattleMechanicTest',
-	#superclass : 'ReturnSelfTestCase',
+	#superclass : 'GameplayFullInteractionTestCase',
 	#instVars : [
-		'aGroupOfPlayers',
-		'aPlayer',
 		'aTileListCreator1',
-		'aTileListCreator2'
+		'aTileListCreator2',
+		'aTestBoard',
+		'aWormhole',
+		'aGame'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -16,17 +17,13 @@ GameplayBattleMechanicTest >> setUp [
 
 	super setUp.
 	aTileListCreator1 := TileListCreationForTesting createTileListWith: 10.
-	aTileListCreator2 := TileListCreationForTesting createTileListWith: 30.
-	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
-	aGroupOfPlayers := {
-		                   aPlayer.
-		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }
+	aTileListCreator2 := TileListCreationForTesting createTileListWith: 30
 ]
 
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test01BattleSituation [
 
-	| aGame aWormhole aSequenceOfRolls aTestBoard loadedDiceToMove loadedDiceToFight assertingVariableData |
+	| aSequenceOfRolls loadedDiceToMove loadedDiceToFight assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
 	                         'Name: Tomi, Position: 3, Lap: 0' }.
 	loadedDiceToMove := {
@@ -54,7 +51,7 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 
-	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToFight assertingVariableData1 assertingVariableData2 |
+	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToFight assertingVariableData1 assertingVariableData2 |
 	loadedDiceToMove1 := {
 		                     (LoadedDie rolling: 2).
 		                     (LoadedDie rolling: 2) }.
@@ -93,7 +90,7 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 
-	| aGame aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight assertingVariableData1 assertingVariableData2 assertingVariableData3 |
+	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight assertingVariableData1 assertingVariableData2 assertingVariableData3 |
 	assertingVariableData1 := { 'Name: Juan, Position: 1, Lap: 0'.
 	                          'Name: Tomi, Position: 4, Lap: 0' }.
 	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -144,7 +141,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 { #category : 'tests' }
 GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 
-	| aGame aLoadedDie aWormhole dieThrowSequence aTestBoard loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
+	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
 	loadedDiceToMove1 := {
 		                     (LoadedDie rolling: 1).
 		                     (LoadedDie rolling: 1) }.
@@ -167,11 +164,11 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 	aWormhole := Wormhole createWith: 29.
 	aTileListCreator2 at: 8 put: aWormhole.
 	aTestBoard := BoardForTesting createWith: aTileListCreator2 tileList.
-	aLoadedDie := dieThrowSequence.
+	
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
-		         withSetOfDie: aLoadedDie
+		         withSetOfDie: dieThrowSequence
 		         withLaps: 1.
 
 	self play: 2 in: aGame.
