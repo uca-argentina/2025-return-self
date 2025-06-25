@@ -3,7 +3,7 @@ A mock object to test the Effect application of the CardGiver
 "
 Class {
 	#name : 'LoadedCardGiver',
-	#superclass : 'Object',
+	#superclass : 'Effect',
 	#instVars : [
 		'cardOrderedLooping',
 		'actualCardIndex'
@@ -19,11 +19,13 @@ LoadedCardGiver class >> createWith: aListOfCards [
 ]
 
 { #category : 'positioning' }
-LoadedCardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+LoadedCardGiver >> applyEffectOn: aPlayer and: aGame [
 
+	| cardManager |
+	cardManager := aGame requestCardManager: self.
 	cardManager add: (cardOrderedLooping at: actualCardIndex) to: aPlayer.
 
-	self nextCard "HASTA ACA, EL RESTO ES MAS ADELANTE"
+	self nextCard.
 ]
 
 { #category : 'initialization' }
@@ -37,12 +39,6 @@ LoadedCardGiver >> initializeEffectWith: aListOfCards [
 LoadedCardGiver >> isCardGiver [
 
 	^ true
-]
-
-{ #category : 'testing' }
-LoadedCardGiver >> isWormhole [
-
-	^ false
 ]
 
 { #category : 'interaction loop' }

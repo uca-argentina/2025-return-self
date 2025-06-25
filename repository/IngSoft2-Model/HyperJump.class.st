@@ -26,7 +26,10 @@ HyperJump class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-HyperJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+HyperJump >> applyEffectOn: aPlayer and: aGame [
+
+	| positionManager |
+	positionManager := aGame requestPositionManager: self.
 
 	positionManager move: aPlayer forwardWithParsecs: (buffList at: actualBuffIndex) .
 

@@ -39,8 +39,12 @@ Wormhole class >> endpointMustBeGreaterThanOne: anEndpoint [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
-	| distance |
+Wormhole >> applyEffectOn: aPlayer and: aGame [
+
+
+	| distance positionManager |
+	
+		positionManager := aGame requestPositionManager: self.
 
 	distance := aPlayer calculateDelta: endpoint.
 	distance > 0 ifTrue: [ positionManager move: aPlayer forwardWith: distance ] ifFalse: [positionManager move: aPlayer backwardWith: -1*(distance)].

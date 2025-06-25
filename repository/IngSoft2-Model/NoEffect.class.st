@@ -12,7 +12,7 @@ NoEffect class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-NoEffect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+NoEffect >> applyEffectOn: aPlayer and: aGame [
 
 ]
 

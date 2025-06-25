@@ -46,6 +46,12 @@ ShipCards class >> createWith: anId and: aCardDeck and: activeCards [
 		  and: activeCards
 ]
 
+{ #category : 'as yet unclassified' }
+ShipCards >> cardThrow [
+
+"detect y pasarla al otro deck"
+]
+
 { #category : 'accessing' }
 ShipCards >> deck [
 

@@ -60,8 +60,8 @@ EffectTest >> testGamePlayedWithACardGiverTile [
 	self play: 1 in: aGame.
 
 	shipCards := aGame shieldsFeatureOf: aPlayer.
-
-	self assert: shipCards deck equals: Speed new "Esta bien que rompa, falta implementacion"
+"
+	self assert: shipCards deck equals: Speed new ""Esta bien que rompa, falta implementacion"""
 ]
 
 { #category : 'tests' }

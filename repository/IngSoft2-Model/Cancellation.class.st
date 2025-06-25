@@ -4,3 +4,11 @@ Class {
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'as yet unclassified' }
+Cancellation >> cancelPlayingCard: aCard using: aCollectionOfCards [
+	
+	| cardToRemove |
+	cardToRemove := aCollectionOfCards detect: [ :card | card equalsCard: aCard ].
+	aCollectionOfCards remove: cardToRemove.
+]

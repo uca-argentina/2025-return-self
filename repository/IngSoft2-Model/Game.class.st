@@ -114,12 +114,7 @@ Game >> nextPlayerThrowsDice [
 	"capaz me convenga simplemente pasar el Game"
 	activePlayer := positionManager findShipReference: activePlayer.
 	anEffect := board applyEffectTriggeredBy: activePlayer.
-	anEffect
-		applyEffectOn: activePlayer
-		using: positionManager
-		and: battleManager
-		and: turnManager
-		and: cardManager.
+	anEffect applyEffectOn: activePlayer and: self.
 	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
 	"---Batalla---"
 	(positionManager checkIfBattle: activePlayer) ifTrue: [
@@ -165,6 +160,38 @@ Game >> positionFeatureOf: aShip [
 	"Used for testing"
 
 	^ positionManager findShipReference: aShip
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestBattleManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ battleManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestCardManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ cardManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestPositionManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ positionManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestTurnManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ turnManager.
 ]
 
 { #category : 'testing' }

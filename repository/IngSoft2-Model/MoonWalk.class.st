@@ -32,9 +32,12 @@ MoonWalk class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-MoonWalk >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+MoonWalk >> applyEffectOn: aPlayer and: aGame [
 
-	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff.
+	| positionManager |
+	positionManager := aGame requestPositionManager: self.
+
+	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff
 ]
 
 { #category : 'initialization' }
