@@ -8,7 +8,7 @@ Class {
 { #category : 'creation' }
 NoEffect class >> effectProbability [
 
-^0.40
+^0.30
 ]
 
 { #category : 'positioning' }

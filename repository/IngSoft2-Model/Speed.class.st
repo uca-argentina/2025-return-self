@@ -9,14 +9,16 @@ Class {
 }
 
 { #category : 'creation' }
-Speed class >> create [
+Speed class >> createWithAnId: anId [
 
-^self new.
+	^ self new initializeWith: anId
 ]
 
-{ #category : 'as yet unclassified' }
-Speed class >> createWithAnId: anId [ 
-	^self new initializeWith: anId 
+{ #category : 'error testing' }
+Speed class >> idShouldBeGreaterThanZero: anId [
+
+	anId > 0 ifFalse: [
+		Error signal: 'The SpaceShip ID should be greater than zero.' ]
 ]
 
 { #category : 'as yet unclassified' }

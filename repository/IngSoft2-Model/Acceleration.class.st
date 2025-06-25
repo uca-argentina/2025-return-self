@@ -10,12 +10,8 @@ Class {
 
 { #category : 'creation' }
 Acceleration class >> create [
-^self new
-]
 
-{ #category : 'as yet unclassified' }
-Acceleration class >> createWithAnId: anId [ 
-	^self new initializeWith: anId 
+	^ self new initializeWith: 0
 ]
 
 { #category : 'as yet unclassified' }

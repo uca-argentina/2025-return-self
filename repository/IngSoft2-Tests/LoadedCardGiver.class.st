@@ -18,6 +18,12 @@ LoadedCardGiver class >> createWith: aListOfCards [
 	^ self new initializeEffectWith: aListOfCards asOrderedCollection
 ]
 
+{ #category : 'creation' }
+LoadedCardGiver class >> effectProbability [
+
+0.1
+]
+
 { #category : 'positioning' }
 LoadedCardGiver >> applyEffectOn: aPlayer and: aGame [
 

@@ -5,6 +5,11 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'creation' }
+Card class >> create [
+^self new
+]
+
 { #category : 'as yet unclassified' }
 Card >> applyBonus [
 
