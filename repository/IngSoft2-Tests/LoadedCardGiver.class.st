@@ -15,11 +15,11 @@ Class {
 { #category : 'creation' }
 LoadedCardGiver class >> createWith: aListOfCards [
 
-	^ self new initializeEffectWith: aListOfCards
+	^ self new initializeEffectWith: aListOfCards asOrderedCollection
 ]
 
 { #category : 'positioning' }
-LoadedCardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: cardManager [
+LoadedCardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 
 	cardManager add: (cardOrderedLooping at: actualCardIndex) to: aPlayer.
 
@@ -29,7 +29,7 @@ LoadedCardGiver >> applyEffectOn: aPlayer using: positionManager and: battleMana
 { #category : 'initialization' }
 LoadedCardGiver >> initializeEffectWith: aListOfCards [
 
-	cardOrderedLooping := aListOfCards asOrderedCollection.
+	cardOrderedLooping := aListOfCards.
 	actualCardIndex := 1
 ]
 
@@ -37,6 +37,12 @@ LoadedCardGiver >> initializeEffectWith: aListOfCards [
 LoadedCardGiver >> isCardGiver [
 
 	^ true
+]
+
+{ #category : 'testing' }
+LoadedCardGiver >> isWormhole [
+
+	^ false
 ]
 
 { #category : 'interaction loop' }

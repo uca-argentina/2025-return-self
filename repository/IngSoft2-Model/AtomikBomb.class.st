@@ -12,7 +12,7 @@ AtomikBomb class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 
 	| aGroupOfPlayers |
 	positionManager resetPlayersPosition .

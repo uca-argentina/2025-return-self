@@ -46,6 +46,12 @@ ShipCards class >> createWith: anId and: aCardDeck and: activeCards [
 		  and: activeCards
 ]
 
+{ #category : 'accessing' }
+ShipCards >> deck [
+
+	^ deck
+]
+
 { #category : 'initialization' }
 ShipCards >> initializeWith: anId and: aCardDeck and: activeCardCollection [
 

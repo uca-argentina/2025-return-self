@@ -7,17 +7,6 @@ Class {
 
 { #category : 'tests' }
 CardUsageTest >> test01 [
-
-	| aGame aLoadedDie  aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
-	aLoadedDie := LoadedDie rolling: 4.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aLoadedDie
-		         withLaps: 1.
-
-	self play: 1 in: aGame.
-
-	self assert: (aGame positionFeatureOf: aPlayer) position equals: 5
+	"Ver como sería el uso, pero es mucho mas avanzado, el card giving es de la parte de EffectTest"
+	self assert: false "como para que se acuerden que falta completar"
 ]

@@ -39,7 +39,7 @@ Wormhole class >> endpointMustBeGreaterThanOne: anEndpoint [
 ]
 
 { #category : 'positioning' }
-Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+Wormhole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 	| distance |
 
 	distance := aPlayer calculateDelta: endpoint.

@@ -21,7 +21,7 @@ CardGiver class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-CardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: cardManager [
+CardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 
 	| aRandomIndex aRandomCard |
 	aRandomIndex := (1 to: cardClasses size) atRandom.

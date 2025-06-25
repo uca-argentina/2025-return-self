@@ -98,7 +98,6 @@ Game >> nextPlayerSkipsTurn [
 Game >> nextPlayerThrowsDice [
 
 	| activePlayer anEffect |
-
 	positionManager stillPlaying ifFalse: [
 		^ self findShipReference: positionManager winner ].
 
@@ -115,7 +114,13 @@ Game >> nextPlayerThrowsDice [
 	"capaz me convenga simplemente pasar el Game"
 	activePlayer := positionManager findShipReference: activePlayer.
 	anEffect := board applyEffectTriggeredBy: activePlayer.
-	anEffect applyEffectOn: activePlayer using: positionManager and: battleManager and: turnManager.
+	anEffect
+		applyEffectOn: activePlayer
+		using: positionManager
+		and: battleManager
+		and: turnManager
+		and: cardManager.
+	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
 	"---Batalla---"
 	(positionManager checkIfBattle: activePlayer) ifTrue: [
 		self engageInBattle: activePlayer ]

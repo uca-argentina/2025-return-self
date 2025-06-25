@@ -18,7 +18,7 @@ self subclassResponsibility.
 ]
 
 { #category : 'positioning' }
-Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 
 self subclassResponsibility.
 ]

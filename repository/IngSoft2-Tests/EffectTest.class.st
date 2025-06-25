@@ -39,6 +39,32 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithACardGiverTile [
+
+	| aGame aCardGiverTile aSequence aTestBoard shipCards |
+	aCardGiverTile := LoadedCardGiver createWith: {
+			                  Speed new.
+			                  Acceleration new }.
+
+	aTileListCreator at: 4 put: aCardGiverTile.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequence := SequenceOfDieForTesting withDie: {
+			             (LoadedDie rolling: 3).
+			             (LoadedDie rolling: 1) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequence
+		         withLaps: 1.
+
+	self play: 1 in: aGame.
+
+	shipCards := aGame shieldsFeatureOf: aPlayer.
+
+	self assert: shipCards deck equals: Speed new "Esta bien que rompa, falta implementacion"
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperJumpTile [
 
 	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |

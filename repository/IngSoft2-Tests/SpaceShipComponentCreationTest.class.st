@@ -23,5 +23,6 @@ SpaceShipComponentCreationTest >> test01WhenTryingToCreateASpaceShipWithNegative
 	self
 		should: [ ShipShield createWith: 0 and: 3 ]
 		raiseErrorWithMessageText:
-		'The SpaceShip ID should be greater than zero.'
+		'The SpaceShip ID should be greater than zero.'.
+	self assert: false
 ]

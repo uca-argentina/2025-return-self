@@ -14,6 +14,12 @@ CardCollection class >> create [
 	^ self new initializeCardsWith: OrderedCollection new
 ]
 
+{ #category : 'creation' }
+CardCollection class >> createWith: aListOfCards [
+
+	^ self new initializeCardsWith: aListOfCards asOrderedCollection
+]
+
 { #category : 'adding' }
 CardCollection >> add: aCard [
 

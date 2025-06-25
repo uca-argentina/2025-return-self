@@ -26,7 +26,7 @@ HyperSpaceJump class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
 
 
 
