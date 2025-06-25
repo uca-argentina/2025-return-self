@@ -21,12 +21,14 @@ CardGiver class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-CardGiver >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+CardGiver >> applyEffectOn: aPlayer and: aGame [
 
-	| aRandomIndex aRandomCard |
+	| aRandomIndex aRandomCard cardManager |
+
+	cardManager := aGame requestCardManager: self.
 	aRandomIndex := (1 to: cardClasses size) atRandom.
 	aRandomCard := (cardClasses at: aRandomIndex) new.
-	cardManager add: aRandomCard to: aPlayer "HASTA ACA, EL RESTO ES MAS ADELANTE"
+	cardManager add: aRandomCard to: aPlayer 
 ]
 
 { #category : 'initialization' }

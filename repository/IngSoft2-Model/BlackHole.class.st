@@ -25,8 +25,10 @@ BlackHole class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-BlackHole >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager and: cardManager [
+BlackHole >> applyEffectOn: aPlayer and: aGame [
 
+	| positionManager |
+	positionManager := aGame requestPositionManager: self.
 	positionManager move: aPlayer backwardWith: debuff.
 
 	

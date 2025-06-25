@@ -10,3 +10,8 @@ Repeat >> isRepeat [
 
 ^true
 ]
+
+{ #category : 'as yet unclassified' }
+Repeat >> replicateEffect: aBlackHole targeting: anUndefinedObject [ 
+	self shouldBeImplemented.
+]

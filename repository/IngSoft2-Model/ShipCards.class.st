@@ -52,6 +52,12 @@ ShipCards >> addToDeck: aCard [
 	deck add: aCard
 ]
 
+{ #category : 'as yet unclassified' }
+ShipCards >> cardThrow [
+
+"detect y pasarla al otro deck"
+]
+
 { #category : 'accessing' }
 ShipCards >> deck [
 
