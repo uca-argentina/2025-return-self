@@ -11,8 +11,8 @@ GameWithCardsTest >> test01GamePlayedWithACardGiverTile [
 	| aGame aCardGiverTile aSequence aTestBoard shipCardsOfJuan shipCardsOfTomi |
 	aCardGiverTile := LoadedCardGiver createWith:
 		                  (OrderedCollection
-			                   with: Speed create
-			                   with: Acceleration create).
+			                   with: Speed
+			                   with: Acceleration).
 
 	aTileListCreator at: 4 put: aCardGiverTile.
 	aTestBoard := Board createWith: aTileListCreator tileList.

@@ -27,7 +27,7 @@ CardGiver >> applyEffectOn: aPlayer and: aGame [
 
 	cardManager := aGame requestCardManager: self.
 	aRandomIndex := (1 to: cardClasses size) atRandom.
-	aRandomCard := (cardClasses at: aRandomIndex) new.
+	aRandomCard := (cardClasses at: aRandomIndex) create.
 	cardManager add: aRandomCard to: aPlayer 
 ]
 
