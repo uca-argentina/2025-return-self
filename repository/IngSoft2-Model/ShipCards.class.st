@@ -2,7 +2,8 @@ Class {
 	#name : 'ShipCards',
 	#superclass : 'SpaceShipComponent',
 	#instVars : [
-		'cards'
+		'deck',
+		'activeCards'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -15,16 +16,40 @@ ShipCards class >> cardsShouldBeAtLeastTwo: aCollectionOfCards [
 ]
 
 { #category : 'creation' }
-ShipCards class >> createWith: anId and: aCollectionOfCards [
+ShipCards class >> createWith: anId and: activeCards [
+
+	| aCardDeck cardClasses |
+	self idShouldBeGreaterThanZero: anId.
+	cardClasses := {
+		               Acceleration.
+		               Cancellation.
+		               Mercenary.
+		               Redo.
+		               Repeat.
+		               Speed }.
+	aCardDeck := CardCollection create.
+	1 to: 2 do: [ :x |
+		| aRandomIndex |
+		aRandomIndex := (1 to: cardClasses size) atRandom.
+		aCardDeck add: (cardClasses at: aRandomIndex) new ].
+
+	^ self new initializeWith: anId and: aCardDeck and: activeCards
+]
+
+{ #category : 'creation' }
+ShipCards class >> createWith: anId and: aCardDeck and: activeCards [
 
 	self idShouldBeGreaterThanZero: anId.
-	self cardsShouldBeAtLeastTwo: aCollectionOfCards.
-	^ self new initializeWith: anId and: aCollectionOfCards
+	^ self new
+		  initializeWith: anId
+		  and: aCardDeck
+		  and: activeCards
 ]
 
 { #category : 'initialization' }
-ShipCards >> initializeWith: anId and: aCollectionOfCards [
+ShipCards >> initializeWith: anId and: aCardDeck and: activeCardCollection [
 
 	id := anId.
-	cards := aCollectionOfCards
+	deck := aCardDeck.
+	activeCards := activeCardCollection "HASTA ACA, EL RESTO ES MAS ADELANTE"
 ]

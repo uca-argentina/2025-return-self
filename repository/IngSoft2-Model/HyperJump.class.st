@@ -47,7 +47,7 @@ HyperJump >> isHyperJump [
 	^ true
 ]
 
-{ #category : 'positioning' }
+{ #category : 'interaction loop' }
 HyperJump >> nextBuff [
 
 	actualBuffIndex := actualBuffIndex \\ buffList size + 1

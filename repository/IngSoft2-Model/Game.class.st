@@ -37,6 +37,13 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 		  withLaps: laps
 ]
 
+{ #category : 'testing' }
+Game >> cardsFeatureOf: aShip [
+	"Used for testing"
+
+	^ cardManager findShipReference: aShip
+]
+
 { #category : 'checking' }
 Game >> engageInBattle: activePlayer [
 
@@ -64,9 +71,7 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 		                   and: aBoard parsecsPerTile.
 	setOfDie := aSetOfDie.
 	board := aBoard.
-	cardManager := CardManager
-		               createWith: aGroupOfPlayers
-		               and: aBoard setOfCards. "ACÁ DEBERIA SER OTRA COSA, NO DEBERIA EL BOARD SABER ESTO, ES PARA NO PASARLE MAS AL CREATE Y AL INITIALIZE"
+	cardManager := CardManager createWith: aGroupOfPlayers.
 	playersFeature := aGroupOfPlayers
 ]
 

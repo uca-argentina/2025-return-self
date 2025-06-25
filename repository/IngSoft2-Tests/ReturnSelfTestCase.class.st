@@ -14,13 +14,6 @@ ReturnSelfTestCase class >> isAbstract [
 	^ self == ReturnSelfTestCase
 ]
 
-{ #category : 'interaction loop' }
-ReturnSelfTestCase >> play: aNumberOfTurns in: aGame [
-
-	1 to: aNumberOfTurns do: [ :turnIterator |
-	aGame nextPlayerThrowsDice ]
-]
-
 { #category : 'asserting' }
 ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
@@ -29,11 +22,4 @@ ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMes
 		raise: Error
 		withExceptionDo: [ :error |
 			self assert: error messageText equals: anErrorMessage ]
-]
-
-{ #category : 'interaction loop' }
-ReturnSelfTestCase >> skip: aNumberOfTurns in: aGame [
-
-	1 to: aNumberOfTurns do: [ :turnIterator |
-	aGame nextPlayerSkipsTurn ]
 ]

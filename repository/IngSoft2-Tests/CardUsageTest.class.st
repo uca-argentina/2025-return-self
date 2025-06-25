@@ -8,11 +8,8 @@ Class {
 { #category : 'tests' }
 CardUsageTest >> test01 [
 
-	| aGame aLoadedDie  aTestBoard aCardCollection1 |
-	"aCardCollection1 := ShipCards createWith: (aGroupOfPlayers at:1 id) and: (OrderedCollection with:Card new with:Card new)."
-	"aCardCollection2 := ShipCards createWith: (aGroupOfPlayers at:2 id) and: (OrderedCollection with:Card new with:Card new)."
-	aCardCollection1 := (OrderedCollection with:Card ).
-	aTestBoard := BoardForTestingWithCards createWith: aTileListCreator tileList and: aCardCollection1 .
+	| aGame aLoadedDie  aTestBoard |
+	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
 		         playedBy: aGroupOfPlayers

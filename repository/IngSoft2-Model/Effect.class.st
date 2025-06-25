@@ -36,6 +36,12 @@ Effect >> isBlackHole [
 ]
 
 { #category : 'testing' }
+Effect >> isCardGiver [
+
+	^ false
+]
+
+{ #category : 'testing' }
 Effect >> isHyperJump [
 
 	^ false

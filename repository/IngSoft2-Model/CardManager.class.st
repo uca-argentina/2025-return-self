@@ -6,12 +6,18 @@ Class {
 }
 
 { #category : 'creation' }
-CardManager class >> createWith: aGropOfPlayers and: aCollectionOfCards [
+CardManager class >> createWith: aGroupOfPlayers [
 
-^ self new initializeWith: aGropOfPlayers and: aCollectionOfCards
+	| playerCardAssociationGroup |
+	playerCardAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                              ShipCards
+			                              createWith: each id
+			                              and: CardCollection create ].
+	^ self new initializeCardManagerWith: playerCardAssociationGroup
 ]
 
 { #category : 'initialization' }
-CardManager >> initializeWith: aGropOfPlayers and: aCollectionOfCards [
-"todo"
+CardManager >> initializeCardManagerWith: aGroupOfPlayers [
+
+	playersFeature := aGroupOfPlayers
 ]

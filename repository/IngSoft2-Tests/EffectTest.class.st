@@ -21,7 +21,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 	aBlackHoleTile := BlackHole create.
 	
 	aTileListCreator at: 4 put: aBlackHoleTile.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
