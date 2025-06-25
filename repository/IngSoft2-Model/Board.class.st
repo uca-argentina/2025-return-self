@@ -45,6 +45,12 @@ Board >> parsecsPerTile [
 ^ (tiles at: 1) parsecs
 ]
 
+{ #category : 'initialization' }
+Board >> setOfCards [
+
+	^ OrderedCollection new
+]
+
 { #category : 'accessing' }
 Board >> tiles [ 
 ^tiles

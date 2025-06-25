@@ -9,7 +9,8 @@ Class {
 		'board',
 		'turnManager',
 		'battleManager',
-		'positionManager'
+		'positionManager',
+		'cardManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -56,9 +57,16 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 
 	turnManager := TurnManager createWith: aGroupOfPlayers.
 	battleManager := BattleManager createWith: aGroupOfPlayers.
-	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps and: aBoard parsecsPerTile.
+	positionManager := PositionManager
+		                   createWith: aGroupOfPlayers
+		                   and: aBoard totalTiles
+		                   and: anAmountOfLaps
+		                   and: aBoard parsecsPerTile.
 	setOfDie := aSetOfDie.
 	board := aBoard.
+	cardManager := CardManager
+		               createWith: aGroupOfPlayers
+		               and: aBoard setOfCards. "ACÁ DEBERIA SER OTRA COSA, NO DEBERIA EL BOARD SABER ESTO, ES PARA NO PASARLE MAS AL CREATE Y AL INITIALIZE"
 	playersFeature := aGroupOfPlayers
 ]
 
