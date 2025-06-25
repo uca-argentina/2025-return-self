@@ -12,13 +12,13 @@ Class {
 { #category : 'error handling' }
 ShipCards class >> cardsShouldBeAtLeastTwo: aCollectionOfCards [
 
-	aCollectionOfCards size < 2 ifTrue: [ Error signal:'Card collection must be initialized with at least 2.' ]
+	"aCollectionOfCards size < 2 ifTrue: [ Error signal:'Card collection must be initialized with at least 2.' ]" "DE MOMENTO NO TIENE UTILIDAD, PORQUE ESTA CLASE TIENE QUE SER INMUTABLE"
 ]
 
 { #category : 'creation' }
-ShipCards class >> createWith: anId and: activeCards [
+ShipCards class >> createWith: anId [
 
-	| aCardDeck cardClasses |
+	| cardClasses aCardDeck |
 	self idShouldBeGreaterThanZero: anId.
 	cardClasses := {
 		               Acceleration.
@@ -27,29 +27,30 @@ ShipCards class >> createWith: anId and: activeCards [
 		               Redo.
 		               Repeat.
 		               Speed }.
-	aCardDeck := CardCollection create.
+	aCardDeck := OrderedCollection new.
 	1 to: 2 do: [ :x |
 		| aRandomIndex |
 		aRandomIndex := (1 to: cardClasses size) atRandom.
 		aCardDeck add: (cardClasses at: aRandomIndex) new ].
 
-	^ self new initializeWith: anId and: aCardDeck and: activeCards
+	^ self new initializeWith: anId and: aCardDeck
 ]
 
 { #category : 'creation' }
-ShipCards class >> createWith: anId and: aCardDeck and: activeCards [
+ShipCards class >> createWith: anId and: aCardDeck [
 
 	self idShouldBeGreaterThanZero: anId.
-	^ self new
-		  initializeWith: anId
-		  and: aCardDeck
-		  and: activeCards
+
+	^ self new initializeWith: anId and: aCardDeck
 ]
 
 { #category : 'adding' }
 ShipCards >> addToDeck: aCard [
 
-	deck add: aCard
+	| aNewDeck |
+	aNewDeck := OrderedCollection withAll: deck.
+	aNewDeck add: aCard.
+	^ self class createWith: id and: aNewDeck
 ]
 
 { #category : 'as yet unclassified' }
@@ -65,9 +66,8 @@ ShipCards >> deck [
 ]
 
 { #category : 'initialization' }
-ShipCards >> initializeWith: anId and: aCardDeck and: activeCardCollection [
+ShipCards >> initializeWith: anId and: aCardDeck [
 
 	id := anId.
-	deck := aCardDeck.
-	activeCards := activeCardCollection "HASTA ACA, EL RESTO ES MAS ADELANTE"
+	deck := aCardDeck
 ]

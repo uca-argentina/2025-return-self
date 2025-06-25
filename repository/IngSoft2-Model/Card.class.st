@@ -30,6 +30,12 @@ Card >> isMercenary [
 ]
 
 { #category : 'testing' }
+Card >> isNoCard [
+
+^false
+]
+
+{ #category : 'testing' }
 Card >> isRedo [
 
 ^false

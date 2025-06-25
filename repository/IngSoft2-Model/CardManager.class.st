@@ -10,9 +10,18 @@ CardManager class >> createWith: aGroupOfPlayers [
 
 	| playerCardAssociationGroup |
 	playerCardAssociationGroup := aGroupOfPlayers collect: [ :each |
+		                              ShipCards createWith: each id ].
+	^ self new initializeCardManagerWith: playerCardAssociationGroup
+]
+
+{ #category : 'creation' }
+CardManager class >> createWith: aGroupOfPlayers and: specificDeck [
+
+	| playerCardAssociationGroup |
+	playerCardAssociationGroup := aGroupOfPlayers collect: [ :each |
 		                              ShipCards
 			                              createWith: each id
-			                              and: OrderedCollection new ].
+			                              and: specificDeck ].
 	^ self new initializeCardManagerWith: playerCardAssociationGroup
 ]
 
@@ -21,7 +30,7 @@ CardManager >> add: aCard to: aPlayer [
 
 	| ship |
 	ship := self findShipReference: aPlayer.
-	ship addToDeck: aCard create.
+	ship := ship addToDeck: aCard.
 	self updateShipReference: ship.
 ]
 

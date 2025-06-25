@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipCardTest >> test01Banana [
+ShipCardTest >> test01ShipCanThrowACard [
 
 self assert: false
 ]
