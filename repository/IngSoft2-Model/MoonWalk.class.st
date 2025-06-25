@@ -37,7 +37,7 @@ MoonWalk >> applyEffectOn: aPlayer using: positionManager and: battleManager and
 	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff.
 ]
 
-{ #category : 'initialization' }
+{ #category : 'as yet unclassified' }
 MoonWalk >> initializeEffectWith: aDebuff [
 
 	debuff := aDebuff

@@ -16,6 +16,15 @@ CardManager class >> createWith: aGroupOfPlayers [
 	^ self new initializeCardManagerWith: playerCardAssociationGroup
 ]
 
+{ #category : 'adding' }
+CardManager >> add: aCard to: aPlayer [
+
+	| ship |
+	ship := self findShipReference: aPlayer.
+	ship addToDeck: aCard create.
+	self updateShipReference: ship.
+]
+
 { #category : 'initialization' }
 CardManager >> initializeCardManagerWith: aGroupOfPlayers [
 

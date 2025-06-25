@@ -46,6 +46,12 @@ ShipCards class >> createWith: anId and: aCardDeck and: activeCards [
 		  and: activeCards
 ]
 
+{ #category : 'adding' }
+ShipCards >> addToDeck: aCard [
+
+	deck add: aCard
+]
+
 { #category : 'accessing' }
 ShipCards >> deck [
 

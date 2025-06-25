@@ -26,6 +26,11 @@ CardCollection >> add: aCard [
 cards add: aCard
 ]
 
+{ #category : 'accessing' }
+CardCollection >> at: index [
+^cards at:index
+]
+
 { #category : 'initialization' }
 CardCollection >> initializeCardsWith: aCardCollection [
 

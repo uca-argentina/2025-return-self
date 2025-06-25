@@ -41,27 +41,29 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithACardGiverTile [
 
-	| aGame aCardGiverTile aSequence aTestBoard shipCards |
-	aCardGiverTile := LoadedCardGiver createWith: {
-			                  Speed new.
-			                  Acceleration new }.
+	| aGame aCardGiverTile aSequence aTestBoard shipCards shipCardsOfJuan shipCardsOfTomi |
+	aCardGiverTile := LoadedCardGiver createWith:
+		                  (OrderedCollection with: Speed with: Acceleration).
 
 	aTileListCreator at: 4 put: aCardGiverTile.
 	aTestBoard := Board createWith: aTileListCreator tileList.
-	aSequence := SequenceOfDieForTesting withDie: {
-			             (LoadedDie rolling: 3).
-			             (LoadedDie rolling: 1) }.
+	aSequence := SequenceOfDieForTesting withDie:
+		             { (LoadedDie rolling: 3) }.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
 		         withLaps: 1.
 
-	self play: 1 in: aGame.
+	aGame playFullGame."por alguna razon se traba despues del primer tiro"
 
-	shipCards := aGame shieldsFeatureOf: aPlayer.
+	shipCardsOfJuan := aGame cardsFeatureOf: (aGroupOfPlayers at: 1).
 
-	self assert: shipCards deck equals: Speed new "Esta bien que rompa, falta implementacion"
+
+	shipCardsOfTomi := aGame cardsFeatureOf: (aGroupOfPlayers at: 2).
+
+	self assert: (shipCardsOfJuan deck at: 3) isSpeed equals: true.
+	self assert: (shipCardsOfTomi deck at: 3) isAcceleration equals: true
 ]
 
 { #category : 'tests' }
