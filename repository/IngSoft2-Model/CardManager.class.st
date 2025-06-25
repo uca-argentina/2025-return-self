@@ -12,7 +12,7 @@ CardManager class >> createWith: aGroupOfPlayers [
 	playerCardAssociationGroup := aGroupOfPlayers collect: [ :each |
 		                              ShipCards
 			                              createWith: each id
-			                              and: CardCollection create ].
+			                              and: OrderedCollection new ].
 	^ self new initializeCardManagerWith: playerCardAssociationGroup
 ]
 

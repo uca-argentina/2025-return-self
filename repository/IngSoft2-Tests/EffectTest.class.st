@@ -41,21 +41,24 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 { #category : 'tests' }
 EffectTest >> testGamePlayedWithACardGiverTile [
 
-	| aGame aCardGiverTile aSequence aTestBoard shipCards shipCardsOfJuan shipCardsOfTomi |
+	| aGame aCardGiverTile aSequence aTestBoard shipCardsOfJuan shipCardsOfTomi |
 	aCardGiverTile := LoadedCardGiver createWith:
 		                  (OrderedCollection with: Speed with: Acceleration).
 
 	aTileListCreator at: 4 put: aCardGiverTile.
 	aTestBoard := Board createWith: aTileListCreator tileList.
-	aSequence := SequenceOfDieForTesting withDie:
-		             { (LoadedDie rolling: 3) }.
+	aSequence := SequenceOfDieForTesting withDie: {
+			             (LoadedDie rolling: 3).
+			             (LoadedDie rolling: 3).
+			             (LoadedDie rolling: 1).
+			             (LoadedDie rolling: 5) }.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aSequence
 		         withLaps: 1.
 
-	aGame playFullGame."por alguna razon se traba despues del primer tiro"
+	aGame playFullGame. "por alguna razon se traba despues del primer tiro"
 
 	shipCardsOfJuan := aGame cardsFeatureOf: (aGroupOfPlayers at: 1).
 

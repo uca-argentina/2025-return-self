@@ -3,7 +3,7 @@ A mock object to test the Effect application of the CardGiver
 "
 Class {
 	#name : 'LoadedCardGiver',
-	#superclass : 'Object',
+	#superclass : 'Effect',
 	#instVars : [
 		'cardOrderedLooping',
 		'actualCardIndex'
@@ -37,12 +37,6 @@ LoadedCardGiver >> initializeEffectWith: aListOfCards [
 LoadedCardGiver >> isCardGiver [
 
 	^ true
-]
-
-{ #category : 'testing' }
-LoadedCardGiver >> isWormhole [
-
-	^ false
 ]
 
 { #category : 'interaction loop' }
