@@ -24,7 +24,7 @@ TileDistributionTest >> test01WhenTryingToCreateATestBoardWithLengthLowerThanThr
 
 	self
 		should: [
-			BoardForTesting createWith:
+			Board createWith:
 				{ (Tile createWithEffect: NoEffect new) } ]
 		raiseErrorWithMessageText:
 		'The board length must be greater than three.'

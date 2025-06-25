@@ -41,7 +41,7 @@ PositionManagerTest >> test01WhenTryingToCreateAPositionManagerWithNegativeLapsT
 
 	| aGroupOfPlayers aTestBoard aTileList|
 	aTileList := TileListCreationForTesting createTileListWith: 5.
-	aTestBoard := BoardForTesting createWith: aTileList tileList.
+	aTestBoard := Board createWith: aTileList tileList.
 	aGroupOfPlayers := {
 		                   (ShipPlayerAssociation
 			                    createWith: 1

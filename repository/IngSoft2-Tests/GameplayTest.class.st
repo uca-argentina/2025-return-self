@@ -11,7 +11,7 @@ GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 5 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
@@ -33,7 +33,7 @@ GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 	| aGame aLoadedDie aWormhole aTestBoard |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
@@ -53,7 +53,7 @@ GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 	aWormhole := Wormhole createWith: 14.
 
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -75,7 +75,7 @@ GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -98,7 +98,7 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 5 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -123,7 +123,7 @@ GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -144,7 +144,7 @@ GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 1).
@@ -169,7 +169,7 @@ GameplayTest >> test08LoopingOfTheLap [
 	aWormhole := Wormhole createWith: 4.
 	aTileListCreator2 := TileListCreationForTesting createTileListWith: 5.
 	aTileListCreator2 at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator2 tileList.
+	aTestBoard := Board createWith: aTileListCreator2 tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 6).
 			                    (LoadedDie rolling: 1).
@@ -193,7 +193,7 @@ GameplayTest >> test09LoopingOfTheLapWithRanking [
 	                         'Name: Tomi, Place: 2' }.
 	aWormhole := Wormhole createWith: 4.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 6).
 			                    (LoadedDie rolling: 1).
