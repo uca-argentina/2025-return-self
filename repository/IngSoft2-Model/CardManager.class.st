@@ -3,7 +3,10 @@ Class {
 	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'permanentAppliedCards',
-		'lastPlayedCard'
+		'lastPlayedCard',
+		'lastEffectApplied',
+		'chosenPlayer',
+		'activePlayer'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,7 +29,7 @@ CardManager class >> createWith: arg1 and: arg2 [
 	^ self new initializeCardManagerWith: tmp1
 ]
 
-{ #category : 'adding' }
+{ #category : 'adding-removing' }
 CardManager >> add: card to: player [
 
 	| playerReference |
@@ -35,7 +38,7 @@ CardManager >> add: card to: player [
 	self updateShipReference: playerReference
 ]
 
-{ #category : 'adding' }
+{ #category : 'adding-removing' }
 CardManager >> addToPermanentCards: aCard [
 
 permanentAppliedCards add: aCard.
@@ -65,22 +68,46 @@ CardManager >> permanentAppliedCards [
 ]
 
 { #category : 'as yet unclassified' }
-CardManager >> playCancelCardtargeting: aCard from: player [
-	| playedCard |
-	self evaluateIfCardIsPresent: player forCard: Cancellation new.
-	playedCard := self useCard: Cancellation new from: player.
-	playedCard cancelPlayingCard: aCard using: permanentAppliedCards.
-	lastPlayedCard := playedCard.
+CardManager >> playLastCardCalledBy: aCaller targeting: aPlayer [
 ]
 
 { #category : 'as yet unclassified' }
 CardManager >> replicateEffect: anEffect from: player targeting: anotherPlayer using: aGame [
 
-	| playedCard |
+"	| playedCard |
 	self evaluateIfCardIsPresent: player forCard: Repeat new.
 	playedCard := self useCard: Repeat new from: player.
-	playedCard replicateEffect: anEffect targeting: anotherPlayer using: aGame.
+	playedCard replicateEffect: anEffect targeting: anotherPlayer using: aGame."
+	
+]
+
+{ #category : 'adding-removing' }
+CardManager >> searchAndCancel: aCard [
+
+	permanentAppliedCards := permanentAppliedCards reject: [ :card |
+		                         card equalsCard: aCard ]
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> store: aPlayer and: aChosenPlayer [
+
+	| aShipCard chosenShipCard |
+	aShipCard := self findShipReference: aPlayer.
+	chosenShipCard := self findShipReference: aChosenPlayer.
+	activePlayer := aShipCard copyShip.
+	chosenPlayer := chosenShipCard copyShip
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> storeLastCardPlayed: playedCard [
+
 	lastPlayedCard := playedCard
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> storeLastEffectApplied: anEffect [
+
+	lastEffectApplied := anEffect 
 ]
 
 { #category : 'as yet unclassified' }
@@ -88,5 +115,5 @@ CardManager >> useCard: card from: player [
 
 	| playerReference |
 	playerReference := self findShipReference: player.
-	^ playerReference popFromDeck: card 
+	"^ playerReference popFromDeck: card "
 ]

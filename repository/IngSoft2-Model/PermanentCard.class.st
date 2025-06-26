@@ -10,9 +10,26 @@ Class {
 }
 
 { #category : 'testing' }
-PermanentCard >> isPermanentCard [
+PermanentCard class >> isPermanentCard [
 
 ^true
+]
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> applyBonusUsing: anArgument [
+
+	self subclassResponsibility
+]
+
+{ #category : 'comparing' }
+PermanentCard >> equalsCard: aCard [
+
+	self subclassResponsibility
+]
+
+{ #category : 'testing' }
+PermanentCard >> isPermanentCard [
+	^ self class isPermanentCard
 ]
 
 { #category : 'accessing' }

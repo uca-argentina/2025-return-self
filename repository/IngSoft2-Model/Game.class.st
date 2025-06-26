@@ -127,20 +127,10 @@ Game >> nextPlayerThrowsDice [
 		self engageInBattle: activePlayer ]
 ]
 
-{ #category : 'as yet unclassified' }
-Game >> playCancelCardTargeting: aCard from: aPlayer [
-	cardManager playCancelCardtargeting: aCard from:aPlayer.
-]
-
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
-]
-
-{ #category : 'as yet unclassified' }
-Game >> playRepeatCardTargeting: target from: player [
-	cardManager replicateEffect: board lastEffectApplied from: player targeting: target using: self.
 ]
 
 { #category : 'tests - printing' }

@@ -7,6 +7,23 @@ Class {
 }
 
 { #category : 'testing' }
-InstantCard >> isInstantCard [
+InstantCard class >> isInstantCard [
 ^ true
+]
+
+{ #category : 'play interface' }
+InstantCard >> applyBonusUsing: aCard and: anotherArgument [
+
+	self subclassResponsibility
+]
+
+{ #category : 'comparing' }
+InstantCard >> equalsCard: aCard [
+
+	self subclassResponsibility
+]
+
+{ #category : 'testing' }
+InstantCard >> isInstantCard [
+	^ self class isInstantCard
 ]

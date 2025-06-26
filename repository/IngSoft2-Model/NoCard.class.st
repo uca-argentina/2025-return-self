@@ -5,14 +5,19 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'play interface' }
+NoCard >> applyBonusUsing: anArgument and: anotherArgument [
+
+]
+
+{ #category : 'testing' }
+NoCard >> equalsCard: aCard [
+
+	^ aCard isNoCard
+]
+
 { #category : 'testing' }
 NoCard >> isNoCard [
 
 	^ true
-]
-
-{ #category : 'testing' }
-NoCard >> sameTypeOfCard: arg1 [
-
-	^ arg1 isNoCard
 ]

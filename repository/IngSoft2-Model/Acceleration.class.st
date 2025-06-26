@@ -17,10 +17,10 @@ Acceleration >> applyBonusUsing: arg1 [
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> equalsCard: arg1 [
+Acceleration >> equalsCard: aCard [
 
-	^ ('<an unprintable nonliteral value>'
-		   runtimeUndeclaredReadInContext: thisContext) = arg1 shipId
+	aCard isAcceleration ifTrue: [ ^ shipId = aCard shipId ].
+	^ false
 ]
 
 { #category : 'initialization' }
@@ -35,12 +35,6 @@ Acceleration >> initializeWith: anId [
 Acceleration >> isAcceleration [
 
 	^ true
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> sameTypeOfCard: arg1 [
-
-	^ arg1 isAcceleration
 ]
 
 { #category : 'accessing' }

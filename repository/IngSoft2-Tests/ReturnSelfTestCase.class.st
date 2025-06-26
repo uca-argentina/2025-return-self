@@ -17,9 +17,10 @@ ReturnSelfTestCase class >> isAbstract [
 { #category : 'asserting' }
 ReturnSelfTestCase >> assert: aCollection equalsCollection: anotherCollection [
 
-	aCollection size = anotherCollection size ifFalse: [ ^ false ].
-	^ (1 to: aCollection size) allSatisfy: [ :i |
-		  (aCollection at: i) = (anotherCollection at: i) ]
+	aCollection size = anotherCollection size ifFalse: [
+		^ (1 to: aCollection size) allSatisfy: [ :i |
+			  (aCollection at: i) = (anotherCollection at: i) ] ].
+	^ false
 ]
 
 { #category : 'asserting' }

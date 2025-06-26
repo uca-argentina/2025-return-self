@@ -6,9 +6,9 @@ Class {
 }
 
 { #category : 'creation' }
-Speed class >> createWithAnId: anId and: randomData [
+Speed class >> createWithAnId: anId and: chosenId [
 
-	^ self new initializeWith: anId
+	^ self new initializeWith: chosenId
 ]
 
 { #category : 'error testing' }
@@ -25,12 +25,10 @@ Speed >> applyBonusUsing: arg1 [
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> equalsCard: arg1 [
+Speed >> equalsCard: aCard [
 
-	^ arg1 isSpeed and: arg1 shipId
-		  =
-			  ('<an unprintable nonliteral value>'
-				   runtimeUndeclaredReadInContext: thisContext)
+	aCard isSpeed ifTrue: [ ^ shipId = aCard shipId ].
+	^ false
 ]
 
 { #category : 'initialization' }
@@ -45,10 +43,4 @@ Speed >> initializeWith: anId [
 Speed >> isSpeed [
 
 	^ true
-]
-
-{ #category : 'as yet unclassified' }
-Speed >> sameTypeOfCard: arg1 [
-
-	^ arg1 isSpeed
 ]

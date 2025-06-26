@@ -53,15 +53,43 @@ ShipCards >> addToDeck: aCard [
 ]
 
 { #category : 'as yet unclassified' }
-ShipCards >> cardThrow: aCard targeting: aPlayer changing: cardManager [
+ShipCards >> cardThrowInstantCard: aCard targeting: aPlayer using: cardManager [
+
+	| aNewDeck cardToRemoveClass cardToPlay |
+	aNewDeck := deck collect: [ :card | card ].
+	
+	cardManager store: self and: aPlayer.
+	
+	cardToRemoveClass := aNewDeck detect: [ :card | card equalsCard: aCard ].
+	cardToPlay := cardToRemoveClass new.
+	cardToPlay isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemoveClass ].
+	cardToPlay applyBonusUsing: cardToRemoveClass and: cardManager.
+	
+	aNewDeck remove: cardToRemoveClass.
+
+	^ self class createWith: id and: aNewDeck
+]
+
+{ #category : 'as yet unclassified' }
+ShipCards >> cardThrowPermanentCard: aCard targeting: aPlayer using: cardManager [
 
 	| aNewDeck cardToRemove |
 	aNewDeck := deck collect: [ :card | card ].
-	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
-	cardToRemove isPermanentCard ifTrue: [ cardManager addToPermanentCards: (cardToRemove createWith: id and: aPlayer id)] ifFalse: [cardToRemove new applyCardEffect].
+	cardToRemove := aNewDeck detect: [ :card | card equalsCard: aCard ].
+	cardManager addToPermanentCards: (cardToRemove createWith: id and: aPlayer id).
+	
+	cardManager storeLastCardPlayed: cardToRemove class.
+	cardManager store: self and: aPlayer.
+	
 	aNewDeck remove: cardToRemove.
 
 	^ self class createWith: id and: aNewDeck
+]
+
+{ #category : 'copying' }
+ShipCards >> copyShip [
+
+^ self class createWith: id and: deck
 ]
 
 { #category : 'accessing' }
@@ -73,7 +101,7 @@ ShipCards >> deck [
 { #category : 'adding' }
 ShipCards >> findInDeck: card [
 
-	^ deck anySatisfy: [ :x | x sameTypeOfCard: card ]
+	^ deck anySatisfy: [ :x | x equalsCard: card ]
 ]
 
 { #category : 'initialization' }
@@ -87,7 +115,7 @@ ShipCards >> initializeWith: anId and: aCardDeck [
 ShipCards >> popFromDeck: aCard [
 
 	| cardToRemove |
-	cardToRemove := deck detect: [ :card | card sameTypeOfCard: aCard ].
+	cardToRemove := deck detect: [ :card | card equalsCard: aCard ].
 	deck remove: cardToRemove.
 	^ cardToRemove
 ]
