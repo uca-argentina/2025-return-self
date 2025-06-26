@@ -1,6 +1,6 @@
 Class {
 	#name : 'Redo',
-	#superclass : 'Card',
+	#superclass : 'InstantCard',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -8,10 +8,11 @@ Class {
 { #category : 'testing' }
 Redo >> isRedo [
 
-^true
+	^ true
 ]
 
 { #category : 'as yet unclassified' }
-Redo >> sameTypeOfCard: aCard [
-^ aCard isRedo
+Redo >> sameTypeOfCard: arg1 [
+
+	^ arg1 isRedo
 ]

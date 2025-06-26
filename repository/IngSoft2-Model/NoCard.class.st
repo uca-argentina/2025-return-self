@@ -1,6 +1,6 @@
 Class {
 	#name : 'NoCard',
-	#superclass : 'Card',
+	#superclass : 'InstantCard',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -8,11 +8,11 @@ Class {
 { #category : 'testing' }
 NoCard >> isNoCard [
 
-^true
+	^ true
 ]
 
 { #category : 'testing' }
-NoCard >> sameTypeOfCard: aCard [
+NoCard >> sameTypeOfCard: arg1 [
 
-^ aCard isNoCard 
+	^ arg1 isNoCard
 ]

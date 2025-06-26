@@ -1,25 +1,26 @@
 Class {
 	#name : 'Cancellation',
-	#superclass : 'Card',
+	#superclass : 'InstantCard',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Cancellation >> cancelPlayingCard: aCard using: aCollectionOfCards [
-	
-	| cardToRemove |
-	cardToRemove := aCollectionOfCards detect: [ :card | card equalsCard: aCard ].
-	aCollectionOfCards remove: cardToRemove.
+Cancellation >> cancelPlayingCard: arg1 using: arg2 [
+
+	| tmp1 |
+	tmp1 := arg2 detect: [ :arg3 | arg3 equalsCard: arg1 ].
+	arg2 remove: tmp1
 ]
 
 { #category : 'testing' }
-Cancellation >> isCancellation [ 
-^true
+Cancellation >> isCancellation [
+
+	^ true
 ]
 
 { #category : 'as yet unclassified' }
-Cancellation >> sameTypeOfCard: aCard [
+Cancellation >> sameTypeOfCard: arg1 [
 
-	^ aCard isCancellation
+	^ arg1 isCancellation
 ]

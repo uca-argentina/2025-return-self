@@ -42,7 +42,7 @@ GameWithCardsTest >> test01GamePlayedWithACardGiverTile [
 GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplied [
 
 	| aGame aSequence aTestBoard aCardGiverTile anotherPlayer |
-	anotherPlayer:= aPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aCardGiverTile := LoadedCardGiver createWith:
 		                  (OrderedCollection
 			                   with: Repeat).
@@ -64,7 +64,7 @@ GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplie
 self play:4 in: aGame.
 	
 	aGame playRepeatCardTargeting: anotherPlayer from: aPlayer .
-	self assert: (aGame positionFeatureOf: aPlayer) position
+	self assert: (aGame positionFeatureOf: anotherPlayer ) position
 		equals: 3
 ]
 

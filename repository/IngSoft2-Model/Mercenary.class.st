@@ -1,6 +1,9 @@
 Class {
 	#name : 'Mercenary',
-	#superclass : 'Card',
+	#superclass : 'PermanentCard',
+	#instVars : [
+		'allyId'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -8,8 +11,9 @@ Class {
 { #category : 'creation' }
 Mercenary class >> createWithAnId: anId and: allyId [
 
-	self idShouldBeGreaterThanZero: anId.
-	self idShouldBeGreaterThanZero: allyId.
+	self
+		idShouldBeGreaterThanZero: anId;
+		idShouldBeGreaterThanZero: allyId.
 	^ self new initializeWith: anId and: allyId
 ]
 
@@ -20,13 +24,22 @@ Mercenary class >> idShouldBeGreaterThanZero: anId [
 		Error signal: 'The SpaceShip ID should be greater than zero.' ]
 ]
 
-{ #category : 'testing' }
-Mercenary >> isMercenary [ 
+{ #category : 'initialization' }
+Mercenary >> initializeWith: anId and: anAllyId [
 
-^true
+
+	shipId := anId.
+	allyId := anAllyId 
+]
+
+{ #category : 'testing' }
+Mercenary >> isMercenary [
+	
+	^ true
 ]
 
 { #category : 'as yet unclassified' }
-Mercenary >> sameTypeOfCard: aCard [
-^aCard isMercenary 
+Mercenary >> sameTypeOfCard: arg1 [
+
+	^ arg1 isMercenary
 ]

@@ -15,6 +15,14 @@ ReturnSelfTestCase class >> isAbstract [
 ]
 
 { #category : 'asserting' }
+ReturnSelfTestCase >> assert: aCollection equalsCollection: anotherCollection [
+
+	aCollection size = anotherCollection size ifFalse: [ ^ false ].
+	^ (1 to: aCollection size) allSatisfy: [ :i |
+		  (aCollection at: i) = (anotherCollection at: i) ]
+]
+
+{ #category : 'asserting' }
 ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
 	self

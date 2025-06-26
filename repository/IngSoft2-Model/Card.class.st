@@ -29,6 +29,18 @@ Card >> isCancellation [
 ]
 
 { #category : 'testing' }
+Card >> isCard [
+
+^true
+]
+
+{ #category : 'testing' }
+Card >> isInstantCard [
+
+^false
+]
+
+{ #category : 'testing' }
 Card >> isMercenary [
 
 ^false
@@ -36,6 +48,12 @@ Card >> isMercenary [
 
 { #category : 'testing' }
 Card >> isNoCard [
+
+^false
+]
+
+{ #category : 'testing' }
+Card >> isPermanentCard [
 
 ^false
 ]

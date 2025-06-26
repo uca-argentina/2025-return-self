@@ -1,33 +1,34 @@
 Class {
 	#name : 'Acceleration',
-	#superclass : 'Card',
-	#instVars : [
-		'shipId'
-	],
+	#superclass : 'PermanentCard',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Acceleration class >> create [
-
+Acceleration class >> createWithAnId: anId and: anotherId [
 	^ self new initializeWith: 0
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> applyBonusUsing: aThrow [ 
-	^ aThrow + 1.
+Acceleration >> applyBonusUsing: arg1 [
+
+	^ arg1 + 1
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> equalsCard: aCard [ 
-	^ shipId = aCard shipId.
-	
+Acceleration >> equalsCard: arg1 [
+
+	^ ('<an unprintable nonliteral value>'
+		   runtimeUndeclaredReadInContext: thisContext) = arg1 shipId
 ]
 
 { #category : 'initialization' }
 Acceleration >> initializeWith: anId [
+
+
 	shipId := anId.
+
 ]
 
 { #category : 'testing' }
@@ -37,12 +38,14 @@ Acceleration >> isAcceleration [
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> sameTypeOfCard: aCard [
+Acceleration >> sameTypeOfCard: arg1 [
 
-^aCard isAcceleration 
+	^ arg1 isAcceleration
 ]
 
 { #category : 'accessing' }
 Acceleration >> shipId [
-	^ shipId
+
+	^ '<an unprintable nonliteral value>'
+		  runtimeUndeclaredReadInContext: thisContext
 ]

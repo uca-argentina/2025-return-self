@@ -53,13 +53,14 @@ ShipCards >> addToDeck: aCard [
 ]
 
 { #category : 'as yet unclassified' }
-ShipCards >> cardThrow: aCard changing: aCollectionOfCards [
+ShipCards >> cardThrow: aCard targeting: aPlayer changing: cardManager [
 
 	| aNewDeck cardToRemove |
-	aNewDeck := OrderedCollection withAll: deck.
+	aNewDeck := deck collect: [ :card | card ].
 	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
-	aCollectionOfCards add: cardToRemove.
+	cardToRemove isPermanentCard ifTrue: [ cardManager addToPermanentCards: (cardToRemove createWith: id and: aPlayer id)] ifFalse: [cardToRemove new applyCardEffect].
 	aNewDeck remove: cardToRemove.
+
 	^ self class createWith: id and: aNewDeck
 ]
 

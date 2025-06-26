@@ -1,15 +1,12 @@
 Class {
 	#name : 'Speed',
-	#superclass : 'Card',
-	#instVars : [
-		'shipId'
-	],
+	#superclass : 'PermanentCard',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Speed class >> createWithAnId: anId [
+Speed class >> createWithAnId: anId and: randomData [
 
 	^ self new initializeWith: anId
 ]
@@ -22,19 +19,26 @@ Speed class >> idShouldBeGreaterThanZero: anId [
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> applyBonusUsing: aThrow [ 
-	^ aThrow + 1.
+Speed >> applyBonusUsing: arg1 [
+
+	^ arg1 + 1
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> equalsCard: aCard [
+Speed >> equalsCard: arg1 [
 
-	^ aCard isSpeed and: aCard shipId = shipId
+	^ arg1 isSpeed and: arg1 shipId
+		  =
+			  ('<an unprintable nonliteral value>'
+				   runtimeUndeclaredReadInContext: thisContext)
 ]
 
 { #category : 'initialization' }
 Speed >> initializeWith: anId [
+
+
 	shipId := anId.
+
 ]
 
 { #category : 'testing' }
@@ -44,13 +48,7 @@ Speed >> isSpeed [
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> sameTypeOfCard: aCard [
+Speed >> sameTypeOfCard: arg1 [
 
-	^ aCard isSpeed 
-]
-
-{ #category : 'accessing' }
-Speed >> shipId [
-
-	^ shipId
+	^ arg1 isSpeed
 ]

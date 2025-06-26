@@ -35,6 +35,12 @@ CardManager >> add: card to: player [
 	self updateShipReference: playerReference
 ]
 
+{ #category : 'adding' }
+CardManager >> addToPermanentCards: aCard [
+
+permanentAppliedCards add: aCard.
+]
+
 { #category : 'as yet unclassified' }
 CardManager >> evaluateIfCardIsPresent: player forCard: card [
 
