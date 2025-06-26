@@ -22,10 +22,9 @@ Mercenary class >> createWith: aShipMaster and: aShipSlave and: anId [
 ]
 
 { #category : 'as yet unclassified' }
-Mercenary >> applyBonusUsing: data [
-"
-	^ aTotalThrow + 1"
-	self shouldBeImplemented 
+Mercenary >> applyBonusUsing: battleManager [
+
+	^ battleManager findShipReference: slaveShip
 ]
 
 { #category : 'as yet unclassified' }
@@ -33,6 +32,12 @@ Mercenary >> equalsACard: aCard [
 
 	aCard isMercenary ifTrue: [ ^ masterShip = aCard masterShip and: slaveShip = aCard slaveShip ].
 	^ false
+]
+
+{ #category : 'testing' }
+Mercenary >> hasSameSlave: anotherMercenaryCard [
+
+	^ slaveShip = anotherMercenaryCard slaveShip
 ]
 
 { #category : 'initialization' }

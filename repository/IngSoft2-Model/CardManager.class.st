@@ -41,6 +41,7 @@ CardManager >> add: card to: player [
 CardManager >> addToPermanentCards: aCard [
 
 	| taggedCard |
+	aCard isMercenary ifTrue: [ self checkNoSameSlave: aCard ].
 	taggedCard := aCard tagPermanentCard: incrementalTag.
 	permanentAppliedCards add: taggedCard.
 	incrementalTag := incrementalTag + 1
@@ -49,9 +50,35 @@ CardManager >> addToPermanentCards: aCard [
 { #category : 'as yet unclassified' }
 CardManager >> checkIfBonusToApplyTo: aPlayer using: setOfDie [
 
-	| everyCardToApplyBonus |
+	| everyCardToApplyBonus aTotalThrow |
+	aTotalThrow := setOfDie throw.
 	everyCardToApplyBonus := permanentAppliedCards select: [ :card |
-		                         card affects: aPlayer ]
+		                         card affects: aPlayer ].
+	^ everyCardToApplyBonus inject: aTotalThrow into: [ :acum :card | card applyBonusUsing: aTotalThrow ]
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> checkIfMercenariesFor: aMaster using: battleManager [
+
+	| everyCardToApplyBonus aTeam |
+	everyCardToApplyBonus := permanentAppliedCards select: [ :card |
+		                         card requestedBy: aMaster ].
+	aTeam := (everyCardToApplyBonus collect: [ :card |
+		          card applyBonusUsing: battleManager ]) asOrderedCollection.
+	aTeam add: aMaster.
+	^ aTeam
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> checkNoSameSlave: aMercenaryPreparedCard [
+
+	| allMercenaryCards |
+	allMercenaryCards := permanentAppliedCards select: [ :card |
+		                     card isMercenary ].
+	allMercenaryCards
+		detect: [ :card | card hasSameSlave: aMercenaryPreparedCard ]
+		ifFound: [ Error signal: 'Cant have the same mercenary as other.' ]
+		ifNone: [  ]
 ]
 
 { #category : 'as yet unclassified' }

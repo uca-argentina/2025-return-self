@@ -25,27 +25,39 @@ playersFeature do: [ :player | self updateShipReference: (player loseShields: 1)
 ]
 
 { #category : 'play interface' }
-BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice [
+BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice and: cardManager [
 
-	| firstPlayerThrow secondPlayerThrow playerWhoLost playersToEngage |
+	| firstTeamThrow playersWhoLost playersToEngage firstTeam secondTeam secondTeamThrow |
 	playersToEngage := aPairOfPlayers collect: [ :each |
 		                   self findShipReference: each ].
 
-	firstPlayerThrow := someDice throw.
-	secondPlayerThrow := someDice throw.
+	firstTeam := cardManager
+		             checkIfMercenariesFor: (playersToEngage at: 1)
+		             using: self.
+	secondTeam := cardManager
+		              checkIfMercenariesFor: (playersToEngage at: 2)
+		              using: self.
 
-	[ firstPlayerThrow = secondPlayerThrow ] whileTrue: [
-		firstPlayerThrow := someDice throw.
-		secondPlayerThrow := someDice throw ].
+	firstTeamThrow := (firstTeam collect: [ :card | someDice throw ]) max.
+	secondTeamThrow := (firstTeam collect: [ :card | someDice throw ])
+		                   max.
 
-	playerWhoLost := firstPlayerThrow > secondPlayerThrow
-		                 ifTrue: [ "gana el primero"
-		                 (playersToEngage at: 2) loseShields: 1 ]
-		                 ifFalse: [ "gana el segundo"
-		                 (playersToEngage at: 1) loseShields: 1 ].
+	[ firstTeamThrow = secondTeamThrow ] whileTrue: [
+		firstTeamThrow := (firstTeam collect: [ :card | someDice throw ])
+			                  max.
+		secondTeamThrow := (firstTeam collect: [ :card | someDice throw ])
+			                   max ].
 
-	self updateShipReference: playerWhoLost.
-	^ playerWhoLost
+	playersWhoLost := firstTeamThrow > secondTeamThrow
+		                  ifTrue: [ "gana el primero"
+			                  (secondTeam collect: [ :ship |
+				                   ship loseShields: 1 ]) asOrderedCollection ]
+		                  ifFalse: [ "gana el segundo"
+			                  (firstTeam collect: [ :ship |
+				                   ship loseShields: 1 ]) asOrderedCollection ].
+	playersWhoLost do: [ :ship | self updateShipReference: ship ].
+
+	^ playersWhoLost
 ]
 
 { #category : 'updating' }

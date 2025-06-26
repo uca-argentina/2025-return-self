@@ -18,7 +18,8 @@ ShipCardTest >> test01ShipCanThrowACard [
 	activeCards := OrderedCollection new.
 
 
-	aShip := aShip cardThrow: Speed create changing: activeCards.
+	"aShip := aShip cardThrow: Speed create changing: activeCards."
+	aShip := aShip for: Speed new ifAnySetupWith: aShip.
 
 	assertingDeck := {
 		                 Acceleration create.

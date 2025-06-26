@@ -53,16 +53,18 @@ Game >> cardsFeatureOf: aShip [
 { #category : 'checking' }
 Game >> engageInBattle: activePlayer [
 
-	| playersToEngage playerWhoLost |
+	| playersToEngage playersWhoLost |
 	playersToEngage := positionManager playerInSamePositionThan:
 		                   activePlayer.
-	playerWhoLost := battleManager
-		                 engage: playersToEngage
-		                 inBattleUsing: setOfDie.
-	playerWhoLost needsRecovery ifTrue: [
-		turnManager addTwoSkipsTo: playerWhoLost.
-		battleManager forceAShieldResetTo: playerWhoLost ].
-	positionManager resetLapTo: playerWhoLost
+	playersWhoLost := battleManager
+		                  engage: playersToEngage
+		                  inBattleUsing: setOfDie
+		                  and: cardManager.
+	playersWhoLost do: [ :player |
+		player needsRecovery ifTrue: [
+			turnManager addTwoSkipsTo: player.
+			battleManager forceAShieldResetTo: player ].
+		positionManager resetLapTo: player ]
 ]
 
 { #category : 'initialization' }

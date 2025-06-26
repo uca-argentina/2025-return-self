@@ -45,7 +45,7 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 { #category : 'tests' }
 BattleManagerTest >> test02WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArrayWithLosingShip [
 
-	| aGroupOfPlayers anotherPlayer playerWhoLost aSequence aLoadedDie aSecondLoadedDie |
+	| aGroupOfPlayers anotherPlayer playersWhoLost aSequence aLoadedDie aSecondLoadedDie |
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -55,9 +55,13 @@ BattleManagerTest >> test02WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArr
 	aGroupOfPlayers := {
 		                   aPlayer.
 		                   anotherPlayer }.
-	playerWhoLost := aBattleManager
+	playersWhoLost := aBattleManager
 		                 engage: aGroupOfPlayers
-		                 inBattleUsing: aSequence.
+		                 inBattleUsing: aSequence
+		                 and: (CardManager
+		                 createWith: {
+				                 aPlayer.
+				                 anotherPlayer } asOrderedCollection).
 
-	self assert: playerWhoLost shields equals: 2
+	self assert: (playersWhoLost at: 1) shields equals: 2
 ]

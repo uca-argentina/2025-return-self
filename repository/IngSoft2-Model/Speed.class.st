@@ -27,10 +27,9 @@ Speed >> affects: aPlayer [
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> applyBonusUsing: data [
-"
-	^ aTotalThrow + 1"
-	self shouldBeImplemented 
+Speed >> applyBonusUsing: aTotalThrow [
+
+	^ aTotalThrow + 1
 ]
 
 { #category : 'accessing' }

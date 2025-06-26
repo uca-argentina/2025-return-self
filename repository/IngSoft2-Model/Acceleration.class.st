@@ -24,10 +24,9 @@ Acceleration >> affects: aPlayer [
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> applyBonusUsing: data [
-"
-	^ aTotalThrow + 1"
-	self shouldBeImplemented 
+Acceleration >> applyBonusUsing: aTotalThrow [
+
+	^ aTotalThrow + 1
 ]
 
 { #category : 'as yet unclassified' }

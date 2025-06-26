@@ -97,7 +97,7 @@ ShipCards >> for: aCard ifAnySetupWith: context [
 	aNewDeck := OrderedCollection withAll: deck.
 	aNewDeck at: deckPlaceIndex put: cardSetted.
 	
-	^ self class createWith: id and: aNewDeck and: preparedCard
+	^ self class createWith: id and: aNewDeck and: cardSetted
 ]
 
 { #category : 'initialization' }
