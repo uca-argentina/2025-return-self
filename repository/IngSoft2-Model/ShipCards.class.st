@@ -69,24 +69,6 @@ ShipCards >> addToDeck: aCard [
 	^ self class createWith: id and: aNewDeck
 ]
 
-{ #category : 'as yet unclassified' }
-ShipCards >> cardThrowInstantCard: aCard targeting: aPlayer using: cardManager [
-
-	| aNewDeck cardToRemoveClass cardToPlay |
-	aNewDeck := deck collect: [ :card | card ].
-	
-	cardManager store: self and: aPlayer.
-	
-	cardToRemoveClass := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
-	cardToPlay := cardToRemoveClass new.
-	cardToPlay isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemoveClass ].
-	cardToPlay applyBonusUsing: cardToRemoveClass and: cardManager.
-	
-	aNewDeck remove: cardToRemoveClass.
-
-	^ self class createWith: id and: aNewDeck
-]
-
 { #category : 'copying' }
 ShipCards >> copyShip [
 

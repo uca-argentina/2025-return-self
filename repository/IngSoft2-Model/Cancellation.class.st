@@ -24,7 +24,7 @@ anId < 0 ifTrue: [ Error signal: 'There is no matching active card to cancel.' ]
 { #category : 'play interface' }
 Cancellation >> applyBonusUsing: cardManager [
 
-	
+	cardManager removeActiveCardWith: cardId
 ]
 
 { #category : 'as yet unclassified' }

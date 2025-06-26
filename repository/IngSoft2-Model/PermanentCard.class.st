@@ -44,3 +44,9 @@ PermanentCard >> tagPermanentCard: anId [
 
 	self subclassResponsibility
 ]
+
+{ #category : 'comparing' }
+PermanentCard >> withTag: anId [
+
+	^ cardId = anId
+]

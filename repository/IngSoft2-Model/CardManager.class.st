@@ -44,7 +44,7 @@ CardManager >> addToPermanentCards: aCard [
 
 	| taggedCard |
 	taggedCard := aCard tagPermanentCard: incrementalTag.
-	permanentAppliedCards add: aCard.
+	permanentAppliedCards add: taggedCard.
 	incrementalTag := incrementalTag + 1
 ]
 
@@ -84,8 +84,21 @@ CardManager >> player: aPlayer preparesIfAny: aCard setupWith: context [
 	shipCards := self findShipReference: aPlayer.
 	shipCards := shipCards for: aCard ifAnySetupWith: context.
 	self updateShipReference: shipCards.
-	
-	shipCards := shipCards throwPreparedCardUsing: self
+
+	shipCards := shipCards throwPreparedCardUsing: self.
+	self updateShipReference: shipCards
+]
+
+{ #category : 'removing' }
+CardManager >> removeActiveCardWith: cardId [
+
+	| cardToCancel |
+	cardToCancel := permanentAppliedCards
+		                detect: [ :card | card withTag: cardId ]
+		                ifNone: [
+		                Error signal:
+			                'There was no permanent card with that id.' ].
+	permanentAppliedCards remove: cardToCancel
 ]
 
 { #category : 'as yet unclassified' }
