@@ -30,13 +30,6 @@ Mercenary >> allyId [
 	^ allyId
 ]
 
-{ #category : 'as yet unclassified' }
-Mercenary >> equalsCard: aCard [
-
-	aCard isMercenary ifTrue: [ ^ shipId = aCard shipId and: allyId = aCard allyId ].
-	^ false
-]
-
 { #category : 'initialization' }
 Mercenary >> initializeWith: anId and: anAllyId [
 
@@ -49,4 +42,10 @@ Mercenary >> initializeWith: anId and: anAllyId [
 Mercenary >> isMercenary [
 	
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+Mercenary >> sameTypeOfCard: aCard [
+
+	^ aCard isMercenary
 ]

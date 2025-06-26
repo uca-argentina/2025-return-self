@@ -17,13 +17,13 @@ InstantCard >> applyBonusUsing: aCard and: anotherArgument [
 	self subclassResponsibility
 ]
 
-{ #category : 'comparing' }
-InstantCard >> equalsCard: aCard [
-
-	self subclassResponsibility
-]
-
 { #category : 'testing' }
 InstantCard >> isInstantCard [
 	^ self class isInstantCard
+]
+
+{ #category : 'comparing' }
+InstantCard >> sameTypeOfCard: aCard [
+
+	self subclassResponsibility
 ]

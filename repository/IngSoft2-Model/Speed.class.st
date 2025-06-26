@@ -24,13 +24,6 @@ Speed >> applyBonusUsing: arg1 [
 	^ arg1 + 1
 ]
 
-{ #category : 'as yet unclassified' }
-Speed >> equalsCard: aCard [
-
-	aCard isSpeed ifTrue: [ ^ shipId = aCard shipId ].
-	^ false
-]
-
 { #category : 'initialization' }
 Speed >> initializeWith: anId [
 
@@ -43,4 +36,10 @@ Speed >> initializeWith: anId [
 Speed >> isSpeed [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+Speed >> sameTypeOfCard: aCard [
+
+	^ aCard isSpeed
 ]

@@ -11,13 +11,13 @@ NoCard >> applyBonusUsing: anArgument and: anotherArgument [
 ]
 
 { #category : 'testing' }
-NoCard >> equalsCard: aCard [
-
-	^ aCard isNoCard
-]
-
-{ #category : 'testing' }
 NoCard >> isNoCard [
 
 	^ true
+]
+
+{ #category : 'testing' }
+NoCard >> sameTypeOfCard: aCard [
+
+	^ aCard isNoCard
 ]

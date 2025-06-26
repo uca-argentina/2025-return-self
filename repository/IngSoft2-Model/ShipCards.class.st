@@ -60,7 +60,7 @@ ShipCards >> cardThrowInstantCard: aCard targeting: aPlayer using: cardManager [
 	
 	cardManager store: self and: aPlayer.
 	
-	cardToRemoveClass := aNewDeck detect: [ :card | card equalsCard: aCard ].
+	cardToRemoveClass := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
 	cardToPlay := cardToRemoveClass new.
 	cardToPlay isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemoveClass ].
 	cardToPlay applyBonusUsing: cardToRemoveClass and: cardManager.
@@ -75,7 +75,7 @@ ShipCards >> cardThrowPermanentCard: aCard targeting: aPlayer using: cardManager
 
 	| aNewDeck cardToRemove |
 	aNewDeck := deck collect: [ :card | card ].
-	cardToRemove := aNewDeck detect: [ :card | card equalsCard: aCard ].
+	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
 	cardManager addToPermanentCards: (cardToRemove createWith: id and: aPlayer id).
 	
 	cardManager storeLastCardPlayed: cardToRemove class.
@@ -101,7 +101,7 @@ ShipCards >> deck [
 { #category : 'adding' }
 ShipCards >> findInDeck: card [
 
-	^ deck anySatisfy: [ :x | x equalsCard: card ]
+	^ deck anySatisfy: [ :x | x sameTypeOfCard: card ]
 ]
 
 { #category : 'initialization' }
@@ -115,7 +115,7 @@ ShipCards >> initializeWith: anId and: aCardDeck [
 ShipCards >> popFromDeck: aCard [
 
 	| cardToRemove |
-	cardToRemove := deck detect: [ :card | card equalsCard: aCard ].
+	cardToRemove := deck detect: [ :card | card sameTypeOfCard: aCard ].
 	deck remove: cardToRemove.
 	^ cardToRemove
 ]

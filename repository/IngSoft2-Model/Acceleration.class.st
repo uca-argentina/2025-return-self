@@ -16,13 +16,6 @@ Acceleration >> applyBonusUsing: arg1 [
 	^ arg1 + 1
 ]
 
-{ #category : 'as yet unclassified' }
-Acceleration >> equalsCard: aCard [
-
-	aCard isAcceleration ifTrue: [ ^ shipId = aCard shipId ].
-	^ false
-]
-
 { #category : 'initialization' }
 Acceleration >> initializeWith: anId [
 
@@ -35,6 +28,12 @@ Acceleration >> initializeWith: anId [
 Acceleration >> isAcceleration [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+Acceleration >> sameTypeOfCard: aCard [
+
+	^ aCard isAcceleration
 ]
 
 { #category : 'accessing' }

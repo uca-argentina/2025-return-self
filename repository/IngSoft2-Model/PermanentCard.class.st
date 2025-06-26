@@ -21,15 +21,15 @@ PermanentCard >> applyBonusUsing: anArgument [
 	self subclassResponsibility
 ]
 
-{ #category : 'comparing' }
-PermanentCard >> equalsCard: aCard [
-
-	self subclassResponsibility
-]
-
 { #category : 'testing' }
 PermanentCard >> isPermanentCard [
 	^ self class isPermanentCard
+]
+
+{ #category : 'comparing' }
+PermanentCard >> sameTypeOfCard: aCard [
+
+	self subclassResponsibility
 ]
 
 { #category : 'accessing' }

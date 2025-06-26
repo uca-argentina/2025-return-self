@@ -19,14 +19,14 @@ Cancellation >> cancelPlayingCard: arg1 using: arg2 [
 	arg2 remove: tmp1"
 ]
 
-{ #category : 'as yet unclassified' }
-Cancellation >> equalsCard: aCard [
-
-	^ aCard isCancellation
-]
-
 { #category : 'testing' }
 Cancellation >> isCancellation [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+Cancellation >> sameTypeOfCard: aCard [
+
+	^ aCard isCancellation
 ]

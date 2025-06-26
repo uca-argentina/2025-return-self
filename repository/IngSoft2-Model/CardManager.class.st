@@ -5,8 +5,8 @@ Class {
 		'permanentAppliedCards',
 		'lastPlayedCard',
 		'lastEffectApplied',
-		'chosenPlayer',
-		'activePlayer'
+		'activePlayer',
+		'chosenPlayer'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -85,7 +85,7 @@ CardManager >> replicateEffect: anEffect from: player targeting: anotherPlayer u
 CardManager >> searchAndCancel: aCard [
 
 	permanentAppliedCards := permanentAppliedCards reject: [ :card |
-		                         card equalsCard: aCard ]
+		                         card sameTypeOfCard: aCard ]
 ]
 
 { #category : 'as yet unclassified' }

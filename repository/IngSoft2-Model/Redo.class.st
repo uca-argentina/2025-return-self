@@ -10,14 +10,14 @@ Redo >> applyBonusUsing: aUselessArgument and: cardManager [
 
 ]
 
-{ #category : 'as yet unclassified' }
-Redo >> equalsCard: aCard [
-
-	^ aCard isRedo
-]
-
 { #category : 'testing' }
 Redo >> isRedo [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+Redo >> sameTypeOfCard: aCard [
+
+	^ aCard isRedo
 ]
