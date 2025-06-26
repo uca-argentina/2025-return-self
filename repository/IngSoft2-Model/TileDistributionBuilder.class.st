@@ -40,6 +40,7 @@ TileDistributionBuilder >> addEveryEffectToBuilder [
 
 	effectsWithProbabilities add: AtomikBomb.
 	effectsWithProbabilities add: BlackHole.
+	effectsWithProbabilities add: CardGiver.
 	effectsWithProbabilities add: HyperJump.
 	effectsWithProbabilities add: HyperSpaceJump.
 	effectsWithProbabilities add: MoonWalk

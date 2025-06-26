@@ -74,6 +74,14 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	parsecs := parsecsPerTile
 ]
 
+{ #category : 'as yet unclassified' }
+PositionManager >> lightyearsTravelledBy: aPlayer [
+
+	| shipPos |
+	shipPos := self findShipReference: aPlayer.
+	^ (shipPos distanceTravelledWith: boardLength and: parsecs) *3
+]
+
 { #category : 'positioning' }
 PositionManager >> move: aPlayer backwardWith: anAmount [
 
