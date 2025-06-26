@@ -23,20 +23,19 @@ Board class >> createWith: aSetOfTiles [
 ]
 
 { #category : 'positioning' }
-Board >> applyEffectTriggeredBy: aPlayer [ 
+Board >> applyEffectTriggeredBy: aPlayer [
 
 	| detectedTile |
-	
 	detectedTile := tiles at: aPlayer position.
-^ detectedTile effect.
+	detectedTile effect isNoEffect ifTrue: [ ^ detectedTile effect ].
+
+	^ detectedTile effect
 ]
 
 { #category : 'initialization' }
 Board >> initializeWithTiles: aSetOfTiles [
 
-    tiles := aSetOfTiles.
-
-
+	tiles := aSetOfTiles
 ]
 
 { #category : 'accessing' }

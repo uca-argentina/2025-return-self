@@ -9,7 +9,8 @@ Class {
 		'board',
 		'turnManager',
 		'battleManager',
-		'positionManager'
+		'positionManager',
+		'cardManager'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -36,19 +37,34 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 		  withLaps: laps
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> activeCards [
+
+	^cardManager permanentAppliedCards.
+]
+
+{ #category : 'testing' }
+Game >> cardsFeatureOf: aShip [
+	"Used for testing"
+
+	^ cardManager findShipReference: aShip
+]
+
 { #category : 'checking' }
 Game >> engageInBattle: activePlayer [
 
-	| playersToEngage playerWhoLost |
+	| playersToEngage playersWhoLost |
 	playersToEngage := positionManager playerInSamePositionThan:
 		                   activePlayer.
-	playerWhoLost := battleManager
-		                 engage: playersToEngage
-		                 inBattleUsing: setOfDie.
-	playerWhoLost needsRecovery ifTrue: [
-		turnManager addTwoSkipsTo: playerWhoLost.
-		battleManager forceAShieldResetTo: playerWhoLost ].
-	positionManager resetLapTo: playerWhoLost
+	playersWhoLost := battleManager
+		                  engage: playersToEngage
+		                  inBattleUsing: setOfDie
+		                  and: cardManager.
+	playersWhoLost do: [ :player |
+		player needsRecovery ifTrue: [
+			turnManager addTwoSkipsTo: player.
+			battleManager forceAShieldResetTo: player ].
+		positionManager resetLapTo: player ]
 ]
 
 { #category : 'initialization' }
@@ -56,10 +72,21 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 
 	turnManager := TurnManager createWith: aGroupOfPlayers.
 	battleManager := BattleManager createWith: aGroupOfPlayers.
-	positionManager := PositionManager createWith: aGroupOfPlayers and: aBoard totalTiles and: anAmountOfLaps and: aBoard parsecsPerTile.
+	positionManager := PositionManager
+		                   createWith: aGroupOfPlayers
+		                   and: aBoard totalTiles
+		                   and: anAmountOfLaps
+		                   and: aBoard parsecsPerTile.
 	setOfDie := aSetOfDie.
 	board := aBoard.
+	cardManager := CardManager createWith: aGroupOfPlayers.
 	playersFeature := aGroupOfPlayers
+]
+
+{ #category : 'testing' }
+Game >> isGame [
+
+	^ true
 ]
 
 { #category : 'testing' }
@@ -84,8 +111,35 @@ Game >> nextPlayerSkipsTurn [
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| activePlayer anEffect |
+	| activePlayer anEffect aTotalThrow |
+	positionManager stillPlaying ifFalse: [
+		^ self findShipReference: positionManager winner ].
 
+	"---Turno---"
+	turnManager playNextTurn.
+	activePlayer := turnManager playerInTurn.
+
+	"---Avanza con la tirada---"
+	aTotalThrow := cardManager checkIfBonusToApplyTo: activePlayer using: setOfDie.
+	positionManager move: activePlayer forwardWith: aTotalThrow.
+
+	"---Aplicacion de efecto---"
+	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
+	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
+	"capaz me convenga simplemente pasar el Game"
+	activePlayer := positionManager findShipReference: activePlayer.
+	anEffect := board applyEffectTriggeredBy: activePlayer.
+	anEffect applyEffectOn: activePlayer and: self.
+	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
+	"---Batalla---"
+	(positionManager checkIfBattle: activePlayer) ifTrue: [
+		self engageInBattle: activePlayer ]
+]
+
+{ #category : 'interaction loop' }
+Game >> nextPlayerUses: aCard whichImpacts: caca [
+
+	| activePlayer anEffect |
 	positionManager stillPlaying ifFalse: [
 		^ self findShipReference: positionManager winner ].
 
@@ -102,7 +156,8 @@ Game >> nextPlayerThrowsDice [
 	"capaz me convenga simplemente pasar el Game"
 	activePlayer := positionManager findShipReference: activePlayer.
 	anEffect := board applyEffectTriggeredBy: activePlayer.
-	anEffect applyEffectOn: activePlayer using: positionManager and: battleManager and: turnManager.
+	anEffect applyEffectOn: activePlayer and: self.
+	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
 	"---Batalla---"
 	(positionManager checkIfBattle: activePlayer) ifTrue: [
 		self engageInBattle: activePlayer ]
@@ -112,6 +167,12 @@ Game >> nextPlayerThrowsDice [
 Game >> playFullGame [
 
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
+]
+
+{ #category : 'as yet unclassified' }
+Game >> player: aPlayer preparesIfAny: aCard setupWith: context [
+
+	cardManager player: aPlayer preparesIfAny: aCard setupWith: context
 ]
 
 { #category : 'tests - printing' }
@@ -147,6 +208,38 @@ Game >> positionFeatureOf: aShip [
 	"Used for testing"
 
 	^ positionManager findShipReference: aShip
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestBattleManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ battleManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestCardManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ cardManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestPositionManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ positionManager.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> requestTurnManager: anEffect [
+
+anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
+
+^ turnManager.
 ]
 
 { #category : 'testing' }

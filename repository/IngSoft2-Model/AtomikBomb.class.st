@@ -1,9 +1,6 @@
 Class {
 	#name : 'AtomikBomb',
 	#superclass : 'Effect',
-	#instVars : [
-		'setOfPlayers'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
@@ -15,9 +12,13 @@ AtomikBomb class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-AtomikBomb >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+AtomikBomb >> applyEffectOn: aPlayer and: aGame [
 
-	| aGroupOfPlayers |
+
+	| aGroupOfPlayers positionManager battleManager turnManager |
+	positionManager := aGame requestPositionManager: self.
+	battleManager  := aGame requestBattleManager: self.
+	turnManager := aGame requestTurnManager: self.
 	positionManager resetPlayersPosition .
 	aGroupOfPlayers := battleManager allDecreaseAShield.
 	aGroupOfPlayers do: [ :player | turnManager addTwoSkipsTo: player. 

@@ -14,11 +14,15 @@ ReturnSelfTestCase class >> isAbstract [
 	^ self == ReturnSelfTestCase
 ]
 
-{ #category : 'interaction loop' }
-ReturnSelfTestCase >> play: aNumberOfTurns in: aGame [
+{ #category : 'asserting' }
+ReturnSelfTestCase >> assert: aCollection equalsCollection: anotherCollection [
 
-	1 to: aNumberOfTurns do: [ :turnIterator |
-	aGame nextPlayerThrowsDice ]
+	| result |
+	aCollection size = anotherCollection size ifFalse: [ self assert: false ].
+
+	result := (1 to: aCollection size) allSatisfy: [ :i |
+		          (aCollection at: i) sameTypeOfCard: (anotherCollection at: i) ].
+	self assert: result
 ]
 
 { #category : 'asserting' }
@@ -29,11 +33,4 @@ ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMes
 		raise: Error
 		withExceptionDo: [ :error |
 			self assert: error messageText equals: anErrorMessage ]
-]
-
-{ #category : 'interaction loop' }
-ReturnSelfTestCase >> skip: aNumberOfTurns in: aGame [
-
-	1 to: aNumberOfTurns do: [ :turnIterator |
-	aGame nextPlayerSkipsTurn ]
 ]

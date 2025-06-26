@@ -36,7 +36,7 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 		                    loadedDiceToMove , loadedDiceToFight.
 	aWormhole := Wormhole createWith: 9.
 	aTileListCreator1 at: 4 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
+	aTestBoard := Board createWith: aTileListCreator1 tileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
@@ -72,7 +72,7 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 
 	aWormhole := Wormhole createWith: 9.
 	aTileListCreator1 at: 4 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator1 tileList.
+	aTestBoard := Board createWith: aTileListCreator1 tileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
@@ -118,7 +118,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 
 	aWormhole := Wormhole createWith: 29.
 	aTileListCreator2 at: 8 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator2 tileList.
+	aTestBoard := Board createWith: aTileListCreator2 tileList.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
@@ -163,7 +163,7 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 
 	aWormhole := Wormhole createWith: 29.
 	aTileListCreator2 at: 8 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator2 tileList.
+	aTestBoard := Board createWith: aTileListCreator2 tileList.
 	
 	aGame := Game
 		         playedBy: aGroupOfPlayers

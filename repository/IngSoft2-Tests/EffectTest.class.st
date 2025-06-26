@@ -21,7 +21,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 	aBlackHoleTile := BlackHole create.
 	
 	aTileListCreator at: 4 put: aBlackHoleTile.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -46,7 +46,7 @@ EffectTest >> testGamePlayedWithAHyperJumpTile [
 	                         'Name: Tomi, Position: 4, Lap: 0' }.
 	hyperJumpEffect := HyperJump create.
 	aTileListCreator at: 3 put: hyperJumpEffect.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 2) }.
@@ -70,7 +70,7 @@ EffectTest >> testGamePlayedWithAHyperJumpTileChangingLap [
 	hyperJumpEffect := HyperJump create.
 	aTileListCreator := TileListCreationForTesting createTileListWith: 4.
 	aTileListCreator at: 3 put: hyperJumpEffect.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 2).
 			                    (LoadedDie rolling: 2) }.
@@ -93,7 +93,7 @@ EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 	                         'Name: Tomi, Position: 8, Lap: 0' }.
 	aHyperSpaceJumpEffect := HyperSpaceJump create.
 	aTileListCreator at: 4 put: aHyperSpaceJumpEffect.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 4).
@@ -116,7 +116,7 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 	aMoonWalkEffect := MoonWalk createEspeciallyWith: 11.
 	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
 	aTileListCreator at: 4 put: aMoonWalkEffect.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 7.
 	aSecondLoadedDie := LoadedDie rolling: 8.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -137,7 +137,7 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 EffectTest >> testGamePlayedWithANoEffectTile [
 
 	| aGame aSequence aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
 			             (LoadedDie rolling: 4).
@@ -161,7 +161,7 @@ EffectTest >> testGamePlayedWithAWormholeTile [
 	                     'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole createWith: 19.
 	aTileListCreator at: 3 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
 		                    { (LoadedDie rolling: 2) }.
 	aGame := Game
@@ -181,7 +181,7 @@ EffectTest >> testGamePlayedWithAWormholeTileGoingBackwards [
 	                     'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole createWith: 2.
 	aTileListCreator at: 8 put: aWormhole.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
 		                    { (LoadedDie rolling: 7) }.
 	aGame := Game
@@ -203,7 +203,7 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	aTileListCreator at: 4 put: aHSJTile.
 	aTileListCreator at: 15 put: aMoonWalkTile.
 	aTileListCreator at: 2 put: aBlackHoleTile.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
 			             (LoadedDie rolling: 7).
@@ -230,7 +230,7 @@ EffectTest >> testGamePlayedWithAnAtomikBombTile [
 	anAtomikBombEffect := AtomikBomb create.
 	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
 	aTileListCreator at: 7 put: anAtomikBombEffect.
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
 			                    (LoadedDie rolling: 3).
 			                    (LoadedDie rolling: 4).

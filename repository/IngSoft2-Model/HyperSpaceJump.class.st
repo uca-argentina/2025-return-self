@@ -26,8 +26,11 @@ HyperSpaceJump class >> effectProbability [
 ]
 
 { #category : 'positioning' }
-HyperSpaceJump >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+HyperSpaceJump >> applyEffectOn: aPlayer and: aGame [
 
+	| positionManager battleManager |
+	positionManager := aGame requestPositionManager: self.
+	battleManager  := aGame requestBattleManager: self.
 
 
 		positionManager move: aPlayer forwardWith: buff.

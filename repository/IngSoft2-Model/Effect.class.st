@@ -18,7 +18,7 @@ self subclassResponsibility.
 ]
 
 { #category : 'positioning' }
-Effect >> applyEffectOn: aPlayer using: positionManager and: battleManager and: turnManager [
+Effect >> applyEffectOn: aPlayer and: aGame [
 
 self subclassResponsibility.
 ]
@@ -33,6 +33,18 @@ Effect >> isAtomikBomb [
 Effect >> isBlackHole [
 
 	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isCardGiver [
+
+	^ false
+]
+
+{ #category : 'testing' }
+Effect >> isEffect [
+
+	^ true
 ]
 
 { #category : 'testing' }

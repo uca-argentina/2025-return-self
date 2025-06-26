@@ -9,7 +9,7 @@ Class {
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	self
 		should: [
@@ -26,7 +26,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsT
 GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
 	| anotherGroupOfPlayers aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	anotherGroupOfPlayers := {
 		                   (ShipPlayerAssociation
@@ -65,7 +65,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
 
 	| aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	self
 		should: [
 			Game
@@ -80,7 +80,7 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRai
 GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	self
 		should: [
@@ -112,7 +112,7 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
-	aTestBoard := BoardForTesting createWith: aTileListCreator tileList.
+	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	self
 		should: [
