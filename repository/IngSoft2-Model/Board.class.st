@@ -3,8 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'tiles',
-		'lastEffectApplied',
-		'lastCardPlayed'
+		'lastEffectApplied'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,7 +40,7 @@ Board >> initializeWithTiles: aSetOfTiles [
 
 	tiles := aSetOfTiles.
 	lastEffectApplied := NoEffect create.
-	lastCardPlayed := NoCard create
+
 ]
 
 { #category : 'accessing' }

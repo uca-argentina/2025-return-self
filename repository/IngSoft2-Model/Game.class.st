@@ -37,6 +37,12 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 		  withLaps: laps
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> activeCards [
+
+	^cardManager permanentAppliedCards.
+]
+
 { #category : 'testing' }
 Game >> cardsFeatureOf: aShip [
 	"Used for testing"
@@ -121,6 +127,11 @@ Game >> nextPlayerThrowsDice [
 		self engageInBattle: activePlayer ]
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> playCancelCardTargeting: aCard [ 
+	cardManager playCancelCardtargeting: aCard .
+]
+
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
@@ -128,8 +139,8 @@ Game >> playFullGame [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> playRepeatCard: aRepeatCard targeting: aPlayer [
-	aRepeatCard replicateEffect: board lastEffectApplied targeting: aPlayer  using: self.
+Game >> playRepeatCardTargeting: aPlayer [
+	Repeat new replicateEffect: board lastEffectApplied targeting: aPlayer  using: self.
 ]
 
 { #category : 'tests - printing' }
