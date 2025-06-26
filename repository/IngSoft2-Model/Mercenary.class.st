@@ -12,7 +12,13 @@ Class {
 { #category : 'creation' }
 Mercenary class >> createWith: aShipMaster and: aShipSlave [
 
-	^ self new initializeWith: aShipMaster and: aShipSlave
+	^ self new initializeWith: aShipMaster and: aShipSlave and: -1 "Reserved tag for non active"
+]
+
+{ #category : 'creation' }
+Mercenary class >> createWith: aShipMaster and: aShipSlave and: anId [
+
+	^ self new initializeWith: aShipMaster and: aShipSlave and: anId
 ]
 
 { #category : 'as yet unclassified' }
@@ -30,10 +36,11 @@ Mercenary >> equalsACard: aCard [
 ]
 
 { #category : 'initialization' }
-Mercenary >> initializeWith: aShipMaster and: aShipSlave [
+Mercenary >> initializeWith: aShipMaster and: aShipSlave and: anId [
 
 	masterShip := aShipMaster.
-	slaveShip := aShipSlave
+	slaveShip := aShipSlave.
+	cardId := anId
 ]
 
 { #category : 'testing' }
@@ -68,4 +75,10 @@ Mercenary >> setupWith: context [
 Mercenary >> slaveShip [
 
 	^ slaveShip
+]
+
+{ #category : 'as yet unclassified' }
+Mercenary >> tagPermanentCard: anId [
+
+	^ self class createWith: masterShip and: slaveShip and: anId
 ]

@@ -11,7 +11,13 @@ Class {
 { #category : 'creation' }
 Speed class >> createWith: aChosenShip [
 
-	^ self new initializeWith: aChosenShip
+	^ self new initializeWith: aChosenShip and: -1 "Reserved tag for non active"
+]
+
+{ #category : 'creation' }
+Speed class >> createWith: aChosenShip and: anId [
+
+	^ self new initializeWith: aChosenShip and: anId
 ]
 
 { #category : 'as yet unclassified' }
@@ -35,9 +41,10 @@ Speed >> equalsACard: aCard [
 ]
 
 { #category : 'initialization' }
-Speed >> initializeWith: aChosenShip [
+Speed >> initializeWith: aChosenShip and: anId [
 
-	chosenShip := aChosenShip
+	chosenShip := aChosenShip.
+	cardId := anId
 ]
 
 { #category : 'testing' }
@@ -60,4 +67,10 @@ Speed >> setupWith: context [
 	context isShip ifFalse: [
 		Error signal: 'Wrong type or order of parameters' ].
 	^ self class createWith: context
+]
+
+{ #category : 'as yet unclassified' }
+Speed >> tagPermanentCard: anId [
+
+	^ self class createWith: chosenShip and: anId
 ]

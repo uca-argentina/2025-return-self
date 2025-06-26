@@ -5,6 +5,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'creation' }
+Acceleration class >> createWith: anId [
+
+	^ self new initializeWith: anId
+]
+
 { #category : 'as yet unclassified' }
 Acceleration >> applyBonusUsing: data [
 "
@@ -16,6 +22,12 @@ Acceleration >> applyBonusUsing: data [
 Acceleration >> equalsACard: aCard [
 
 	^ self sameTypeOfCard: aCard
+]
+
+{ #category : 'initialization' }
+Acceleration >> initializeWith: anId [
+
+	cardId := anId
 ]
 
 { #category : 'testing' }
@@ -34,4 +46,10 @@ Acceleration >> sameTypeOfCard: aCard [
 Acceleration >> setupWith: context [
 
 	^ self class new
+]
+
+{ #category : 'as yet unclassified' }
+Acceleration >> tagPermanentCard: anId [
+
+	^ self class createWith: 0 "Reserved tag for global impact"
 ]

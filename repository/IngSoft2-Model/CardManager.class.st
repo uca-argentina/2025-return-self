@@ -6,7 +6,8 @@ Class {
 		'lastPlayedCard',
 		'lastEffectApplied',
 		'activePlayer',
-		'chosenPlayer'
+		'chosenPlayer',
+		'incrementalTag'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,9 +42,10 @@ CardManager >> add: card to: player [
 { #category : 'adding-removing' }
 CardManager >> addToPermanentCards: aCard [
 
-| taggedCard |
-taggedCard := aCard tagPermanentCard: permanentAppliedCards.
-permanentAppliedCards add: aCard.
+	| taggedCard |
+	taggedCard := aCard tagPermanentCard: incrementalTag.
+	permanentAppliedCards add: aCard.
+	incrementalTag := incrementalTag + 1
 ]
 
 { #category : 'as yet unclassified' }
@@ -61,6 +63,7 @@ CardManager >> initializeCardManagerWith: aGroupOfPlayers [
 	playersFeature := aGroupOfPlayers.
 	permanentAppliedCards := OrderedCollection new.
 	lastPlayedCard := NoCard new.
+	incrementalTag := 1
 	
 ]
 

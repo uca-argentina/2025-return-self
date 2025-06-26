@@ -38,3 +38,9 @@ PermanentCard >> setupWith: context [
 
 	self subclassResponsibility
 ]
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> tagPermanentCard: anId [
+
+	self subclassResponsibility
+]
