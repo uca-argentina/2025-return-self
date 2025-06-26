@@ -35,6 +35,12 @@ Acceleration >> isAcceleration [
 ^true
 ]
 
+{ #category : 'as yet unclassified' }
+Acceleration >> sameTypeOfCard: aCard [
+
+^aCard isAcceleration 
+]
+
 { #category : 'accessing' }
 Acceleration >> shipId [
 	^ shipId

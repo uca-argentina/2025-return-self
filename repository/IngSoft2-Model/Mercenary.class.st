@@ -25,3 +25,8 @@ Mercenary >> isMercenary [
 
 ^true
 ]
+
+{ #category : 'as yet unclassified' }
+Mercenary >> sameTypeOfCard: aCard [
+^aCard isMercenary 
+]

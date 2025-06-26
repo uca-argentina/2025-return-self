@@ -1,9 +1,25 @@
 Class {
 	#name : 'CardsTest',
 	#superclass : 'ReturnSelfTestCase',
+	#instVars : [
+		'aPlayer',
+		'aGroupOfPlayers',
+		'aTileListCreator'
+	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
+
+{ #category : 'running' }
+CardsTest >> setUp [
+
+	super setUp.
+	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
+	aGroupOfPlayers := {
+		                   (ShipPlayerAssociation createWith: 1 and: 'Juan').
+		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 20
+]
 
 { #category : 'tests' }
 CardsTest >> test01WhenUsingAnAccelerationThenItReturnsThrowPlusOne [
@@ -38,4 +54,26 @@ aCancellationCard cancelPlayingCard: aPlayingCard using: aPermanentCardCollectio
 self assert: aPermanentCardCollection equals: OrderedCollection new. 
 
 
+]
+
+{ #category : 'tests' }
+CardsTest >> test04WhenUsingARepeatCardOnAnotherPlayer [
+
+	| aRepeatCard lastEffect aGame aTestBoard aLoadedDie |
+	aRepeatCard := Repeat new.
+	lastEffect := BlackHole create.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aLoadedDie := {
+		              (LoadedDie rolling: 4).
+		              (LoadedDie rolling: 1) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aLoadedDie
+		         withLaps: 1.
+
+	aRepeatCard
+		replicateEffect: lastEffect
+		targeting: aPlayer
+		using: aGame
 ]

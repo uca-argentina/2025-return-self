@@ -10,3 +10,8 @@ Redo >> isRedo [
 
 ^true
 ]
+
+{ #category : 'as yet unclassified' }
+Redo >> sameTypeOfCard: aCard [
+^ aCard isRedo
+]

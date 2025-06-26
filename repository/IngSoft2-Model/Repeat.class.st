@@ -12,6 +12,11 @@ Repeat >> isRepeat [
 ]
 
 { #category : 'as yet unclassified' }
-Repeat >> replicateEffect: aBlackHole targeting: anUndefinedObject [ 
+Repeat >> replicateEffect: aBlackHole targeting: anUndefinedObject  using: aGame [
 	self shouldBeImplemented.
+]
+
+{ #category : 'as yet unclassified' }
+Repeat >> sameTypeOfCard: aCard [
+^aCard isRepeat 
 ]

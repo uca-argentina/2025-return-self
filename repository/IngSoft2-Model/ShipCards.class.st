@@ -57,7 +57,7 @@ ShipCards >> cardThrow: aCard changing: aCollectionOfCards [
 
 	| aNewDeck cardToRemove |
 	aNewDeck := OrderedCollection withAll: deck.
-	cardToRemove := aNewDeck detect: [ :card | card equalsACard: aCard ].
+	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: aCard ].
 	aCollectionOfCards add: cardToRemove.
 	aNewDeck remove: cardToRemove.
 	^ self class createWith: id and: aNewDeck

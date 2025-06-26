@@ -16,12 +16,6 @@ Card >> applyBonus [
 self subclassResponsibility.
 ]
 
-{ #category : 'as yet unclassified' }
-Card >> equalsACard: aCard [
-
-	self subclassResponsibility
-]
-
 { #category : 'testing' }
 Card >> isAcceleration [
 
@@ -62,4 +56,10 @@ Card >> isRepeat [
 Card >> isSpeed [
 
 ^false
+]
+
+{ #category : 'as yet unclassified' }
+Card >> sameTypeOfCard: aCard [
+
+	self subclassResponsibility
 ]

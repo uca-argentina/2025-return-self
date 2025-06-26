@@ -10,3 +10,9 @@ NoCard >> isNoCard [
 
 ^true
 ]
+
+{ #category : 'testing' }
+NoCard >> sameTypeOfCard: aCard [
+
+^ aCard isNoCard 
+]
