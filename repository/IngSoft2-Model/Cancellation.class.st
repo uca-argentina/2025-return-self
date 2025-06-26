@@ -22,9 +22,9 @@ anId < 0 ifTrue: [ Error signal: 'There is no matching active card to cancel.' ]
 ]
 
 { #category : 'play interface' }
-Cancellation >> applyBonusUsing: aCard and: cardManager [
+Cancellation >> applyBonusUsing: cardManager [
 
-	cardManager searchAndCancel: aCard
+	
 ]
 
 { #category : 'as yet unclassified' }
@@ -33,6 +33,19 @@ Cancellation >> cancelPlayingCard: arg1 using: arg2 [
 "	| tmp1 |
 	tmp1 := arg2 detect: [ :arg3 | arg3 equalsCard: arg1 ].
 	arg2 remove: tmp1"
+]
+
+{ #category : 'accessing' }
+Cancellation >> cardId [
+
+	^ cardId
+]
+
+{ #category : 'as yet unclassified' }
+Cancellation >> equalsACard: aCard [
+
+	aCard isCancellation ifTrue: [ ^ cardId = aCard cardId ].
+	^ false
 ]
 
 { #category : 'initialization' }

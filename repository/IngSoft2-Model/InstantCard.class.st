@@ -7,7 +7,13 @@ Class {
 }
 
 { #category : 'play interface' }
-InstantCard >> applyBonusUsing: aCard and: anotherArgument [
+InstantCard >> applyBonusUsing: aManager [
+
+	self subclassResponsibility
+]
+
+{ #category : 'as yet unclassified' }
+InstantCard >> equalsACard: aCard [
 
 	self subclassResponsibility
 ]

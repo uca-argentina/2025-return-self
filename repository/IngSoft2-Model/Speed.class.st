@@ -9,30 +9,35 @@ Class {
 }
 
 { #category : 'creation' }
-Speed class >> createWithAnId: anId and: chosenId [
+Speed class >> createWith: aChosenShip [
 
-	^ self new initializeWith: chosenId
-]
-
-{ #category : 'error testing' }
-Speed class >> idShouldBeGreaterThanZero: anId [
-
-	anId > 0 ifFalse: [
-		Error signal: 'The SpaceShip ID should be greater than zero.' ]
+	^ self new initializeWith: aChosenShip
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> applyBonusUsing: arg1 [
+Speed >> applyBonusUsing: data [
+"
+	^ aTotalThrow + 1"
+	self shouldBeImplemented 
+]
 
-	^ arg1 + 1
+{ #category : 'accessing' }
+Speed >> chosenShip [
+
+	^ chosenShip
+]
+
+{ #category : 'as yet unclassified' }
+Speed >> equalsACard: aCard [
+
+	aCard isSpeed ifTrue: [ ^ chosenShip = aCard chosenShip ].
+	^ false
 ]
 
 { #category : 'initialization' }
-Speed >> initializeWith: anId [
+Speed >> initializeWith: aChosenShip [
 
-
-	shipId := anId.
-
+	chosenShip := aChosenShip
 ]
 
 { #category : 'testing' }
@@ -54,5 +59,5 @@ Speed >> setupWith: context [
 		Error signal: 'Wrong amount of parameters for this card' ].
 	context isShip ifFalse: [
 		Error signal: 'Wrong type or order of parameters' ].
-	chosenShip := context
+	^ self class createWith: context
 ]

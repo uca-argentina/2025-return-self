@@ -5,9 +5,10 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'play interface' }
-NoCard >> applyBonusUsing: anArgument and: anotherArgument [
+{ #category : 'as yet unclassified' }
+NoCard >> equalsACard: aCard [
 
+	^ self sameTypeOfCard: aCard
 ]
 
 { #category : 'testing' }
@@ -25,5 +26,5 @@ NoCard >> sameTypeOfCard: aCard [
 { #category : 'as yet unclassified' }
 NoCard >> setupWith: context [
 
-	Error signal: 'This is not a card to be set up.'
+	Error signal: 'This is not a card to be setted up.'
 ]

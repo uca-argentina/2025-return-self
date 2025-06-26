@@ -2,7 +2,6 @@ Class {
 	#name : 'PermanentCard',
 	#superclass : 'Card',
 	#instVars : [
-		'shipId',
 		'cardId'
 	],
 	#category : 'IngSoft2-Model-Objects',
@@ -12,6 +11,12 @@ Class {
 
 { #category : 'as yet unclassified' }
 PermanentCard >> applyBonusUsing: anArgument [
+
+	self subclassResponsibility
+]
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> equalsACard: aCard [
 
 	self subclassResponsibility
 ]
@@ -32,10 +37,4 @@ PermanentCard >> sameTypeOfCard: aCard [
 PermanentCard >> setupWith: context [
 
 	self subclassResponsibility
-]
-
-{ #category : 'accessing' }
-PermanentCard >> shipId [
-
-	^ shipId 
 ]

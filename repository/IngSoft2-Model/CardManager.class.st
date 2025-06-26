@@ -13,20 +13,20 @@ Class {
 }
 
 { #category : 'creation' }
-CardManager class >> createWith: arg1 [
+CardManager class >> createWith: aGroupOfPlayers [
 
-	| tmp1 |
-	tmp1 := arg1 collect: [ :arg2 | ShipCards createWith: arg2 id ].
-	^ self new initializeCardManagerWith: tmp1
+	| cardPlayerAsociation |
+	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship | ShipCards createWith: ship id ].
+	^ self new initializeCardManagerWith: cardPlayerAsociation
 ]
 
 { #category : 'creation' }
-CardManager class >> createWith: arg1 and: arg2 [
+CardManager class >> createWith: aGroupOfPlayers and: aCardDeck [
 
-	| tmp1 |
-	tmp1 := arg1 collect: [ :arg3 |
-		        ShipCards createWith: arg3 id and: arg2 ].
-	^ self new initializeCardManagerWith: tmp1
+	| cardPlayerAsociation |
+	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship |
+		                        ShipCards createWith: ship id and: aCardDeck ].
+	^ self new initializeCardManagerWith: cardPlayerAsociation
 ]
 
 { #category : 'adding-removing' }
@@ -41,6 +41,8 @@ CardManager >> add: card to: player [
 { #category : 'adding-removing' }
 CardManager >> addToPermanentCards: aCard [
 
+| taggedCard |
+taggedCard := aCard tagPermanentCard: permanentAppliedCards.
 permanentAppliedCards add: aCard.
 ]
 
@@ -57,8 +59,9 @@ CardManager >> evaluateIfCardIsPresent: player forCard: card [
 CardManager >> initializeCardManagerWith: aGroupOfPlayers [
 
 	playersFeature := aGroupOfPlayers.
-	permanentAppliedCards := OrderedCollection with: Speed create. "HARDCODE ELIMINAR CUANTO ANTES"
+	permanentAppliedCards := OrderedCollection new.
 	lastPlayedCard := NoCard new.
+	
 ]
 
 { #category : 'accessing' }
@@ -71,14 +74,15 @@ CardManager >> permanentAppliedCards [
 CardManager >> playLastCardCalledBy: aCaller targeting: aPlayer [
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'play interface' }
 CardManager >> player: aPlayer preparesIfAny: aCard setupWith: context [
 
 	| shipCards |
 	shipCards := self findShipReference: aPlayer.
-	shipCards for: aCard ifAnySetupWith: context.
+	shipCards := shipCards for: aCard ifAnySetupWith: context.
+	self updateShipReference: shipCards.
 	
-"ACA LA JUEGA"
+	shipCards := shipCards throwPreparedCardUsing: self
 ]
 
 { #category : 'as yet unclassified' }

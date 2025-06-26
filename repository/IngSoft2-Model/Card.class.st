@@ -10,6 +10,12 @@ Card class >> create [
 ^self new
 ]
 
+{ #category : 'as yet unclassified' }
+Card >> equalsACard: aCard [
+
+	self subclassResponsibility
+]
+
 { #category : 'testing' }
 Card >> isAcceleration [
 

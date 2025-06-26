@@ -2,7 +2,6 @@ Class {
 	#name : 'Mercenary',
 	#superclass : 'PermanentCard',
 	#instVars : [
-		'allyId',
 		'masterShip',
 		'slaveShip'
 	],
@@ -11,39 +10,42 @@ Class {
 }
 
 { #category : 'creation' }
-Mercenary class >> createWithAnId: anId and: allyId [
+Mercenary class >> createWith: aShipMaster and: aShipSlave [
 
-	self
-		idShouldBeGreaterThanZero: anId;
-		idShouldBeGreaterThanZero: allyId.
-	^ self new initializeWith: anId and: allyId
+	^ self new initializeWith: aShipMaster and: aShipSlave
 ]
 
-{ #category : 'error testing' }
-Mercenary class >> idShouldBeGreaterThanZero: anId [
-
-	anId > 0 ifFalse: [
-		Error signal: 'The SpaceShip ID should be greater than zero.' ]
+{ #category : 'as yet unclassified' }
+Mercenary >> applyBonusUsing: data [
+"
+	^ aTotalThrow + 1"
+	self shouldBeImplemented 
 ]
 
-{ #category : 'accessing' }
-Mercenary >> allyId [
+{ #category : 'as yet unclassified' }
+Mercenary >> equalsACard: aCard [
 
-	^ allyId
+	aCard isMercenary ifTrue: [ ^ masterShip = aCard masterShip and: slaveShip = aCard slaveShip ].
+	^ false
 ]
 
 { #category : 'initialization' }
-Mercenary >> initializeWith: anId and: anAllyId [
+Mercenary >> initializeWith: aShipMaster and: aShipSlave [
 
-
-	shipId := anId.
-	allyId := anAllyId 
+	masterShip := aShipMaster.
+	slaveShip := aShipSlave
 ]
 
 { #category : 'testing' }
 Mercenary >> isMercenary [
 	
 	^ true
+]
+
+{ #category : 'accessing' }
+Mercenary >> masterShip [
+
+	^ masterShip
 ]
 
 { #category : 'as yet unclassified' }
@@ -59,6 +61,11 @@ Mercenary >> setupWith: context [
 		Error signal: 'Wrong amount of parameters for this card' ].
 	(context at: 1) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
 	(context at: 2) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
-	masterShip := context at: 1.
-	slaveShip := context at: 2
+	^ self class createWith: (context at: 1) and: (context at: 2)
+]
+
+{ #category : 'accessing' }
+Mercenary >> slaveShip [
+
+	^ slaveShip
 ]

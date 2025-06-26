@@ -5,23 +5,17 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'creation' }
-Acceleration class >> createWithAnId: anId and: anotherId [
-	^ self new initializeWith: 0
+{ #category : 'as yet unclassified' }
+Acceleration >> applyBonusUsing: data [
+"
+	^ aTotalThrow + 1"
+	self shouldBeImplemented 
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> applyBonusUsing: arg1 [
+Acceleration >> equalsACard: aCard [
 
-	^ arg1 + 1
-]
-
-{ #category : 'initialization' }
-Acceleration >> initializeWith: anId [
-
-
-	shipId := anId.
-
+	^ self sameTypeOfCard: aCard
 ]
 
 { #category : 'testing' }
@@ -38,11 +32,6 @@ Acceleration >> sameTypeOfCard: aCard [
 
 { #category : 'as yet unclassified' }
 Acceleration >> setupWith: context [
-]
 
-{ #category : 'accessing' }
-Acceleration >> shipId [
-
-	^ '<an unprintable nonliteral value>'
-		  runtimeUndeclaredReadInContext: thisContext
+	^ self class new
 ]
