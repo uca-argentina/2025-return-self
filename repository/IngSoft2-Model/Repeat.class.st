@@ -12,8 +12,8 @@ Repeat >> isRepeat [
 ]
 
 { #category : 'as yet unclassified' }
-Repeat >> replicateEffect: aBlackHole targeting: anUndefinedObject  using: aGame [
-	self shouldBeImplemented.
+Repeat >> replicateEffect: aBlackHole targeting: aPlayer  using: aGame [
+	aBlackHole applyEffectOn: aPlayer and: aGame.
 ]
 
 { #category : 'as yet unclassified' }

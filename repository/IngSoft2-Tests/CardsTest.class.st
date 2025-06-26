@@ -63,17 +63,18 @@ CardsTest >> test04WhenUsingARepeatCardOnAnotherPlayer [
 	aRepeatCard := Repeat new.
 	lastEffect := BlackHole create.
 	aTestBoard := Board createWith: aTileListCreator tileList.
-	aLoadedDie := {
-		              (LoadedDie rolling: 4).
-		              (LoadedDie rolling: 1) }.
+	aLoadedDie := LoadedDie rolling: 8.
 	aGame := Game
 		         playedBy: aGroupOfPlayers
 		         withBoard: aTestBoard
 		         withSetOfDie: aLoadedDie
 		         withLaps: 1.
+	aGame nextPlayerThrowsDice.
 
 	aRepeatCard
 		replicateEffect: lastEffect
 		targeting: aPlayer
-		using: aGame
+		using: aGame.
+	self assert: (aGame positionFeatureOf: aPlayer) position
+		equals: 5
 ]

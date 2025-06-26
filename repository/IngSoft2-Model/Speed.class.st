@@ -38,8 +38,9 @@ Speed >> initializeWith: anId [
 ]
 
 { #category : 'testing' }
-Speed >> isSpeed [ 
-^true
+Speed >> isSpeed [
+
+	^ true
 ]
 
 { #category : 'as yet unclassified' }

@@ -31,8 +31,9 @@ Acceleration >> initializeWith: anId [
 ]
 
 { #category : 'testing' }
-Acceleration >> isAcceleration [ 
-^true
+Acceleration >> isAcceleration [
+
+	^ true
 ]
 
 { #category : 'as yet unclassified' }
