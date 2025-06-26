@@ -63,7 +63,7 @@ GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplie
 	
 self play:4 in: aGame.
 	
-	aGame playRepeatCardTargeting: aPlayer from:anotherPlayer .
+	aGame playRepeatCardTargeting: anotherPlayer from: aPlayer .
 	self assert: (aGame positionFeatureOf: aPlayer) position
 		equals: 3
 ]
