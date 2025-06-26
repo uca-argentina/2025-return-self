@@ -2,7 +2,8 @@ Class {
 	#name : 'CardManager',
 	#superclass : 'GameFeatureManager',
 	#instVars : [
-		'permanentAppliedCards'
+		'permanentAppliedCards',
+		'lastPlayedCard'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -39,6 +40,7 @@ CardManager >> initializeCardManagerWith: aGroupOfPlayers [
 
 	playersFeature := aGroupOfPlayers.
 	permanentAppliedCards := OrderedCollection with: Speed create. "HARDCODE ELIMINAR CUANTO ANTES"
+	lastPlayedCard := NoCard new.
 ]
 
 { #category : 'accessing' }
@@ -49,5 +51,16 @@ CardManager >> permanentAppliedCards [
 
 { #category : 'as yet unclassified' }
 CardManager >> playCancelCardtargeting: aCard [ 
-	Cancellation new cancelPlayingCard: aCard using: permanentAppliedCards
+	| playedCard |
+	playedCard := Cancellation new.
+	playedCard cancelPlayingCard: aCard using: permanentAppliedCards.
+	lastPlayedCard := playedCard.
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> replicateEffect: anEffect targeting: aPlayer  using: aGame [
+| playedCard |
+playedCard :=Repeat new.
+playedCard replicateEffect: anEffect targeting: aPlayer  using: aGame.
+lastPlayedCard := playedCard.
 ]
