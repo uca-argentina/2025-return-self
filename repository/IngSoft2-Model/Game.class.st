@@ -127,6 +127,11 @@ Game >> playFullGame [
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> playRepeatCard: aRepeatCard targeting: aPlayer [
+	aRepeatCard replicateEffect: board lastEffectApplied targeting: aPlayer  using: self.
+]
+
 { #category : 'tests - printing' }
 Game >> playerPositions [
 	"Used for testing"

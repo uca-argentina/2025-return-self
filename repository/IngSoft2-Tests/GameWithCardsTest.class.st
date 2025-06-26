@@ -37,3 +37,36 @@ GameWithCardsTest >> test01GamePlayedWithACardGiverTile [
 	self assert: (shipCardsOfJuan deck at: 3) isSpeed equals: true.
 	self assert: (shipCardsOfTomi deck at: 3) isAcceleration equals: true
 ]
+
+{ #category : 'tests' }
+GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplied [
+
+	| aGame aCardGiverTile aSequence aTestBoard |
+	
+	aCardGiverTile := LoadedCardGiver createWith:
+		                  (OrderedCollection
+			                   with: Speed
+			                   with: Acceleration).
+
+	aTileListCreator at: 6 put: BlackHole create.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequence := SequenceOfDieForTesting withDie: {
+			             (LoadedDie rolling: 3).
+			             (LoadedDie rolling: 5).
+			             (LoadedDie rolling: 4).
+			             (LoadedDie rolling: 5) }.
+	aGame := Game
+		         playedBy: aGroupOfPlayers
+		         withBoard: aTestBoard
+		         withSetOfDie: aSequence
+		         withLaps: 1.
+	
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+	aGame nextPlayerThrowsDice.
+	
+	aGame playRepeatCard: Repeat new targeting: aPlayer.
+	self assert: (aGame positionFeatureOf: aPlayer) position
+		equals: 4
+]

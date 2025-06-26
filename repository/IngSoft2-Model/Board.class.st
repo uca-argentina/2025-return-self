@@ -30,6 +30,9 @@ Board >> applyEffectTriggeredBy: aPlayer [
 	| detectedTile |
 	
 	detectedTile := tiles at: aPlayer position.
+	 (detectedTile effect )isNoEffect ifTrue: [ ^ detectedTile effect. ].
+	lastEffectApplied := detectedTile effect.
+
 ^ detectedTile effect.
 ]
 
@@ -39,6 +42,11 @@ Board >> initializeWithTiles: aSetOfTiles [
 	tiles := aSetOfTiles.
 	lastEffectApplied := NoEffect create.
 	lastCardPlayed := NoCard create
+]
+
+{ #category : 'accessing' }
+Board >> lastEffectApplied [
+	^ lastEffectApplied
 ]
 
 { #category : 'accessing' }
