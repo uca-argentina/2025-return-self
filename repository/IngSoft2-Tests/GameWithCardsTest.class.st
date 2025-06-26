@@ -41,8 +41,13 @@ GameWithCardsTest >> test01GamePlayedWithACardGiverTile [
 { #category : 'tests' }
 GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplied [
 
-	| aGame aSequence aTestBoard |
+	| aGame aSequence aTestBoard aCardGiverTile anotherPlayer |
+	anotherPlayer:= aPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	aCardGiverTile := LoadedCardGiver createWith:
+		                  (OrderedCollection
+			                   with: Repeat).
 
+	aTileListCreator at: 4 put: aCardGiverTile.
 	aTileListCreator at: 6 put: BlackHole create.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -58,15 +63,20 @@ GameWithCardsTest >> test02WhenUsingARepeatCardThenItTriggersTheLastEffectApplie
 	
 self play:4 in: aGame.
 	
-	aGame playRepeatCardTargeting: aPlayer.
+	aGame playRepeatCardTargeting: aPlayer from:anotherPlayer .
 	self assert: (aGame positionFeatureOf: aPlayer) position
-		equals: 4
+		equals: 3
 ]
 
 { #category : 'tests' }
 GameWithCardsTest >> test03WhenUsingACancellationCardThenItRemovesTheCardTargeted [
-	| aGame aSequence aTestBoard aCard |
-	
+	| aGame aSequence aTestBoard aCard aCardGiverTile anotherPlayer |
+	anotherPlayer:= ShipPlayerAssociation createWith: 2 and: 'Tomi'.
+	aCardGiverTile := LoadedCardGiver createWith:
+		                  (OrderedCollection
+			                   with: Cancellation).
+
+	aTileListCreator at: 4 put: aCardGiverTile.
 	aTileListCreator at: 6 put: BlackHole create.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -83,6 +93,6 @@ GameWithCardsTest >> test03WhenUsingACancellationCardThenItRemovesTheCardTargete
 	self play:4 in: aGame.
 	aCard := Speed create.
 	self deny: (aGame activeCards ) equals: OrderedCollection new.
-	aGame playCancelCardTargeting: aCard.
+	aGame playCancelCardTargeting: aCard from: aPlayer .
 	self assert: (aGame activeCards ) equals: OrderedCollection new.
 ]

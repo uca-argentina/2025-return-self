@@ -72,7 +72,7 @@ CardsTest >> test04WhenUsingARepeatCardOnAnotherPlayer [
 	aGame nextPlayerThrowsDice.
 
 	aRepeatCard
-		replicateEffect: lastEffect
+		replicateEffect: lastEffect from: aPlayer
 		targeting: aPlayer
 		using: aGame.
 	self assert: (aGame positionFeatureOf: aPlayer) position

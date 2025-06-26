@@ -27,12 +27,21 @@ CardManager class >> createWith: arg1 and: arg2 [
 ]
 
 { #category : 'adding' }
-CardManager >> add: arg1 to: arg2 [
+CardManager >> add: card to: player [
 
-	| tmp1 |
-	tmp1 := self findShipReference: arg2.
-	tmp1 := tmp1 addToDeck: arg1.
-	self updateShipReference: tmp1
+	| playerReference |
+	playerReference := self findShipReference: player.
+	playerReference := playerReference addToDeck: card.
+	self updateShipReference: playerReference
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> evaluateIfCardIsPresent: player forCard: card [
+
+	| playerReference |
+	playerReference := self findShipReference: player.
+	(playerReference findInDeck: card) ifFalse: [
+		Error signal: 'Player does not have such card' ]
 ]
 
 { #category : 'initialization' }
@@ -50,17 +59,28 @@ CardManager >> permanentAppliedCards [
 ]
 
 { #category : 'as yet unclassified' }
-CardManager >> playCancelCardtargeting: aCard [ 
+CardManager >> playCancelCardtargeting: aCard from: player [
 	| playedCard |
-	playedCard := Cancellation new.
+	self evaluateIfCardIsPresent: player forCard: Cancellation new.
+	playedCard := self useCard: Cancellation new from: player.
 	playedCard cancelPlayingCard: aCard using: permanentAppliedCards.
 	lastPlayedCard := playedCard.
 ]
 
 { #category : 'as yet unclassified' }
-CardManager >> replicateEffect: anEffect targeting: aPlayer  using: aGame [
-| playedCard |
-playedCard :=Repeat new.
-playedCard replicateEffect: anEffect targeting: aPlayer  using: aGame.
-lastPlayedCard := playedCard.
+CardManager >> replicateEffect: anEffect from: player targeting: anotherPlayer using: aGame [
+
+	| playedCard |
+	self evaluateIfCardIsPresent: player forCard: Repeat new.
+	playedCard := self useCard: Repeat new from: player.
+	playedCard replicateEffect: anEffect targeting: anotherPlayer using: aGame.
+	lastPlayedCard := playedCard
+]
+
+{ #category : 'as yet unclassified' }
+CardManager >> useCard: card from: player [
+
+	| playerReference |
+	playerReference := self findShipReference: player.
+	^ playerReference popFromDeck: card 
 ]

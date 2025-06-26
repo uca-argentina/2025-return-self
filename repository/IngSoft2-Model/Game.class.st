@@ -132,6 +132,11 @@ Game >> playCancelCardTargeting: aCard [
 	cardManager playCancelCardtargeting: aCard .
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> playCancelCardTargeting: aCard from: aPlayer [
+	cardManager playCancelCardtargeting: aCard from:aPlayer.
+]
+
 { #category : 'interaction loop' }
 Game >> playFullGame [
 
@@ -141,6 +146,11 @@ Game >> playFullGame [
 { #category : 'as yet unclassified' }
 Game >> playRepeatCardTargeting: aPlayer [
 	Repeat new replicateEffect: board lastEffectApplied targeting: aPlayer  using: self.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> playRepeatCardTargeting: target from: player [
+	Repeat new replicateEffect: board lastEffectApplied targeting: target  using: self.
 ]
 
 { #category : 'tests - printing' }

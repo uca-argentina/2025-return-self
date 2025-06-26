@@ -69,9 +69,24 @@ ShipCards >> deck [
 	^ deck
 ]
 
+{ #category : 'adding' }
+ShipCards >> findInDeck: card [
+
+	^ deck anySatisfy: [ :x | x sameTypeOfCard: card ]
+]
+
 { #category : 'initialization' }
 ShipCards >> initializeWith: anId and: aCardDeck [
 
 	id := anId.
 	deck := aCardDeck
+]
+
+{ #category : 'adding' }
+ShipCards >> popFromDeck: aCard [
+
+	| cardToRemove |
+	cardToRemove := deck detect: [ :card | card sameTypeOfCard: aCard ].
+	deck remove: cardToRemove.
+	^ cardToRemove
 ]
