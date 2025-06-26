@@ -69,12 +69,6 @@ ShipCards >> addToDeck: aCard [
 	^ self class createWith: id and: aNewDeck
 ]
 
-{ #category : 'copying' }
-ShipCards >> copyShip [
-
-^ self class createWith: id and: deck
-]
-
 { #category : 'accessing' }
 ShipCards >> deck [
 
@@ -114,15 +108,6 @@ ShipCards >> initializeWith: anId and: aCardDeck and: aPreparedCard [
 	preparedCard := aPreparedCard
 ]
 
-{ #category : 'adding' }
-ShipCards >> popFromDeck: aCard [
-
-	| cardToRemove |
-	cardToRemove := deck detect: [ :card | card sameTypeOfCard: aCard ].
-	deck remove: cardToRemove.
-	^ cardToRemove
-]
-
 { #category : 'as yet unclassified' }
 ShipCards >> throwInstantCardUsing: cardManager [
 
@@ -130,7 +115,7 @@ ShipCards >> throwInstantCardUsing: cardManager [
 	aNewDeck := deck collect: [ :card | card ].
 	
 	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: preparedCard ].
-	cardToRemove isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemove ].
+	cardToRemove isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemove class ].
 	cardToRemove applyBonusUsing: cardManager.
 	
 	aNewDeck remove: cardToRemove.
@@ -145,9 +130,9 @@ ShipCards >> throwPermanentCardUsing: cardManager [
 	aNewDeck := deck collect: [ :card | card ].
 	cardToRemove := aNewDeck detect: [ :card |
 		                card equalsACard: preparedCard ].
-	cardManager addToPermanentCards: cardToRemove. "Revisar"
+	cardManager addToPermanentCards: cardToRemove.
 
-	cardManager storeLastCardPlayed: cardToRemove class. "Ver si tengo que hacer una cosita mas o no"
+	cardManager storeLastCardPlayed: cardToRemove class.
 
 	aNewDeck remove: cardToRemove.
 

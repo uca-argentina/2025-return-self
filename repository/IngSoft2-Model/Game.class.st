@@ -82,6 +82,12 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 ]
 
 { #category : 'testing' }
+Game >> isGame [
+
+	^ true
+]
+
+{ #category : 'testing' }
 Game >> isWinner: aPlayerName [
 	"Used for testing"
 
@@ -103,7 +109,7 @@ Game >> nextPlayerSkipsTurn [
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| activePlayer anEffect |
+	| activePlayer anEffect aTotalThrow |
 	positionManager stillPlaying ifFalse: [
 		^ self findShipReference: positionManager winner ].
 
@@ -112,7 +118,8 @@ Game >> nextPlayerThrowsDice [
 	activePlayer := turnManager playerInTurn.
 
 	"---Avanza con la tirada---"
-	positionManager move: activePlayer forwardWith: setOfDie throw.
+	aTotalThrow := cardManager checkIfBonusToApplyTo: activePlayer using: setOfDie.
+	positionManager move: activePlayer forwardWith: aTotalThrow.
 
 	"---Aplicacion de efecto---"
 	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"

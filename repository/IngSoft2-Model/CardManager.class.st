@@ -5,8 +5,6 @@ Class {
 		'permanentAppliedCards',
 		'lastPlayedCard',
 		'lastEffectApplied',
-		'activePlayer',
-		'chosenPlayer',
 		'incrementalTag'
 	],
 	#category : 'IngSoft2-Model',
@@ -49,6 +47,14 @@ CardManager >> addToPermanentCards: aCard [
 ]
 
 { #category : 'as yet unclassified' }
+CardManager >> checkIfBonusToApplyTo: aPlayer using: setOfDie [
+
+	| everyCardToApplyBonus |
+	everyCardToApplyBonus := permanentAppliedCards select: [ :card |
+		                         card affects: aPlayer ]
+]
+
+{ #category : 'as yet unclassified' }
 CardManager >> evaluateIfCardIsPresent: player forCard: card [
 
 	| playerReference |
@@ -68,13 +74,21 @@ CardManager >> initializeCardManagerWith: aGroupOfPlayers [
 ]
 
 { #category : 'accessing' }
+CardManager >> lastEffectApplied [
+
+	^ lastEffectApplied
+]
+
+{ #category : 'accessing' }
+CardManager >> lastPlayedCard [
+
+	^ lastPlayedCard new
+]
+
+{ #category : 'accessing' }
 CardManager >> permanentAppliedCards [
 
 ^permanentAppliedCards .
-]
-
-{ #category : 'as yet unclassified' }
-CardManager >> playLastCardCalledBy: aCaller targeting: aPlayer [
 ]
 
 { #category : 'play interface' }
@@ -102,33 +116,6 @@ CardManager >> removeActiveCardWith: cardId [
 ]
 
 { #category : 'as yet unclassified' }
-CardManager >> replicateEffect: anEffect from: player targeting: anotherPlayer using: aGame [
-
-"	| playedCard |
-	self evaluateIfCardIsPresent: player forCard: Repeat new.
-	playedCard := self useCard: Repeat new from: player.
-	playedCard replicateEffect: anEffect targeting: anotherPlayer using: aGame."
-	
-]
-
-{ #category : 'adding-removing' }
-CardManager >> searchAndCancel: aCard [
-
-	permanentAppliedCards := permanentAppliedCards reject: [ :card |
-		                         card sameTypeOfCard: aCard ]
-]
-
-{ #category : 'as yet unclassified' }
-CardManager >> store: aPlayer and: aChosenPlayer [
-
-	| aShipCard chosenShipCard |
-	aShipCard := self findShipReference: aPlayer.
-	chosenShipCard := self findShipReference: aChosenPlayer.
-	activePlayer := aShipCard copyShip.
-	chosenPlayer := chosenShipCard copyShip
-]
-
-{ #category : 'as yet unclassified' }
 CardManager >> storeLastCardPlayed: playedCard [
 
 	lastPlayedCard := playedCard
@@ -141,9 +128,17 @@ CardManager >> storeLastEffectApplied: anEffect [
 ]
 
 { #category : 'as yet unclassified' }
-CardManager >> useCard: card from: player [
+CardManager >> trimContextConsultingManual: aContext [
+	"Similates a database"
 
-	| playerReference |
-	playerReference := self findShipReference: player.
-	"^ playerReference popFromDeck: card "
+	"Cards with two parameters, card isBlaBla, card isBluBlu... "
+
+	lastPlayedCard new isMercenary ifTrue: [
+		^ {
+			  (aContext at: 2).
+			  (aContext at: 1) } ].
+
+	"Cards with one parameter, card isBla, card isBlu..."
+	^ aContext at: 1 "Up to this day, al those classes which use one or none arguments, need chosenShip more
+than the caller"
 ]

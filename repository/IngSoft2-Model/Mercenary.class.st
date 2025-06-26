@@ -56,6 +56,12 @@ Mercenary >> masterShip [
 ]
 
 { #category : 'as yet unclassified' }
+Mercenary >> requestedBy: aPlayer [
+
+^ masterShip equalsID: aPlayer
+]
+
+{ #category : 'as yet unclassified' }
 Mercenary >> sameTypeOfCard: aCard [
 
 	^ aCard isMercenary

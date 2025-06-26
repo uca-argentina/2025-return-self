@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+PermanentCard >> affects: aPlayer [
+
+	^ false
+]
+
+{ #category : 'as yet unclassified' }
 PermanentCard >> applyBonusUsing: anArgument [
 
 	self subclassResponsibility
@@ -25,6 +31,12 @@ PermanentCard >> equalsACard: aCard [
 PermanentCard >> isPermanentCard [
 
 	^ true
+]
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> requestedBy: aPlayer [
+
+^false
 ]
 
 { #category : 'comparing' }

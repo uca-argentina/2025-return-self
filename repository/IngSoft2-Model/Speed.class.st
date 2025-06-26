@@ -21,6 +21,12 @@ Speed class >> createWith: aChosenShip and: anId [
 ]
 
 { #category : 'as yet unclassified' }
+Speed >> affects: aPlayer [
+
+	^ chosenShip equalsID: aPlayer
+]
+
+{ #category : 'as yet unclassified' }
 Speed >> applyBonusUsing: data [
 "
 	^ aTotalThrow + 1"

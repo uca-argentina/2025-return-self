@@ -6,9 +6,21 @@ Class {
 }
 
 { #category : 'creation' }
+Acceleration class >> create [
+
+	^ self new initializeWith: -1 "Reserved tag for non active"
+]
+
+{ #category : 'creation' }
 Acceleration class >> createWith: anId [
 
 	^ self new initializeWith: anId
+]
+
+{ #category : 'as yet unclassified' }
+Acceleration >> affects: aPlayer [
+
+	^ true
 ]
 
 { #category : 'as yet unclassified' }
@@ -45,11 +57,11 @@ Acceleration >> sameTypeOfCard: aCard [
 { #category : 'as yet unclassified' }
 Acceleration >> setupWith: context [
 
-	^ self class new
+	^ self class create
 ]
 
 { #category : 'as yet unclassified' }
 Acceleration >> tagPermanentCard: anId [
 
-	^ self class createWith: 0 "Reserved tag for global impact"
+	^ self class createWith: anId
 ]

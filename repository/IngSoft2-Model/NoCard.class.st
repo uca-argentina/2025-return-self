@@ -5,6 +5,10 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'play interface' }
+NoCard >> applyBonusUsing: aManager [
+]
+
 { #category : 'as yet unclassified' }
 NoCard >> equalsACard: aCard [
 

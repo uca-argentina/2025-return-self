@@ -2,16 +2,26 @@ Class {
 	#name : 'Repeat',
 	#superclass : 'InstantCard',
 	#instVars : [
-		'chosenShip'
+		'chosenShip',
+		'gameRef'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Repeat class >> createWith: aShip [
+Repeat class >> createWith: aShip and: aGameReference [
 
-	^ self new initializeWith: aShip
+	^ self new initializeWith: aShip and: aGameReference
+]
+
+{ #category : 'play interface' }
+Repeat >> applyBonusUsing: cardManager [
+
+	|lastEffect|
+	lastEffect := cardManager lastEffectApplied.
+	
+	lastEffect applyEffectOn: chosenShip and: gameRef
 ]
 
 { #category : 'accessing' }
@@ -28,9 +38,10 @@ Repeat >> equalsACard: aCard [
 ]
 
 { #category : 'initialization' }
-Repeat >> initializeWith: aShip [
+Repeat >> initializeWith: aShip and: aGameReference [
 
-	chosenShip := aShip
+	chosenShip := aShip.
+	gameRef := aGameReference
 ]
 
 { #category : 'testing' }
@@ -54,10 +65,12 @@ Repeat >> sameTypeOfCard: aCard [
 { #category : 'setup' }
 Repeat >> setupWith: context [
 
-	context asOrderedCollection size = 1 ifFalse: [
+	context asOrderedCollection size = 2 ifFalse: [
 		Error signal: 'Wrong amount of parameters for this card' ].
-	context isShip ifFalse: [
+	(context at: 1) isShip ifFalse: [
+		Error signal: 'Wrong type or order of parameters' ].
+	(context at: 2) isGame ifFalse: [
 		Error signal: 'Wrong type or order of parameters' ].
 
-	^ self class createWith: context
+	^ self class createWith: (context at: 1) and: (context at: 2)
 ]

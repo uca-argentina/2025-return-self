@@ -2,8 +2,7 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'tiles',
-		'lastEffectApplied'
+		'tiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -24,28 +23,19 @@ Board class >> createWith: aSetOfTiles [
 ]
 
 { #category : 'positioning' }
-Board >> applyEffectTriggeredBy: aPlayer [ 
+Board >> applyEffectTriggeredBy: aPlayer [
 
 	| detectedTile |
-	
 	detectedTile := tiles at: aPlayer position.
-	 (detectedTile effect )isNoEffect ifTrue: [ ^ detectedTile effect. ].
-	lastEffectApplied := detectedTile effect.
+	detectedTile effect isNoEffect ifTrue: [ ^ detectedTile effect ].
 
-^ detectedTile effect.
+	^ detectedTile effect
 ]
 
 { #category : 'initialization' }
 Board >> initializeWithTiles: aSetOfTiles [
 
-	tiles := aSetOfTiles.
-	lastEffectApplied := NoEffect create.
-
-]
-
-{ #category : 'accessing' }
-Board >> lastEffectApplied [
-	^ lastEffectApplied
+	tiles := aSetOfTiles
 ]
 
 { #category : 'accessing' }
