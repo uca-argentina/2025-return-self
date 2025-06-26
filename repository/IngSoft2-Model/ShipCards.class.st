@@ -104,6 +104,18 @@ ShipCards >> findInDeck: card [
 	^ deck anySatisfy: [ :x | x sameTypeOfCard: card ]
 ]
 
+{ #category : 'as yet unclassified' }
+ShipCards >> for: aCard ifAnySetupWith: context [
+
+	| cardForSetup cardSetted |
+	cardForSetup := deck
+		                detect: [ :card | card sameTypeOfCard: aCard ]
+		                ifNone: [
+		                Error signal:
+			                'Player does not have this card on deck.' ].
+	cardSetted := cardForSetup setupWith: context
+]
+
 { #category : 'initialization' }
 ShipCards >> initializeWith: anId and: aCardDeck [
 

@@ -36,6 +36,10 @@ Acceleration >> sameTypeOfCard: aCard [
 	^ aCard isAcceleration
 ]
 
+{ #category : 'as yet unclassified' }
+Acceleration >> setupWith: context [
+]
+
 { #category : 'accessing' }
 Acceleration >> shipId [
 

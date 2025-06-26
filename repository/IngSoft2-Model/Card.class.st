@@ -75,3 +75,9 @@ Card >> sameTypeOfCard: aCard [
 
 	self subclassResponsibility
 ]
+
+{ #category : 'as yet unclassified' }
+Card >> setupWith: context [
+
+	self subclassResponsibility
+]

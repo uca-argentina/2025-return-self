@@ -160,6 +160,12 @@ Game >> playFullGame [
 	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> player: aPlayer preparesIfAny: aCard setupWith: context [
+
+	cardManager player: aPlayer preparesIfAny: aCard setupWith: context
+]
+
 { #category : 'tests - printing' }
 Game >> playerPositions [
 	"Used for testing"

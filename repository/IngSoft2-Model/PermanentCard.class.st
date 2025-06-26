@@ -2,18 +2,13 @@ Class {
 	#name : 'PermanentCard',
 	#superclass : 'Card',
 	#instVars : [
-		'shipId'
+		'shipId',
+		'cardId'
 	],
 	#category : 'IngSoft2-Model-Objects',
 	#package : 'IngSoft2-Model',
 	#tag : 'Objects'
 }
-
-{ #category : 'testing' }
-PermanentCard class >> isPermanentCard [
-
-^true
-]
 
 { #category : 'as yet unclassified' }
 PermanentCard >> applyBonusUsing: anArgument [
@@ -23,11 +18,18 @@ PermanentCard >> applyBonusUsing: anArgument [
 
 { #category : 'testing' }
 PermanentCard >> isPermanentCard [
-	^ self class isPermanentCard
+
+	^ true
 ]
 
 { #category : 'comparing' }
 PermanentCard >> sameTypeOfCard: aCard [
+
+	self subclassResponsibility
+]
+
+{ #category : 'as yet unclassified' }
+PermanentCard >> setupWith: context [
 
 	self subclassResponsibility
 ]

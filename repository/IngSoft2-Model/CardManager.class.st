@@ -72,6 +72,16 @@ CardManager >> playLastCardCalledBy: aCaller targeting: aPlayer [
 ]
 
 { #category : 'as yet unclassified' }
+CardManager >> player: aPlayer preparesIfAny: aCard setupWith: context [
+
+	| shipCards |
+	shipCards := self findShipReference: aPlayer.
+	shipCards for: aCard ifAnySetupWith: context.
+	
+"ACA LA JUEGA"
+]
+
+{ #category : 'as yet unclassified' }
 CardManager >> replicateEffect: anEffect from: player targeting: anotherPlayer using: aGame [
 
 "	| playedCard |

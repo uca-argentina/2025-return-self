@@ -6,11 +6,6 @@ Class {
 	#tag : 'Objects'
 }
 
-{ #category : 'testing' }
-InstantCard class >> isInstantCard [
-^ true
-]
-
 { #category : 'play interface' }
 InstantCard >> applyBonusUsing: aCard and: anotherArgument [
 
@@ -19,11 +14,18 @@ InstantCard >> applyBonusUsing: aCard and: anotherArgument [
 
 { #category : 'testing' }
 InstantCard >> isInstantCard [
-	^ self class isInstantCard
+
+	^ true
 ]
 
 { #category : 'comparing' }
 InstantCard >> sameTypeOfCard: aCard [
+
+	self subclassResponsibility
+]
+
+{ #category : 'as yet unclassified' }
+InstantCard >> setupWith: context [
 
 	self subclassResponsibility
 ]

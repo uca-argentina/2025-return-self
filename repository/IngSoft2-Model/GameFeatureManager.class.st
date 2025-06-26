@@ -27,10 +27,10 @@ GameFeatureManager class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
 { #category : 'accessing' }
 GameFeatureManager >> findShipReference: aSpaceShipComponent [
 
-	| shipIndex |
-	shipIndex := playersFeature findFirst: [ :each |
-		             each equalsID: aSpaceShipComponent ].
-	^ playersFeature at: shipIndex
+	| shipFeature |
+	shipFeature := playersFeature detect: [ :each |
+		             each equalsID: aSpaceShipComponent ] ifNone: [Error signal: 'Player not in list'].
+	^ shipFeature
 ]
 
 { #category : 'private - updating' }

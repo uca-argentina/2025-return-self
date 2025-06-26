@@ -2,7 +2,9 @@ Class {
 	#name : 'Mercenary',
 	#superclass : 'PermanentCard',
 	#instVars : [
-		'allyId'
+		'allyId',
+		'masterShip',
+		'slaveShip'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -48,4 +50,15 @@ Mercenary >> isMercenary [
 Mercenary >> sameTypeOfCard: aCard [
 
 	^ aCard isMercenary
+]
+
+{ #category : 'as yet unclassified' }
+Mercenary >> setupWith: context [
+
+	context asOrderedCollection size = 2 ifFalse: [
+		Error signal: 'Wrong amount of parameters for this card' ].
+	(context at: 1) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
+	(context at: 2) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
+	masterShip := context at: 1.
+	slaveShip := context at: 2
 ]

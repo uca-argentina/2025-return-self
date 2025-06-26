@@ -21,3 +21,9 @@ NoCard >> sameTypeOfCard: aCard [
 
 	^ aCard isNoCard
 ]
+
+{ #category : 'as yet unclassified' }
+NoCard >> setupWith: context [
+
+	Error signal: 'This is not a card to be set up.'
+]
