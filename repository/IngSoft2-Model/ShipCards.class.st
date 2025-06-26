@@ -52,6 +52,18 @@ ShipCards >> addToDeck: aCard [
 	^ self class createWith: id and: aNewDeck
 ]
 
+{ #category : 'adding' }
+ShipCards >> cardThrow: aCard changing: aCollectionOfCards [
+
+	| cardToRemove aNewDeck |
+	aNewDeck := OrderedCollection withAll: deck.
+	cardToRemove := aNewDeck detect: [ :card |
+		                card sameTypeOfCard: aCard ].
+	aNewDeck remove: cardToRemove.
+	aCollectionOfCards add: cardToRemove.
+	^ self class createWith: id and: aNewDeck
+]
+
 { #category : 'as yet unclassified' }
 ShipCards >> cardThrowInstantCard: aCard targeting: aPlayer using: cardManager [
 

@@ -8,11 +8,10 @@ Class {
 { #category : 'tests' }
 ShipCardTest >> test01ShipCanThrowACard [
 
-
 	| aDeck aShip activeCards assertingDeck assertingActive |
 	aDeck := {
-		         Speed create.
-		         Acceleration create.
+		         Speed new.
+		         Acceleration new.
 		         Cancellation new } asOrderedCollection.
 	aShip := ShipCards createWith: 1 and: aDeck.
 	activeCards := OrderedCollection new.
@@ -21,11 +20,10 @@ ShipCardTest >> test01ShipCanThrowACard [
 	aShip := aShip cardThrow: Speed create changing: activeCards.
 
 	assertingDeck := {
-		                 Acceleration create.
+		                 Acceleration new.
 		                 Cancellation new } asOrderedCollection.
-	assertingActive := { Speed create } asOrderedCollection.
+	assertingActive := { Speed new } asOrderedCollection.
 
 	self assert: aShip deck equalsCollection: assertingDeck.
-	self assert: activeCards equalsCollection: assertingActive.
-
+	self assert: activeCards equalsCollection: assertingActive
 ]
