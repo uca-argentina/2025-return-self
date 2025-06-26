@@ -2,8 +2,7 @@ Class {
 	#name : 'ShipCards',
 	#superclass : 'SpaceShipComponent',
 	#instVars : [
-		'deck',
-		'activeCards'
+		'deck'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -54,9 +53,14 @@ ShipCards >> addToDeck: aCard [
 ]
 
 { #category : 'as yet unclassified' }
-ShipCards >> cardThrow [
+ShipCards >> cardThrow: aCard changing: aCollectionOfCards [
 
-"detect y pasarla al otro deck"
+	| aNewDeck cardToRemove |
+	aNewDeck := OrderedCollection withAll: deck.
+	cardToRemove := aNewDeck detect: [ :card | card equalsACard: aCard ].
+	aCollectionOfCards add: cardToRemove.
+	aNewDeck remove: cardToRemove.
+	^ self class createWith: id and: aNewDeck
 ]
 
 { #category : 'accessing' }

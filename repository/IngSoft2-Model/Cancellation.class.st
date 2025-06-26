@@ -13,6 +13,12 @@ Cancellation >> cancelPlayingCard: aCard using: aCollectionOfCards [
 	aCollectionOfCards remove: cardToRemove.
 ]
 
+{ #category : 'as yet unclassified' }
+Cancellation >> equalsACard: aCard [
+
+	^ aCard isCancellation
+]
+
 { #category : 'testing' }
 Cancellation >> isCancellation [ 
 ^true

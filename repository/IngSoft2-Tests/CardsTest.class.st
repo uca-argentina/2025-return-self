@@ -12,7 +12,7 @@ CardsTest >> test01WhenUsingAnAccelerationThenItReturnsThrowPlusOne [
 anAccelerationCard:= Acceleration create.
 aThrow := (LoadedDie rolling: 2) throw.
 
-self assert: (anAccelerationCard applyBounsUsing: aThrow) equals: 3.
+self assert: (anAccelerationCard applyBonusUsing: aThrow) equals: 3.
 
 ]
 
@@ -23,7 +23,7 @@ CardsTest >> test02WhenUsingAnSpeedThenItReturnsThrowPlusOne [
 aSpeedCard := Speed createWithAnId: 1.
 aThrow := (LoadedDie rolling: 2) throw.
 
-self assert: (aSpeedCard applyBounsUsing: aThrow) equals: 3.
+self assert: (aSpeedCard applyBonusUsing: aThrow) equals: 3.
 
 ]
 

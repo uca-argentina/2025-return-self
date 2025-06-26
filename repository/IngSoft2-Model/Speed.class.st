@@ -22,8 +22,14 @@ Speed class >> idShouldBeGreaterThanZero: anId [
 ]
 
 { #category : 'as yet unclassified' }
-Speed >> applyBounsUsing: aThrow [ 
+Speed >> applyBonusUsing: aThrow [ 
 	^ aThrow + 1.
+]
+
+{ #category : 'as yet unclassified' }
+Speed >> equalsACard: aCard [
+
+	^ aCard isSpeed and: aCard shipId = shipId
 ]
 
 { #category : 'initialization' }
@@ -34,4 +40,10 @@ Speed >> initializeWith: anId [
 { #category : 'testing' }
 Speed >> isSpeed [ 
 ^true
+]
+
+{ #category : 'accessing' }
+Speed >> shipId [
+
+	^ shipId
 ]

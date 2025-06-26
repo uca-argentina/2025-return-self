@@ -15,7 +15,7 @@ Acceleration class >> create [
 ]
 
 { #category : 'as yet unclassified' }
-Acceleration >> applyBounsUsing: aThrow [ 
+Acceleration >> applyBonusUsing: aThrow [ 
 	^ aThrow + 1.
 ]
 
