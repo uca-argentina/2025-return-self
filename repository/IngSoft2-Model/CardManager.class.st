@@ -15,8 +15,11 @@ Class {
 CardManager class >> createWith: aGroupOfPlayers [
 
 	| cardPlayerAsociation |
-	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship | ShipCards createWith: ship id ].
-	^ self new initializeCardManagerWith: cardPlayerAsociation
+	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship |
+		                        ShipCards createWith: ship id ].
+	^ self new
+		  initializeCardManagerWith: cardPlayerAsociation
+		  and: OrderedCollection new
 ]
 
 { #category : 'creation' }
@@ -25,7 +28,20 @@ CardManager class >> createWith: aGroupOfPlayers and: aCardDeck [
 	| cardPlayerAsociation |
 	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship |
 		                        ShipCards createWith: ship id and: aCardDeck ].
-	^ self new initializeCardManagerWith: cardPlayerAsociation
+	^ self new
+		  initializeCardManagerWith: cardPlayerAsociation
+		  and: OrderedCollection new
+]
+
+{ #category : 'creation' }
+CardManager class >> createWith: aGroupOfPlayers and: aCardDeck having: permanentAppliedCards [
+
+	| cardPlayerAsociation |
+	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship |
+		                        ShipCards createWith: ship id and: aCardDeck ].
+	^ self new
+		  initializeCardManagerWith: cardPlayerAsociation
+		  and: permanentAppliedCards
 ]
 
 { #category : 'adding-removing' }
@@ -91,10 +107,10 @@ CardManager >> evaluateIfCardIsPresent: player forCard: card [
 ]
 
 { #category : 'initialization' }
-CardManager >> initializeCardManagerWith: aGroupOfPlayers [
+CardManager >> initializeCardManagerWith: aGroupOfPlayers and: permanentCards [
 
 	playersFeature := aGroupOfPlayers.
-	permanentAppliedCards := OrderedCollection new.
+	permanentAppliedCards := permanentCards.
 	lastPlayedCard := NoCard new.
 	incrementalTag := 1
 	

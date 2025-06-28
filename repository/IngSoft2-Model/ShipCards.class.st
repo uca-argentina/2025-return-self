@@ -122,7 +122,7 @@ ShipCards >> throwInstantCardUsing: cardManager [
 	
 	cardToRemove := aNewDeck detect: [ :card | card sameTypeOfCard: preparedCard ].
 	cardToRemove isRedo ifFalse: [ cardManager storeLastCardPlayed: cardToRemove class ].
-	cardToRemove applyBonusUsing: cardManager.
+	cardToRemove applyBonusUsing: cardManager."Mismo, devolver array resultado, delegar la separacion de permanent e instant a cardManager"
 	
 	aNewDeck remove: cardToRemove.
 
@@ -131,7 +131,8 @@ ShipCards >> throwInstantCardUsing: cardManager [
 
 { #category : 'as yet unclassified' }
 ShipCards >> throwPermanentCardUsing: cardManager [
-
+"Para romper acoplamiento mejor devolver arrays con resultados, si bien puede
+parecer feo, evita acoplamiento de cardManager con ShipCards"
 	| aNewDeck cardToRemove |
 	aNewDeck := deck collect: [ :card | card ].
 	cardToRemove := aNewDeck detect: [ :card |
