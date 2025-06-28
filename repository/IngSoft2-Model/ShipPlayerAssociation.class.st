@@ -46,9 +46,12 @@ ShipPlayerAssociation >> searchReferenceAndConcatName: positionsWithoutName [
 
 	| playerPositionInfo |
 	playerPositionInfo := positionsWithoutName
-		                      detect: [ :each | (each at: 1) = id ]
+		                      detect: [ :each | self equalsID: (each at: 1) ]
 		                      ifNone: [
 		                      Error signal:
 			                      'Fatal Error: A Ship Reference is lost.' ].
-	^ 'Name: ' , name , ', ' , (playerPositionInfo at: 2)
+	^ String streamContents: [ :s |
+		  s nextPutAll: 'Name: '.
+		  s nextPutAll: name.
+		  s nextPutAll: (playerPositionInfo at: 2) ]
 ]

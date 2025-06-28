@@ -178,3 +178,13 @@ ShipPosition >> samePositionAs: aPlayer [
 
 	^ position = aPlayer position
 ]
+
+{ #category : 'parsing' }
+ShipPosition >> stringify [
+
+	^ String streamContents: [ :s |
+		  s nextPutAll: 'Position: '.
+		  s nextPutAll: position asString.
+		  s nextPutAll: ', Lap: '.
+		  s nextPutAll: lap asString ]
+]

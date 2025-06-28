@@ -138,11 +138,7 @@ PositionManager >> playerPositions [
 	aListOfPositions := playersFeature collect: [ :player |
 		                    {
 			                    player.
-			                    (String streamContents: [ :s |
-				                     s nextPutAll: 'Position: '.
-				                     s nextPutAll: player position asString.
-				                     s nextPutAll: ', Lap: '.
-				                     s nextPutAll: player lap asString ]) } ].
+			                    player stringify } ].
 	^ aListOfPositions
 ]
 
@@ -162,7 +158,7 @@ PositionManager >> playerRanking [
 
 	^ anOrderListOfPositions withIndexCollect: [ :player :index |
 		  {
-			  player id.
+			  player.
 			  ('Place: ' , index asString) } ]
 ]
 

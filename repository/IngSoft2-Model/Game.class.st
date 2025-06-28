@@ -181,15 +181,9 @@ Game >> playerPositions [
 
 	| positionsWithoutName |
 	positionsWithoutName := positionManager playerPositions.
-	^ (positionsWithoutName
-		   inject: OrderedCollection new
-		   into: [ :col :each |
-			   col add: (String streamContents: [ :s |
-					    s nextPutAll: 'Name: '.
-					    s nextPutAll: (self findShipReference: (each at: 1)) name.
-					    s nextPutAll: ', '.
-					    s nextPutAll: (each at: 2) ]).
-			   col ]) asArray
+	^ (playersFeature collect: [ :each |
+		   each searchReferenceAndConcatName: positionsWithoutName ])
+		  asArray
 ]
 
 { #category : 'tests - printing' }
