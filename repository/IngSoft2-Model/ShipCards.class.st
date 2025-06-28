@@ -69,6 +69,12 @@ ShipCards >> addToDeck: aCard [
 	^ self class createWith: id and: aNewDeck
 ]
 
+{ #category : 'copying' }
+ShipCards >> copyShip [
+
+	^ self class createWith: id and: deck and: preparedCard
+]
+
 { #category : 'accessing' }
 ShipCards >> deck [
 

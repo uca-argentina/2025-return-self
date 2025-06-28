@@ -29,6 +29,12 @@ ShipInStandBy >> addSkips: aNumber [
 	^ self class createWith: id and: turnsToSkip + aNumber
 ]
 
+{ #category : 'copying' }
+ShipInStandBy >> copyShip [
+
+	^ self class createWith: id and: turnsToSkip
+]
+
 { #category : 'accessing' }
 ShipInStandBy >> hasTurnsToSkip [
 

@@ -130,6 +130,7 @@ Game >> nextPlayerThrowsDice [
 	activePlayer := positionManager findShipReference: activePlayer.
 	anEffect := board applyEffectTriggeredBy: activePlayer.
 	anEffect applyEffectOn: activePlayer and: self.
+	cardManager storeLastEffectApplied: anEffect.
 	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
 	"---Batalla---"
 	(positionManager checkIfBattle: activePlayer) ifTrue: [

@@ -23,6 +23,12 @@ ShipShield class >> shieldsShouldntBeLowerThanZero: anAmountOfShields [
 		Error signal: 'The SpaceShip cant have negative shields.' ]
 ]
 
+{ #category : 'copying' }
+ShipShield >> copyShip [
+
+	^ self class createWith: id and: shields
+]
+
 { #category : 'positioning' }
 ShipShield >> forceAShieldReset [
 	

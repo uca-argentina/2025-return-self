@@ -115,7 +115,9 @@ CardManager >> lastPlayedCard [
 { #category : 'accessing' }
 CardManager >> permanentAppliedCards [
 
-^permanentAppliedCards .
+	| copyOfAppliedCards |
+	copyOfAppliedCards := permanentAppliedCards collect: [ :card | card ].
+	^ copyOfAppliedCards
 ]
 
 { #category : 'play interface' }

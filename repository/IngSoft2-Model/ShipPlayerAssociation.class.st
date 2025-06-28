@@ -22,6 +22,12 @@ ShipPlayerAssociation class >> playerNameCantBeEmpty: aName [
 	aName = '' ifTrue: [ Error signal: 'The name cannot be empty.' ]
 ]
 
+{ #category : 'copying' }
+ShipPlayerAssociation >> copyShip [
+
+	^ self class createWith: id and: name
+]
+
 { #category : 'comparing' }
 ShipPlayerAssociation >> equalsName: aName [
 ^ name = aName 

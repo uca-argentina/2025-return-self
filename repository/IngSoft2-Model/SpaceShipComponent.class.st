@@ -21,6 +21,12 @@ SpaceShipComponent class >> idShouldBeGreaterThanZero: anId [
 		Error signal: 'The SpaceShip ID should be greater than zero.' ]
 ]
 
+{ #category : 'copying' }
+SpaceShipComponent >> copyShip [
+
+	self subclassResponsibility
+]
+
 { #category : 'comparing' }
 SpaceShipComponent >> equalsID: anotherPlayerStatus [
 	"In our implementation, ID is a key field data, it is UNIQUE"

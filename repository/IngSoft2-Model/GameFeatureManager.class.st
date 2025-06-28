@@ -30,7 +30,7 @@ GameFeatureManager >> findShipReference: aSpaceShipComponent [
 	| shipFeature |
 	shipFeature := playersFeature detect: [ :each |
 		             each equalsID: aSpaceShipComponent ] ifNone: [Error signal: 'Player not in list'].
-	^ shipFeature
+	^ shipFeature copyShip
 ]
 
 { #category : 'private - updating' }

@@ -102,6 +102,16 @@ ShipPosition >> changePositionAndCorrectParsecsWith: aBacktrackDistance [
 		  and: newParsec
 ]
 
+{ #category : 'copying' }
+ShipPosition >> copyShip [
+
+	^ self class
+		  createWith: id
+		  and: position
+		  and: lap
+		  and: parsec
+]
+
 { #category : 'accessing' }
 ShipPosition >> distanceTravelledWith: boardLength and: parsecsPerTile [
 
