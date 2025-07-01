@@ -36,8 +36,11 @@ GameFeatureManager >> findShipReference: aSpaceShipComponent [
 { #category : 'private - updating' }
 GameFeatureManager >> updateShipReference: selfSpaceShipComponent [
 
-	| shipIndex |
+	| shipIndex listToUpdate |
 	shipIndex := playersFeature findFirst: [ :each |
 		             each equalsID: selfSpaceShipComponent ].
-	playersFeature at: shipIndex put: selfSpaceShipComponent
+
+	listToUpdate := OrderedCollection withAll: playersFeature.
+	listToUpdate at: shipIndex put: selfSpaceShipComponent.
+	playersFeature := OrderedCollection withAll: listToUpdate
 ]
