@@ -1,257 +1,86 @@
 "
-Game handler class
+>>> Here I'll leave any notes or ideas for the future or for the structure, in other for other collaborators to read.
+
+- In order to test a full round playing correctly, I must refactor the code to make game able to receive a list of players names. This refactor means the game is no longer played by 1 player.
+>>> FIRST SPRINT ORDERED BY MY BROTHER IS FINISHED <<<
 "
 Class {
 	#name : 'Game',
-	#superclass : 'GameFeatureManager',
+	#superclass : 'Object',
 	#instVars : [
-		'setOfDie',
-		'board',
-		'turnManager',
-		'battleManager',
-		'positionManager',
-		'cardManager'
+		'goalMark',
+		'die',
+		'ships',
+		'nextShipIndex'
 	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Model-Base',
+	#package : 'IngSoft2-Model',
+	#tag : 'Base'
 }
 
-{ #category : 'testing' }
-Game class >> mustHaveAtLeastOneDieToPlay: aSetOfDie [
-
-	aSetOfDie isEmpty ifTrue: [ Error signal: 'You must have at least one die to play.' ]
-]
-
 { #category : 'creation' }
-Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
+Game class >> createWith: aShipList and: aDie and: aGoalMark [
 
-	| aGroupOfXPlayers |
-	aGroupOfXPlayers := aGroupOfPlayers asOrderedCollection.
-	self mustHaveAtLeastTwoPlayers: aGroupOfXPlayers.
-	self twoPlayersCantHaveTheSameId: aGroupOfXPlayers.
-	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
+	| shipIndex |
+	shipIndex := 0.
+	self validate: aGoalMark.
 	^ self new
-		  initializePlayedBy: aGroupOfXPlayers
-		  withBoard: aBoard
-		  withSetOfDie: aSetOfDie
-		  withLaps: laps
+		  initializeWith: aShipList asOrderedCollection deepCopy
+		  and: aDie
+		  and: aGoalMark
 ]
 
-{ #category : 'as yet unclassified' }
-Game >> activeCards [
+{ #category : 'validation' }
+Game class >> validate: aGoalMark [
 
-	^cardManager permanentAppliedCards.
-]
-
-{ #category : 'testing' }
-Game >> cardsFeatureOf: aShip [
-	"Used for testing"
-
-	^ cardManager findShipReference: aShip
-]
-
-{ #category : 'checking' }
-Game >> engageInBattle: activePlayer [
-
-	| playersToEngage playersWhoLost |
-	playersToEngage := positionManager playerInSamePositionThan:
-		                   activePlayer.
-	playersWhoLost := battleManager
-		                  engage: playersToEngage
-		                  inBattleUsing: setOfDie
-		                  and: cardManager.
-	playersWhoLost do: [ :player |
-		player needsRecovery ifTrue: [
-			turnManager addTwoSkipsTo: player.
-			battleManager forceAShieldResetTo: player ].
-		positionManager resetLapTo: player ]
+	aGoalMark < 4 ifTrue: [
+		Error signal: 'The goal cant be nearer than 4 tiles.' ]
 ]
 
 { #category : 'initialization' }
-Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [
+Game >> initializeWith: aShipList and: aDie and: aGoalMark [
 
-	turnManager := TurnManager createWith: aGroupOfPlayers.
-	battleManager := BattleManager createWith: aGroupOfPlayers.
-	positionManager := PositionManager
-		                   createWith: aGroupOfPlayers
-		                   and: aBoard totalTiles
-		                   and: anAmountOfLaps
-		                   and: aBoard parsecsPerTile.
-	setOfDie := aSetOfDie.
-	board := aBoard.
-	cardManager := CardManager createWith: aGroupOfPlayers.
-	playersFeature := aGroupOfPlayers
+	die := aDie.
+	goalMark := aGoalMark.
+	ships := aShipList.
+	nextShipIndex := 0
 ]
 
 { #category : 'testing' }
-Game >> isGame [
+Game >> isWinner: aShip [
 
-	^ true
+	| shipToVerify |
+	shipToVerify := ships detect: [ :ship | ship equals: aShip ].
+	^ (shipToVerify positionLowerThan: goalMark) not
 ]
 
-{ #category : 'testing' }
-Game >> isWinner: aPlayerName [
-	"Used for testing"
+{ #category : 'playing' }
+Game >> nextPlayerPlays [
 
-	| aPlayer |
-	aPlayer := self findShipReference: positionManager winner.
-	^ aPlayer equalsName: aPlayerName
+	| currentShip |
+	self stillPlaying ifFalse: [  ].
+
+	nextShipIndex := nextShipIndex \\ ships size + 1.
+	currentShip := ships at: nextShipIndex.
+	ships at: nextShipIndex put: (currentShip moveForward: die throw)
 ]
 
-{ #category : 'interaction loop' }
-Game >> nextPlayerSkipsTurn [
+{ #category : 'accessing' }
+Game >> ship: aShip isIn: aPosition [
 
-	| activePlayer |
-	positionManager stillPlaying ifFalse: [ ^ self findShipReference: positionManager winner ].
-	turnManager nextPlayerTurnBegins.
-	activePlayer := turnManager playerInTurn.
-	battleManager forceAShieldResetTo: activePlayer.
+	| detectedShip errorMessage |
+	errorMessage := '' join: {
+			                'There is no ship with ID: '.
+			                aShip id asString.
+			                '.' }.
+	detectedShip := ships
+		                detect: [ :ship | ship equals: aShip ]
+		                ifNone: [ Error signal: errorMessage ].
+	^ detectedShip isIn: aPosition
 ]
 
-{ #category : 'interaction loop' }
-Game >> nextPlayerThrowsDice [
+{ #category : 'checking' }
+Game >> stillPlaying [
 
-	| activePlayer anEffect aTotalThrow |
-	positionManager stillPlaying ifFalse: [
-		^ self findShipReference: positionManager winner ].
-
-	"---Turno---"
-	turnManager playNextTurn.
-	activePlayer := turnManager playerInTurn.
-
-	"---Avanza con la tirada---"
-	aTotalThrow := cardManager checkIfBonusToApplyTo: activePlayer using: setOfDie.
-	positionManager move: activePlayer forwardWith: aTotalThrow.
-
-	"---Aplicacion de efecto---"
-	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
-	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
-	"capaz me convenga simplemente pasar el Game"
-	activePlayer := positionManager findShipReference: activePlayer.
-	anEffect := board applyEffectTriggeredBy: activePlayer.
-	anEffect applyEffectOn: activePlayer and: self.
-	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
-	"---Batalla---"
-	(positionManager checkIfBattle: activePlayer) ifTrue: [
-		self engageInBattle: activePlayer ]
-]
-
-{ #category : 'interaction loop' }
-Game >> nextPlayerUses: aCard whichImpacts: caca [
-
-	| activePlayer anEffect |
-	positionManager stillPlaying ifFalse: [
-		^ self findShipReference: positionManager winner ].
-
-	"---Turno---"
-	turnManager playNextTurn.
-	activePlayer := turnManager playerInTurn.
-
-	"---Avanza con la tirada---"
-	positionManager move: activePlayer forwardWith: setOfDie throw.
-
-	"---Aplicacion de efecto---"
-	"VERIFICAR EN LA BRANCH QUE FALTA, quizas meta que el check anterior"
-	"me devuelva la lista de los shipshields para poder pasarsela al board, aunque"
-	"capaz me convenga simplemente pasar el Game"
-	activePlayer := positionManager findShipReference: activePlayer.
-	anEffect := board applyEffectTriggeredBy: activePlayer.
-	anEffect applyEffectOn: activePlayer and: self.
-	"PARA LA EXCESIVA CANTIDAD DE ELEMENTOS HACEMOS MULTIPLE DISPATCH"
-	"---Batalla---"
-	(positionManager checkIfBattle: activePlayer) ifTrue: [
-		self engageInBattle: activePlayer ]
-]
-
-{ #category : 'interaction loop' }
-Game >> playFullGame [
-
-	[ positionManager stillPlaying ] whileTrue: [ self nextPlayerThrowsDice ]
-]
-
-{ #category : 'as yet unclassified' }
-Game >> player: aPlayer preparesIfAny: aCard setupWith: context [
-
-	cardManager player: aPlayer preparesIfAny: aCard setupWith: context
-]
-
-{ #category : 'tests - printing' }
-Game >> playerPositions [
-	"Used for testing"
-
-	| positionsWithoutName |
-	positionsWithoutName := positionManager playerPositions.
-	^ (positionsWithoutName
-		   inject: OrderedCollection new
-		   into: [ :col :each |
-			   col add: (String streamContents: [ :s |
-					    s nextPutAll: 'Name: '.
-					    s nextPutAll: (self findShipReference: (each at: 1)) name.
-					    s nextPutAll: ', '.
-					    s nextPutAll: (each at: 2) ]).
-			   col ]) asArray
-]
-
-{ #category : 'tests - printing' }
-Game >> playerRanking [
-	"Used for testing"
-
-	| positionsWithoutName |
-	positionsWithoutName := positionManager playerRanking.
-	^ (playersFeature collect: [ :each |
-		   each searchReferenceAndConcatName: positionsWithoutName ])
-		  asArray
-]
-
-{ #category : 'testing' }
-Game >> positionFeatureOf: aShip [
-	"Used for testing"
-
-	^ positionManager findShipReference: aShip
-]
-
-{ #category : 'as yet unclassified' }
-Game >> requestBattleManager: anEffect [
-
-anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
-
-^ battleManager.
-]
-
-{ #category : 'as yet unclassified' }
-Game >> requestCardManager: anEffect [
-
-anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
-
-^ cardManager.
-]
-
-{ #category : 'as yet unclassified' }
-Game >> requestPositionManager: anEffect [
-
-anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
-
-^ positionManager.
-]
-
-{ #category : 'as yet unclassified' }
-Game >> requestTurnManager: anEffect [
-
-anEffect isEffect ifFalse: [ Error signal: 'only Effects can ask for managers' ].
-
-^ turnManager.
-]
-
-{ #category : 'testing' }
-Game >> shieldsFeatureOf: aShip [
-	"Used for testing"
-
-	^ battleManager findShipReference: aShip
-]
-
-{ #category : 'testing' }
-Game >> turnsFeatureOf: aShip [
-	"Used for testing"
-
-	^ turnManager findShipReference: aShip
+	^ ships allSatisfy: [ :ship | ship positionLowerThan: goalMark ]
 ]
