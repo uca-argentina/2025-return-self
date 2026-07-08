@@ -120,3 +120,22 @@ GameTest >> test014WhenTryingToAskPositionOfANotPlayingPersonItRaisesError [
 		should: [ aGame ship: aShip isIn: 7 ]
 		raiseWith: 'There is no ship with ID: 3.'
 ]
+
+{ #category : 'tests' }
+GameTest >> test018WhenThePlayerThrowsItsShipMovesForwardWithMoreThanOneDie [
+
+	| aGame dice aGoalMark aShip |
+	"aShipName := 'Pato'. DEPRECATED
+	aListOfNames := { 'Pato'. 'Mati' }. DEPRECATED"
+	aGoalMark := 12.
+	dice := Dice createWith: {
+			        (LoadedDie createWith: 6).
+			        (LoadedDie createWith: 2) }.
+	aGame := Game createWith: aShipListTemplate and: dice and: aGoalMark.
+
+	aGame nextPlayerPlays.
+
+	aShip := aShipListTemplate at: 1.
+
+	self assert: (aGame ship: aShip isIn: 9)
+]
