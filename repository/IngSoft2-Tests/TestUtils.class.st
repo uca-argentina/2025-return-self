@@ -1,7 +1,7 @@
 "
 Not instanciable class, just to keep common methods
 
-Test Counter: 18
+Test Counter: 20
 "
 Class {
 	#name : 'TestUtils',

@@ -65,6 +65,12 @@ Game >> nextPlayerPlays [
 	ships at: nextShipIndex put: (currentShip moveForward: die throw)
 ]
 
+{ #category : 'showing' }
+Game >> retrievePositions [
+
+	^ ships collect: [ :ship | ship retrievePosition ].
+]
+
 { #category : 'accessing' }
 Game >> ship: aShip isIn: aPosition [
 

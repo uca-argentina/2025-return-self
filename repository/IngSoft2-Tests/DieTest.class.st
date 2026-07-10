@@ -36,3 +36,11 @@ DieTest >> test004WhenTryingToCreateALoadedDieWithAThrowLowerThan1ItRaisesAnErro
 		should: [ LoadedDie createWith: 0 ]
 		raiseWith: 'The die cannot throw a number lower than 1.'
 ]
+
+{ #category : 'tests' }
+DieTest >> test020TryingToCreateALoadedSequenceOfThrowsWithoutAnyThrowRaisesError [
+
+	TestUtils
+		should: [ LoadedSequenceOfThrows createWith: {  } ]
+		raiseWith: 'There should be at least one throw in the sequence.'
+]

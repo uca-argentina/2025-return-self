@@ -88,3 +88,10 @@ Ship >> positionLowerThan: aNumber [
 
 	^ position < aNumber
 ]
+
+{ #category : 'showing' }
+Ship >> retrievePosition [
+
+	^ 'Ship ID: ' , id asString , ', Position: ' , position asString
+	  , '.'
+]

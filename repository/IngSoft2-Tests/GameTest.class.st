@@ -139,3 +139,23 @@ GameTest >> test018WhenThePlayerThrowsItsShipMovesForwardWithMoreThanOneDie [
 
 	self assert: (aGame ship: aShip isIn: 9)
 ]
+
+{ #category : 'tests' }
+GameTest >> test019WhenTheGameIsFinishedWeCanKnowThePositionOfShips [
+
+	| aGame dice aGoalMark positions expectedPositions |
+	aGoalMark := 12.
+	dice := LoadedSequenceOfThrows createWith: {
+			        (LoadedDie createWith: 6).
+			        (LoadedDie createWith: 2) }.
+	aGame := Game createWith: aShipListTemplate and: dice and: aGoalMark.
+
+	self playFullGameIn: aGame.
+
+	positions := '
+	' join: aGame retrievePositions.
+
+	expectedPositions := 'Ship ID: 1, Position: 13.
+	Ship ID: 2, Position: 3.'.
+	self assert: positions equals: expectedPositions
+]
