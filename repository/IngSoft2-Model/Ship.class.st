@@ -77,8 +77,18 @@ Ship >> isIn: aPosition [
 ]
 
 { #category : 'move' }
+Ship >> moveBackwards: aDistance [
+
+	| newPosition |
+	newPosition := {
+		               0.
+		               (position - aDistance) } max.
+
+	^ self class createWith: id and: newPosition
+]
+
+{ #category : 'move' }
 Ship >> moveForward: aDistance [
-	"Should I include a validation for the distance to be positive?"
 
 	^ self class createWith: id and: position + aDistance
 ]
