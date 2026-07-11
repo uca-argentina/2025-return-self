@@ -48,3 +48,27 @@ WormholeTest >> test022WhenAShipStepsIntoAWormholeItTravelsToTheOppositeSideWhen
 	self assert: secondAnswer.
 	self deny: thirdAnswer
 ]
+
+{ #category : 'tests' }
+WormholeTest >> test023TryingToCreateAWormholeWithEndpointLowerThan2RaisesError [
+
+	TestUtils
+		should: [ Wormhole createWith: 1 in: 10 ]
+		raiseWith: 'The endpoint must be at least cell number 2.'
+]
+
+{ #category : 'tests' }
+WormholeTest >> test024TryingToCreateAWormholeWithPositionLowerThan2RaisesError [
+
+	TestUtils
+		should: [ Wormhole createWith: 10 in: 1 ]
+		raiseWith: 'The cell must be at least number 2.'
+]
+
+{ #category : 'tests' }
+WormholeTest >> test025TryingToCreateAWormholeWithSamePositionAndEndpointRaisesError [
+
+	TestUtils
+		should: [ Wormhole createWith: 5 in: 5 ]
+		raiseWith: 'The position and endpoint cant be the same.'
+]
