@@ -11,14 +11,14 @@ Class {
 		'goalMark',
 		'die',
 		'ships',
-		'nextShipIndex'
+		'nextShipIndex',
+		'wormhole'
 	],
-	#category : 'IngSoft2-Model-Base',
-	#package : 'IngSoft2-Model',
-	#tag : 'Base'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'creation' }
+{ #category : 'deprecated' }
 Game class >> createWith: aShipList and: aDie and: aGoalMark [
 
 	| shipIndex |
@@ -28,6 +28,20 @@ Game class >> createWith: aShipList and: aDie and: aGoalMark [
 		  initializeWith: aShipList asOrderedCollection deepCopy
 		  and: aDie
 		  and: aGoalMark
+		  and: NoEffect new
+]
+
+{ #category : 'creation' }
+Game class >> createWith: aShipList and: aDie and: aGoalMark and: aWormhole [
+
+	| shipIndex |
+	shipIndex := 0.
+	self validate: aGoalMark.
+	^ self new
+		  initializeWith: aShipList asOrderedCollection deepCopy
+		  and: aDie
+		  and: aGoalMark
+		  and: aWormhole
 ]
 
 { #category : 'validation' }
@@ -38,12 +52,13 @@ Game class >> validate: aGoalMark [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: aShipList and: aDie and: aGoalMark [
+Game >> initializeWith: aShipList and: aDie and: aGoalMark and: aWormhole [
 
 	die := aDie.
 	goalMark := aGoalMark.
 	ships := aShipList.
-	nextShipIndex := 0
+	nextShipIndex := 0.
+	wormhole := aWormhole
 ]
 
 { #category : 'testing' }
@@ -62,7 +77,9 @@ Game >> nextPlayerPlays [
 
 	nextShipIndex := nextShipIndex \\ ships size + 1.
 	currentShip := ships at: nextShipIndex.
-	ships at: nextShipIndex put: (currentShip moveForward: die throw)
+	currentShip := currentShip moveForward: die throw.
+	currentShip := wormhole applyEffectOn: currentShip.
+	ships at: nextShipIndex put: currentShip
 ]
 
 { #category : 'showing' }

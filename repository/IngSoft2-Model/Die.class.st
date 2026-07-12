@@ -7,9 +7,8 @@ Class {
 	#instVars : [
 		'faces'
 	],
-	#category : 'IngSoft2-Model-Base',
-	#package : 'IngSoft2-Model',
-	#tag : 'Base'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }

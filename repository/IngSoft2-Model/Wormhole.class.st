@@ -5,52 +5,52 @@ Class {
 	#name : 'Wormhole',
 	#superclass : 'Object',
 	#instVars : [
-		'endpoint',
-		'position'
+		'lowEndpoint',
+		'greatEndpoint'
 	],
-	#category : 'IngSoft2-Model-Base',
-	#package : 'IngSoft2-Model',
-	#tag : 'Base'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Wormhole class >> createWith: anEndpoint in: aPosition [
+Wormhole class >> from: lowestEndpoint to: greatestEndpoint [
 
-	self validate: anEndpoint and: aPosition.
-	^ self new initializeWith: anEndpoint and: aPosition
+	self validate: lowestEndpoint and: greatestEndpoint.
+	^ self new initializeWith: lowestEndpoint and: greatestEndpoint
 ]
 
 { #category : 'validation' }
-Wormhole class >> validate: anEndpoint and: aPosition [
+Wormhole class >> validate: lowestEndpoint and: greatestEndpoint [
 
-	anEndpoint < 2 ifTrue: [
-		Error signal: 'The endpoint must be at least cell number 2.' ].
-	aPosition < 2 ifTrue: [
-		Error signal: 'The cell must be at least number 2.' ].
-	aPosition = anEndpoint ifTrue: [
-		Error signal: 'The position and endpoint cant be the same.' ]
+	greatestEndpoint <= lowestEndpoint ifTrue: [
+		Error signal:
+			'Greatest endpoint must be greater than lowest endpoint.' ].
+	lowestEndpoint < 2 ifTrue: [
+		Error signal: 'Lowest endpoint must be at least number 2.' ]
 ]
 
 { #category : 'modifying' }
 Wormhole >> applyEffectOn: aShip [
 
 	| delta |
-	(aShip isIn: position) ifFalse: [ ^ aShip ].
-	delta := endpoint - position.
-	^ delta > 0
+	(self checkTriggersBy: aShip) ifFalse: [ ^ aShip ].
+
+	delta := greatEndpoint - lowEndpoint.
+
+	^ (aShip isIn: lowEndpoint)
 		  ifTrue: [ aShip moveForward: delta ]
-		  ifFalse: [ aShip moveBackwards: -1 * delta ]
+		  ifFalse: [ aShip moveBackwards: delta ]
+]
+
+{ #category : 'events-triggering' }
+Wormhole >> checkTriggersBy: aShip [
+
+	^ (aShip isIn: lowEndpoint) or: (aShip isIn: greatEndpoint)
 ]
 
 { #category : 'initialization' }
-Wormhole >> initializeWith: anEndpoint [
+Wormhole >> initializeWith: lowestEndpoint and: greatestEndpoint [
 
-	endpoint := anEndpoint
-]
-
-{ #category : 'initialization' }
-Wormhole >> initializeWith: anEndpoint and: aPosition [
-
-	endpoint := anEndpoint.
-	position := aPosition
+	lowEndpoint := lowestEndpoint.
+	greatEndpoint := greatestEndpoint
 ]

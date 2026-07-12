@@ -30,6 +30,7 @@ GameTest >> setUp [
 	"To avoid repeated IDs"
 	aShipListTemplate := (1 to: aListOfNames size) collect: [ :id |
 		                       Ship createWith: id ]
+	
 ]
 
 { #category : 'tests' }
@@ -158,4 +159,23 @@ GameTest >> test019WhenTheGameIsFinishedWeCanKnowThePositionOfShips [
 	expectedPositions := 'Ship ID: 1, Position: 13.
 	Ship ID: 2, Position: 3.'.
 	self assert: positions equals: expectedPositions
+]
+
+{ #category : 'tests' }
+GameTest >> test026WhenAShipFallsIntoAWorholeInAGameItTravelsToTheOtherEnd [
+
+	| aGame aDie aGoalMark aWormhole aShip |
+	aGoalMark := 12.
+	aDie := LoadedDie createWith: 5.
+	aWormhole := Wormhole from: 6 to: 10.
+	aGame := Game
+		         createWith: aShipListTemplate
+		         and: aDie
+		         and: aGoalMark
+		         and: aWormhole.
+
+	aGame nextPlayerPlays.
+
+	aShip := aShipListTemplate at: 1.
+	self assert: (aGame ship: aShip isIn: 10)
 ]

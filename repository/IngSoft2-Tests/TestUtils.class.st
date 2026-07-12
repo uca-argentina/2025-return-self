@@ -1,7 +1,9 @@
 "
 Not instanciable class, just to keep common methods
 
-Test Counter: 25
+Test Counter: 26
+
+Some test may appear with name tag ""test###DEPRECATED"". The reason for this is to avoid the loss of traceability and to see the correct incremental order of the tests.
 "
 Class {
 	#name : 'TestUtils',

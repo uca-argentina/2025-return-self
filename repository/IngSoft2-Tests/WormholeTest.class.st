@@ -6,11 +6,11 @@ Class {
 }
 
 { #category : 'tests' }
-WormholeTest >> test021WhenAShipStepsIntoAWormholeItTravelsToTheOppositeSideWhenEndpointIsGreaterThanPosition [
+WormholeTest >> test021WhenAShipStepsIntoAWormholesLowEndpointItTravelsToTheGreatEndpoint [
 
 	| aShip aWormhole firstAnswer secondAnswer thirdAnswer |
 	aShip := Ship createWith: 1.
-	aWormhole := Wormhole createWith: 10 in: 2.
+	aWormhole := Wormhole from: 2 to: 10.
 
 	aShip := aWormhole applyEffectOn: aShip.
 
@@ -28,11 +28,11 @@ WormholeTest >> test021WhenAShipStepsIntoAWormholeItTravelsToTheOppositeSideWhen
 ]
 
 { #category : 'tests' }
-WormholeTest >> test022WhenAShipStepsIntoAWormholeItTravelsToTheOppositeSideWhenEndpointIsLowerThanPosition [
+WormholeTest >> test022WhenAShipStepsIntoAWormholesGreatEndpointItTravelsToTheLowEndpoint [
 
 	| aShip aWormhole firstAnswer secondAnswer thirdAnswer |
 	aShip := Ship createWith: 1.
-	aWormhole := Wormhole createWith: 2 in: 10.
+	aWormhole := Wormhole from: 2 to: 10.
 
 	aShip := aWormhole applyEffectOn: aShip.
 
@@ -50,25 +50,30 @@ WormholeTest >> test022WhenAShipStepsIntoAWormholeItTravelsToTheOppositeSideWhen
 ]
 
 { #category : 'tests' }
-WormholeTest >> test023TryingToCreateAWormholeWithEndpointLowerThan2RaisesError [
+WormholeTest >> test023TryingToCreateAWormholeWithLowestEndpointLowerThan2RaisesError [
 
 	TestUtils
-		should: [ Wormhole createWith: 1 in: 10 ]
-		raiseWith: 'The endpoint must be at least cell number 2.'
+		should: [ Wormhole from: 1 to: 10 ]
+		raiseWith: 'Lowest endpoint must be at least number 2.'
 ]
 
 { #category : 'tests' }
-WormholeTest >> test024TryingToCreateAWormholeWithPositionLowerThan2RaisesError [
+WormholeTest >> test024TryingToCreateAWormholeWithGreatEndpointLowerThanLowEndpointRaisesError [
 
 	TestUtils
-		should: [ Wormhole createWith: 10 in: 1 ]
-		raiseWith: 'The cell must be at least number 2.'
+		should: [ Wormhole from: 4 to: 4 ]
+		raiseWith: 'Greatest endpoint must be greater than lowest endpoint.'
 ]
 
 { #category : 'tests' }
-WormholeTest >> test025TryingToCreateAWormholeWithSamePositionAndEndpointRaisesError [
+WormholeTest >> test025DEPRECATED [
+	"If greatest endpoint cant be lower or equal than lowest endpoint, then this test doesnt make sense"
 
-	TestUtils
-		should: [ Wormhole createWith: 5 in: 5 ]
-		raiseWith: 'The position and endpoint cant be the same.'
+	"test025TryingToCreateAWormholeWithSamePositionAndEndpointRaisesError"
+
+	"	TestUtils
+		should: [ Wormhole from: 5 to: 5 ]
+		raiseWith: 'Both endpoints cant be the same.'"
+
+	self assert: true
 ]
