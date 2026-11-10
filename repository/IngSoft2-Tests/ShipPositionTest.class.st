@@ -47,6 +47,7 @@ ShipPositionTest >> test02WhenTryingToCreateASpaceShipWithNegativeLapThenItThrow
 
 { #category : 'tests' }
 ShipPositionTest >> test03WhenAShipGoesBackADistanceGreaterThanItsPositionThenItReturnsAShipInFirstTileSameLap [
+
 	"We assumed ships cant lose laps"
 
 	| aShipPosition anUpdatedShipPosition |
@@ -59,6 +60,7 @@ ShipPositionTest >> test03WhenAShipGoesBackADistanceGreaterThanItsPositionThenIt
 
 { #category : 'tests' }
 ShipPositionTest >> test04WhenAShipIsToldToResetLapThenItReturnsToFirstTileSameLap [
+
 	"We assumed ships cant lose laps"
 
 	| aShipPosition anUpdatedShipPosition |
@@ -119,6 +121,7 @@ ShipPositionTest >> test09WhenTwoShipsAreInSamePositionThenTheyAreAware [
 
 { #category : 'tests' }
 ShipPositionTest >> test10WhenAShipSurpassesTheBoardLengthThenItStartsANewLapWithCalculatedPosition [
+
 	"Simulating a new lap reached, the board length is also the backtrack decreased
 from its overshot position"
 
@@ -128,9 +131,21 @@ from its overshot position"
 	aShipPosition := ShipPosition createWith: 1 and: 15 and: 1.
 	anUpdatedShipPosition := aShipPosition advanceTiles: aDistance.
 	anUpdatedShipPosition := anUpdatedShipPosition
-		                         changeLapAndCorrectPositionWith:
-		                         aBoardLength.
+		changeLapAndCorrectPositionWith:
+		aBoardLength.
 
 	self assert: anUpdatedShipPosition lap equals: 2.
 	self assert: anUpdatedShipPosition position equals: 5
+]
+
+{ #category : 'tests' }
+ShipPositionTest >> test11WhenComparingDistancesThenACompletedLapCountsMoreThanAnyTileOfThePreviousLap [
+
+	| aShipInANewLap aShipEndingTheFirstLap aBoardLength parsecsPerTile |
+	aBoardLength := 10.
+	parsecsPerTile := 5.
+	aShipInANewLap := ShipPosition createWith: 1 and: 1 and: 1.
+	aShipEndingTheFirstLap := ShipPosition createWith: 2 and: 10 and: 0.
+	self assert: (aShipInANewLap distanceTravelledWith: aBoardLength and: parsecsPerTile)
+		> (aShipEndingTheFirstLap distanceTravelledWith: aBoardLength and: parsecsPerTile)
 ]

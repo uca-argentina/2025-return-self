@@ -20,8 +20,8 @@ PositionManagerTest >> setUp [
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aGroupOfPlayers := {
-		                   aPlayer.
-		                   anotherPlayer }.
+		aPlayer.
+		anotherPlayer }.
 
 	aPositionManager := PositionManager createWith: aGroupOfPlayers and: 10 and: 3
 ]
@@ -43,10 +43,10 @@ PositionManagerTest >> test01WhenTryingToCreateAPositionManagerWithNegativeLapsT
 	aTileList := TileListCreationForTesting createTileListWith: 5.
 	aTestBoard := Board createWith: aTileList tileList.
 	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation
-			                    createWith: 1
-			                    and: 'Pedro').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Juan') }.
+		(ShipPlayerAssociation
+			createWith: 1
+			and: 'Pedro').
+		(ShipPlayerAssociation createWith: 2 and: 'Juan') }.
 	self
 		should: [
 			PositionManager createWith: aGroupOfPlayers and: aTestBoard totalTiles and: -10]
@@ -77,7 +77,7 @@ PositionManagerTest >> test04ManagerKnowsIfAShipSurpassesTheBoardLengthAndReturn
 	| aShipPosition aNewShipPosition |
 	aShipPosition := ShipPosition createWith: 3 and: 15 and: 2.
 	aNewShipPosition := aPositionManager checkIfReachedANewLap:
-		                    aShipPosition.
+		aShipPosition.
 
 	self assert: aNewShipPosition position equals: 5.
 	self assert: aNewShipPosition lap equals: 3.
@@ -88,7 +88,7 @@ PositionManagerTest >> test04ManagerKnowsIfAShipSurpassesTheBoardLengthAndReturn
 PositionManagerTest >> test05WhenAShipSurpassesBoardLengthThenManagerReturnsANewShipWithTheNewLapAndCorrectPosition [
 
 	| aShipPosition |
-	
+
 	aPositionManager move: aPlayer forwardWith: 15.
 	aShipPosition := aPositionManager findShipReference: aPlayer.
 
@@ -166,16 +166,16 @@ PositionManagerTest >> test12PositionManagerCanReturn2DArrayWithShipPositionAndA
 	| assertingVariableData |
 
 	aPositionManager move: aPlayer forwardWith: 5.
-	
+
 	assertingVariableData := {
-		                         {
-			                         (aPositionManager findShipReference:
-				                          aPlayer).
-			                         'Position: 6, Lap: 0' }.
-		                         {
-			                         (aPositionManager findShipReference:
-				                          anotherPlayer).
-			                         'Position: 1, Lap: 0' } }.
+		{
+			(aPositionManager findShipReference:
+				aPlayer).
+			'Position: 6, Lap: 0' }.
+		{
+			(aPositionManager findShipReference:
+				anotherPlayer).
+			'Position: 1, Lap: 0' } }.
 
 	self
 		assert: aPositionManager playerPositions
@@ -187,7 +187,7 @@ PositionManagerTest >> test13WhenTwoPlayersAreNotInFirstTileAndInASameTileThenMa
 
 	aPositionManager move: aPlayer forwardWith: 5.
 	aPositionManager move: anotherPlayer forwardWith: 5.
-	
+
 	self assert: (aPositionManager checkIfBattle: aPlayer).
 ]
 
@@ -196,11 +196,25 @@ PositionManagerTest >> test14PositionManagerCanReturn2DArrayWithIdAndAStringCont
 
 	| assertingVariableData |
 	assertingVariableData := {
-		                         { 2. 'Place: 1' }.
-		                         { 1. 'Place: 2' } }.
+		{ 2. 'Place: 1' }.
+		{ 1. 'Place: 2' } }.
 
 	aPositionManager move: anotherPlayer forwardWith: 5.
 
+	self
+		assert: aPositionManager playerRanking
+		equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+PositionManagerTest >> test15WhenAShipCompletesALapThenItRanksAheadOfAShipInTheLastTileOfThePreviousLap [
+
+	| assertingVariableData |
+	assertingVariableData := {
+								 { 1. 'Place: 1' }.
+								 { 2. 'Place: 2' } }.
+	aPositionManager move: aPlayer forwardWith: 10.
+	aPositionManager move: anotherPlayer forwardWith: 9.
 	self
 		assert: aPositionManager playerRanking
 		equals: assertingVariableData
