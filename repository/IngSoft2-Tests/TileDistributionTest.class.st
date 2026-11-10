@@ -53,8 +53,8 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 			blackHoles := blackHoles + 1 ].
 		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ] ].
 
-	self assert: blackHoles equals: 20.
-	self assert: noEffect equals: 79.
+	self assert: blackHoles equals: 18.
+	self assert: noEffect equals: 81.
 ]
 
 { #category : 'tests' }
@@ -75,16 +75,15 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 		(tile effect isAtomikBomb) ifTrue: [
 			atomikBombs := atomikBombs + 1 ] ].
 
-
-	self assert: blackHoles equals: 20.
+	self assert: blackHoles equals: 18.
 	self assert: atomikBombs equals: 2.
-	self assert: noEffect equals: 77
+	self assert: noEffect equals: 79
 ]
 
 { #category : 'tests' }
 TileDistributionTest >> testBoardWithEveryThing [
 
-	| aTestBoard blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole |
+	| aTestBoard blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole cardGivers |
 	aBuilder addEveryEffectToBuilder.
 	aTestBoard := aBuilder buildBoard.
 
@@ -95,6 +94,7 @@ TileDistributionTest >> testBoardWithEveryThing [
 	moonWalk := 0.
 	noEffect := 0.
 	wormhole := 0.
+	cardGivers := 0.
 	aTestBoard tiles do: [ :tile |
 		tile effect isBlackHole ifTrue: [ blackHoles := blackHoles + 1 ].
 		tile effect isNoEffect ifTrue: [ noEffect := noEffect + 1 ].
@@ -103,15 +103,16 @@ TileDistributionTest >> testBoardWithEveryThing [
 			hyperSpaceJump := hyperSpaceJump + 1 ].
 		tile effect isMoonWalk ifTrue: [ moonWalk := moonWalk + 1 ].
 		tile effect isWormhole ifTrue: [ wormhole := wormhole + 1 ].
+		tile effect isCardGiver ifTrue: [ cardGivers := cardGivers + 1 ].
 		tile effect isAtomikBomb ifTrue: [ atomikBombs := atomikBombs + 1 ] ].
 
-
-	self assert: blackHoles equals: 20.
+	self assert: blackHoles equals: 18.
 	self assert: atomikBombs equals: 2.
-	self assert: noEffect equals: 39.
-	self assert: hyperJump equals: 8.
-	self assert: hyperSpaceJump equals: 20.
-	self assert: moonWalk equals: 10.
+	self assert: noEffect equals: 37.
+	self assert: hyperJump equals: 6.
+	self assert: hyperSpaceJump equals: 18.
+	self assert: moonWalk equals: 8.
+	self assert: cardGivers equals: 10.
 	self assert: wormhole equals: 2
 ]
 
@@ -120,7 +121,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWith
 
 	| aWormhole |
 	aWormhole := Wormhole createWith: 7.
-	
+
 	self
 		should: [ aTileListCreator at: 3 put: aWormhole ]
 		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
@@ -131,7 +132,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWith
 
 	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
-	
+
 	self
 		should: [ aTileListCreator at: 3 put: aWormhole ]
 		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
@@ -142,7 +143,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectInFir
 
 	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
-	
+
 	self
 		should: [ aTileListCreator at: 1 put: aWormhole ]
 		raiseErrorWithMessageText: 'Effect cant be in first tile.'
@@ -153,7 +154,7 @@ TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectOutsi
 
 	| aWormhole |
 	aWormhole := Wormhole createWith: 3.
-	
+
 	self
 		should: [ aTileListCreator at: 7 put: aWormhole ]
 		raiseErrorWithMessageText: 'Effect cant be outside the board.'

@@ -14,7 +14,6 @@ AtomikBomb class >> effectProbability [
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aPlayer and: aGame [
 
-
 	| aGroupOfPlayers positionManager battleManager turnManager |
 	positionManager := aGame requestPositionManager: self.
 	battleManager  := aGame requestBattleManager: self.

@@ -41,7 +41,6 @@ Wormhole class >> endpointMustBeGreaterThanOne: anEndpoint [
 { #category : 'positioning' }
 Wormhole >> applyEffectOn: aPlayer and: aGame [
 
-
 	| distance positionManager |
 	
 		positionManager := aGame requestPositionManager: self.

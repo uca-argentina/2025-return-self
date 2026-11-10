@@ -8,7 +8,6 @@ Class {
 { #category : 'tests' }
 ShipCardTest >> test01ShipCanThrowACard [
 
-
 	| aDeck aShip activeCards assertingDeck assertingActive |
 	aDeck := {
 		         Speed create.
@@ -16,7 +15,6 @@ ShipCardTest >> test01ShipCanThrowACard [
 		         Cancellation new } asOrderedCollection.
 	aShip := ShipCards createWith: 1 and: aDeck.
 	activeCards := OrderedCollection new.
-
 
 	"aShip := aShip cardThrow: Speed create changing: activeCards."
 	aShip := aShip for: Speed new ifAnySetupWith: aShip.

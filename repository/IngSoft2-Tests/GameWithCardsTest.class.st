@@ -31,7 +31,6 @@ GameWithCardsTest >> test01GamePlayedWithACardGiverTile [
 
 	shipCardsOfJuan := aGame cardsFeatureOf: (aGroupOfPlayers at: 1).
 
-
 	shipCardsOfTomi := aGame cardsFeatureOf: (aGroupOfPlayers at: 2).
 
 	self assert: (shipCardsOfJuan deck at: 3) isSpeed equals: true.

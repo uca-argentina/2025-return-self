@@ -11,18 +11,20 @@ Class {
 
 { #category : 'creation' }
 HyperSpaceJump class >> create [
+
 	^self new initializeEffectWith: 4 and: 1
 ]
 
 { #category : 'creation' }
 HyperSpaceJump class >> createWith: aBoost and: aShieldDebuff [
+
 	^self new initializeEffectWith: aBoost and: aShieldDebuff 
 ]
 
 { #category : 'creation' }
 HyperSpaceJump class >> effectProbability [
 
-^0.20
+	^ 0.18
 ]
 
 { #category : 'positioning' }
@@ -32,10 +34,8 @@ HyperSpaceJump >> applyEffectOn: aPlayer and: aGame [
 	positionManager := aGame requestPositionManager: self.
 	battleManager  := aGame requestBattleManager: self.
 
-
 		positionManager move: aPlayer forwardWith: buff.
 		battleManager playerLoseShield: aPlayer.
-
 ]
 
 { #category : 'initialization' }
@@ -46,7 +46,7 @@ HyperSpaceJump >> initializeEffectWith: aBoost and: aShieldDebuff [
 ]
 
 { #category : 'testing' }
-HyperSpaceJump >> isHyperSpaceJump [ 
+HyperSpaceJump >> isHyperSpaceJump [
 
 	^ true
 ]

@@ -11,18 +11,20 @@ Class {
 
 { #category : 'creation' }
 HyperJump class >> create [
+
 	^self new initializeEffectWith: #(13 9 5)
 ]
 
 { #category : 'creation' }
 HyperJump class >> createWith: aListOfParsecs [
+
 	^self new initializeEffectWith: aListOfParsecs
 ]
 
 { #category : 'creation' }
 HyperJump class >> effectProbability [
 
-^0.08
+	^ 0.06
 ]
 
 { #category : 'positioning' }
@@ -34,7 +36,6 @@ HyperJump >> applyEffectOn: aPlayer and: aGame [
 	positionManager move: aPlayer forwardWithParsecs: (buffList at: actualBuffIndex) .
 
 		self nextBuff.
-
 ]
 
 { #category : 'initialization' }

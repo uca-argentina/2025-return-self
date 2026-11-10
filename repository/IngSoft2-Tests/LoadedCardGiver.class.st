@@ -21,7 +21,7 @@ LoadedCardGiver class >> createWith: aListOfCards [
 { #category : 'creation' }
 LoadedCardGiver class >> effectProbability [
 
-0.1
+	^ 0.10
 ]
 
 { #category : 'positioning' }

@@ -109,7 +109,6 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 		         withSetOfDie: aSequenceOfRolls
 		         withLaps: 1.
 
-
 	self play: 2 in: aGame.
 	"Steps on wormhole here, on next turn it goes through. VAMOS A TENER QUE CORREGIR ESTO"
 	self

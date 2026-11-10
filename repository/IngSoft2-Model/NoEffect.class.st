@@ -8,7 +8,7 @@ Class {
 { #category : 'creation' }
 NoEffect class >> effectProbability [
 
-^0.30
+	^ 0.38
 ]
 
 { #category : 'positioning' }
@@ -17,7 +17,7 @@ NoEffect >> applyEffectOn: aPlayer and: aGame [
 ]
 
 { #category : 'testing' }
-NoEffect >> isNoEffect [ 
+NoEffect >> isNoEffect [
 
 	^ true
 ]

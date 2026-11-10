@@ -49,6 +49,7 @@ TileDistributionBuilder >> addEveryEffectToBuilder [
 
 { #category : 'building' }
 TileDistributionBuilder >> buildBoard [
+
 	effectsWithProbabilities do:[:effect | self distributeEffectIntoTileList: effect].
 	^ Board createWith: tileList
 ]
@@ -69,7 +70,7 @@ TileDistributionBuilder >> distributeEffectIntoTileList: anEffectClass [
 
 	| aProbability tilesWithNoEffect amountNeeded tileIndex |
 	aProbability := anEffectClass effectProbability.
-	amountNeeded := aProbability * (tileList size - 1). "NOT COUNTING FIRST TILE"
+	amountNeeded := (aProbability * (tileList size - 1)) rounded. "NOT COUNTING FIRST TILE"
 	tilesWithNoEffect := self collectTilesWithNoEffect.
 
 	"LOOPEO HASTA QUE AMOUNT NEEDED SEA CERO O TILESWNOEFFECT SEA CERO, "
@@ -91,9 +92,9 @@ TileDistributionBuilder >> initializeBuilderForBoardWithLength: aLength and: par
 	[ oneEnd = otherEnd ] whileTrue: [
 		otherEnd := (2 to: aLength) atRandom ].
 	tileList := (1 to: aLength) collect: [ :x |
-		            Tile
-			            createWithEffect: NoEffect create
-			            and: parsecsPerTile ].
+					Tile
+						createWithEffect: NoEffect create
+						and: parsecsPerTile ].
 	tileList at: oneEnd put: (Tile
 			 createWithEffect: (Wormhole createWith: otherEnd)
 			 and: parsecsPerTile).

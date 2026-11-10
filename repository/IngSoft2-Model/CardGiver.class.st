@@ -17,7 +17,7 @@ CardGiver class >> create [
 { #category : 'creation' }
 CardGiver class >> effectProbability [
 
-0.1
+	^ 0.10
 ]
 
 { #category : 'positioning' }
@@ -35,12 +35,12 @@ CardGiver >> applyEffectOn: aPlayer and: aGame [
 CardGiver >> initializeEffect [
 
 	cardClasses := {
-		               Acceleration.
-		               Cancellation.
-		               Mercenary.
-		               Redo.
-		               Repeat.
-		               Speed }
+		Acceleration.
+		Cancellation.
+		Mercenary.
+		Redo.
+		Repeat.
+		Speed }
 ]
 
 { #category : 'testing' }

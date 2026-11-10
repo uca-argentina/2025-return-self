@@ -10,6 +10,7 @@ Class {
 
 { #category : 'creation' }
 MoonWalk class >> create [
+
 	^self new initializeEffectWith: (1 to: 5) atRandom
 ]
 
@@ -28,7 +29,7 @@ MoonWalk class >> createWith: aMaxDebuff [
 { #category : 'creation' }
 MoonWalk class >> effectProbability [
 
-^0.10
+	^ 0.08
 ]
 
 { #category : 'positioning' }
