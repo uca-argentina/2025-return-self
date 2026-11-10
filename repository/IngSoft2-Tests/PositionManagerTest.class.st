@@ -219,3 +219,12 @@ PositionManagerTest >> test15WhenAShipCompletesALapThenItRanksAheadOfAShipInTheL
 		assert: aPositionManager playerRanking
 		equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+PositionManagerTest >> test16WhenAShipTravelsExactlyTheParsecsOfATileThenItAdvancesOneTile [
+
+	| aShipPosition |
+	aPositionManager move: aPlayer forwardWithParsecs: 5.
+	aShipPosition := aPositionManager findShipReference: aPlayer.
+	self assert: aShipPosition position equals: 2
+]

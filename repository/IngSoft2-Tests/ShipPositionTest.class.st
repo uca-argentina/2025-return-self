@@ -149,3 +149,22 @@ ShipPositionTest >> test11WhenComparingDistancesThenACompletedLapCountsMoreThanA
 	self assert: (aShipInANewLap distanceTravelledWith: aBoardLength and: parsecsPerTile)
 		> (aShipEndingTheFirstLap distanceTravelledWith: aBoardLength and: parsecsPerTile)
 ]
+
+{ #category : 'tests' }
+ShipPositionTest >> test12WhenAShipSurpassesTheBoardLengthMoreThanOnceThenItAddsEveryCompletedLap [
+
+	| aShipPosition anUpdatedShipPosition |
+	aShipPosition := ShipPosition createWith: 1 and: 1 and: 0.
+	anUpdatedShipPosition := (aShipPosition advanceTiles: 25) changeLapAndCorrectPositionWith: 10.
+	self assert: anUpdatedShipPosition lap equals: 2.
+	self assert: anUpdatedShipPosition position equals: 6
+]
+
+{ #category : 'tests' }
+ShipPositionTest >> test13WhenAShipGoesBackThenItKeepsTheParsecsTravelledInsideItsTile [
+
+	| aShipPosition anUpdatedShipPosition |
+	aShipPosition := ShipPosition createWith: 1 and: 5 and: 0 and: 3.
+	anUpdatedShipPosition := aShipPosition goBackTiles: 2.
+	self assert: (anUpdatedShipPosition distanceTravelledWith: 10 and: 5) equals: 18
+]
