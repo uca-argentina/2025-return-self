@@ -13,14 +13,11 @@ Class {
 { #category : 'creation' }
 PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: aNumberOfLaps [
 
-	| playerPositionAssociationGroup |
-	self lapHasToBeGreaterThanZero: aNumberOfLaps.
-	playerPositionAssociationGroup := aGroupOfPlayers collect: [ :each |
-		ShipPosition
-			createWith: each id	
-			and: 0 ].
-
-	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps and: 5
+	^ self
+		createWith: aGroupOfPlayers
+		and: anNumberOfTiles
+		and: aNumberOfLaps
+		and: Tile defaultLength asParsecs
 ]
 
 { #category : 'creation' }

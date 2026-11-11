@@ -109,6 +109,29 @@ EffectTest >> testGamePlayedWithAHyperJumpTileMixingLightYearsAndParsecs [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithAHyperJumpTileOnABoardMeasuredInLightYears [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 4, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0' }.
+	hyperJumpEffect := HyperJump create.
+	aTileListCreator := TileListCreationForTesting
+							createTileListWith: 20
+							and: (LightYears of: 30).
+	aTileListCreator at: 3 put: hyperJumpEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie:
+							{ (LoadedDie rolling: 2) }.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: aSequenceOfRolls
+				 withLaps: 1.
+	self play: 1 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
 
 	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData |

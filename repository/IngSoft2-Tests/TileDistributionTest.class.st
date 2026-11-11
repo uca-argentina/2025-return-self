@@ -40,6 +40,16 @@ TileDistributionTest >> test02WhenTryingToCreateABoardWithLengthLowerThanThreeTh
 ]
 
 { #category : 'tests' }
+TileDistributionTest >> testBoardBuiltWithATotalLengthInLightYearsSplitsItEvenlyAmongItsTiles [
+
+	| aTestBoard |
+	aTestBoard := (TileDistributionBuilder
+					   createTileListWith: 10
+					   withTotalLength: (LightYears of: 150)) buildBoard.
+	self assert: aTestBoard parsecsPerTile equals: 5
+]
+
+{ #category : 'tests' }
 TileDistributionTest >> testBoardBuiltWithBlackHoles [
 
 	| aTestBoard blackHoles noEffect |
@@ -114,6 +124,14 @@ TileDistributionTest >> testBoardWithEveryThing [
 	self assert: moonWalk equals: 8.
 	self assert: cardGivers equals: 10.
 	self assert: wormhole equals: 2
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateATileWithoutLengthThenItRaisesError [
+
+	self
+		should: [ Tile createWithEffect: NoEffect create and: (Parsecs of: 0) ]
+		raiseErrorWithMessageText: 'A tile must be longer than zero parsecs.'
 ]
 
 { #category : 'tests' }

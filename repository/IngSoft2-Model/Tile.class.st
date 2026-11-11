@@ -3,7 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'effect',
-		'parsecs'
+		'length'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -12,19 +12,33 @@ Class {
 { #category : 'creation' }
 Tile class >> createWithEffect: anEffect [
 
-	^ self new initializeTileWithEffect: anEffect and: 5
+	^ self createWithEffect: anEffect and: self defaultLength
 ]
 
 { #category : 'creation' }
-Tile class >> createWithEffect: anEffect and: parsecsNumber [
+Tile class >> createWithEffect: anEffect and: aLength [
 
-	^ self new initializeTileWithEffect: anEffect and: parsecsNumber
+	self lengthMustBeGreaterThanZero: aLength.
+	^ self new initializeTileWithEffect: anEffect and: aLength
+]
+
+{ #category : 'accessing' }
+Tile class >> defaultLength [
+
+	^ Parsecs of: 5
+]
+
+{ #category : 'testing' }
+Tile class >> lengthMustBeGreaterThanZero: aLength [
+
+	aLength asParsecs > 0 ifFalse: [
+		Error signal: 'A tile must be longer than zero parsecs.' ]
 ]
 
 { #category : 'accessing' }
 Tile >> effect [
 
-^effect 
+	^ effect
 ]
 
 { #category : 'testing' }
@@ -34,14 +48,14 @@ Tile >> hasNoEffect [
 ]
 
 { #category : 'initialization' }
-Tile >> initializeTileWithEffect: anEffect and: parsecsNumber [
+Tile >> initializeTileWithEffect: anEffect and: aLength [
 
 	effect := anEffect.
-	parsecs := parsecsNumber
+	length := aLength
 ]
 
 { #category : 'accessing' }
 Tile >> parsecs [
 
-	^ parsecs
+	^ length asParsecs
 ]
