@@ -13,9 +13,9 @@ TurnManager class >> createWith: aGroupOfPlayers [
 
 	| playerTurnAssociationGroup |
 	playerTurnAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                              ShipInStandBy
-			                              createWith: each id
-			                              and: 0 ].
+		ShipInStandBy
+			createWith: each id
+			and: 0 ].
 
 	^ self new initializePlayersTurnWith: playerTurnAssociationGroup
 ]
@@ -36,10 +36,16 @@ TurnManager >> initializePlayersTurnWith: aGroup [
 	nextPlayerIndex := 0
 ]
 
+{ #category : 'testing' }
+TurnManager >> isTurnOf: aPlayer [
+
+	^ self playerToPlayNext equalsID: aPlayer
+]
+
 { #category : 'play interface' }
 TurnManager >> nextPlayerTurnBegins [
 
-nextPlayerIndex := (nextPlayerIndex) \\ (playersFeature size) + 1
+	nextPlayerIndex := (nextPlayerIndex) \\ (playersFeature size) + 1
 ]
 
 { #category : 'play interface' }
@@ -61,4 +67,12 @@ TurnManager >> playerInTurn [
 
 	nextPlayerIndex = 0 ifTrue: [ Error signal: 'The game did not begin.' ].
 	^ playersFeature at: nextPlayerIndex
+]
+
+{ #category : 'accessing' }
+TurnManager >> playerToPlayNext [
+
+	^ self copy
+		playNextTurn;
+		playerInTurn
 ]

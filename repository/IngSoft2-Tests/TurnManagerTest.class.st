@@ -18,8 +18,8 @@ TurnManagerTest >> setUp [
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
 	aGroupOfPlayers := {
-		                   aPlayer.
-		                   anotherPlayer }.
+		aPlayer.
+		anotherPlayer }.
 
 	aTurnManager := TurnManager createWith: aGroupOfPlayers.
 	aTurnManager nextPlayerTurnBegins
@@ -56,8 +56,8 @@ TurnManagerTest >> test03ATurnManagerNotStartedWithNextPlayerTurnBeginsCantRetur
 
 	| anotherTurnManager |
 	anotherTurnManager := TurnManager createWith: {
-			                      aPlayer.
-			                      anotherPlayer }.
+			aPlayer.
+			anotherPlayer }.
 	self
 		should: [ anotherTurnManager playerInTurn ]
 		raiseErrorWithMessageText:
@@ -71,10 +71,25 @@ TurnManagerTest >> test04WhenManagerAddsSkipsToBothShipsAndPlaysNextTurnThenItDi
 	aTurnManager addTwoSkipsTo: aPlayer.
 	aTurnManager addTwoSkipsTo: anotherPlayer.
 	originalTurnStatus := aTurnManager playerInTurn.
-	
+
 	aTurnManager playNextTurn.
 	newTurnStatus := aTurnManager playerInTurn.
 
 	self assert: originalTurnStatus turnsToSkip equals: 2.
 	self assert: newTurnStatus turnsToSkip equals: 0.
+]
+
+{ #category : 'tests' }
+TurnManagerTest >> test05WhenATurnWasPlayedThenItIsTheTurnOfTheNextShip [
+
+	self assert: (aTurnManager isTurnOf: anotherPlayer).
+	self deny: (aTurnManager isTurnOf: aPlayer)
+]
+
+{ #category : 'tests' }
+TurnManagerTest >> test06WhenTheNextShipHasToLoseItsTurnThenItIsNotItsTurnAndItsLostTurnsStayUntouched [
+
+	aTurnManager addTwoSkipsTo: anotherPlayer.
+	self assert: (aTurnManager isTurnOf: aPlayer).
+	self assert: (aTurnManager findShipReference: anotherPlayer) turnsToSkip equals: 2
 ]

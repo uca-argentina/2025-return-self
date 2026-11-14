@@ -17,6 +17,7 @@ GameFeatureManager class >> mustHaveAtLeastTwoPlayers: aGroupOfPlayers [
 
 { #category : 'testing' }
 GameFeatureManager class >> twoPlayersCantHaveTheSameId: aGroupOfPlayers [
+
 	"when passed to Set, repeated values are cleaned"
 
 	(aGroupOfPlayers collect: [ :each | each id ]) size
@@ -29,8 +30,14 @@ GameFeatureManager >> findShipReference: aSpaceShipComponent [
 
 	| shipFeature |
 	shipFeature := playersFeature detect: [ :each |
-		             each equalsID: aSpaceShipComponent ] ifNone: [Error signal: 'Player not in list'].
+		each equalsID: aSpaceShipComponent ] ifNone: [Error signal: 'Player not in list'].
 	^ shipFeature
+]
+
+{ #category : 'copying' }
+GameFeatureManager >> postCopy [
+
+	playersFeature := playersFeature copy
 ]
 
 { #category : 'private - updating' }
@@ -38,6 +45,6 @@ GameFeatureManager >> updateShipReference: selfSpaceShipComponent [
 
 	| shipIndex |
 	shipIndex := playersFeature findFirst: [ :each |
-		             each equalsID: selfSpaceShipComponent ].
+		each equalsID: selfSpaceShipComponent ].
 	playersFeature at: shipIndex put: selfSpaceShipComponent
 ]
