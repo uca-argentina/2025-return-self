@@ -14,13 +14,13 @@ Effect class >> create [
 { #category : 'creation' }
 Effect class >> effectProbability [
 
-self subclassResponsibility.
+	self subclassResponsibility
 ]
 
 { #category : 'positioning' }
 Effect >> applyEffectOn: aPlayer and: aGame [
 
-self subclassResponsibility.
+	self subclassResponsibility
 ]
 
 { #category : 'testing' }
@@ -39,12 +39,6 @@ Effect >> isBlackHole [
 Effect >> isCardGiver [
 
 	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isEffect [
-
-	^ true
 ]
 
 { #category : 'testing' }

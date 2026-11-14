@@ -41,6 +41,12 @@ Game >> activeCards [
 	^ cardManager permanentAppliedCards
 ]
 
+{ #category : 'effects' }
+Game >> advance: aShip by: aDistance [
+
+	positionManager move: aShip forwardWithParsecs: aDistance asParsecs
+]
+
 { #category : 'testing' }
 Game >> cardsFeatureOf: aShip [
 
@@ -63,6 +69,12 @@ Game >> engageInBattle: activePlayer [
 			turnManager addTwoSkipsTo: player.
 			battleManager forceAShieldResetTo: player ].
 		positionManager resetLapTo: player ]
+]
+
+{ #category : 'effects' }
+Game >> give: aCard to: aShip [
+
+	cardManager add: aCard to: aShip
 ]
 
 { #category : 'initialization' }
@@ -94,6 +106,38 @@ Game >> isWinner: aPlayerName [
 	^ players is: positionManager winner named: aPlayerName
 ]
 
+{ #category : 'effects' }
+Game >> move: aShip backward: aNumberOfTiles [
+
+	positionManager move: aShip backwardWith: aNumberOfTiles
+]
+
+{ #category : 'effects' }
+Game >> move: aShip forward: aNumberOfTiles [
+
+	positionManager move: aShip forwardWith: aNumberOfTiles
+]
+
+{ #category : 'effects' }
+Game >> move: aShip toTile: aTile [
+
+	positionManager move: aShip toTile: aTile
+]
+
+{ #category : 'effects' }
+Game >> moveEveryoneExcept: aShip backward: aNumberOfTiles [
+
+	positionManager
+		moveEveryoneExcept: aShip
+		backwardsWith: aNumberOfTiles
+]
+
+{ #category : 'effects' }
+Game >> moveEveryoneToTheFirstTile [
+
+	positionManager resetPlayersPosition
+]
+
 { #category : 'interaction loop' }
 Game >> nextPlayerSkipsTurn [
 
@@ -115,11 +159,18 @@ Game >> nextPlayerThrowsDice [
 					   checkIfBonusToApplyTo: activePlayer
 					   using: setOfDie.
 	positionManager move: activePlayer forwardWith: aTotalThrow.
-	activePlayer := positionManager findShipReference: activePlayer.
-	anEffect := board applyEffectTriggeredBy: activePlayer.
+	anEffect := board effectAt: (positionManager tileOf: activePlayer).
 	anEffect applyEffectOn: activePlayer and: self.
 	(positionManager checkIfBattle: activePlayer) ifTrue: [
 		self engageInBattle: activePlayer ]
+]
+
+{ #category : 'private' }
+Game >> penalizeShipsOutOfShields [
+
+	battleManager shipsOutOfShields do: [ :ship |
+		turnManager addTwoSkipsTo: ship.
+		battleManager forceAShieldResetTo: ship ]
 ]
 
 { #category : 'interaction loop' }
@@ -161,43 +212,25 @@ Game >> positionFeatureOf: aShip [
 	^ positionManager findShipReference: aShip
 ]
 
-{ #category : 'effects' }
-Game >> requestBattleManager: anEffect [
-
-	anEffect isEffect ifFalse: [
-		Error signal: 'only Effects can ask for managers' ].
-	^ battleManager
-]
-
-{ #category : 'effects' }
-Game >> requestCardManager: anEffect [
-
-	anEffect isEffect ifFalse: [
-		Error signal: 'only Effects can ask for managers' ].
-	^ cardManager
-]
-
-{ #category : 'effects' }
-Game >> requestPositionManager: anEffect [
-
-	anEffect isEffect ifFalse: [
-		Error signal: 'only Effects can ask for managers' ].
-	^ positionManager
-]
-
-{ #category : 'effects' }
-Game >> requestTurnManager: anEffect [
-
-	anEffect isEffect ifFalse: [
-		Error signal: 'only Effects can ask for managers' ].
-	^ turnManager
-]
-
 { #category : 'testing' }
 Game >> shieldsFeatureOf: aShip [
 
 	"Used for testing"
 	^ battleManager findShipReference: aShip
+]
+
+{ #category : 'effects' }
+Game >> takeAShieldFromEveryone [
+
+	battleManager allDecreaseAShield.
+	self penalizeShipsOutOfShields
+]
+
+{ #category : 'effects' }
+Game >> takeShields: anAmount from: aShip [
+
+	anAmount timesRepeat: [ battleManager playerLoseShield: aShip ].
+	self penalizeShipsOutOfShields
 ]
 
 { #category : 'testing' }

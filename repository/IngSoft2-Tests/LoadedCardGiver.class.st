@@ -27,12 +27,7 @@ LoadedCardGiver class >> effectProbability [
 { #category : 'positioning' }
 LoadedCardGiver >> applyEffectOn: aPlayer and: aGame [
 
-	| cardManager |
-	cardManager := aGame requestCardManager: self.
-	cardManager
-		add: (cardOrderedLooping at: actualCardIndex) create
-		to: aPlayer.
-
+	aGame give: (cardOrderedLooping at: actualCardIndex) create to: aPlayer.
 	self nextCard
 ]
 

@@ -11,7 +11,7 @@ Class {
 { #category : 'creation' }
 MoonWalk class >> create [
 
-	^self new initializeEffectWith: (1 to: 5) atRandom
+	^ self createWith: 5
 ]
 
 { #category : 'creation' }
@@ -23,7 +23,7 @@ MoonWalk class >> createEspeciallyWith: aSpecificDebuff [
 { #category : 'creation' }
 MoonWalk class >> createWith: aMaxDebuff [
 
-	^ self new initializeEffectWith: (1 to: aMaxDebuff) atRandom
+	^ self createEspeciallyWith: (1 to: aMaxDebuff) atRandom
 ]
 
 { #category : 'creation' }
@@ -35,13 +35,10 @@ MoonWalk class >> effectProbability [
 { #category : 'positioning' }
 MoonWalk >> applyEffectOn: aPlayer and: aGame [
 
-	| positionManager |
-	positionManager := aGame requestPositionManager: self.
-
-	positionManager moveEveryoneExcept: aPlayer backwardsWith: debuff
+	aGame moveEveryoneExcept: aPlayer backward: debuff
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 MoonWalk >> initializeEffectWith: aDebuff [
 
 	debuff := aDebuff

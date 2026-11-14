@@ -52,11 +52,7 @@ HyperJump class >> mustHaveAtLeastOneDistance: aListOfDistances [
 { #category : 'positioning' }
 HyperJump >> applyEffectOn: aPlayer and: aGame [
 
-	| positionManager |
-	positionManager := aGame requestPositionManager: self.
-	positionManager
-		move: aPlayer
-		forwardWithParsecs: (buffList at: actualBuffIndex) asParsecs.
+	aGame advance: aPlayer by: (buffList at: actualBuffIndex).
 	self nextBuff
 ]
 

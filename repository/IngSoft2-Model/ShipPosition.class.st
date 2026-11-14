@@ -79,12 +79,6 @@ ShipPosition >> advanceTiles: aDistance [
 		and: parsec
 ]
 
-{ #category : 'accessing' }
-ShipPosition >> calculateDelta: anotherPosition [
-
-	^ anotherPosition - position
-]
-
 { #category : 'positioning' }
 ShipPosition >> changeLapAndCorrectPositionWith: aBacktrackDistance [
 
@@ -135,6 +129,16 @@ ShipPosition >> goToFirstTile [
 	^ self class
 		createWith: id
 		and: lap
+]
+
+{ #category : 'positioning' }
+ShipPosition >> goToTile: aTile [
+
+	^ self class
+		createWith: id
+		and: aTile
+		and: lap
+		and: parsec
 ]
 
 { #category : 'comparing' }

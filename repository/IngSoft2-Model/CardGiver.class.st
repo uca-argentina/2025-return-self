@@ -23,24 +23,19 @@ CardGiver class >> effectProbability [
 { #category : 'positioning' }
 CardGiver >> applyEffectOn: aPlayer and: aGame [
 
-	| aRandomIndex aRandomCard cardManager |
-
-	cardManager := aGame requestCardManager: self.
-	aRandomIndex := (1 to: cardClasses size) atRandom.
-	aRandomCard := (cardClasses at: aRandomIndex) create.
-	cardManager add: aRandomCard to: aPlayer 
+	aGame give: cardClasses atRandom create to: aPlayer
 ]
 
 { #category : 'initialization' }
 CardGiver >> initializeEffect [
 
 	cardClasses := {
-		Acceleration.
-		Cancellation.
-		Mercenary.
-		Redo.
-		Repeat.
-		Speed }
+					   Acceleration.
+					   Cancellation.
+					   Mercenary.
+					   Redo.
+					   Repeat.
+					   Speed }
 ]
 
 { #category : 'testing' }

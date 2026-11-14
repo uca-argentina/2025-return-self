@@ -70,14 +70,6 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	parsecs := parsecsPerTile
 ]
 
-{ #category : 'as yet unclassified' }
-PositionManager >> lightyearsTravelledBy: aPlayer [
-
-	| shipPos |
-	shipPos := self findShipReference: aPlayer.
-	^ (shipPos distanceTravelledWith: boardLength and: parsecs) *3
-]
-
 { #category : 'positioning' }
 PositionManager >> move: aPlayer backwardWith: anAmount [
 
@@ -109,12 +101,16 @@ PositionManager >> move: aPlayer forwardWithParsecs: anAmount [
 ]
 
 { #category : 'positioning' }
+PositionManager >> move: aPlayer toTile: aTile [
+
+	self updateShipReference: ((self findShipReference: aPlayer) goToTile: aTile)
+]
+
+{ #category : 'positioning' }
 PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
 
-	playersFeature do: [ :player |
-		self updateShipReference: (player goBackTiles: aDistance) ].
-
-	self updateShipReference: aPlayer
+	(playersFeature reject: [ :player | player equalsID: aPlayer ]) do: [ :player |
+		self updateShipReference: (player goBackTiles: aDistance) ]
 ]
 
 { #category : 'checking' }
@@ -182,6 +178,12 @@ PositionManager >> resetPlayersPosition [
 PositionManager >> stillPlaying [
 
 	^ playersFeature allSatisfy: [ :player | (player lapGreaterOrEqualThan: laps) not ]
+]
+
+{ #category : 'accessing' }
+PositionManager >> tileOf: aPlayer [
+
+	^ (self findShipReference: aPlayer) position
 ]
 
 { #category : 'checking' }

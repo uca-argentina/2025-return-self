@@ -17,19 +17,15 @@ Board class >> boardLengthMustBeGreaterThanThree: aLength [
 
 { #category : 'creation' }
 Board class >> createWith: aSetOfTiles [
+
 	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
-	
 	^ self new initializeWithTiles: aSetOfTiles
 ]
 
-{ #category : 'positioning' }
-Board >> applyEffectTriggeredBy: aPlayer [
+{ #category : 'accessing' }
+Board >> effectAt: aTileNumber [
 
-	| detectedTile |
-	detectedTile := tiles at: aPlayer position.
-	detectedTile effect isNoEffect ifTrue: [ ^ detectedTile effect ].
-
-	^ detectedTile effect
+	^ (tiles at: aTileNumber) effect
 ]
 
 { #category : 'initialization' }
@@ -41,15 +37,17 @@ Board >> initializeWithTiles: aSetOfTiles [
 { #category : 'accessing' }
 Board >> parsecsPerTile [
 
-^ (tiles at: 1) parsecs
+	^ (tiles at: 1) parsecs
 ]
 
 { #category : 'accessing' }
-Board >> tiles [ 
-^tiles
+Board >> tiles [
+
+	^ tiles
 ]
 
 { #category : 'accessing' }
 Board >> totalTiles [
-	^ tiles size.
+
+	^ tiles size
 ]
