@@ -27,18 +27,24 @@ Game class >> mustHaveAtLeastOneDieToPlay: aSetOfDie [
 { #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 
+	^ self
+		playedBy: aGroupOfPlayers
+		withBoard: aBoard
+		withSetOfDie: aSetOfDie
+		withLaps: laps
+		withCardDealer: CardDealer withEveryCard
+]
+
+{ #category : 'creation' }
+Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps withCardDealer: aCardDealer [
+
 	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
 	^ self new
 		initializePlayedBy: aGroupOfPlayers asOrderedCollection
 		withBoard: aBoard
 		withSetOfDie: aSetOfDie
 		withLaps: laps
-]
-
-{ #category : 'testing' }
-Game >> activeCards [
-
-	^ cardManager permanentAppliedCards
+		withCardDealer: aCardDealer
 ]
 
 { #category : 'effects' }
@@ -74,6 +80,12 @@ Game >> cardsFeatureOf: aShip [
 	^ cardManager findShipReference: aShip
 ]
 
+{ #category : 'effects' }
+Game >> dealCardTo: aShip [
+
+	cardManager dealCardTo: aShip
+]
+
 { #category : 'battles' }
 Game >> defeat: aShip fightingWith: itsTeam [
 
@@ -89,14 +101,8 @@ Game >> engageInBattle: aShip [
 			self battleBetween: aShip and: rival ] ]
 ]
 
-{ #category : 'effects' }
-Game >> give: aCard to: aShip [
-
-	cardManager add: aCard to: aShip
-]
-
 { #category : 'initialization' }
-Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps [
+Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: anAmountOfLaps withCardDealer: aCardDealer [
 
 	players := PlayerManager createWith: aGroupOfPlayers.
 	turnManager := TurnManager createWith: aGroupOfPlayers.
@@ -106,15 +112,9 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 						   and: aBoard totalTiles
 						   and: anAmountOfLaps
 						   and: aBoard parsecsPerTile.
-	cardManager := CardManager createWith: aGroupOfPlayers.
+	cardManager := CardManager createWith: aGroupOfPlayers and: aCardDealer.
 	setOfDie := aSetOfDie.
 	board := aBoard
-]
-
-{ #category : 'testing' }
-Game >> isGame [
-
-	^ true
 ]
 
 { #category : 'testing' }
@@ -173,8 +173,7 @@ Game >> nextPlayerThrowsDice [
 	activeShip := turnManager playerInTurn.
 	positionManager
 		move: activeShip
-		forwardWith:
-		(cardManager checkIfBonusToApplyTo: activeShip using: setOfDie).
+		forwardWith: setOfDie throw.
 	landedEffect := board effectAt: (positionManager tileOf: activeShip).
 	movedByTheEffect := self apply: landedEffect on: activeShip.
 	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
@@ -194,12 +193,6 @@ Game >> playFullGame [
 
 	[ positionManager stillPlaying ] whileTrue: [
 		self nextPlayerThrowsDice ]
-]
-
-{ #category : 'interaction loop' }
-Game >> player: aPlayer preparesIfAny: aCard setupWith: context [
-
-	cardManager player: aPlayer preparesIfAny: aCard setupWith: context
 ]
 
 { #category : 'tests - printing' }

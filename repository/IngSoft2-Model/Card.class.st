@@ -7,83 +7,31 @@ Class {
 
 { #category : 'creation' }
 Card class >> create [
-^self new
+
+	^ self new
 ]
 
-{ #category : 'as yet unclassified' }
-Card >> equalsACard: aCard [
+{ #category : 'testing' }
+Card >> assertHasTarget: aTarget [
+
+	aTarget ifNil: [
+		Error signal: 'This card needs a target to be played.' ]
+]
+
+{ #category : 'playing' }
+Card >> playedBy: aShip in: aGame [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'testing' }
-Card >> isAcceleration [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isCancellation [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isCard [
-
-^true
-]
-
-{ #category : 'testing' }
-Card >> isInstantCard [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isMercenary [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isNoCard [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isPermanentCard [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isRedo [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isRepeat [
-
-^false
-]
-
-{ #category : 'testing' }
-Card >> isSpeed [
-
-^false
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Card >> sameTypeOfCard: aCard [
 
-	self subclassResponsibility
+	^ self class = aCard class
 ]
 
-{ #category : 'as yet unclassified' }
-Card >> setupWith: context [
+{ #category : 'setup' }
+Card >> setupWith: aTarget [
 
 	self subclassResponsibility
 ]

@@ -1,18 +1,9 @@
 Class {
 	#name : 'CardGiver',
 	#superclass : 'Effect',
-	#instVars : [
-		'cardClasses'
-	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
-
-{ #category : 'creation' }
-CardGiver class >> create [
-
-	^ self new initializeEffect
-]
 
 { #category : 'creation' }
 CardGiver class >> effectProbability [
@@ -23,19 +14,7 @@ CardGiver class >> effectProbability [
 { #category : 'positioning' }
 CardGiver >> applyEffectOn: aPlayer and: aGame [
 
-	aGame give: cardClasses atRandom create to: aPlayer
-]
-
-{ #category : 'initialization' }
-CardGiver >> initializeEffect [
-
-	cardClasses := {
-					   Acceleration.
-					   Cancellation.
-					   Mercenary.
-					   Redo.
-					   Repeat.
-					   Speed }
+	aGame dealCardTo: aPlayer
 ]
 
 { #category : 'testing' }
