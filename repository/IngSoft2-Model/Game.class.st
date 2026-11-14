@@ -159,11 +159,9 @@ Game >> moveEveryoneToTheFirstTile [
 { #category : 'interaction loop' }
 Game >> nextPlayerSkipsTurn [
 
-	| activePlayer |
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	turnManager nextPlayerTurnBegins.
-	activePlayer := turnManager playerInTurn.
-	battleManager forceAShieldResetTo: activePlayer
+	turnManager playNextTurn.
+	battleManager forceAShieldResetTo: turnManager playerInTurn
 ]
 
 { #category : 'interaction loop' }

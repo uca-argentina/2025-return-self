@@ -223,3 +223,19 @@ GameplayBattleMechanicTest >> test06WhenAnEffectMovesAShipToATileWithAnotherShip
 	self assert: aGame playerPositions equals: assertingVariableData.
 	self assert: (aGame shieldsFeatureOf: aPlayer) shields equals: 2
 ]
+
+{ #category : 'tests' }
+GameplayBattleMechanicTest >> test07WhenATurnIsSkippedThenTheShipsThatLostTheirTurnsAreNotTheOnesInTurn [
+
+	aTileListCreator1 at: 2 put: (HyperSpaceJump createWith: 4 and: 3).
+	aTestBoard := Board createWith: aTileListCreator1 tileList.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: (LoadedDie rolling: 1)
+				 withLaps: 1.
+	self play: 1 in: aGame.
+	self skip: 1 in: aGame.
+	self skip: 1 in: aGame.
+	self assert: (aGame turnsFeatureOf: aPlayer) turnsToSkip equals: 1
+]
