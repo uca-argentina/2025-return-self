@@ -180,6 +180,26 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 ]
 
 { #category : 'tests' }
+EffectTest >> testGamePlayedWithAMoonWalkTileMovesEveryOtherShipBack [
+
+	| aGame aSequenceOfRolls aTestBoard assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
+							 'Name: Tomi, Position: 6, Lap: 0' }.
+	aTileListCreator at: 6 put: (MoonWalk createEspeciallyWith: 2).
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+								(LoadedDie rolling: 3).
+								(LoadedDie rolling: 5) }.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: aSequenceOfRolls
+				 withLaps: 1.
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
 EffectTest >> testGamePlayedWithANoEffectTile [
 
 	| aGame aSequence aTestBoard |
@@ -295,6 +315,23 @@ EffectTest >> testGamePlayedWithAnAtomikBombTile [
 	self play: 1 in: aGame.
 
 	self assert: aGame playerPositions equals: assertingVariableData2
+]
+
+{ #category : 'tests' }
+EffectTest >> testWhenAShipLosesItsLastShieldOnAHyperSpaceJumpTileThenItLosesTwoTurnsAndRecoversItsShields [
+
+	| aGame aTestBoard |
+	aTileListCreator at: 2 put: (HyperSpaceJump createWith: 4 and: 3).
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: (LoadedDie rolling: 1)
+				 withLaps: 1.
+	self play: 1 in: aGame.
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 6.
+	self assert: (aGame turnsFeatureOf: aPlayer) turnsToSkip equals: 2.
+	self assert: (aGame shieldsFeatureOf: aPlayer) shields equals: 3
 ]
 
 { #category : 'tests' }
