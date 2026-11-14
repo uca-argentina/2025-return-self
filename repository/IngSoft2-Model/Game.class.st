@@ -62,6 +62,12 @@ Game >> apply: anEffect on: aShip [
 	^ (positionManager tileOf: aShip) ~= tileBeforeTheEffect
 ]
 
+{ #category : 'cards' }
+Game >> assertIsPlaying: aShip [
+
+	players findShipReference: aShip
+]
+
 { #category : 'battles' }
 Game >> battleBetween: aShip and: aRival [
 
@@ -173,7 +179,7 @@ Game >> nextPlayerThrowsDice [
 	activeShip := turnManager playerInTurn.
 	positionManager
 		move: activeShip
-		forwardWith: setOfDie throw.
+		forwardWith: (cardManager boost: setOfDie throw of: activeShip).
 	landedEffect := board effectAt: (positionManager tileOf: activeShip).
 	movedByTheEffect := self apply: landedEffect on: activeShip.
 	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
@@ -193,6 +199,20 @@ Game >> playFullGame [
 
 	[ positionManager stillPlaying ] whileTrue: [
 		self nextPlayerThrowsDice ]
+]
+
+{ #category : 'cards' }
+Game >> player: aShip activates: aPermanentCard [
+
+	cardManager activate: aPermanentCard
+]
+
+{ #category : 'interaction loop' }
+Game >> player: aShip plays: aCard [
+
+	cardManager assert: aShip holds: aCard.
+	aCard playedBy: aShip in: self.
+	cardManager discard: aCard from: aShip
 ]
 
 { #category : 'tests - printing' }

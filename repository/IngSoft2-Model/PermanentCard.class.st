@@ -5,6 +5,12 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'bonus' }
+PermanentCard >> boost: aThrow of: aShip [
+
+	^ aThrow
+]
+
 { #category : 'playing' }
 PermanentCard >> playedBy: aShip in: aGame [
 
