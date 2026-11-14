@@ -11,6 +11,12 @@ NoEffect class >> effectProbability [
 	^ 0.38
 ]
 
+{ #category : 'testing' }
+NoEffect >> allowsBattleOnItsTile [
+
+	^ true
+]
+
 { #category : 'positioning' }
 NoEffect >> applyEffectOn: aPlayer and: aGame [
 

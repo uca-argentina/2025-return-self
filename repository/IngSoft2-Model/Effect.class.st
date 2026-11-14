@@ -17,6 +17,12 @@ Effect class >> effectProbability [
 	self subclassResponsibility
 ]
 
+{ #category : 'testing' }
+Effect >> allowsBattleOnItsTile [
+
+	^ false
+]
+
 { #category : 'positioning' }
 Effect >> applyEffectOn: aPlayer and: aGame [
 

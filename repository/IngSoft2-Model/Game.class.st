@@ -47,6 +47,15 @@ Game >> advance: aShip by: aDistance [
 	positionManager move: aShip forwardWithParsecs: aDistance asParsecs
 ]
 
+{ #category : 'private' }
+Game >> apply: anEffect on: aShip [
+
+	| tileBeforeTheEffect |
+	tileBeforeTheEffect := positionManager tileOf: aShip.
+	anEffect applyEffectOn: aShip and: self.
+	^ (positionManager tileOf: aShip) ~= tileBeforeTheEffect
+]
+
 { #category : 'battles' }
 Game >> battleBetween: aShip and: aRival [
 
@@ -160,17 +169,18 @@ Game >> nextPlayerSkipsTurn [
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| activePlayer anEffect aTotalThrow |
+	| activeShip landedEffect movedByTheEffect |
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
 	turnManager playNextTurn.
-	activePlayer := turnManager playerInTurn.
-	aTotalThrow := cardManager
-					   checkIfBonusToApplyTo: activePlayer
-					   using: setOfDie.
-	positionManager move: activePlayer forwardWith: aTotalThrow.
-	anEffect := board effectAt: (positionManager tileOf: activePlayer).
-	anEffect applyEffectOn: activePlayer and: self.
-	self engageInBattle: activePlayer
+	activeShip := turnManager playerInTurn.
+	positionManager
+		move: activeShip
+		forwardWith:
+		(cardManager checkIfBonusToApplyTo: activeShip using: setOfDie).
+	landedEffect := board effectAt: (positionManager tileOf: activeShip).
+	movedByTheEffect := self apply: landedEffect on: activeShip.
+	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
+		self engageInBattle: activeShip ]
 ]
 
 { #category : 'private' }
