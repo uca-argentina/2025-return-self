@@ -47,6 +47,17 @@ Game >> advance: aShip by: aDistance [
 	positionManager move: aShip forwardWithParsecs: aDistance asParsecs
 ]
 
+{ #category : 'battles' }
+Game >> battleBetween: aShip and: aRival [
+
+	| shipTeam rivalTeam |
+	shipTeam := self teamOf: aShip.
+	rivalTeam := self teamOf: aRival.
+	(battleManager team: rivalTeam defeats: shipTeam using: setOfDie)
+		ifTrue: [ self defeat: aShip fightingWith: shipTeam ]
+		ifFalse: [ self defeat: aRival fightingWith: rivalTeam ]
+]
+
 { #category : 'testing' }
 Game >> cardsFeatureOf: aShip [
 
@@ -54,21 +65,19 @@ Game >> cardsFeatureOf: aShip [
 	^ cardManager findShipReference: aShip
 ]
 
-{ #category : 'checking' }
-Game >> engageInBattle: activePlayer [
+{ #category : 'battles' }
+Game >> defeat: aShip fightingWith: itsTeam [
 
-	| playersToEngage playersWhoLost |
-	playersToEngage := positionManager playerInSamePositionThan:
-						   activePlayer.
-	playersWhoLost := battleManager
-						  engage: playersToEngage
-						  inBattleUsing: setOfDie
-						  and: cardManager.
-	playersWhoLost do: [ :player |
-		player needsRecovery ifTrue: [
-			turnManager addTwoSkipsTo: player.
-			battleManager forceAShieldResetTo: player ].
-		positionManager resetLapTo: player ]
+	itsTeam do: [ :ship | self takeShields: 1 from: ship ].
+	positionManager resetLapTo: aShip
+]
+
+{ #category : 'battles' }
+Game >> engageInBattle: aShip [
+
+	(self rivalsOf: aShip) do: [ :rival |
+		(positionManager is: aShip inTheSameTileAs: rival) ifTrue: [
+			self battleBetween: aShip and: rival ] ]
 ]
 
 { #category : 'effects' }
@@ -161,8 +170,7 @@ Game >> nextPlayerThrowsDice [
 	positionManager move: activePlayer forwardWith: aTotalThrow.
 	anEffect := board effectAt: (positionManager tileOf: activePlayer).
 	anEffect applyEffectOn: activePlayer and: self.
-	(positionManager checkIfBattle: activePlayer) ifTrue: [
-		self engageInBattle: activePlayer ]
+	self engageInBattle: activePlayer
 ]
 
 { #category : 'private' }
@@ -212,6 +220,12 @@ Game >> positionFeatureOf: aShip [
 	^ positionManager findShipReference: aShip
 ]
 
+{ #category : 'battles' }
+Game >> rivalsOf: aShip [
+
+	^ positionManager shipsSharingTileWith: aShip
+]
+
 { #category : 'testing' }
 Game >> shieldsFeatureOf: aShip [
 
@@ -231,6 +245,12 @@ Game >> takeShields: anAmount from: aShip [
 
 	anAmount timesRepeat: [ battleManager playerLoseShield: aShip ].
 	self penalizeShipsOutOfShields
+]
+
+{ #category : 'battles' }
+Game >> teamOf: aShip [
+
+	^ OrderedCollection with: aShip
 ]
 
 { #category : 'testing' }

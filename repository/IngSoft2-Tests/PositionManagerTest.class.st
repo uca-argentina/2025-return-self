@@ -66,9 +66,9 @@ PositionManagerTest >> test02PositionManagerCanTellItsShipsToMoveBackwardsADista
 ]
 
 { #category : 'tests' }
-PositionManagerTest >> test03WhenAPlayerIsInFirstTileThenManagerTellsCantBattle [
+PositionManagerTest >> test03WhenAPlayerIsInFirstTileThenManagerTellsNobodySharesItsTile [
 
-	self deny: (aPositionManager checkIfBattle: aPlayer).
+	self assert: (aPositionManager shipsSharingTileWith: aPlayer) isEmpty
 ]
 
 { #category : 'tests' }
@@ -97,14 +97,14 @@ PositionManagerTest >> test05WhenAShipSurpassesBoardLengthThenManagerReturnsANew
 ]
 
 { #category : 'tests' }
-PositionManagerTest >> test06WhenTheManagerIsAskedWhichPlayersAreInSamePositionThanOneThenItReturnsAnArrayWithAllThePlayersInThatPosition [
+PositionManagerTest >> test06WhenTheManagerIsAskedWhichShipsShareTheTileOfOneThenItAnswersTheOtherShipsInThatTile [
 
+	| shipsSharingTile |
 	aPositionManager move: aPlayer forwardWith: 5.
 	aPositionManager move: anotherPlayer forwardWith: 5.
-
-	self
-		assert: (aPositionManager playerInSamePositionThan: aPlayer) size
-		equals: 2
+	shipsSharingTile := aPositionManager shipsSharingTileWith: aPlayer.
+	self assert: shipsSharingTile size equals: 1.
+	self assert: (shipsSharingTile at: 1) id equals: anotherPlayer id
 ]
 
 { #category : 'tests' }
@@ -183,12 +183,11 @@ PositionManagerTest >> test12PositionManagerCanReturn2DArrayWithShipPositionAndA
 ]
 
 { #category : 'tests' }
-PositionManagerTest >> test13WhenTwoPlayersAreNotInFirstTileAndInASameTileThenManagerTellsTheyCanBattle [
+PositionManagerTest >> test13WhenTwoPlayersAreNotInFirstTileAndInASameTileThenManagerTellsTheyAreInTheSameTile [
 
 	aPositionManager move: aPlayer forwardWith: 5.
 	aPositionManager move: anotherPlayer forwardWith: 5.
-
-	self assert: (aPositionManager checkIfBattle: aPlayer).
+	self assert: (aPositionManager is: aPlayer inTheSameTileAs: anotherPlayer)
 ]
 
 { #category : 'tests' }

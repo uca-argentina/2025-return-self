@@ -42,13 +42,6 @@ PositionManager class >> lapHasToBeGreaterThanZero: aNumberOfLaps [
 ]
 
 { #category : 'checking' }
-PositionManager >> checkIfBattle: aPlayer [
-
-	^ (self findShipReference: aPlayer) inSafeZone not and:
-		(self playerInSamePositionThan: aPlayer) size = 2
-]
-
-{ #category : 'checking' }
 PositionManager >> checkIfReachedANewLap: aPlayer [
 
 	(aPlayer positionGreaterThan: boardLength) ifFalse: [ ^ aPlayer ].
@@ -68,6 +61,13 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	laps := aNumberOfLaps.
 	boardLength := aNumberOfTiles.
 	parsecs := parsecsPerTile
+]
+
+{ #category : 'checking' }
+PositionManager >> is: aPlayer inTheSameTileAs: anotherPlayer [
+
+	^ (self findShipReference: aPlayer) samePositionAs:
+		  (self findShipReference: anotherPlayer)
 ]
 
 { #category : 'positioning' }
@@ -111,15 +111,6 @@ PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
 
 	(playersFeature reject: [ :player | player equalsID: aPlayer ]) do: [ :player |
 		self updateShipReference: (player goBackTiles: aDistance) ]
-]
-
-{ #category : 'checking' }
-PositionManager >> playerInSamePositionThan: aPlayer [
-
-	| aPlayerShipPosition |
-	aPlayerShipPosition := self findShipReference: aPlayer.
-	^ playersFeature select: [ :each |
-		each samePositionAs: aPlayerShipPosition ]
 ]
 
 { #category : 'tests - printing' }
@@ -172,6 +163,17 @@ PositionManager >> resetLapTo: aPlayer [
 PositionManager >> resetPlayersPosition [
 
 	playersFeature do: [ :player | self updateShipReference: player goToFirstTile ].
+]
+
+{ #category : 'checking' }
+PositionManager >> shipsSharingTileWith: aPlayer [
+
+	| aShipPosition |
+	aShipPosition := self findShipReference: aPlayer.
+	aShipPosition inSafeZone ifTrue: [ ^ #(  ) ].
+	^ playersFeature select: [ :each |
+		(each samePositionAs: aShipPosition) and: [
+			(each equalsID: aShipPosition) not ] ]
 ]
 
 { #category : 'checking' }

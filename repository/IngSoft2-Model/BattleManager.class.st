@@ -8,12 +8,8 @@ Class {
 { #category : 'creation' }
 BattleManager class >> createWith: aGroupOfPlayers [
 
-	| playerShieldAssociationGroup |
-	playerShieldAssociationGroup := aGroupOfPlayers collect: [ :each |
-		ShipShield
-			createWith: each id
-			and: 3 ].
-	^ self new initializeBattleManagerWith: playerShieldAssociationGroup
+	^ self new initializeBattleManagerWith:
+		(aGroupOfPlayers collect: [ :each | ShipShield createFullWith: each id ])
 ]
 
 { #category : 'updating' }
@@ -23,68 +19,43 @@ BattleManager >> allDecreaseAShield [
 		self updateShipReference: (player loseShields: 1) ]
 ]
 
-{ #category : 'play interface' }
-BattleManager >> engage: aPairOfPlayers inBattleUsing: someDice and: cardManager [
+{ #category : 'battling' }
+BattleManager >> bestThrowOf: aTeam using: someDice [
 
-	| firstTeamThrow playersWhoLost playersToEngage firstTeam secondTeam secondTeamThrow |
-	playersToEngage := aPairOfPlayers collect: [ :each |
-		self findShipReference: each ].
-
-	firstTeam := cardManager
-		checkIfMercenariesFor: (playersToEngage at: 1)
-		using: self.
-	secondTeam := cardManager
-		checkIfMercenariesFor: (playersToEngage at: 2)
-		using: self.
-
-	firstTeamThrow := (firstTeam collect: [ :card | someDice throw ]) max.
-	secondTeamThrow := (firstTeam collect: [ :card | someDice throw ])
-		max.
-
-	[ firstTeamThrow = secondTeamThrow ] whileTrue: [
-		firstTeamThrow := (firstTeam collect: [ :card | someDice throw ])
-			max.
-		secondTeamThrow := (firstTeam collect: [ :card | someDice throw ])
-			max ].
-
-	playersWhoLost := firstTeamThrow > secondTeamThrow
-		ifTrue: [ "gana el primero"
-			(secondTeam collect: [ :ship |
-				ship loseShields: 1 ]) asOrderedCollection ]
-		ifFalse: [ "gana el segundo"
-			(firstTeam collect: [ :ship |
-				ship loseShields: 1 ]) asOrderedCollection ].
-	playersWhoLost do: [ :ship | self updateShipReference: ship ].
-
-	^ playersWhoLost
+	^ (aTeam collect: [ :ship | someDice throw ]) max
 ]
 
 { #category : 'updating' }
 BattleManager >> forceAShieldResetTo: aPlayer [
 
-	| activePlayer |
-	activePlayer := self findShipReference: aPlayer.
-	activePlayer := activePlayer forceAShieldReset.
-	self updateShipReference: activePlayer
+	self updateShipReference: (self findShipReference: aPlayer) forceAShieldReset
 ]
 
 { #category : 'initialization' }
 BattleManager >> initializeBattleManagerWith: aGroupOfPlayers [
 
-	playersFeature := aGroupOfPlayers 
+	playersFeature := aGroupOfPlayers
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 BattleManager >> playerLoseShield: aPlayer [
 
-	| aShipShield |
-	aShipShield := self findShipReference: aPlayer.
-
-	self updateShipReference: (aShipShield loseShields: 1).
+	self updateShipReference: ((self findShipReference: aPlayer) loseShields: 1)
 ]
 
 { #category : 'accessing' }
 BattleManager >> shipsOutOfShields [
 
 	^ playersFeature select: [ :player | player needsRecovery ]
+]
+
+{ #category : 'battling' }
+BattleManager >> team: aTeam defeats: anotherTeam using: someDice [
+
+	| aTeamThrow anotherTeamThrow |
+	[
+	aTeamThrow := self bestThrowOf: aTeam using: someDice.
+	anotherTeamThrow := self bestThrowOf: anotherTeam using: someDice.
+	aTeamThrow = anotherTeamThrow ] whileTrue.
+	^ aTeamThrow > anotherTeamThrow
 ]
