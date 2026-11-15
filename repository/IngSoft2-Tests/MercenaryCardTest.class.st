@@ -58,3 +58,43 @@ MercenaryCardTest >> test03WhenAShipAndItsMercenaryAreInTheSameTileThenTheyDoNot
 	self assert: aGame playerPositions equals: assertingVariableData.
 	self assert: (aGame shieldsFeatureOf: aPlayer) shields equals: 3
 ]
+
+{ #category : 'tests' }
+MercenaryCardTest >> test04WhenTryingToHireTheMercenaryOfAnotherShipThenItRaisesError [
+
+	| aGame |
+	aGame := self gameDealing: { Mercenary } rolling: { 2 }.
+	aGame player: aPlayer plays: (Mercenary createWith: aThirdPlayer).
+	self play: 1 in: aGame.
+	self
+		should: [
+		aGame player: anotherPlayer plays: (Mercenary createWith: aThirdPlayer) ]
+		raiseErrorWithMessageText: 'Cant have the same mercenary as other.'
+]
+
+{ #category : 'tests' }
+MercenaryCardTest >> test05WhenAShipArrivesToATileWithARivalAndItsMercenaryThenItBattlesAgainstEachOfThemWhileItStaysThere [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0'.
+							 'Name: Pedro, Position: 3, Lap: 0' }.
+	aGame := self gameDealing: { Mercenary } rolling: { 2. 1. 2. 1. 1. 1. 5. 6. 2 }.
+	aGame player: aPlayer plays: (Mercenary createWith: aThirdPlayer).
+	self play: 3 in: aGame.
+	self skip: 1 in: aGame.
+	self play: 1 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData.
+	self assert: (aGame shieldsFeatureOf: aThirdPlayer) shields equals: 2.
+	self assert: (aGame shieldsFeatureOf: anotherPlayer) shields equals: 2
+]
+
+{ #category : 'tests' }
+MercenaryCardTest >> test06WhenTryingToHireItselfAsAMercenaryThenItRaisesError [
+
+	| aGame |
+	aGame := self gameDealing: { Mercenary } rolling: { 2 }.
+	self
+		should: [ aGame player: aPlayer plays: (Mercenary createWith: aPlayer) ]
+		raiseErrorWithMessageText: 'A ship cannot hire itself as a mercenary.'
+]
