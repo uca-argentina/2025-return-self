@@ -48,6 +48,12 @@ Mercenary >> assertDoesNotHire: aShip [
 		Error signal: 'Cant have the same mercenary as other.' ]
 ]
 
+{ #category : 'comparing' }
+Mercenary >> equalsACard: aCard [
+
+	^ (self sameTypeOfCard: aCard) and: [ aCard hires: mercenaryShip ]
+]
+
 { #category : 'testing' }
 Mercenary >> hires: aShip [
 

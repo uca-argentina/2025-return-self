@@ -26,6 +26,12 @@ PermanentCard >> boost: aThrow of: aShip [
 	^ aThrow
 ]
 
+{ #category : 'comparing' }
+PermanentCard >> equalsACard: aCard [
+
+	self subclassResponsibility
+]
+
 { #category : 'playing' }
 PermanentCard >> playedBy: aShip in: aGame [
 

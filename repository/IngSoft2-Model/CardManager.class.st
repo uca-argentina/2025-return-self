@@ -55,6 +55,18 @@ CardManager >> boost: aThrow of: aPlayer [
 		into: [ :boostedThrow :card | card boost: boostedThrow of: aPlayer ]
 ]
 
+{ #category : 'active cards' }
+CardManager >> deactivate: aCard [
+
+	| cardToCancel |
+	cardToCancel := activeCards
+						detect: [ :card | card equalsACard: aCard ]
+						ifNone: [
+						Error signal:
+							'There is no matching active card to cancel.' ].
+	activeCards remove: cardToCancel
+]
+
 { #category : 'hands' }
 CardManager >> dealCardTo: aPlayer [
 

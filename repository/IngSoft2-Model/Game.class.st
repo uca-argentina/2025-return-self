@@ -79,6 +79,12 @@ Game >> battleBetween: aShip and: aRival [
 		ifFalse: [ self defeat: aRival fightingWith: rivalTeam ]
 ]
 
+{ #category : 'cards' }
+Game >> cancelActiveCard: aCard [
+
+	cardManager deactivate: aCard
+]
+
 { #category : 'testing' }
 Game >> cardsFeatureOf: aShip [
 

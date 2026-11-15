@@ -28,6 +28,12 @@ Speed >> boosts: aShip [
 	^ chosenShip equalsID: aShip
 ]
 
+{ #category : 'comparing' }
+Speed >> equalsACard: aCard [
+
+	^ (self sameTypeOfCard: aCard) and: [ aCard boosts: chosenShip ]
+]
+
 { #category : 'initialization' }
 Speed >> initializeWith: aChosenShip [
 

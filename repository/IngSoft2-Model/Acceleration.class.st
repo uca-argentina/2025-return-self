@@ -11,6 +11,12 @@ Acceleration >> boost: aThrow of: aShip [
 	^ aThrow + 1
 ]
 
+{ #category : 'comparing' }
+Acceleration >> equalsACard: aCard [
+
+	^ self sameTypeOfCard: aCard
+]
+
 { #category : 'setup' }
 Acceleration >> setupWith: aTarget [
 
