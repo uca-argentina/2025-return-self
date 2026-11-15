@@ -47,3 +47,26 @@ RepeatCardTest >> test03WhenNobodyThrewTheDiceThenARepeatCardHasNoEffect [
 	aGame player: aPlayer plays: (Repeat createWith: anotherPlayer).
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+RepeatCardTest >> test04WhenARepeatedEffectTakesAShipToATileWithARivalThenTheyBattle [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
+							 'Name: Tomi, Position: 4, Lap: 0' }.
+	aGame := self gameDealing: { Repeat } rolling: { 3. 11. 1. 5 }.
+	self play: 2 in: aGame.
+	aGame player: aPlayer plays: (Repeat createWith: anotherPlayer).
+	self assert: aGame playerPositions equals: assertingVariableData.
+	self assert: (aGame shieldsFeatureOf: aPlayer) shields equals: 2
+]
+
+{ #category : 'tests' }
+RepeatCardTest >> test05WhenAnInstantCardIsPlayedOutOfTheTurnOfTheShipThenItHasEffect [
+
+	| aGame |
+	aGame := self gameDealing: { Repeat } rolling: { 11 }.
+	self play: 1 in: aGame.
+	aGame player: aPlayer plays: (Repeat createWith: aPlayer).
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 4
+]
