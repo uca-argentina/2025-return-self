@@ -3,7 +3,8 @@ Class {
 	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'cardDealer',
-		'activeCards'
+		'activeCards',
+		'lastPlayedCard'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -90,6 +91,7 @@ CardManager >> initializeCardManagerWith: aGroupOfPlayers and: aCardDealer [
 
 	cardDealer := aCardDealer.
 	activeCards := OrderedCollection new.
+	lastPlayedCard := NoCard create.
 	playersFeature := aGroupOfPlayers collect: [ :ship |
 		ShipCards createWith: ship id and: self dealInitialHand ]
 ]
@@ -103,6 +105,12 @@ CardManager >> is: aPlayer alliedWith: anotherPlayer [
 			  mercenary equalsID: aPlayer ] ]
 ]
 
+{ #category : 'history' }
+CardManager >> lastPlayedCard [
+
+	^ lastPlayedCard
+]
+
 { #category : 'mercenaries' }
 CardManager >> mercenariesOf: aPlayer [
 
@@ -110,6 +118,12 @@ CardManager >> mercenariesOf: aPlayer [
 	mercenaries := OrderedCollection new.
 	activeCards do: [ :card | card addMercenariesOf: aPlayer to: mercenaries ].
 	^ mercenaries
+]
+
+{ #category : 'history' }
+CardManager >> storeLastCardPlayed: aCard [
+
+	lastPlayedCard := aCard
 ]
 
 { #category : 'mercenaries' }

@@ -138,6 +138,12 @@ Game >> isWinner: aPlayerName [
 	^ players is: positionManager winner named: aPlayerName
 ]
 
+{ #category : 'cards' }
+Game >> lastPlayedCard [
+
+	^ cardManager lastPlayedCard
+]
+
 { #category : 'effects' }
 Game >> move: aShip backward: aNumberOfTiles [
 
@@ -222,8 +228,10 @@ Game >> player: aShip activates: aPermanentCard [
 { #category : 'interaction loop' }
 Game >> player: aShip plays: aCard [
 
+	| cardInEffect |
 	cardManager assert: aShip holds: aCard.
-	aCard playedBy: aShip in: self.
+	cardInEffect := aCard playedBy: aShip in: self.
+	cardManager storeLastCardPlayed: cardInEffect.
 	cardManager discard: aCard from: aShip
 ]
 
