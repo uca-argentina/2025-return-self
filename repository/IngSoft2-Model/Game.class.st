@@ -204,6 +204,9 @@ Game >> playFullGame [
 { #category : 'cards' }
 Game >> player: aShip activates: aPermanentCard [
 
+	(turnManager isTurnOf: aShip) ifFalse: [
+		Error signal:
+			'Permanent cards can only be played during the turn of the ship.' ].
 	cardManager activate: aPermanentCard
 ]
 
