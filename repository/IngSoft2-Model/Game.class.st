@@ -63,6 +63,13 @@ Game >> apply: anEffect on: aShip [
 	^ (positionManager tileOf: aShip) ~= tileBeforeTheEffect
 ]
 
+{ #category : 'private' }
+Game >> assertGameIsNotFinished [
+
+	positionManager stillPlaying ifFalse: [
+		Error signal: 'Cards cannot be played once the game has finished.' ]
+]
+
 { #category : 'cards' }
 Game >> assertIsPlaying: aShip [
 
@@ -229,6 +236,7 @@ Game >> player: aShip activates: aPermanentCard [
 Game >> player: aShip plays: aCard [
 
 	| cardInEffect |
+	self assertGameIsNotFinished.
 	cardManager assert: aShip holds: aCard.
 	cardInEffect := aCard playedBy: aShip in: self.
 	cardManager storeLastCardPlayed: cardInEffect.
