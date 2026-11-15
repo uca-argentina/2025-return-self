@@ -12,7 +12,7 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 SequenceOfDieForTesting class >> withDie: aSequenceOfDie [ 
 	^ self new initializeSequenceOfDie: aSequenceOfDie.
 ]
@@ -24,7 +24,7 @@ SequenceOfDieForTesting >> initializeSequenceOfDie: aSequenceOfDie [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SequenceOfDieForTesting >> movePointer [
 
 	currentDiceIndexPlaying := currentDiceIndexPlaying + 1.
