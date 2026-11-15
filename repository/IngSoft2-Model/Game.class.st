@@ -11,7 +11,8 @@ Class {
 		'turnManager',
 		'battleManager',
 		'positionManager',
-		'cardManager'
+		'cardManager',
+		'lastEffectApplied'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -126,7 +127,8 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 						   and: aBoard parsecsPerTile.
 	cardManager := CardManager createWith: aGroupOfPlayers and: aCardDealer.
 	setOfDie := aSetOfDie.
-	board := aBoard
+	board := aBoard.
+	lastEffectApplied := NoEffect create
 ]
 
 { #category : 'testing' }
@@ -188,6 +190,7 @@ Game >> nextPlayerThrowsDice [
 		forwardWith: (cardManager boost: setOfDie throw of: activeShip).
 	landedEffect := board effectAt: (positionManager tileOf: activeShip).
 	movedByTheEffect := self apply: landedEffect on: activeShip.
+	lastEffectApplied := landedEffect.
 	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
 		self engageInBattle: activeShip ]
 ]
@@ -248,6 +251,14 @@ Game >> positionFeatureOf: aShip [
 
 	"Used for testing"
 	^ positionManager findShipReference: aShip
+]
+
+{ #category : 'cards' }
+Game >> repeatLastEffectOn: aShip [
+
+	self assertIsPlaying: aShip.
+	(self apply: lastEffectApplied on: aShip) ifTrue: [
+		self engageInBattle: aShip ]
 ]
 
 { #category : 'battles' }
