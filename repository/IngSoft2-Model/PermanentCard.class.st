@@ -5,6 +5,21 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'mercenaries' }
+PermanentCard >> addMercenariesOf: aShip to: aTeam [
+
+]
+
+{ #category : 'testing' }
+PermanentCard >> assertCanBeActivatedWith: activeCards [
+
+]
+
+{ #category : 'testing' }
+PermanentCard >> assertDoesNotHire: aShip [
+
+]
+
 { #category : 'bonus' }
 PermanentCard >> boost: aThrow of: aShip [
 

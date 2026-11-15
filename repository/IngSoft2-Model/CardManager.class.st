@@ -30,6 +30,7 @@ CardManager class >> initialHandSize [
 { #category : 'active cards' }
 CardManager >> activate: aPermanentCard [
 
+	aPermanentCard assertCanBeActivatedWith: activeCards.
 	activeCards add: aPermanentCard
 ]
 
@@ -79,4 +80,30 @@ CardManager >> initializeCardManagerWith: aGroupOfPlayers and: aCardDealer [
 	activeCards := OrderedCollection new.
 	playersFeature := aGroupOfPlayers collect: [ :ship |
 		ShipCards createWith: ship id and: self dealInitialHand ]
+]
+
+{ #category : 'mercenaries' }
+CardManager >> is: aPlayer alliedWith: anotherPlayer [
+
+	^ ((self mercenariesOf: aPlayer) anySatisfy: [ :mercenary |
+		   mercenary equalsID: anotherPlayer ]) or: [
+		  (self mercenariesOf: anotherPlayer) anySatisfy: [ :mercenary |
+			  mercenary equalsID: aPlayer ] ]
+]
+
+{ #category : 'mercenaries' }
+CardManager >> mercenariesOf: aPlayer [
+
+	| mercenaries |
+	mercenaries := OrderedCollection new.
+	activeCards do: [ :card | card addMercenariesOf: aPlayer to: mercenaries ].
+	^ mercenaries
+]
+
+{ #category : 'mercenaries' }
+CardManager >> teamOf: aPlayer [
+
+	^ (OrderedCollection with: aPlayer)
+		addAll: (self mercenariesOf: aPlayer);
+		yourself
 ]

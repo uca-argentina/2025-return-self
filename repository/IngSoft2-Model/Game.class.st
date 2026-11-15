@@ -247,7 +247,8 @@ Game >> positionFeatureOf: aShip [
 { #category : 'battles' }
 Game >> rivalsOf: aShip [
 
-	^ positionManager shipsSharingTileWith: aShip
+	^ (positionManager shipsSharingTileWith: aShip) reject: [ :another |
+		cardManager is: aShip alliedWith: another ]
 ]
 
 { #category : 'testing' }
@@ -274,7 +275,7 @@ Game >> takeShields: anAmount from: aShip [
 { #category : 'battles' }
 Game >> teamOf: aShip [
 
-	^ OrderedCollection with: aShip
+	^ cardManager teamOf: aShip
 ]
 
 { #category : 'testing' }
