@@ -58,3 +58,53 @@ RedoCardTest >> test03WhenTheLastCardPlayedWasARedoThenANewRedoDoesAgainTheCardT
 	self play: 1 in: aGame.
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+RedoCardTest >> test04WhenNoCardWasPlayedThenTryingToPlayARedoCardRaisesError [
+
+	| aGame |
+	aGame := self gameDealing: { Redo } rolling: { 3 }.
+	self
+		should: [ aGame player: aPlayer plays: (Redo createWith: aPlayer) ]
+		raiseErrorWithMessageText: 'There is no card played to do it again.'
+]
+
+{ #category : 'tests' }
+RedoCardTest >> test05WhenARedoCardDoesAnInstantCardAgainThenItCanBePlayedOutOfTheTurnOfTheShip [
+
+	| aGame |
+	aTileListCreator at: 12 put: BlackHole create.
+	aGame := self
+				 gameDealing: {
+						 Repeat.
+						 Redo }
+				 rolling: { 11 }.
+	self play: 1 in: aGame.
+	aGame player: aPlayer plays: (Repeat createWith: aPlayer).
+	aGame player: aPlayer plays: (Redo createWith: aPlayer).
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 1
+]
+
+{ #category : 'tests' }
+RedoCardTest >> test06WhenARedoCardDoesACancellationAgainThenItCancelsTheNewChosenCard [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 8, Lap: 0'.
+							 'Name: Tomi, Position: 6, Lap: 0' }.
+	aGame := self
+				 gameDealing: {
+						 Speed.
+						 Cancellation.
+						 Redo.
+						 Acceleration }
+				 rolling: { 3. 5 }.
+	aGame player: aPlayer plays: (Speed createWith: aPlayer).
+	self play: 1 in: aGame.
+	aGame player: anotherPlayer plays: Acceleration create.
+	aGame player: aPlayer plays: (Cancellation createWith: Acceleration create).
+	aGame
+		player: anotherPlayer
+		plays: (Redo createWith: (Speed createWith: aPlayer)).
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
