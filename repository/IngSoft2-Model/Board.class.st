@@ -22,6 +22,13 @@ Board class >> createWith: aSetOfTiles [
 	^ self new initializeWithTiles: aSetOfTiles
 ]
 
+{ #category : 'testing' }
+Board >> assertHasTile: aTileNumber [
+
+	(aTileNumber between: 1 and: tiles size) ifFalse: [
+		Error signal: 'The tile is not on the board.' ]
+]
+
 { #category : 'accessing' }
 Board >> effectAt: aTileNumber [
 

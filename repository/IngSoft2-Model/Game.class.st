@@ -71,6 +71,12 @@ Game >> assertGameIsNotFinished [
 ]
 
 { #category : 'cards' }
+Game >> assertIsOnTheBoard: aTileNumber [
+
+	board assertHasTile: aTileNumber
+]
+
+{ #category : 'cards' }
 Game >> assertIsPlaying: aShip [
 
 	players findShipReference: aShip

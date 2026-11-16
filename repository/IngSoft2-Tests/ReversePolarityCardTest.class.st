@@ -86,3 +86,45 @@ ReversePolarityCardTest >> test06WhenATileIsReversedTwiceThenItsEffectIsTheOrigi
 	self play: 2 in: aGame.
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test07WhenTryingToPlayAReversePolarityCardOutOfTheTurnOfTheShipThenItRaisesError [
+
+	| aGame |
+	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
+	self
+		should: [ aGame player: anotherPlayer plays: (ReversePolarity createWith: 12) ]
+		raiseErrorWithMessageText:
+		'Permanent cards can only be played during the turn of the ship.'
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test08WhenTryingToReverseATileThatIsNotOnTheBoardThenItRaisesErrorAndTheCardStaysInTheHand [
+
+	| aGame |
+	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
+	self
+		should: [ aGame player: aPlayer plays: (ReversePolarity createWith: 21) ]
+		raiseErrorWithMessageText: 'The tile is not on the board.'.
+	self assert: (aGame cardsFeatureOf: aPlayer) deck size equals: 2
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test09WhenAReversePolarityCardIsCancelledThenTheEffectOfItsTileIsTheOriginalOneAgain [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
+							 'Name: Tomi, Position: 8, Lap: 0' }.
+	aTileListCreator at: 12 put: BlackHole create.
+	aGame := self
+				 gameDealing: {
+						 ReversePolarity.
+						 Cancellation }
+				 rolling: { 5. 11 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 12).
+	aGame
+		player: anotherPlayer
+		plays: (Cancellation createWith: (ReversePolarity createWith: 12)).
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]

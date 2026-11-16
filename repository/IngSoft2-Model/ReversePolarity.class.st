@@ -38,6 +38,7 @@ ReversePolarity >> initializeWith: aTileNumber [
 ReversePolarity >> playedBy: aShip in: aGame [
 
 	self assertHasTarget: tile.
+	aGame assertIsOnTheBoard: tile.
 	^ super playedBy: aShip in: aGame
 ]
 
