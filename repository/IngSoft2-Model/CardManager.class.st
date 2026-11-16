@@ -86,6 +86,14 @@ CardManager >> discard: aCard from: aPlayer [
 	self updateShipReference: ((self findShipReference: aPlayer) removeFromDeck: aCard)
 ]
 
+{ #category : 'active cards' }
+CardManager >> effect: anEffect atTile: aTileNumber [
+
+	^ activeCards
+		inject: anEffect
+		into: [ :effectInTheTile :card | card effect: effectInTheTile atTile: aTileNumber ]
+]
+
 { #category : 'initialization' }
 CardManager >> initializeCardManagerWith: aGroupOfPlayers and: aCardDealer [
 

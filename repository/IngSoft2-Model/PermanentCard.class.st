@@ -26,6 +26,12 @@ PermanentCard >> boost: aThrow of: aShip [
 	^ aThrow
 ]
 
+{ #category : 'polarity' }
+PermanentCard >> effect: anEffect atTile: aTileNumber [
+
+	^ anEffect
+]
+
 { #category : 'comparing' }
 PermanentCard >> equalsACard: aCard [
 

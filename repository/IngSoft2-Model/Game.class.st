@@ -113,6 +113,14 @@ Game >> defeat: aShip fightingWith: itsTeam [
 	self moveToTheFirstTile: aShip
 ]
 
+{ #category : 'private' }
+Game >> effectAtTileOf: aShip [
+
+	| tile |
+	tile := positionManager tileOf: aShip.
+	^ cardManager effect: (board effectAt: tile) atTile: tile
+]
+
 { #category : 'battles' }
 Game >> engageInBattle: aShip [
 
@@ -193,7 +201,7 @@ Game >> nextPlayerThrowsDice [
 	positionManager
 		move: activeShip
 		forwardWith: (cardManager boost: setOfDie throw of: activeShip).
-	landedEffect := board effectAt: (positionManager tileOf: activeShip).
+	landedEffect := self effectAtTileOf: activeShip.
 	movedByTheEffect := self apply: landedEffect on: activeShip.
 	lastEffectApplied := landedEffect.
 	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
