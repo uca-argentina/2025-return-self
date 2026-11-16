@@ -24,9 +24,23 @@ Effect >> allowsBattleOnItsTile [
 ]
 
 { #category : 'positioning' }
+Effect >> applyEffectOn: aPlayer among: everyPlayer and: aGame [
+
+	self
+		applyEffectOnEvery: (self target shipsAffectedWhen: aPlayer landsAmong: everyPlayer)
+		and: aGame
+]
+
+{ #category : 'positioning' }
 Effect >> applyEffectOn: aPlayer and: aGame [
 
 	self subclassResponsibility
+]
+
+{ #category : 'positioning' }
+Effect >> applyEffectOnEvery: aGroupOfPlayers and: aGame [
+
+	aGroupOfPlayers do: [ :player | self applyEffectOn: player and: aGame ]
 ]
 
 { #category : 'testing' }
@@ -75,4 +89,10 @@ Effect >> isNoEffect [
 Effect >> isWormhole [
 
 	^ false
+]
+
+{ #category : 'accessing' }
+Effect >> target [
+
+	^ LandingShip create
 ]

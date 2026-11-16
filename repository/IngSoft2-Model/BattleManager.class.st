@@ -12,13 +12,6 @@ BattleManager class >> createWith: aGroupOfPlayers [
 		(aGroupOfPlayers collect: [ :each | ShipShield createFullWith: each id ])
 ]
 
-{ #category : 'updating' }
-BattleManager >> allDecreaseAShield [
-
-	playersFeature do: [ :player |
-		self updateShipReference: (player loseShields: 1) ]
-]
-
 { #category : 'battling' }
 BattleManager >> bestThrowOf: aTeam using: someDice [
 

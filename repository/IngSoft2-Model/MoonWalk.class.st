@@ -35,7 +35,7 @@ MoonWalk class >> effectProbability [
 { #category : 'positioning' }
 MoonWalk >> applyEffectOn: aPlayer and: aGame [
 
-	aGame moveEveryoneExcept: aPlayer backward: debuff
+	aGame move: aPlayer backward: debuff
 ]
 
 { #category : 'initialization' }
@@ -48,4 +48,10 @@ MoonWalk >> initializeEffectWith: aDebuff [
 MoonWalk >> isMoonWalk [
 
 	^ true
+]
+
+{ #category : 'accessing' }
+MoonWalk >> target [
+
+	^ EveryOtherShip create
 ]

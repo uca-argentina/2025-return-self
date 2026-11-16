@@ -59,7 +59,7 @@ Game >> apply: anEffect on: aShip [
 
 	| tileBeforeTheEffect |
 	tileBeforeTheEffect := positionManager tileOf: aShip.
-	anEffect applyEffectOn: aShip and: self.
+	anEffect applyEffectOn: aShip among: players everyShip and: self.
 	^ (positionManager tileOf: aShip) ~= tileBeforeTheEffect
 ]
 
@@ -110,7 +110,7 @@ Game >> dealCardTo: aShip [
 Game >> defeat: aShip fightingWith: itsTeam [
 
 	itsTeam do: [ :ship | self takeShields: 1 from: ship ].
-	positionManager resetLapTo: aShip
+	self moveToTheFirstTile: aShip
 ]
 
 { #category : 'battles' }
@@ -170,17 +170,9 @@ Game >> move: aShip toTile: aTile [
 ]
 
 { #category : 'effects' }
-Game >> moveEveryoneExcept: aShip backward: aNumberOfTiles [
+Game >> moveToTheFirstTile: aShip [
 
-	positionManager
-		moveEveryoneExcept: aShip
-		backwardsWith: aNumberOfTiles
-]
-
-{ #category : 'effects' }
-Game >> moveEveryoneToTheFirstTile [
-
-	positionManager resetPlayersPosition
+	positionManager resetLapTo: aShip
 ]
 
 { #category : 'interaction loop' }
@@ -289,13 +281,6 @@ Game >> shieldsFeatureOf: aShip [
 
 	"Used for testing"
 	^ battleManager findShipReference: aShip
-]
-
-{ #category : 'effects' }
-Game >> takeAShieldFromEveryone [
-
-	battleManager allDecreaseAShield.
-	self penalizeShipsOutOfShields
 ]
 
 { #category : 'effects' }

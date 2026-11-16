@@ -20,6 +20,12 @@ PlayerManager >> describeEveryPlayerWith: positionsWithoutName [
 		each searchReferenceAndConcatName: positionsWithoutName ]
 ]
 
+{ #category : 'accessing' }
+PlayerManager >> everyShip [
+
+	^ playersFeature copy
+]
+
 { #category : 'initialization' }
 PlayerManager >> initializePlayerManagerWith: aGroupOfPlayers [
 

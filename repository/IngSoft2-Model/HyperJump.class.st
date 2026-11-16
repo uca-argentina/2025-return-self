@@ -52,7 +52,13 @@ HyperJump class >> mustHaveAtLeastOneDistance: aListOfDistances [
 { #category : 'positioning' }
 HyperJump >> applyEffectOn: aPlayer and: aGame [
 
-	aGame advance: aPlayer by: (buffList at: actualBuffIndex).
+	aGame advance: aPlayer by: (buffList at: actualBuffIndex)
+]
+
+{ #category : 'positioning' }
+HyperJump >> applyEffectOnEvery: aGroupOfPlayers and: aGame [
+
+	super applyEffectOnEvery: aGroupOfPlayers and: aGame.
 	self nextBuff
 ]
 

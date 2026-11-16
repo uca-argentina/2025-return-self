@@ -14,12 +14,18 @@ AtomikBomb class >> effectProbability [
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aPlayer and: aGame [
 
-	aGame moveEveryoneToTheFirstTile.
-	aGame takeAShieldFromEveryone
+	aGame moveToTheFirstTile: aPlayer.
+	aGame takeShields: 1 from: aPlayer
 ]
 
 { #category : 'testing' }
 AtomikBomb >> isAtomikBomb [
 
 	^ true
+]
+
+{ #category : 'accessing' }
+AtomikBomb >> target [
+
+	^ EveryShip create
 ]

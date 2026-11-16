@@ -106,13 +106,6 @@ PositionManager >> move: aPlayer toTile: aTile [
 	self updateShipReference: ((self findShipReference: aPlayer) goToTile: aTile)
 ]
 
-{ #category : 'positioning' }
-PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
-
-	(playersFeature reject: [ :player | player equalsID: aPlayer ]) do: [ :player |
-		self updateShipReference: (player goBackTiles: aDistance) ]
-]
-
 { #category : 'tests - printing' }
 PositionManager >> playerPositions [
 
@@ -157,12 +150,6 @@ PositionManager >> resetLapTo: aPlayer [
 	| playerToReset |
 	playerToReset := self findShipReference: aPlayer.
 	self updateShipReference: playerToReset goToFirstTile
-]
-
-{ #category : 'positioning' }
-PositionManager >> resetPlayersPosition [
-
-	playersFeature do: [ :player | self updateShipReference: player goToFirstTile ].
 ]
 
 { #category : 'checking' }

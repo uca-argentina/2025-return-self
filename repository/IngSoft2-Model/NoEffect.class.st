@@ -27,3 +27,9 @@ NoEffect >> isNoEffect [
 
 	^ true
 ]
+
+{ #category : 'accessing' }
+NoEffect >> target [
+
+	^ NoShip create
+]
