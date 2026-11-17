@@ -128,3 +128,48 @@ ReversePolarityCardTest >> test09WhenAReversePolarityCardIsCancelledThenTheEffec
 	self play: 2 in: aGame.
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test10WhenTheLastEffectAppliedWasReversedThenARepeatCardAppliesItReversedToo [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
+							 'Name: Tomi, Position: 8, Lap: 0' }.
+	aTileListCreator at: 12 put: BlackHole create.
+	aGame := self
+				 gameDealing: {
+						 ReversePolarity.
+						 Repeat }
+				 rolling: { 5. 11 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 12).
+	self play: 2 in: aGame.
+	aGame player: aPlayer plays: (Repeat createWith: aPlayer).
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test11WhenTheTileOfAHyperJumpIsReversedThenEveryOtherShipAdvancesTheSameDistance [
+
+	| aGame aThirdPlayer |
+	aThirdPlayer := ShipPlayerAssociation createWith: 3 and: 'Pedro'.
+	aGroupOfPlayers := aGroupOfPlayers , { aThirdPlayer }.
+	aTileListCreator at: 3 put: HyperJump create.
+	aGame := self gameDealing: { ReversePolarity } rolling: { 2 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 3).
+	self play: 1 in: aGame.
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 3.
+	self assert: (aGame positionFeatureOf: anotherPlayer) position equals: 3.
+	self assert: (aGame positionFeatureOf: aThirdPlayer) position equals: 3
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test12WhenTheTileThatGivesCardsIsReversedThenEveryOtherShipGetsACard [
+
+	| aGame |
+	aTileListCreator at: 4 put: CardGiver create.
+	aGame := self gameDealing: { ReversePolarity } rolling: { 3 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 4).
+	self play: 1 in: aGame.
+	self assert: (aGame cardsFeatureOf: aPlayer) deck size equals: 1.
+	self assert: (aGame cardsFeatureOf: anotherPlayer) deck size equals: 3
+]
