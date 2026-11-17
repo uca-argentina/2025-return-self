@@ -173,3 +173,45 @@ ReversePolarityCardTest >> test12WhenTheTileThatGivesCardsIsReversedThenEveryOth
 	self assert: (aGame cardsFeatureOf: aPlayer) deck size equals: 1.
 	self assert: (aGame cardsFeatureOf: anotherPlayer) deck size equals: 3
 ]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test13WhenAnEmptyTileIsReversedThenItStillHasNoEffectAndTheShipsBattleOnIt [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0' }.
+	aGame := self gameDealing: { ReversePolarity } rolling: { 4. 4. 6. 1 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 5).
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData.
+	self assert: (aGame shieldsFeatureOf: anotherPlayer) shields equals: 2
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test14WhenTryingToPlayAReversePolarityCardWithoutChoosingItsTileThenItRaisesError [
+
+	| aGame |
+	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
+	self
+		should: [ aGame player: aPlayer plays: ReversePolarity create ]
+		raiseErrorWithMessageText: 'This card needs a target to be played.'
+]
+
+{ #category : 'tests' }
+ReversePolarityCardTest >> test15WhenARedoCardDoesAReversePolarityCardAgainThenItReversesTheNewChosenTile [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0' }.
+	aTileListCreator at: 6 put: BlackHole create.
+	aTileListCreator at: 12 put: BlackHole create.
+	aGame := self
+				 gameDealing: {
+						 ReversePolarity.
+						 Redo }
+				 rolling: { 5 }.
+	aGame player: aPlayer plays: (ReversePolarity createWith: 12).
+	aGame player: aPlayer plays: (Redo createWith: 6).
+	self play: 1 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
