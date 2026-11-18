@@ -2,7 +2,8 @@ Class {
 	#name : 'TurnManager',
 	#superclass : 'GameFeatureManager',
 	#instVars : [
-		'turnIndex'
+		'turnIndex',
+		'direction'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -40,14 +41,15 @@ TurnManager >> beginTurn [
 { #category : 'play interface' }
 TurnManager >> endTurn [
 
-	turnIndex := turnIndex \\ playersFeature size + 1
+	turnIndex := turnIndex - 1 + direction \\ playersFeature size + 1
 ]
 
 { #category : 'initialization' }
 TurnManager >> initializePlayersTurnWith: aGroup [
 
 	playersFeature := aGroup.
-	turnIndex := 1
+	turnIndex := 1.
+	direction := 1
 ]
 
 { #category : 'testing' }
@@ -60,6 +62,12 @@ TurnManager >> isTurnOf: aPlayer [
 TurnManager >> playerInTurn [
 
 	^ self copy beginTurn
+]
+
+{ #category : 'play interface' }
+TurnManager >> reverseOrder [
+
+	direction := direction negated
 ]
 
 { #category : 'private' }

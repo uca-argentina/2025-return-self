@@ -290,6 +290,12 @@ Game >> repeatLastEffectOn: aShip [
 		self engageInBattle: aShip ]
 ]
 
+{ #category : 'cards' }
+Game >> reverseTurnOrder [
+
+	turnManager reverseOrder
+]
+
 { #category : 'battles' }
 Game >> rivalsOf: aShip [
 

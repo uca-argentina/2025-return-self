@@ -16,9 +16,3 @@ Acceleration >> equalsACard: aCard [
 
 	^ self sameTypeOfCard: aCard
 ]
-
-{ #category : 'setup' }
-Acceleration >> setupWith: aTarget [
-
-	^ self class create
-]

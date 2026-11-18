@@ -33,5 +33,5 @@ Card >> sameTypeOfCard: aCard [
 { #category : 'setup' }
 Card >> setupWith: aTarget [
 
-	self subclassResponsibility
+	^ self class create
 ]
