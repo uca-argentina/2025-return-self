@@ -159,6 +159,17 @@ Game >> isWinner: aPlayerName [
 	^ players is: positionManager winner named: aPlayerName
 ]
 
+{ #category : 'private' }
+Game >> landOnItsTile: aShip [
+
+	| landedEffect movedByTheEffect |
+	landedEffect := self effectAtTileOf: aShip.
+	movedByTheEffect := self apply: landedEffect on: aShip.
+	lastEffectApplied := landedEffect.
+	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
+		self engageInBattle: aShip ]
+]
+
 { #category : 'cards' }
 Game >> lastPlayedCard [
 
@@ -193,25 +204,21 @@ Game >> moveToTheFirstTile: aShip [
 Game >> nextPlayerSkipsTurn [
 
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	turnManager playNextTurn.
-	battleManager forceAShieldResetTo: turnManager playerInTurn
+	battleManager forceAShieldResetTo: turnManager beginTurn.
+	turnManager endTurn
 ]
 
 { #category : 'interaction loop' }
 Game >> nextPlayerThrowsDice [
 
-	| activeShip landedEffect movedByTheEffect |
+	| activeShip |
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	turnManager playNextTurn.
-	activeShip := turnManager playerInTurn.
+	activeShip := turnManager beginTurn.
 	positionManager
 		move: activeShip
 		forwardWith: (cardManager boost: setOfDie throw of: activeShip).
-	landedEffect := self effectAtTileOf: activeShip.
-	movedByTheEffect := self apply: landedEffect on: activeShip.
-	lastEffectApplied := landedEffect.
-	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
-		self engageInBattle: activeShip ]
+	self landOnItsTile: activeShip.
+	turnManager endTurn
 ]
 
 { #category : 'private' }
