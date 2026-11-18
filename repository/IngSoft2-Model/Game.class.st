@@ -316,6 +316,12 @@ Game >> shipInTurnLosesItsTurn [
 	turnManager skipTurn
 ]
 
+{ #category : 'cards' }
+Game >> shipInTurnPlaysTwice [
+
+	turnManager grantExtraTurn
+]
+
 { #category : 'effects' }
 Game >> takeShields: anAmount from: aShip [
 

@@ -3,7 +3,8 @@ Class {
 	#superclass : 'GameFeatureManager',
 	#instVars : [
 		'turnIndex',
-		'direction'
+		'direction',
+		'extraTurns'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -41,7 +42,16 @@ TurnManager >> beginTurn [
 { #category : 'play interface' }
 TurnManager >> endTurn [
 
-	turnIndex := turnIndex - 1 + direction \\ playersFeature size + 1
+	extraTurns > 0
+		ifTrue: [ extraTurns := extraTurns - 1 ]
+		ifFalse: [ turnIndex := turnIndex - 1 + direction \\ playersFeature size + 1 ]
+]
+
+{ #category : 'play interface' }
+TurnManager >> grantExtraTurn [
+
+	self beginTurn.
+	extraTurns := extraTurns + 1
 ]
 
 { #category : 'initialization' }
@@ -49,7 +59,8 @@ TurnManager >> initializePlayersTurnWith: aGroup [
 
 	playersFeature := aGroup.
 	turnIndex := 1.
-	direction := 1
+	direction := 1.
+	extraTurns := 0
 ]
 
 { #category : 'testing' }
