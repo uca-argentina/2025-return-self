@@ -59,3 +59,21 @@ SkipCardTest >> test03WhenTheOrderOfTheTurnsIsReversedThenAfterASkipCardTheTurnG
 	self play: 1 in: aGame.
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+SkipCardTest >> test04WhenARedoCardDoesASkipCardAgainThenTheNextShipInTurnLosesItsTurnToo [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0'.
+							 'Name: Pedro, Position: 2, Lap: 0' }.
+	aGame := self
+				 gameDealing: {
+						 Skip.
+						 Redo }
+				 rolling: { 1 }.
+	aGame player: aPlayer plays: Skip create.
+	aGame player: aPlayer plays: Redo create.
+	self play: 1 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]

@@ -28,9 +28,13 @@ CardDealer class >> withEveryCard [
 	^ self dealing: {
 			Acceleration.
 			Cancellation.
+			Double.
 			Mercenary.
 			Redo.
 			Repeat.
+			Reverse.
+			ReversePolarity.
+			Skip.
 			Speed }
 ]
 

@@ -55,3 +55,36 @@ DoubleCardTest >> test03WhenTwoDoubleCardsArePlayedInTheSameTurnThenTheShipInTur
 	self play: 3 in: aGame.
 	self assert: aGame playerPositions equals: assertingVariableData
 ]
+
+{ #category : 'tests' }
+DoubleCardTest >> test04WhenASkipCardIsPlayedInADoubledTurnThenTheShipInTurnLosesOnlyOneOfItsTwoTurns [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
+							 'Name: Tomi, Position: 3, Lap: 0'.
+							 'Name: Pedro, Position: 1, Lap: 0' }.
+	aGame := self
+				 gameDealing: {
+						 Double.
+						 Skip }
+				 rolling: { 1. 2 }.
+	aGame player: aPlayer plays: Double create.
+	aGame player: anotherPlayer plays: Skip create.
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+DoubleCardTest >> test05WhenAShipRunsOutOfShieldsInADoubledTurnThenItsExtraTurnIsOneOfTheTurnsItLoses [
+
+	| aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
+							 'Name: Tomi, Position: 3, Lap: 0'.
+							 'Name: Pedro, Position: 1, Lap: 0' }.
+	aTileListCreator at: 2 put: (HyperSpaceJump createWith: 4 and: 3).
+	aGame := self gameDealing: { Double } rolling: { 1. 2 }.
+	aGame player: aPlayer plays: Double create.
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData.
+	self assert: (aGame turnsFeatureOf: aPlayer) turnsToSkip equals: 1
+]
