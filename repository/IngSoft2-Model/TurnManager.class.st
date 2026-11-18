@@ -75,3 +75,10 @@ TurnManager >> shipAtTurn [
 
 	^ playersFeature at: turnIndex
 ]
+
+{ #category : 'play interface' }
+TurnManager >> skipTurn [
+
+	self beginTurn.
+	self endTurn
+]

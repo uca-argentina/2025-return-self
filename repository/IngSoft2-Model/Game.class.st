@@ -310,6 +310,12 @@ Game >> shieldsFeatureOf: aShip [
 	^ battleManager findShipReference: aShip
 ]
 
+{ #category : 'cards' }
+Game >> shipInTurnLosesItsTurn [
+
+	turnManager skipTurn
+]
+
 { #category : 'effects' }
 Game >> takeShields: anAmount from: aShip [
 
