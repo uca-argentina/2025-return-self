@@ -19,7 +19,15 @@ Board class >> boardLengthMustBeGreaterThanThree: aLength [
 Board class >> createWith: aSetOfTiles [
 
 	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
+	self everyEffectMustFitItsTile: aSetOfTiles.
 	^ self new initializeWithTiles: aSetOfTiles
+]
+
+{ #category : 'testing' }
+Board class >> everyEffectMustFitItsTile: aSetOfTiles [
+
+	aSetOfTiles withIndexDo: [ :tile :tileNumber |
+		tile effect assertCanBeAt: tileNumber onBoardOf: aSetOfTiles size ]
 ]
 
 { #category : 'testing' }

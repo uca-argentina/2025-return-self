@@ -41,12 +41,6 @@ Tile >> effect [
 	^ effect
 ]
 
-{ #category : 'testing' }
-Tile >> hasNoEffect [
-
-	^ effect isNoEffect
-]
-
 { #category : 'initialization' }
 Tile >> initializeTileWithEffect: anEffect and: aLength [
 

@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'tileList',
 		'effectsWithProbabilities',
-		'tileLength'
+		'tileLength',
+		'freeTiles'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -59,25 +60,13 @@ TileDistributionBuilder >> buildBoard [
 	^ Board createWith: tileList
 ]
 
-{ #category : 'listing' }
-TileDistributionBuilder >> collectTilesWithNoEffect [
-
-	| tilesWithNoEffect |
-	tilesWithNoEffect := OrderedCollection new.
-	tileList withIndexDo: [ :tile :index |
-		index > 1 ifTrue: [ "NOT COLLECTING FIRST TILE"
-			tile hasNoEffect ifTrue: [ tilesWithNoEffect add: index ] ] ].
-	^ tilesWithNoEffect
-]
-
 { #category : 'building' }
 TileDistributionBuilder >> distributeEffectIntoTileList: anEffectClass [
 
-	| amountNeeded tilesWithNoEffect tileIndex |
-	amountNeeded := (anEffectClass effectProbability * (tileList size - 1)) rounded. "NOT COUNTING FIRST TILE"
-	tilesWithNoEffect := self collectTilesWithNoEffect.
-	[ amountNeeded > 0 and: [ tilesWithNoEffect isNotEmpty ] ] whileTrue: [
-		tileIndex := self removeFromCollectionAtRandom: tilesWithNoEffect.
+	| amountNeeded tileIndex |
+	amountNeeded := (anEffectClass effectProbability * (tileList size - 1)) rounded.
+	[ amountNeeded > 0 and: [ freeTiles isNotEmpty ] ] whileTrue: [
+		tileIndex := self removeFromCollectionAtRandom: freeTiles.
 		tileList
 			at: tileIndex
 			put: (Tile createWithEffect: anEffectClass create and: tileLength).
@@ -100,6 +89,9 @@ TileDistributionBuilder >> initializeBuilderForBoardWithLength: aLength and: aTi
 	tileList at: otherEnd put: (Tile
 			createWithEffect: (Wormhole createWith: oneEnd)
 			and: aTileLength).
+	freeTiles := (2 to: aLength) asOrderedCollection.
+	freeTiles remove: oneEnd.
+	freeTiles remove: otherEnd.
 	effectsWithProbabilities := OrderedCollection new.
 	tileLength := aTileLength
 ]

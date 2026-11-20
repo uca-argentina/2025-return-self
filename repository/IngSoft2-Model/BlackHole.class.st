@@ -37,9 +37,3 @@ BlackHole >> initializeEffectWith: aDebuff [
 
 	debuff := aDebuff
 ]
-
-{ #category : 'testing' }
-BlackHole >> isBlackHole [
-
-	^ true
-]

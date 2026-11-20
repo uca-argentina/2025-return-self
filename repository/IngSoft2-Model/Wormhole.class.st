@@ -38,25 +38,16 @@ Wormhole >> applyEffectOn: aPlayer and: aGame [
 ]
 
 { #category : 'testing' }
-Wormhole >> endpointInside: aLength [
+Wormhole >> assertCanBeAt: aTileNumber onBoardOf: aNumberOfTiles [
 
-	^ endpoint <= aLength
-]
-
-{ #category : 'testing' }
-Wormhole >> endpointSameAs: aPosition [
-
-	^ endpoint = aPosition
+	endpoint = aTileNumber ifTrue: [
+		Error signal: 'Wormhole ends must be different tiles.' ].
+	endpoint <= aNumberOfTiles ifFalse: [
+		Error signal: 'Wormhole endpoint must be inside.' ]
 ]
 
 { #category : 'initialization' }
 Wormhole >> initializeEffectWith: anEndpoint [
 
 	endpoint := anEndpoint
-]
-
-{ #category : 'testing' }
-Wormhole >> isWormhole [
-
-	^ true
 ]

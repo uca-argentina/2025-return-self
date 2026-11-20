@@ -37,9 +37,7 @@ TileListCreationForTesting >> at: anIndex put: anEffect [
 
 	self effectCantBeInFirstTile: anIndex.
 	self effectMustBeInsideTheBoardLength: anIndex.
-	anEffect isWormhole ifTrue: [
-		self wormhole: anEffect positionMustBeDifferentFromEndpoint: anIndex.
-		self wormholeEndpointMustBeInside: anEffect ].
+	anEffect assertCanBeAt: anIndex onBoardOf: tileList size.
 	tileList
 		at: anIndex
 		put: (Tile createWithEffect: anEffect and: tileLength)
@@ -70,18 +68,4 @@ TileListCreationForTesting >> initializeTileListWith: aBoardLength and: aTileLen
 TileListCreationForTesting >> tileList [
 
 	^ tileList
-]
-
-{ #category : 'creation tests' }
-TileListCreationForTesting >> wormhole: aWormholeEffect positionMustBeDifferentFromEndpoint: anIndex [
-
-	(aWormholeEffect endpointSameAs: anIndex) ifTrue: [
-		Error signal: 'Wormhole ends must be different tiles.' ]
-]
-
-{ #category : 'creation tests' }
-TileListCreationForTesting >> wormholeEndpointMustBeInside: aWormholeEffect [
-
-	(aWormholeEffect endpointInside: tileList size) ifFalse: [
-		Error signal: 'Wormhole endpoint must be inside.' ]
 ]

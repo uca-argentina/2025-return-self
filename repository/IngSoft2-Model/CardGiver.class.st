@@ -16,9 +16,3 @@ CardGiver >> applyEffectOn: aPlayer and: aGame [
 
 	aGame dealCardTo: aPlayer
 ]
-
-{ #category : 'testing' }
-CardGiver >> isCardGiver [
-
-	^ true
-]

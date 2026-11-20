@@ -40,9 +40,3 @@ HyperSpaceJump >> initializeEffectWith: aBoost and: aShieldDebuff [
 	buff := aBoost.
 	shieldDebuff := aShieldDebuff
 ]
-
-{ #category : 'testing' }
-HyperSpaceJump >> isHyperSpaceJump [
-
-	^ true
-]

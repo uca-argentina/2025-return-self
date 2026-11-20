@@ -44,12 +44,6 @@ MoonWalk >> initializeEffectWith: aDebuff [
 	debuff := aDebuff
 ]
 
-{ #category : 'testing' }
-MoonWalk >> isMoonWalk [
-
-	^ true
-]
-
 { #category : 'accessing' }
 MoonWalk >> target [
 

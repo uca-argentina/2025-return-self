@@ -69,12 +69,6 @@ HyperJump >> initializeEffectWith: aListOfDistances [
 	actualBuffIndex := 1
 ]
 
-{ #category : 'testing' }
-HyperJump >> isHyperJump [
-
-	^ true
-]
-
 { #category : 'interaction loop' }
 HyperJump >> nextBuff [
 

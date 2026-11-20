@@ -22,12 +22,6 @@ NoEffect >> applyEffectOn: aPlayer and: aGame [
 
 ]
 
-{ #category : 'testing' }
-NoEffect >> isNoEffect [
-
-	^ true
-]
-
 { #category : 'accessing' }
 NoEffect >> target [
 

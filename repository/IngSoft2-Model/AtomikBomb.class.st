@@ -18,12 +18,6 @@ AtomikBomb >> applyEffectOn: aPlayer and: aGame [
 	aGame takeShields: 1 from: aPlayer
 ]
 
-{ #category : 'testing' }
-AtomikBomb >> isAtomikBomb [
-
-	^ true
-]
-
 { #category : 'accessing' }
 AtomikBomb >> target [
 

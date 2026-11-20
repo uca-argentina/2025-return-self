@@ -9,6 +9,12 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'private' }
+TileDistributionTest >> amountOf: anEffectClass in: aBoard [
+
+	^ aBoard tiles count: [ :tile | tile effect class = anEffectClass ]
+]
+
 { #category : 'running' }
 TileDistributionTest >> setUp [
 
@@ -52,78 +58,53 @@ TileDistributionTest >> testBoardBuiltWithATotalLengthInLightYearsSplitsItEvenly
 { #category : 'tests' }
 TileDistributionTest >> testBoardBuiltWithBlackHoles [
 
-	| aTestBoard blackHoles noEffect |
+	| aTestBoard |
 	aBuilder addEffectToBuilder: BlackHole.
 	aTestBoard := aBuilder buildBoard.
-
-	blackHoles := 0.
-	noEffect := 0.
-	aTestBoard tiles do: [ :tile |
-		(tile effect isBlackHole) ifTrue: [
-			blackHoles := blackHoles + 1 ].
-		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ] ].
-
-	self assert: blackHoles equals: 18.
-	self assert: noEffect equals: 81.
+	self assert: (self amountOf: BlackHole in: aTestBoard) equals: 18.
+	self assert: (self amountOf: NoEffect in: aTestBoard) equals: 81
 ]
 
 { #category : 'tests' }
 TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 
-	| aTestBoard blackHoles atomikBombs noEffect |
+	| aTestBoard |
 	aBuilder addEffectToBuilder: BlackHole.
 	aBuilder addEffectToBuilder: AtomikBomb.
 	aTestBoard := aBuilder buildBoard.
-
-	blackHoles := 0.
-	atomikBombs := 0.
-	noEffect := 0.
-	aTestBoard tiles do: [ :tile |
-		(tile effect isBlackHole) ifTrue: [
-			blackHoles := blackHoles + 1 ].
-		(tile effect isNoEffect) ifTrue: [ noEffect := noEffect + 1 ].
-		(tile effect isAtomikBomb) ifTrue: [
-			atomikBombs := atomikBombs + 1 ] ].
-
-	self assert: blackHoles equals: 18.
-	self assert: atomikBombs equals: 2.
-	self assert: noEffect equals: 79
+	self assert: (self amountOf: BlackHole in: aTestBoard) equals: 18.
+	self assert: (self amountOf: AtomikBomb in: aTestBoard) equals: 2.
+	self assert: (self amountOf: NoEffect in: aTestBoard) equals: 79
 ]
 
 { #category : 'tests' }
 TileDistributionTest >> testBoardWithEveryThing [
 
-	| aTestBoard blackHoles atomikBombs noEffect hyperJump hyperSpaceJump moonWalk wormhole cardGivers |
+	| aTestBoard |
 	aBuilder addEveryEffectToBuilder.
 	aTestBoard := aBuilder buildBoard.
+	self assert: (self amountOf: BlackHole in: aTestBoard) equals: 18.
+	self assert: (self amountOf: AtomikBomb in: aTestBoard) equals: 2.
+	self assert: (self amountOf: NoEffect in: aTestBoard) equals: 37.
+	self assert: (self amountOf: HyperJump in: aTestBoard) equals: 6.
+	self assert: (self amountOf: HyperSpaceJump in: aTestBoard) equals: 18.
+	self assert: (self amountOf: MoonWalk in: aTestBoard) equals: 8.
+	self assert: (self amountOf: CardGiver in: aTestBoard) equals: 10.
+	self assert: (self amountOf: Wormhole in: aTestBoard) equals: 2
+]
 
-	blackHoles := 0.
-	atomikBombs := 0.
-	hyperJump := 0.
-	hyperSpaceJump := 0.
-	moonWalk := 0.
-	noEffect := 0.
-	wormhole := 0.
-	cardGivers := 0.
-	aTestBoard tiles do: [ :tile |
-		tile effect isBlackHole ifTrue: [ blackHoles := blackHoles + 1 ].
-		tile effect isNoEffect ifTrue: [ noEffect := noEffect + 1 ].
-		tile effect isHyperJump ifTrue: [ hyperJump := hyperJump + 1 ].
-		tile effect isHyperSpaceJump ifTrue: [
-			hyperSpaceJump := hyperSpaceJump + 1 ].
-		tile effect isMoonWalk ifTrue: [ moonWalk := moonWalk + 1 ].
-		tile effect isWormhole ifTrue: [ wormhole := wormhole + 1 ].
-		tile effect isCardGiver ifTrue: [ cardGivers := cardGivers + 1 ].
-		tile effect isAtomikBomb ifTrue: [ atomikBombs := atomikBombs + 1 ] ].
+{ #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateABoardWithAWormholeThatLeadsOutsideOfItThenItRaisesError [
 
-	self assert: blackHoles equals: 18.
-	self assert: atomikBombs equals: 2.
-	self assert: noEffect equals: 37.
-	self assert: hyperJump equals: 6.
-	self assert: hyperSpaceJump equals: 18.
-	self assert: moonWalk equals: 8.
-	self assert: cardGivers equals: 10.
-	self assert: wormhole equals: 2
+	| someTiles |
+	someTiles := {
+					 (Tile createWithEffect: NoEffect create).
+					 (Tile createWithEffect: (Wormhole createWith: 9)).
+					 (Tile createWithEffect: NoEffect create).
+					 (Tile createWithEffect: NoEffect create) }.
+	self
+		should: [ Board createWith: someTiles ]
+		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
 ]
 
 { #category : 'tests' }

@@ -44,51 +44,8 @@ Effect >> applyEffectOnEvery: aGroupOfPlayers and: aGame [
 ]
 
 { #category : 'testing' }
-Effect >> isAtomikBomb [
+Effect >> assertCanBeAt: aTileNumber onBoardOf: aNumberOfTiles [
 
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isBlackHole [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isCardGiver [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isHyperJump [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isHyperSpaceJump [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isMoonWalk [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isNoEffect [
-
-	^ false
-]
-
-{ #category : 'testing' }
-Effect >> isWormhole [
-
-	^ false
 ]
 
 { #category : 'accessing' }

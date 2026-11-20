@@ -38,6 +38,12 @@ EffectWithReversedPolarity >> applyEffectOnEvery: aGroupOfPlayers and: aGame [
 	effect applyEffectOnEvery: aGroupOfPlayers and: aGame
 ]
 
+{ #category : 'testing' }
+EffectWithReversedPolarity >> assertCanBeAt: aTileNumber onBoardOf: aNumberOfTiles [
+
+	effect assertCanBeAt: aTileNumber onBoardOf: aNumberOfTiles
+]
+
 { #category : 'initialization' }
 EffectWithReversedPolarity >> initializeOf: anEffect [
 
