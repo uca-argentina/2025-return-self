@@ -196,7 +196,8 @@ Game >> moveToTheFirstTile: aShip [
 Game >> nextPlayerSkipsTurn [
 
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	battleManager forceAShieldResetTo: turnManager beginTurn.
+	turnManager beginTurn.
+	battleManager forceAShieldResetTo: turnManager playerInTurn.
 	turnManager endTurn
 ]
 
@@ -205,7 +206,8 @@ Game >> nextPlayerThrowsDice [
 
 	| activeShip |
 	positionManager stillPlaying ifFalse: [ ^ self winner ].
-	activeShip := turnManager beginTurn.
+	turnManager beginTurn.
+	activeShip := turnManager playerInTurn.
 	positionManager
 		move: activeShip
 		forwardWith: (cardManager boost: setOfDie throw of: activeShip).

@@ -35,8 +35,7 @@ TurnManager >> beginTurn [
 
 	[ self shipAtTurn hasTurnsToSkip ] whileTrue: [
 		self updateShipReference: self shipAtTurn skipATurn.
-		self endTurn ].
-	^ self shipAtTurn
+		self endTurn ]
 ]
 
 { #category : 'play interface' }
@@ -72,7 +71,7 @@ TurnManager >> isTurnOf: aPlayer [
 { #category : 'accessing' }
 TurnManager >> playerInTurn [
 
-	^ self copy beginTurn
+	^ self copy beginTurn shipAtTurn
 ]
 
 { #category : 'play interface' }

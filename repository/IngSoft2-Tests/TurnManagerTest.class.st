@@ -56,11 +56,10 @@ TurnManagerTest >> test03WhenTheTurnOfTheLastShipEndsThenItIsTheTurnOfTheFirstSh
 { #category : 'tests' }
 TurnManagerTest >> test04WhenManagerAddsSkipsToBothShipsAndATurnBeginsThenItDiscountsTheirTurnsUntilAShipCanPlay [
 
-	| shipThatPlays |
 	aTurnManager addTwoSkipsTo: aPlayer.
 	aTurnManager addTwoSkipsTo: anotherPlayer.
-	shipThatPlays := aTurnManager beginTurn.
-	self assert: shipThatPlays id equals: 1.
+	aTurnManager beginTurn.
+	self assert: aTurnManager playerInTurn id equals: 1.
 	self assert: (aTurnManager findShipReference: aPlayer) turnsToSkip equals: 0.
 	self assert: (aTurnManager findShipReference: anotherPlayer) turnsToSkip equals: 0
 ]
