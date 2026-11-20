@@ -29,7 +29,15 @@ DiceTest >> test02ThrowMultipleDie [
 	firstDice := Dice faces: 6.
 	secondDice := Dice faces: 9.
 	aSetOfDie := DieSet having: {
-			             firstDice.
-			             secondDice }.
+			firstDice.
+			secondDice }.
 	self assert: (aSetOfDie throw between: 2 and: 15)
+]
+
+{ #category : 'tests' }
+DiceTest >> test03WhenTryingToCreateADieSetWithoutDiceThenItRaisesError [
+
+	self
+		should: [ DieSet having: {  } ]
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
 ]

@@ -18,13 +18,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'testing' }
-Game class >> mustHaveAtLeastOneDieToPlay: aSetOfDie [
-
-	aSetOfDie isEmpty ifTrue: [
-		Error signal: 'You must have at least one die to play.' ]
-]
-
 { #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps [
 
@@ -39,11 +32,10 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 { #category : 'creation' }
 Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDie withLaps: laps withCardDealer: aCardDealer [
 
-	self mustHaveAtLeastOneDieToPlay: aSetOfDie asOrderedCollection.
 	^ self new
 		initializePlayedBy: aGroupOfPlayers asOrderedCollection
 		withBoard: aBoard
-		withSetOfDie: aSetOfDie
+		withSetOfDie: (DieSet having: aSetOfDie asOrderedCollection)
 		withLaps: laps
 		withCardDealer: aCardDealer
 ]

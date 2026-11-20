@@ -29,10 +29,10 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	anotherGroupOfPlayers := {
-		                   (ShipPlayerAssociation
-			                    createWith: 12
-			                    and: 'Pedro').
-		                   (ShipPlayerAssociation createWith: 12 and: 'Juan') }.
+		(ShipPlayerAssociation
+			createWith: 12
+			and: 'Pedro').
+		(ShipPlayerAssociation createWith: 12 and: 'Juan') }.
 	self
 		should: [
 			Game
@@ -62,7 +62,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
+GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithoutDiceThenItRaisesError [
 
 	| aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -143,4 +143,20 @@ GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOneP
 		TurnManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test04WhenAGameIsCreatedWithACollectionOfDiceThenEveryThrowIsTheSumOfThem [
+
+	| aTestBoard aGame |
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: {
+						 (LoadedDie rolling: 2).
+						 (LoadedDie rolling: 3) }
+				 withLaps: 1.
+	aGame nextPlayerThrowsDice.
+	self assert: (aGame positionFeatureOf: aGroupOfPlayers first) position equals: 6
 ]
