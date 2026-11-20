@@ -94,6 +94,24 @@ TileDistributionTest >> testBoardWithEveryThing [
 ]
 
 { #category : 'tests' }
+TileDistributionTest >> testTheProbabilitiesOfTheEmptyTileAndOfEveryEffectAddUpToOneHundredPercent [
+
+	| everyKindOfTile total |
+	everyKindOfTile := {
+						   NoEffect.
+						   AtomikBomb.
+						   BlackHole.
+						   CardGiver.
+						   HyperJump.
+						   HyperSpaceJump.
+						   MoonWalk }.
+	total := everyKindOfTile
+				 inject: 0
+				 into: [ :sum :effect | sum + effect effectProbability ].
+	self assert: (total * 100) rounded equals: 100
+]
+
+{ #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateABoardWithAWormholeThatLeadsOutsideOfItThenItRaisesError [
 
 	| someTiles |
