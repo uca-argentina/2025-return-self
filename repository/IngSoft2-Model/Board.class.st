@@ -20,6 +20,7 @@ Board class >> createWith: aSetOfTiles [
 
 	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
 	self everyEffectMustFitItsTile: aSetOfTiles.
+	self everyTileMustHaveTheSameLength: aSetOfTiles.
 	^ self new initializeWithTiles: aSetOfTiles
 ]
 
@@ -28,6 +29,13 @@ Board class >> everyEffectMustFitItsTile: aSetOfTiles [
 
 	aSetOfTiles withIndexDo: [ :tile :tileNumber |
 		tile effect assertCanBeAt: tileNumber onBoardOf: aSetOfTiles size ]
+]
+
+{ #category : 'testing' }
+Board class >> everyTileMustHaveTheSameLength: aSetOfTiles [
+
+	(aSetOfTiles collect: [ :tile | tile parsecs ]) asSet size = 1 ifFalse: [
+		Error signal: 'Every tile of the board must have the same length.' ]
 ]
 
 { #category : 'testing' }

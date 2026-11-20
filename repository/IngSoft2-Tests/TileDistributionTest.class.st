@@ -108,6 +108,20 @@ TileDistributionTest >> testWhenTryingToCreateABoardWithAWormholeThatLeadsOutsid
 ]
 
 { #category : 'tests' }
+TileDistributionTest >> testWhenTryingToCreateABoardWithTilesOfDifferentLengthsThenItRaisesError [
+
+	| someTiles |
+	someTiles := {
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
+					 (Tile createWithEffect: NoEffect create and: (LightYears of: 9)).
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)) }.
+	self
+		should: [ Board createWith: someTiles ]
+		raiseErrorWithMessageText: 'Every tile of the board must have the same length.'
+]
+
+{ #category : 'tests' }
 TileDistributionTest >> testWhenTryingToCreateATileWithoutLengthThenItRaisesError [
 
 	self
