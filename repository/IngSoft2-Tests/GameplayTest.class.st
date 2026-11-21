@@ -117,7 +117,7 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedTHenItReturnsTheWinner [
+GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedThenItReturnsTheWinner [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.

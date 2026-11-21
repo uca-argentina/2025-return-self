@@ -35,7 +35,7 @@ ShipShield class >> shieldsShouldntBeLowerThanZero: anAmountOfShields [
 		Error signal: 'The SpaceShip cant have negative shields.' ]
 ]
 
-{ #category : 'positioning' }
+{ #category : 'updating' }
 ShipShield >> forceAShieldReset [
 
 	^ self class createFullWith: id

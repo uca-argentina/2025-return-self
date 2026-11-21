@@ -42,7 +42,7 @@ ShipInStandBy >> initializeWith: anId and: aNumberOfTurns [
 	turnsToSkip := aNumberOfTurns
 ]
 
-{ #category : 'creation' }
+{ #category : 'updating' }
 ShipInStandBy >> skipATurn [
 
 	^ self class createWith: id and: turnsToSkip - 1

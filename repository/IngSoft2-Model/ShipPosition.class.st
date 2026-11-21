@@ -107,7 +107,7 @@ ShipPosition >> changePositionAndCorrectParsecsWith: aBacktrackDistance [
 { #category : 'accessing' }
 ShipPosition >> distanceTravelledWith: boardLength and: parsecsPerTile [
 
-	^ lap * boardLength + position * parsecsPerTile + parsec
+	^ (lap * boardLength + position) * parsecsPerTile + parsec
 ]
 
 { #category : 'positioning' }

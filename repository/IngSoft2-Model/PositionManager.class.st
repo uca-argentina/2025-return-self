@@ -166,7 +166,7 @@ PositionManager >> shipsSharingTileWith: aPlayer [
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
-	^ playersFeature allSatisfy: [ :player | (player lapGreaterOrEqualThan: laps) not ]
+	^ playersFeature noneSatisfy: [ :player | player lapGreaterOrEqualThan: laps ]
 ]
 
 { #category : 'accessing' }
