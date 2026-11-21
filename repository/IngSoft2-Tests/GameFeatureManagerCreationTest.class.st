@@ -85,7 +85,7 @@ GameFeatureManagerCreationTest >> test003WhenTryingToCreateAnyGameFeatureWithOne
 	self
 		should: [
 			Game
-				playedBy: aPlayer
+				playedBy: { aPlayer }
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
 				withLaps: 1 ]
@@ -95,20 +95,20 @@ GameFeatureManagerCreationTest >> test003WhenTryingToCreateAnyGameFeatureWithOne
 	self
 		should: [
 			PositionManager mustHaveAtLeastTwoPlayers:
-				aPlayer asOrderedCollection ]
+				{ aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
 		should: [
 			BattleManager mustHaveAtLeastTwoPlayers:
-				aPlayer asOrderedCollection ]
+				{ aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
 		should: [
-		TurnManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
+		TurnManager mustHaveAtLeastTwoPlayers: { aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'
 ]
@@ -140,23 +140,7 @@ GameFeatureManagerCreationTest >> test005WhenTryingToCreateAGameWithoutDiceThenI
 			Game
 				playedBy: aGroupOfPlayers
 				withBoard: aTestBoard
-				withSetOfDie: {  }
+				withSetOfDie: (DieSet having: {  })
 				withLaps: 10 ]
 		raiseErrorWithMessageText: 'You must have at least one die to play.'
-]
-
-{ #category : 'tests' }
-GameFeatureManagerCreationTest >> test006WhenAGameIsCreatedWithACollectionOfDiceThenEveryThrowIsTheSumOfThem [
-
-	| aTestBoard aGame |
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aGame := Game
-				 playedBy: aGroupOfPlayers
-				 withBoard: aTestBoard
-				 withSetOfDie: {
-						 (LoadedDie rolling: 2).
-						 (LoadedDie rolling: 3) }
-				 withLaps: 1.
-	aGame nextPlayerThrowsDice.
-	self assert: (aGame positionFeatureOf: aGroupOfPlayers first) position equals: 6
 ]

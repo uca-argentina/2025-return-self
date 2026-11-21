@@ -36,7 +36,7 @@ Game class >> playedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSetOfDi
 	^ self new
 		initializePlayedBy: aGroupOfPlayers asOrderedCollection
 		withBoard: aBoard
-		withSetOfDie: (DieSet having: aSetOfDie asOrderedCollection)
+		withSetOfDie: aSetOfDie
 		withLaps: laps
 		withCardDealer: aCardDealer
 ]
