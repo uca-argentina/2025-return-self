@@ -24,7 +24,7 @@ TurnManagerTest >> setUp [
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test01WhenManagerAddsSkipsToAShipThenItUpdatesItsArrayWithTheNewStatus [
+TurnManagerTest >> test001WhenManagerAddsSkipsToAShipThenItUpdatesItsArrayWithTheNewStatus [
 
 	| originalTurnStatus newTurnStatus |
 	originalTurnStatus := aTurnManager findShipReference: aPlayer.
@@ -35,7 +35,7 @@ TurnManagerTest >> test01WhenManagerAddsSkipsToAShipThenItUpdatesItsArrayWithThe
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test02WhenATurnEndsThenManagerChangesThePlayerInTurn [
+TurnManagerTest >> test002WhenATurnEndsThenManagerChangesThePlayerInTurn [
 
 	| originalTurnPlayer newTurnPlayer |
 	originalTurnPlayer := aTurnManager playerInTurn.
@@ -46,7 +46,7 @@ TurnManagerTest >> test02WhenATurnEndsThenManagerChangesThePlayerInTurn [
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test03WhenTheTurnOfTheLastShipEndsThenItIsTheTurnOfTheFirstShipAgain [
+TurnManagerTest >> test003WhenTheTurnOfTheLastShipEndsThenItIsTheTurnOfTheFirstShipAgain [
 
 	aTurnManager endTurn.
 	aTurnManager endTurn.
@@ -54,7 +54,7 @@ TurnManagerTest >> test03WhenTheTurnOfTheLastShipEndsThenItIsTheTurnOfTheFirstSh
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test04WhenManagerAddsSkipsToBothShipsAndATurnBeginsThenItDiscountsTheirTurnsUntilAShipCanPlay [
+TurnManagerTest >> test004WhenManagerAddsSkipsToBothShipsAndATurnBeginsThenItDiscountsTheirTurnsUntilAShipCanPlay [
 
 	aTurnManager addTwoSkipsTo: aPlayer.
 	aTurnManager addTwoSkipsTo: anotherPlayer.
@@ -65,7 +65,7 @@ TurnManagerTest >> test04WhenManagerAddsSkipsToBothShipsAndATurnBeginsThenItDisc
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test05WhenATurnWasPlayedThenItIsTheTurnOfTheNextShip [
+TurnManagerTest >> test005WhenATurnWasPlayedThenItIsTheTurnOfTheNextShip [
 
 	aTurnManager endTurn.
 	self assert: (aTurnManager isTurnOf: anotherPlayer).
@@ -73,7 +73,7 @@ TurnManagerTest >> test05WhenATurnWasPlayedThenItIsTheTurnOfTheNextShip [
 ]
 
 { #category : 'tests' }
-TurnManagerTest >> test06WhenTheNextShipHasToLoseItsTurnThenItIsNotItsTurnAndItsLostTurnsStayUntouched [
+TurnManagerTest >> test006WhenTheNextShipHasToLoseItsTurnThenItIsNotItsTurnAndItsLostTurnsStayUntouched [
 
 	aTurnManager endTurn.
 	aTurnManager addTwoSkipsTo: anotherPlayer.

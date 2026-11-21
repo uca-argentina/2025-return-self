@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipCardTest >> test01WhenACardIsAddedToTheHandOfAShipThenItAnswersANewHandWithThatCard [
+ShipCardTest >> test001WhenACardIsAddedToTheHandOfAShipThenItAnswersANewHandWithThatCard [
 
 	| aShipCards anUpdatedShipCards |
 	aShipCards := ShipCards createWith: 1 and: { Speed create }.
@@ -16,7 +16,7 @@ ShipCardTest >> test01WhenACardIsAddedToTheHandOfAShipThenItAnswersANewHandWithT
 ]
 
 { #category : 'tests' }
-ShipCardTest >> test02WhenACardIsDiscardedFromTheHandOfAShipThenItAnswersANewHandWithoutThatCard [
+ShipCardTest >> test002WhenACardIsDiscardedFromTheHandOfAShipThenItAnswersANewHandWithoutThatCard [
 
 	| aShipCards anUpdatedShipCards |
 	aShipCards := ShipCards createWith: 1 and: {
@@ -29,7 +29,7 @@ ShipCardTest >> test02WhenACardIsDiscardedFromTheHandOfAShipThenItAnswersANewHan
 ]
 
 { #category : 'tests' }
-ShipCardTest >> test03WhenTryingToDiscardACardThatIsNotInTheHandOfAShipThenItRaisesError [
+ShipCardTest >> test003WhenTryingToDiscardACardThatIsNotInTheHandOfAShipThenItRaisesError [
 
 	| aShipCards |
 	aShipCards := ShipCards createWith: 1 and: { Speed create }.

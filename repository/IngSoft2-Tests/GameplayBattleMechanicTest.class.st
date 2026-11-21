@@ -21,7 +21,7 @@ GameplayBattleMechanicTest >> setUp [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test01BattleSituation [
+GameplayBattleMechanicTest >> test001BattleSituation [
 
 	| aSequenceOfRolls loadedDiceToMove loadedDiceToFight assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -49,7 +49,7 @@ GameplayBattleMechanicTest >> test01BattleSituation [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
+GameplayBattleMechanicTest >> test002BattleSituationThenKeepPlaying [
 
 	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToFight assertingVariableData1 assertingVariableData2 |
 	loadedDiceToMove1 := {
@@ -88,7 +88,7 @@ GameplayBattleMechanicTest >> test02BattleSituationThenKeepPlaying [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
+GameplayBattleMechanicTest >> test003RunningOutOfShieldsAndSkippingTwoTurns [
 
 	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight assertingVariableData1 assertingVariableData2 assertingVariableData3 |
 	assertingVariableData1 := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -139,7 +139,7 @@ GameplayBattleMechanicTest >> test03RunningOutOfShieldsAndSkippingTwoTurns [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
+GameplayBattleMechanicTest >> test004SkippingTurnAndReplenishingShield [
 
 	| dieThrowSequence loadedDiceToMove1 loadedDiceToMove2 loadedDiceToMove3 loadedDiceToFight aShipShield aNewShipShield |
 	loadedDiceToMove1 := {
@@ -184,7 +184,7 @@ GameplayBattleMechanicTest >> test04SkippingTurnAndReplenishingShield [
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test05WhenAShipLandsOnATileWithAnEffectThatDoesNotMoveItThenItDoesNotBattle [
+GameplayBattleMechanicTest >> test005WhenAShipLandsOnATileWithAnEffectThatDoesNotMoveItThenItDoesNotBattle [
 
 	| assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 4, Lap: 0'.
@@ -202,7 +202,7 @@ GameplayBattleMechanicTest >> test05WhenAShipLandsOnATileWithAnEffectThatDoesNot
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test06WhenAnEffectMovesAShipToATileWithAnotherShipThenTheyBattle [
+GameplayBattleMechanicTest >> test006WhenAnEffectMovesAShipToATileWithAnotherShipThenTheyBattle [
 
 	| aSequenceOfRolls assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -225,7 +225,7 @@ GameplayBattleMechanicTest >> test06WhenAnEffectMovesAShipToATileWithAnotherShip
 ]
 
 { #category : 'tests' }
-GameplayBattleMechanicTest >> test07WhenATurnIsSkippedThenTheShipsThatLostTheirTurnsAreNotTheOnesInTurn [
+GameplayBattleMechanicTest >> test007WhenATurnIsSkippedThenTheShipsThatLostTheirTurnsAreNotTheOnesInTurn [
 
 	aTileListCreator1 at: 2 put: (HyperSpaceJump createWith: 4 and: 3).
 	aTestBoard := Board createWith: aTileListCreator1 tileList.

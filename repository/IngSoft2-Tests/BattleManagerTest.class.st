@@ -22,7 +22,7 @@ BattleManagerTest >> setUp [
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
+BattleManagerTest >> test001ABattleManagerCanForceAShieldResetInOneOfItsShips [
 
 	aBattleManager playerLoseShield: aPlayer.
 	self assert: (aBattleManager findShipReference: aPlayer) shields equals: 2.
@@ -31,7 +31,7 @@ BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test02WhenATeamThrowsLessThanItsRivalThenItDoesNotDefeatIt [
+BattleManagerTest >> test002WhenATeamThrowsLessThanItsRivalThenItDoesNotDefeatIt [
 
 	| aSequence |
 	aSequence := SequenceOfDieForTesting withDie: {
@@ -44,7 +44,7 @@ BattleManagerTest >> test02WhenATeamThrowsLessThanItsRivalThenItDoesNotDefeatIt 
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test03WhenATeamHasSeveralShipsThenItsBestThrowIsTheOneThatCounts [
+BattleManagerTest >> test003WhenATeamHasSeveralShipsThenItsBestThrowIsTheOneThatCounts [
 
 	| aSequence aThirdPlayer |
 	aThirdPlayer := ShipPlayerAssociation createWith: 3 and: 'Pedro'.
@@ -61,7 +61,7 @@ BattleManagerTest >> test03WhenATeamHasSeveralShipsThenItsBestThrowIsTheOneThatC
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test04WhenBothTeamsTieThenTheyThrowAgain [
+BattleManagerTest >> test004WhenBothTeamsTieThenTheyThrowAgain [
 
 	| aSequence |
 	aSequence := SequenceOfDieForTesting withDie: {

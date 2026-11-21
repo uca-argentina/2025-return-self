@@ -6,24 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
-
-	| aLoadedDie aTestBoard |
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aLoadedDie := LoadedDie rolling: 4.
-	self
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard
-				withSetOfDie: aLoadedDie
-				withLaps: -10 ]
-		raiseErrorWithMessageText:
-		'The amount of laps cannot be lower than 1.'
-]
-
-{ #category : 'tests' }
-GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
+GameFeatureManagerCreationTest >> test001WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
 	| anotherGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -62,22 +45,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithoutDiceThenItRaisesError [
-
-	| aTestBoard |
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	self
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard
-				withSetOfDie: {  }
-				withLaps: 10 ]
-		raiseErrorWithMessageText: 'You must have at least one die to play.'
-]
-
-{ #category : 'tests' }
-GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
+GameFeatureManagerCreationTest >> test002WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -109,7 +77,7 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
+GameFeatureManagerCreationTest >> test003WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -146,7 +114,39 @@ GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOneP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test04WhenAGameIsCreatedWithACollectionOfDiceThenEveryThrowIsTheSumOfThem [
+GameFeatureManagerCreationTest >> test004WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
+
+	| aLoadedDie aTestBoard |
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aLoadedDie := LoadedDie rolling: 4.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: -10 ]
+		raiseErrorWithMessageText:
+		'The amount of laps cannot be lower than 1.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test005WhenTryingToCreateAGameWithoutDiceThenItRaisesError [
+
+	| aTestBoard |
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: {  }
+				withLaps: 10 ]
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test006WhenAGameIsCreatedWithACollectionOfDiceThenEveryThrowIsTheSumOfThem [
 
 	| aTestBoard aGame |
 	aTestBoard := Board createWith: aTileListCreator tileList.

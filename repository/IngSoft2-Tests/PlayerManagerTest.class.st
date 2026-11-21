@@ -22,14 +22,14 @@ PlayerManagerTest >> setUp [
 ]
 
 { #category : 'tests' }
-PlayerManagerTest >> test01WhenAManagerIsAskedForTheNameOfAShipThenItAnswersTheNameOfItsPlayer [
+PlayerManagerTest >> test001WhenAManagerIsAskedForTheNameOfAShipThenItAnswersTheNameOfItsPlayer [
 
 	self assert: (aPlayerManager nameOf: anotherPlayer) equals: 'Tomi'.
 	self assert: (aPlayerManager is: aPlayer named: 'Juan')
 ]
 
 { #category : 'tests' }
-PlayerManagerTest >> test02WhenAManagerIsAskedForAShipThatIsNotPlayingThenItRaisesError [
+PlayerManagerTest >> test002WhenAManagerIsAskedForAShipThatIsNotPlayingThenItRaisesError [
 
 	| aStranger |
 	aStranger := ShipPlayerAssociation createWith: 3 and: 'Pedro'.

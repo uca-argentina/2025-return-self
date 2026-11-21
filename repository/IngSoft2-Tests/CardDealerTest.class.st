@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-CardDealerTest >> test01WhenACardDealerDealsOnlyOneKindOfCardThenEveryCardItDealsIsOfThatKind [
+CardDealerTest >> test001WhenACardDealerDealsOnlyOneKindOfCardThenEveryCardItDealsIsOfThatKind [
 
 	| aCardDealer |
 	aCardDealer := CardDealer dealing: { Speed }.
@@ -15,7 +15,7 @@ CardDealerTest >> test01WhenACardDealerDealsOnlyOneKindOfCardThenEveryCardItDeal
 ]
 
 { #category : 'tests' }
-CardDealerTest >> test02WhenTryingToCreateACardDealerWithoutCardsThenItRaisesError [
+CardDealerTest >> test002WhenTryingToCreateACardDealerWithoutCardsThenItRaisesError [
 
 	self
 		should: [ CardDealer dealing: {  } ]
@@ -24,7 +24,7 @@ CardDealerTest >> test02WhenTryingToCreateACardDealerWithoutCardsThenItRaisesErr
 ]
 
 { #category : 'tests' }
-CardDealerTest >> test03WhenALoadedCardDealerDealsThenItFollowsItsSequenceOverAndOverAgain [
+CardDealerTest >> test003WhenALoadedCardDealerDealsThenItFollowsItsSequenceOverAndOverAgain [
 
 	| aCardDealer |
 	aCardDealer := LoadedCardDealer dealing: {

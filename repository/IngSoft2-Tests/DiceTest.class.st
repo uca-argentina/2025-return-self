@@ -6,16 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-DiceTest >> test01CreationOfDice [
-
-	self
-		should: [ Dice faces: -10 ]
-		raiseErrorWithMessageText:
-		'The number of faces must be greater than two.'
-]
-
-{ #category : 'tests' }
-DiceTest >> test01ThrowDice [
+DiceTest >> test001ThrowDice [
 
 	| aDice |
 	aDice := Dice faces: 6.
@@ -23,7 +14,7 @@ DiceTest >> test01ThrowDice [
 ]
 
 { #category : 'tests' }
-DiceTest >> test02ThrowMultipleDie [
+DiceTest >> test002ThrowMultipleDie [
 
 	| firstDice secondDice aSetOfDie |
 	firstDice := Dice faces: 6.
@@ -35,7 +26,16 @@ DiceTest >> test02ThrowMultipleDie [
 ]
 
 { #category : 'tests' }
-DiceTest >> test03WhenTryingToCreateADieSetWithoutDiceThenItRaisesError [
+DiceTest >> test003CreationOfDice [
+
+	self
+		should: [ Dice faces: -10 ]
+		raiseErrorWithMessageText:
+		'The number of faces must be greater than two.'
+]
+
+{ #category : 'tests' }
+DiceTest >> test004WhenTryingToCreateADieSetWithoutDiceThenItRaisesError [
 
 	self
 		should: [ DieSet having: {  } ]

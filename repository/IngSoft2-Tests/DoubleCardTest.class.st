@@ -17,7 +17,7 @@ DoubleCardTest >> setUp [
 ]
 
 { #category : 'tests' }
-DoubleCardTest >> test01WhenADoubleCardIsPlayedThenTheShipInTurnThrowsTwice [
+DoubleCardTest >> test001WhenADoubleCardIsPlayedThenTheShipInTurnThrowsTwice [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 4, Lap: 0'.
@@ -30,7 +30,7 @@ DoubleCardTest >> test01WhenADoubleCardIsPlayedThenTheShipInTurnThrowsTwice [
 ]
 
 { #category : 'tests' }
-DoubleCardTest >> test02WhenADoubleCardWasPlayedThenOnlyThatTurnOfTheShipIsDoubled [
+DoubleCardTest >> test002WhenADoubleCardWasPlayedThenOnlyThatTurnOfTheShipIsDoubled [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 7, Lap: 0'.
@@ -43,7 +43,7 @@ DoubleCardTest >> test02WhenADoubleCardWasPlayedThenOnlyThatTurnOfTheShipIsDoubl
 ]
 
 { #category : 'tests' }
-DoubleCardTest >> test03WhenTwoDoubleCardsArePlayedInTheSameTurnThenTheShipInTurnThrowsThreeTimes [
+DoubleCardTest >> test003WhenTwoDoubleCardsArePlayedInTheSameTurnThenTheShipInTurnThrowsThreeTimes [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 8, Lap: 0'.
@@ -57,7 +57,7 @@ DoubleCardTest >> test03WhenTwoDoubleCardsArePlayedInTheSameTurnThenTheShipInTur
 ]
 
 { #category : 'tests' }
-DoubleCardTest >> test04WhenASkipCardIsPlayedInADoubledTurnThenTheShipInTurnLosesOnlyOneOfItsTwoTurns [
+DoubleCardTest >> test004WhenASkipCardIsPlayedInADoubledTurnThenTheShipInTurnLosesOnlyOneOfItsTwoTurns [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
@@ -75,7 +75,7 @@ DoubleCardTest >> test04WhenASkipCardIsPlayedInADoubledTurnThenTheShipInTurnLose
 ]
 
 { #category : 'tests' }
-DoubleCardTest >> test05WhenAShipRunsOutOfShieldsInADoubledTurnThenItsExtraTurnIsOneOfTheTurnsItLoses [
+DoubleCardTest >> test005WhenAShipRunsOutOfShieldsInADoubledTurnThenItsExtraTurnIsOneOfTheTurnsItLoses [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.

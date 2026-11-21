@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-SpeedCardTest >> test01WhenASpeedCardIsPlayedThenTheChosenShipAdvancesOneMoreTileOnEveryThrow [
+SpeedCardTest >> test001WhenASpeedCardIsPlayedThenTheChosenShipAdvancesOneMoreTileOnEveryThrow [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
@@ -18,7 +18,7 @@ SpeedCardTest >> test01WhenASpeedCardIsPlayedThenTheChosenShipAdvancesOneMoreTil
 ]
 
 { #category : 'tests' }
-SpeedCardTest >> test02WhenACardIsPlayedThenItIsNoLongerInTheHandOfTheShip [
+SpeedCardTest >> test002WhenACardIsPlayedThenItIsNoLongerInTheHandOfTheShip [
 
 	| aGame |
 	aGame := self gameDealing: { Speed } rolling: { 3 }.
@@ -27,7 +27,7 @@ SpeedCardTest >> test02WhenACardIsPlayedThenItIsNoLongerInTheHandOfTheShip [
 ]
 
 { #category : 'tests' }
-SpeedCardTest >> test03WhenTryingToPlayACardThatIsNotInTheHandOfTheShipThenItRaisesError [
+SpeedCardTest >> test003WhenTryingToPlayACardThatIsNotInTheHandOfTheShipThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Repeat } rolling: { 3 }.

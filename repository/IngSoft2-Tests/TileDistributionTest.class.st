@@ -26,37 +26,7 @@ TileDistributionTest >> setUp [
 ]
 
 { #category : 'tests' }
-TileDistributionTest >> test01WhenTryingToCreateATestBoardWithLengthLowerThanThreeThenItRaisesError [
-
-	self
-		should: [
-			Board createWith:
-				{ (Tile createWithEffect: NoEffect new) } ]
-		raiseErrorWithMessageText:
-		'The board length must be greater than three.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> test02WhenTryingToCreateABoardWithLengthLowerThanThreeThenItRaisesError [
-
-	self
-		should: [ Board createWith: {}]
-		raiseErrorWithMessageText:
-		'The board length must be greater than three.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testBoardBuiltWithATotalLengthInLightYearsSplitsItEvenlyAmongItsTiles [
-
-	| aTestBoard |
-	aTestBoard := (TileDistributionBuilder
-					   createTileListWith: 10
-					   withTotalLength: (LightYears of: 150)) buildBoard.
-	self assert: aTestBoard parsecsPerTile equals: 5
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testBoardBuiltWithBlackHoles [
+TileDistributionTest >> test001BoardBuiltWithBlackHoles [
 
 	| aTestBoard |
 	aBuilder addEffectToBuilder: BlackHole.
@@ -66,7 +36,7 @@ TileDistributionTest >> testBoardBuiltWithBlackHoles [
 ]
 
 { #category : 'tests' }
-TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
+TileDistributionTest >> test002BoardBuiltWithBlackHolesAndAtomikBomb [
 
 	| aTestBoard |
 	aBuilder addEffectToBuilder: BlackHole.
@@ -78,7 +48,7 @@ TileDistributionTest >> testBoardBuiltWithBlackHolesAndAtomikBomb [
 ]
 
 { #category : 'tests' }
-TileDistributionTest >> testBoardWithEveryThing [
+TileDistributionTest >> test003BoardWithEveryThing [
 
 	| aTestBoard |
 	aBuilder addEveryEffectToBuilder.
@@ -94,7 +64,117 @@ TileDistributionTest >> testBoardWithEveryThing [
 ]
 
 { #category : 'tests' }
-TileDistributionTest >> testTheProbabilitiesOfTheEmptyTileAndOfEveryEffectAddUpToOneHundredPercent [
+TileDistributionTest >> test004WhenTryingToCreateATestBoardWithLengthLowerThanThreeThenItRaisesError [
+
+	self
+		should: [
+			Board createWith:
+				{ (Tile createWithEffect: NoEffect new) } ]
+		raiseErrorWithMessageText:
+		'The board length must be greater than three.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test005WhenTryingToCreateABoardWithLengthLowerThanThreeThenItRaisesError [
+
+	self
+		should: [ Board createWith: {}]
+		raiseErrorWithMessageText:
+		'The board length must be greater than three.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test006WhenTryingToCreateTileSetForTestingWithAWormholeWithEqualEndsThenItRaisesAnError [
+
+	| aWormhole |
+	aWormhole := Wormhole createWith: 3.
+
+	self
+		should: [ aTileListCreator at: 3 put: aWormhole ]
+		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test007WhenTryingToCreateTileSetForTestingWithAWormholeWithEndpointOutsideTheBoardLengthThenItRaisesAnError [
+
+	| aWormhole |
+	aWormhole := Wormhole createWith: 7.
+
+	self
+		should: [ aTileListCreator at: 3 put: aWormhole ]
+		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test008WhenTryingToCreateTileSetForTestingWithAnEffectInFirstTileThenItRaisesError [
+
+	| aWormhole |
+	aWormhole := Wormhole createWith: 3.
+
+	self
+		should: [ aTileListCreator at: 1 put: aWormhole ]
+		raiseErrorWithMessageText: 'Effect cant be in first tile.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test009WhenTryingToCreateTileSetForTestingWithAnEffectOutsideTheBoardLengthThenItRaisesError [
+
+	| aWormhole |
+	aWormhole := Wormhole createWith: 3.
+
+	self
+		should: [ aTileListCreator at: 7 put: aWormhole ]
+		raiseErrorWithMessageText: 'Effect cant be outside the board.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test010BoardBuiltWithATotalLengthInLightYearsSplitsItEvenlyAmongItsTiles [
+
+	| aTestBoard |
+	aTestBoard := (TileDistributionBuilder
+					   createTileListWith: 10
+					   withTotalLength: (LightYears of: 150)) buildBoard.
+	self assert: aTestBoard parsecsPerTile equals: 5
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test011WhenTryingToCreateATileWithoutLengthThenItRaisesError [
+
+	self
+		should: [ Tile createWithEffect: NoEffect create and: (Parsecs of: 0) ]
+		raiseErrorWithMessageText: 'A tile must be longer than zero parsecs.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test012WhenTryingToCreateABoardWithAWormholeThatLeadsOutsideOfItThenItRaisesError [
+
+	| someTiles |
+	someTiles := {
+					 (Tile createWithEffect: NoEffect create).
+					 (Tile createWithEffect: (Wormhole createWith: 9)).
+					 (Tile createWithEffect: NoEffect create).
+					 (Tile createWithEffect: NoEffect create) }.
+	self
+		should: [ Board createWith: someTiles ]
+		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test013WhenTryingToCreateABoardWithTilesOfDifferentLengthsThenItRaisesError [
+
+	| someTiles |
+	someTiles := {
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
+					 (Tile createWithEffect: NoEffect create and: (LightYears of: 9)).
+					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)) }.
+	self
+		should: [ Board createWith: someTiles ]
+		raiseErrorWithMessageText: 'Every tile of the board must have the same length.'
+]
+
+{ #category : 'tests' }
+TileDistributionTest >> test014TheProbabilitiesOfTheEmptyTileAndOfEveryEffectAddUpToOneHundredPercent [
 
 	| everyKindOfTile total |
 	everyKindOfTile := {
@@ -109,84 +189,4 @@ TileDistributionTest >> testTheProbabilitiesOfTheEmptyTileAndOfEveryEffectAddUpT
 				 inject: 0
 				 into: [ :sum :effect | sum + effect effectProbability ].
 	self assert: (total * 100) rounded equals: 100
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateABoardWithAWormholeThatLeadsOutsideOfItThenItRaisesError [
-
-	| someTiles |
-	someTiles := {
-					 (Tile createWithEffect: NoEffect create).
-					 (Tile createWithEffect: (Wormhole createWith: 9)).
-					 (Tile createWithEffect: NoEffect create).
-					 (Tile createWithEffect: NoEffect create) }.
-	self
-		should: [ Board createWith: someTiles ]
-		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateABoardWithTilesOfDifferentLengthsThenItRaisesError [
-
-	| someTiles |
-	someTiles := {
-					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
-					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)).
-					 (Tile createWithEffect: NoEffect create and: (LightYears of: 9)).
-					 (Tile createWithEffect: NoEffect create and: (Parsecs of: 5)) }.
-	self
-		should: [ Board createWith: someTiles ]
-		raiseErrorWithMessageText: 'Every tile of the board must have the same length.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateATileWithoutLengthThenItRaisesError [
-
-	self
-		should: [ Tile createWithEffect: NoEffect create and: (Parsecs of: 0) ]
-		raiseErrorWithMessageText: 'A tile must be longer than zero parsecs.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEndpointOutsideTheBoardLengthThenItRaisesAnError [
-
-	| aWormhole |
-	aWormhole := Wormhole createWith: 7.
-
-	self
-		should: [ aTileListCreator at: 3 put: aWormhole ]
-		raiseErrorWithMessageText: 'Wormhole endpoint must be inside.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAWormholeWithEqualEndsThenItRaisesAnError [
-
-	| aWormhole |
-	aWormhole := Wormhole createWith: 3.
-
-	self
-		should: [ aTileListCreator at: 3 put: aWormhole ]
-		raiseErrorWithMessageText: 'Wormhole ends must be different tiles.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectInFirstTileThenItRaisesError [
-
-	| aWormhole |
-	aWormhole := Wormhole createWith: 3.
-
-	self
-		should: [ aTileListCreator at: 1 put: aWormhole ]
-		raiseErrorWithMessageText: 'Effect cant be in first tile.'
-]
-
-{ #category : 'tests' }
-TileDistributionTest >> testWhenTryingToCreateTileSetForTestingWithAnEffectOutsideTheBoardLengthThenItRaisesError [
-
-	| aWormhole |
-	aWormhole := Wormhole createWith: 3.
-
-	self
-		should: [ aTileListCreator at: 7 put: aWormhole ]
-		raiseErrorWithMessageText: 'Effect cant be outside the board.'
 ]

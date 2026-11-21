@@ -13,15 +13,16 @@ Class {
 }
 
 { #category : 'creation' }
-SequenceOfDieForTesting class >> withDie: aSequenceOfDie [ 
+SequenceOfDieForTesting class >> withDie: aSequenceOfDie [
+
 	^ self new initializeSequenceOfDie: aSequenceOfDie.
 ]
 
 { #category : 'initialization' }
 SequenceOfDieForTesting >> initializeSequenceOfDie: aSequenceOfDie [
+
 	allDie := aSequenceOfDie.
 	currentDiceIndexPlaying := 1.
-
 ]
 
 { #category : 'private' }
@@ -35,11 +36,11 @@ SequenceOfDieForTesting >> movePointer [
 
 { #category : 'accessing' }
 SequenceOfDieForTesting >> throw [
+
 	| result |
 	result:= (allDie at: currentDiceIndexPlaying) throw.
-	
+
 	self movePointer.
-	
+
 	^result.
-	
 ]

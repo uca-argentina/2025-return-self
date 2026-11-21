@@ -17,7 +17,7 @@ MercenaryCardTest >> setUp [
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test01WhenAShipWithAMercenaryBattlesThenItsMercenaryThrowsTheDiceForItToo [
+MercenaryCardTest >> test001WhenAShipWithAMercenaryBattlesThenItsMercenaryThrowsTheDiceForItToo [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 3, Lap: 0'.
@@ -31,7 +31,7 @@ MercenaryCardTest >> test01WhenAShipWithAMercenaryBattlesThenItsMercenaryThrowsT
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test02WhenAShipWithAMercenaryLosesABattleThenItsMercenaryLosesAShieldTooButStaysInItsTile [
+MercenaryCardTest >> test002WhenAShipWithAMercenaryLosesABattleThenItsMercenaryLosesAShieldTooButStaysInItsTile [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -46,7 +46,7 @@ MercenaryCardTest >> test02WhenAShipWithAMercenaryLosesABattleThenItsMercenaryLo
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test03WhenAShipAndItsMercenaryAreInTheSameTileThenTheyDoNotBattle [
+MercenaryCardTest >> test003WhenAShipAndItsMercenaryAreInTheSameTileThenTheyDoNotBattle [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 3, Lap: 0'.
@@ -60,7 +60,7 @@ MercenaryCardTest >> test03WhenAShipAndItsMercenaryAreInTheSameTileThenTheyDoNot
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test04WhenTryingToHireTheMercenaryOfAnotherShipThenItRaisesError [
+MercenaryCardTest >> test004WhenTryingToHireTheMercenaryOfAnotherShipThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Mercenary } rolling: { 2 }.
@@ -73,7 +73,7 @@ MercenaryCardTest >> test04WhenTryingToHireTheMercenaryOfAnotherShipThenItRaises
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test05WhenAShipArrivesToATileWithARivalAndItsMercenaryThenItBattlesAgainstEachOfThemWhileItStaysThere [
+MercenaryCardTest >> test005WhenAShipArrivesToATileWithARivalAndItsMercenaryThenItBattlesAgainstEachOfThemWhileItStaysThere [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -90,7 +90,7 @@ MercenaryCardTest >> test05WhenAShipArrivesToATileWithARivalAndItsMercenaryThenI
 ]
 
 { #category : 'tests' }
-MercenaryCardTest >> test06WhenTryingToHireItselfAsAMercenaryThenItRaisesError [
+MercenaryCardTest >> test006WhenTryingToHireItselfAsAMercenaryThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Mercenary } rolling: { 2 }.

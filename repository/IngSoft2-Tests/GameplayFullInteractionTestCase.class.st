@@ -29,8 +29,8 @@ GameplayFullInteractionTestCase >> setUp [
 	super setUp.
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 	aGroupOfPlayers := {
-		                   (ShipPlayerAssociation createWith: 1 and: 'Juan').
-		                   (ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
+		(ShipPlayerAssociation createWith: 1 and: 'Juan').
+		(ShipPlayerAssociation createWith: 2 and: 'Tomi') }.
 	aTileListCreator := TileListCreationForTesting createTileListWith: 20
 ]
 

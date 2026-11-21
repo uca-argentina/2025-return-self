@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test01WhenTheTileOfAnEffectThatAffectsTheLandingShipIsReversedThenItAffectsEveryOtherShip [
+ReversePolarityCardTest >> test001WhenTheTileOfAnEffectThatAffectsTheLandingShipIsReversedThenItAffectsEveryOtherShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
@@ -19,7 +19,7 @@ ReversePolarityCardTest >> test01WhenTheTileOfAnEffectThatAffectsTheLandingShipI
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test02WhenTheTileOfAnEffectThatAffectsEveryOtherShipIsReversedThenItAffectsOnlyTheLandingShip [
+ReversePolarityCardTest >> test002WhenTheTileOfAnEffectThatAffectsEveryOtherShipIsReversedThenItAffectsOnlyTheLandingShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 4, Lap: 0'.
@@ -32,7 +32,7 @@ ReversePolarityCardTest >> test02WhenTheTileOfAnEffectThatAffectsEveryOtherShipI
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test03WhenTheTileOfAnEffectThatAffectsEveryShipIsReversedThenItAffectsNoShip [
+ReversePolarityCardTest >> test003WhenTheTileOfAnEffectThatAffectsEveryShipIsReversedThenItAffectsNoShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 3, Lap: 0'.
@@ -47,7 +47,7 @@ ReversePolarityCardTest >> test03WhenTheTileOfAnEffectThatAffectsEveryShipIsReve
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test04WhenTheTileOfAWormholeIsReversedThenEveryOtherShipTravelsToItsOtherEnd [
+ReversePolarityCardTest >> test004WhenTheTileOfAWormholeIsReversedThenEveryOtherShipTravelsToItsOtherEnd [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 3, Lap: 0'.
@@ -60,7 +60,7 @@ ReversePolarityCardTest >> test04WhenTheTileOfAWormholeIsReversedThenEveryOtherS
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test05WhenATileIsReversedThenTheOtherTilesWithTheSameEffectStayUntouched [
+ReversePolarityCardTest >> test005WhenATileIsReversedThenTheOtherTilesWithTheSameEffectStayUntouched [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
@@ -74,7 +74,7 @@ ReversePolarityCardTest >> test05WhenATileIsReversedThenTheOtherTilesWithTheSame
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test06WhenATileIsReversedTwiceThenItsEffectIsTheOriginalOneAgain [
+ReversePolarityCardTest >> test006WhenATileIsReversedTwiceThenItsEffectIsTheOriginalOneAgain [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
@@ -88,7 +88,7 @@ ReversePolarityCardTest >> test06WhenATileIsReversedTwiceThenItsEffectIsTheOrigi
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test07WhenTryingToPlayAReversePolarityCardOutOfTheTurnOfTheShipThenItRaisesError [
+ReversePolarityCardTest >> test007WhenTryingToPlayAReversePolarityCardOutOfTheTurnOfTheShipThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
@@ -99,7 +99,7 @@ ReversePolarityCardTest >> test07WhenTryingToPlayAReversePolarityCardOutOfTheTur
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test08WhenTryingToReverseATileThatIsNotOnTheBoardThenItRaisesErrorAndTheCardStaysInTheHand [
+ReversePolarityCardTest >> test008WhenTryingToReverseATileThatIsNotOnTheBoardThenItRaisesErrorAndTheCardStaysInTheHand [
 
 	| aGame |
 	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
@@ -110,7 +110,7 @@ ReversePolarityCardTest >> test08WhenTryingToReverseATileThatIsNotOnTheBoardThen
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test09WhenAReversePolarityCardIsCancelledThenTheEffectOfItsTileIsTheOriginalOneAgain [
+ReversePolarityCardTest >> test009WhenAReversePolarityCardIsCancelledThenTheEffectOfItsTileIsTheOriginalOneAgain [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
@@ -130,7 +130,7 @@ ReversePolarityCardTest >> test09WhenAReversePolarityCardIsCancelledThenTheEffec
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test10WhenTheLastEffectAppliedWasReversedThenARepeatCardAppliesItReversedToo [
+ReversePolarityCardTest >> test010WhenTheLastEffectAppliedWasReversedThenARepeatCardAppliesItReversedToo [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
@@ -148,7 +148,7 @@ ReversePolarityCardTest >> test10WhenTheLastEffectAppliedWasReversedThenARepeatC
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test11WhenTheTileOfAHyperJumpIsReversedThenEveryOtherShipAdvancesTheSameDistance [
+ReversePolarityCardTest >> test011WhenTheTileOfAHyperJumpIsReversedThenEveryOtherShipAdvancesTheSameDistance [
 
 	| aGame aThirdPlayer |
 	aThirdPlayer := ShipPlayerAssociation createWith: 3 and: 'Pedro'.
@@ -163,7 +163,7 @@ ReversePolarityCardTest >> test11WhenTheTileOfAHyperJumpIsReversedThenEveryOther
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test12WhenTheTileThatGivesCardsIsReversedThenEveryOtherShipGetsACard [
+ReversePolarityCardTest >> test012WhenTheTileThatGivesCardsIsReversedThenEveryOtherShipGetsACard [
 
 	| aGame |
 	aTileListCreator at: 4 put: CardGiver create.
@@ -175,7 +175,7 @@ ReversePolarityCardTest >> test12WhenTheTileThatGivesCardsIsReversedThenEveryOth
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test13WhenAnEmptyTileIsReversedThenItStillHasNoEffectAndTheShipsBattleOnIt [
+ReversePolarityCardTest >> test013WhenAnEmptyTileIsReversedThenItStillHasNoEffectAndTheShipsBattleOnIt [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
@@ -188,7 +188,7 @@ ReversePolarityCardTest >> test13WhenAnEmptyTileIsReversedThenItStillHasNoEffect
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test14WhenTryingToPlayAReversePolarityCardWithoutChoosingItsTileThenItRaisesError [
+ReversePolarityCardTest >> test014WhenTryingToPlayAReversePolarityCardWithoutChoosingItsTileThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { ReversePolarity } rolling: { 5 }.
@@ -198,7 +198,7 @@ ReversePolarityCardTest >> test14WhenTryingToPlayAReversePolarityCardWithoutChoo
 ]
 
 { #category : 'tests' }
-ReversePolarityCardTest >> test15WhenARedoCardDoesAReversePolarityCardAgainThenItReversesTheNewChosenTile [
+ReversePolarityCardTest >> test015WhenARedoCardDoesAReversePolarityCardAgainThenItReversesTheNewChosenTile [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.

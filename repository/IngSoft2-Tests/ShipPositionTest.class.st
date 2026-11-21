@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipPositionTest >> test01WhenTellingAShipToAdvanceADistanceThenItReturnsANewShipWithNewPosition [
+ShipPositionTest >> test001WhenTellingAShipToAdvanceADistanceThenItReturnsANewShipWithNewPosition [
 
 	| aShipPosition anUpdatedShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 1 and: 0.
@@ -17,16 +17,7 @@ ShipPositionTest >> test01WhenTellingAShipToAdvanceADistanceThenItReturnsANewShi
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test01WhenTryingToCreateASpaceShipWithNegativePositionThenItThrowsError [
-
-	self
-		should: [ ShipPosition createWith: 1 and: -10 and: 0 ]
-		raiseErrorWithMessageText:
-		'Player position cannot be lower than 1 or a float number.'
-]
-
-{ #category : 'tests' }
-ShipPositionTest >> test02WhenTellingAShipToGoBackADistanceThenItReturnsANewShipWithNewPosition [
+ShipPositionTest >> test002WhenTellingAShipToGoBackADistanceThenItReturnsANewShipWithNewPosition [
 
 	| aShipPosition anUpdatedShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 11 and: 0.
@@ -37,16 +28,7 @@ ShipPositionTest >> test02WhenTellingAShipToGoBackADistanceThenItReturnsANewShip
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test02WhenTryingToCreateASpaceShipWithNegativeLapThenItThrowsError [
-
-	self
-		should: [ ShipPosition createWith: 1 and: 10 and: -2 ]
-		raiseErrorWithMessageText:
-		'Player lap cannot be negative.'
-]
-
-{ #category : 'tests' }
-ShipPositionTest >> test03WhenAShipGoesBackADistanceGreaterThanItsPositionThenItReturnsAShipInFirstTileSameLap [
+ShipPositionTest >> test003WhenAShipGoesBackADistanceGreaterThanItsPositionThenItReturnsAShipInFirstTileSameLap [
 
 	"We assumed ships cant lose laps"
 
@@ -59,7 +41,7 @@ ShipPositionTest >> test03WhenAShipGoesBackADistanceGreaterThanItsPositionThenIt
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test04WhenAShipIsToldToResetLapThenItReturnsToFirstTileSameLap [
+ShipPositionTest >> test004WhenAShipIsToldToResetLapThenItReturnsToFirstTileSameLap [
 
 	"We assumed ships cant lose laps"
 
@@ -72,7 +54,7 @@ ShipPositionTest >> test04WhenAShipIsToldToResetLapThenItReturnsToFirstTileSameL
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test05WhenShipIsInFirstTileThenItIsInSafeZone [
+ShipPositionTest >> test005WhenShipIsInFirstTileThenItIsInSafeZone [
 
 	| aShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 1 and: 0.
@@ -81,7 +63,7 @@ ShipPositionTest >> test05WhenShipIsInFirstTileThenItIsInSafeZone [
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test06WhenShipIsNotInFirstTileThenItIsNotInSafeZone [
+ShipPositionTest >> test006WhenShipIsNotInFirstTileThenItIsNotInSafeZone [
 
 	| aShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 4 and: 0.
@@ -90,7 +72,7 @@ ShipPositionTest >> test06WhenShipIsNotInFirstTileThenItIsNotInSafeZone [
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test07AShipKnowsToAnswerIfItsPositionIsGreaterThanAValue [
+ShipPositionTest >> test007AShipKnowsToAnswerIfItsPositionIsGreaterThanAValue [
 
 	| aShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 4 and: 0.
@@ -100,7 +82,7 @@ ShipPositionTest >> test07AShipKnowsToAnswerIfItsPositionIsGreaterThanAValue [
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test08AShipKnowsToAnswerIfItsLapIsGreaterOrEqualThanAValue [
+ShipPositionTest >> test008AShipKnowsToAnswerIfItsLapIsGreaterOrEqualThanAValue [
 
 	| aShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 5 and: 1.
@@ -110,7 +92,7 @@ ShipPositionTest >> test08AShipKnowsToAnswerIfItsLapIsGreaterOrEqualThanAValue [
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test09WhenTwoShipsAreInSamePositionThenTheyAreAware [
+ShipPositionTest >> test009WhenTwoShipsAreInSamePositionThenTheyAreAware [
 
 	| aShipPosition anotherShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 5 and: 1.
@@ -120,7 +102,7 @@ ShipPositionTest >> test09WhenTwoShipsAreInSamePositionThenTheyAreAware [
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test10WhenAShipSurpassesTheBoardLengthThenItStartsANewLapWithCalculatedPosition [
+ShipPositionTest >> test010WhenAShipSurpassesTheBoardLengthThenItStartsANewLapWithCalculatedPosition [
 
 	"Simulating a new lap reached, the board length is also the backtrack decreased
 from its overshot position"
@@ -139,7 +121,25 @@ from its overshot position"
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test11WhenComparingDistancesThenACompletedLapCountsMoreThanAnyTileOfThePreviousLap [
+ShipPositionTest >> test011WhenTryingToCreateASpaceShipWithNegativePositionThenItThrowsError [
+
+	self
+		should: [ ShipPosition createWith: 1 and: -10 and: 0 ]
+		raiseErrorWithMessageText:
+		'Player position cannot be lower than 1 or a float number.'
+]
+
+{ #category : 'tests' }
+ShipPositionTest >> test012WhenTryingToCreateASpaceShipWithNegativeLapThenItThrowsError [
+
+	self
+		should: [ ShipPosition createWith: 1 and: 10 and: -2 ]
+		raiseErrorWithMessageText:
+		'Player lap cannot be negative.'
+]
+
+{ #category : 'tests' }
+ShipPositionTest >> test013WhenComparingDistancesThenACompletedLapCountsMoreThanAnyTileOfThePreviousLap [
 
 	| aShipInANewLap aShipEndingTheFirstLap aBoardLength parsecsPerTile |
 	aBoardLength := 10.
@@ -151,7 +151,7 @@ ShipPositionTest >> test11WhenComparingDistancesThenACompletedLapCountsMoreThanA
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test12WhenAShipSurpassesTheBoardLengthMoreThanOnceThenItAddsEveryCompletedLap [
+ShipPositionTest >> test014WhenAShipSurpassesTheBoardLengthMoreThanOnceThenItAddsEveryCompletedLap [
 
 	| aShipPosition anUpdatedShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 1 and: 0.
@@ -161,7 +161,7 @@ ShipPositionTest >> test12WhenAShipSurpassesTheBoardLengthMoreThanOnceThenItAdds
 ]
 
 { #category : 'tests' }
-ShipPositionTest >> test13WhenAShipGoesBackThenItKeepsTheParsecsTravelledInsideItsTile [
+ShipPositionTest >> test015WhenAShipGoesBackThenItKeepsTheParsecsTravelledInsideItsTile [
 
 	| aShipPosition anUpdatedShipPosition |
 	aShipPosition := ShipPosition createWith: 1 and: 5 and: 0 and: 3.

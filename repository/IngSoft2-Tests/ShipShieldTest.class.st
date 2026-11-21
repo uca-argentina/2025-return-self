@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipShieldTest >> test01ShipCanLoseShieldsIfItHasAtLeastOne [
+ShipShieldTest >> test001ShipCanLoseShieldsIfItHasAtLeastOne [
 
 	| aShipShield aModifidiedShipShield |
 	aShipShield := ShipShield createWith: 1 and: 1.
@@ -18,25 +18,16 @@ ShipShieldTest >> test01ShipCanLoseShieldsIfItHasAtLeastOne [
 ]
 
 { #category : 'tests' }
-ShipShieldTest >> test01WhenTryingToCreateASpaceShipWithNegativeShieldsThenItRaisesError [
-	self
-		should: [ ShipShield createWith: 1 and: -10 ]
-		raiseErrorWithMessageText:
-		'The SpaceShip cant have negative shields.'
-]
-
-{ #category : 'tests' }
-ShipShieldTest >> test02ShipCantLoseShieldsIfItHasNone [
+ShipShieldTest >> test002ShipCantLoseShieldsIfItHasNone [
 
 	| aShipShield anotherShipShield |
 	aShipShield := ShipShield createWith: 1 and: 0.
 	anotherShipShield := aShipShield loseShields: 1.
 	self assert: (anotherShipShield shields) equals: 0.
-
 ]
 
 { #category : 'tests' }
-ShipShieldTest >> test03WhenAShipIsForcedAShieldResetThenItReturnsANewFullShieldShip [
+ShipShieldTest >> test003WhenAShipIsForcedAShieldResetThenItReturnsANewFullShieldShip [
 
 	| aShipShield aModifiedShipShield |
 	aShipShield := ShipShield createWith: 1 and: 0.
@@ -48,7 +39,7 @@ ShipShieldTest >> test03WhenAShipIsForcedAShieldResetThenItReturnsANewFullShield
 ]
 
 { #category : 'tests' }
-ShipShieldTest >> test04AShipCanInformIfItNeedsRecovery [
+ShipShieldTest >> test004AShipCanInformIfItNeedsRecovery [
 
 	| aShipShield aModifiedShipShield |
 	aShipShield := ShipShield createWith: 1 and: 0.
@@ -57,4 +48,13 @@ ShipShieldTest >> test04AShipCanInformIfItNeedsRecovery [
 
 	self assert: aShipShield needsRecovery. "Here you can be sure that original object is not affected"
 	self deny: aModifiedShipShield needsRecovery
+]
+
+{ #category : 'tests' }
+ShipShieldTest >> test005WhenTryingToCreateASpaceShipWithNegativeShieldsThenItRaisesError [
+
+	self
+		should: [ ShipShield createWith: 1 and: -10 ]
+		raiseErrorWithMessageText:
+		'The SpaceShip cant have negative shields.'
 ]

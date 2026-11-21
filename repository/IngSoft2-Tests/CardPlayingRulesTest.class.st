@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-CardPlayingRulesTest >> test01WhenTheGameHasFinishedThenTryingToPlayACardRaisesError [
+CardPlayingRulesTest >> test001WhenTheGameHasFinishedThenTryingToPlayACardRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Repeat } rolling: { 20 }.
@@ -18,7 +18,7 @@ CardPlayingRulesTest >> test01WhenTheGameHasFinishedThenTryingToPlayACardRaisesE
 ]
 
 { #category : 'tests' }
-CardPlayingRulesTest >> test02WhenTryingToPlayACardWithoutChoosingItsTargetThenItRaisesError [
+CardPlayingRulesTest >> test002WhenTryingToPlayACardWithoutChoosingItsTargetThenItRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Speed } rolling: { 3 }.
@@ -28,7 +28,7 @@ CardPlayingRulesTest >> test02WhenTryingToPlayACardWithoutChoosingItsTargetThenI
 ]
 
 { #category : 'tests' }
-CardPlayingRulesTest >> test03WhenTryingToPlayACardOnAShipThatIsNotPlayingThenItRaisesError [
+CardPlayingRulesTest >> test003WhenTryingToPlayACardOnAShipThatIsNotPlayingThenItRaisesError [
 
 	| aGame aStranger |
 	aStranger := ShipPlayerAssociation createWith: 9 and: 'Pedro'.

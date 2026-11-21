@@ -25,7 +25,7 @@ EffectTargetTest >> setUp [
 ]
 
 { #category : 'tests' }
-EffectTargetTest >> test01WhenTheTargetIsTheLandingShipThenItIsTheOnlyOneAffectedAndItsOppositeAffectsEveryOtherShip [
+EffectTargetTest >> test001WhenTheTargetIsTheLandingShipThenItIsTheOnlyOneAffectedAndItsOppositeAffectsEveryOtherShip [
 
 	| aTarget |
 	aTarget := LandingShip create.
@@ -40,7 +40,7 @@ EffectTargetTest >> test01WhenTheTargetIsTheLandingShipThenItIsTheOnlyOneAffecte
 ]
 
 { #category : 'tests' }
-EffectTargetTest >> test02WhenTheTargetIsEveryOtherShipThenTheLandingShipIsNotAffectedAndItsOppositeAffectsOnlyTheLandingShip [
+EffectTargetTest >> test002WhenTheTargetIsEveryOtherShipThenTheLandingShipIsNotAffectedAndItsOppositeAffectsOnlyTheLandingShip [
 
 	| aTarget |
 	aTarget := EveryOtherShip create.
@@ -55,7 +55,7 @@ EffectTargetTest >> test02WhenTheTargetIsEveryOtherShipThenTheLandingShipIsNotAf
 ]
 
 { #category : 'tests' }
-EffectTargetTest >> test03WhenTheTargetIsEveryShipThenItsOppositeAffectsNoShipAndTheOtherWayAround [
+EffectTargetTest >> test003WhenTheTargetIsEveryShipThenItsOppositeAffectsNoShipAndTheOtherWayAround [
 
 	| aTarget |
 	aTarget := EveryShip create.

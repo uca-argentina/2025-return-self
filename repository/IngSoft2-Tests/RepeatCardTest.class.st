@@ -13,7 +13,7 @@ RepeatCardTest >> setUp [
 ]
 
 { #category : 'tests' }
-RepeatCardTest >> test01WhenARepeatCardIsPlayedThenTheLastEffectAppliedInTheGameIsAppliedToTheChosenShip [
+RepeatCardTest >> test001WhenARepeatCardIsPlayedThenTheLastEffectAppliedInTheGameIsAppliedToTheChosenShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 7, Lap: 0'.
@@ -25,7 +25,7 @@ RepeatCardTest >> test01WhenARepeatCardIsPlayedThenTheLastEffectAppliedInTheGame
 ]
 
 { #category : 'tests' }
-RepeatCardTest >> test02WhenTheLastTileAShipLandedOnHadNoEffectThenARepeatCardHasNoEffect [
+RepeatCardTest >> test002WhenTheLastTileAShipLandedOnHadNoEffectThenARepeatCardHasNoEffect [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 8, Lap: 0'.
@@ -38,7 +38,7 @@ RepeatCardTest >> test02WhenTheLastTileAShipLandedOnHadNoEffectThenARepeatCardHa
 ]
 
 { #category : 'tests' }
-RepeatCardTest >> test03WhenNobodyThrewTheDiceThenARepeatCardHasNoEffect [
+RepeatCardTest >> test003WhenNobodyThrewTheDiceThenARepeatCardHasNoEffect [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -49,7 +49,7 @@ RepeatCardTest >> test03WhenNobodyThrewTheDiceThenARepeatCardHasNoEffect [
 ]
 
 { #category : 'tests' }
-RepeatCardTest >> test04WhenARepeatedEffectTakesAShipToATileWithARivalThenTheyBattle [
+RepeatCardTest >> test004WhenARepeatedEffectTakesAShipToATileWithARivalThenTheyBattle [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -62,7 +62,7 @@ RepeatCardTest >> test04WhenARepeatedEffectTakesAShipToATileWithARivalThenTheyBa
 ]
 
 { #category : 'tests' }
-RepeatCardTest >> test05WhenAnInstantCardIsPlayedOutOfTheTurnOfTheShipThenItHasEffect [
+RepeatCardTest >> test005WhenAnInstantCardIsPlayedOutOfTheTurnOfTheShipThenItHasEffect [
 
 	| aGame |
 	aGame := self gameDealing: { Repeat } rolling: { 11 }.

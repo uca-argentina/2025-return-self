@@ -17,7 +17,7 @@ ReverseCardTest >> setUp [
 ]
 
 { #category : 'tests' }
-ReverseCardTest >> test01WhenAReverseCardIsPlayedThenAfterTheShipInTurnTheTurnsGoTheOtherWayAround [
+ReverseCardTest >> test001WhenAReverseCardIsPlayedThenAfterTheShipInTurnTheTurnsGoTheOtherWayAround [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
@@ -30,7 +30,7 @@ ReverseCardTest >> test01WhenAReverseCardIsPlayedThenAfterTheShipInTurnTheTurnsG
 ]
 
 { #category : 'tests' }
-ReverseCardTest >> test02WhenAnotherReverseCardIsPlayedThenTheTurnsGoInTheOriginalOrderAgain [
+ReverseCardTest >> test002WhenAnotherReverseCardIsPlayedThenTheTurnsGoInTheOriginalOrderAgain [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
@@ -45,7 +45,7 @@ ReverseCardTest >> test02WhenAnotherReverseCardIsPlayedThenTheTurnsGoInTheOrigin
 ]
 
 { #category : 'tests' }
-ReverseCardTest >> test03WhenTheOrderOfTheTurnsIsReversedThenThePermanentCardsFollowTheNewOrder [
+ReverseCardTest >> test003WhenTheOrderOfTheTurnsIsReversedThenThePermanentCardsFollowTheNewOrder [
 
 	| aGame |
 	aGame := self

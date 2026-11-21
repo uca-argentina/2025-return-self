@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-CancellationCardTest >> test01WhenACancellationCardIsPlayedThenTheChosenPermanentCardNoLongerHasEffect [
+CancellationCardTest >> test001WhenACancellationCardIsPlayedThenTheChosenPermanentCardNoLongerHasEffect [
 
 	| aGame |
 	aGame := self
@@ -23,7 +23,7 @@ CancellationCardTest >> test01WhenACancellationCardIsPlayedThenTheChosenPermanen
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> test02WhenTryingToCancelACardThatIsNotInEffectThenItRaisesErrorAndTheCardStaysInTheHand [
+CancellationCardTest >> test002WhenTryingToCancelACardThatIsNotInEffectThenItRaisesErrorAndTheCardStaysInTheHand [
 
 	| aGame |
 	aGame := self
@@ -42,7 +42,7 @@ CancellationCardTest >> test02WhenTryingToCancelACardThatIsNotInEffectThenItRais
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> test03WhenACancellationCardCancelsAMercenaryThenTheShipAndItsFormerMercenaryBattleAgain [
+CancellationCardTest >> test003WhenACancellationCardCancelsAMercenaryThenTheShipAndItsFormerMercenaryBattleAgain [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.

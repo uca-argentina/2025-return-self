@@ -6,19 +6,19 @@ Class {
 }
 
 { #category : 'tests' }
-DistanceTest >> test01WhenADistanceInParsecsIsAskedForItsParsecsThenItAnswersItsAmount [
+DistanceTest >> test001WhenADistanceInParsecsIsAskedForItsParsecsThenItAnswersItsAmount [
 
 	self assert: (Parsecs of: 7) asParsecs equals: 7
 ]
 
 { #category : 'tests' }
-DistanceTest >> test02WhenADistanceInLightYearsIsAskedForItsParsecsThenThreeLightYearsMakeOneParsec [
+DistanceTest >> test002WhenADistanceInLightYearsIsAskedForItsParsecsThenThreeLightYearsMakeOneParsec [
 
 	self assert: (LightYears of: 9) asParsecs equals: 3
 ]
 
 { #category : 'tests' }
-DistanceTest >> test03WhenTryingToCreateANegativeDistanceThenItRaisesError [
+DistanceTest >> test003WhenTryingToCreateANegativeDistanceThenItRaisesError [
 
 	self
 		should: [ Parsecs of: -1 ]

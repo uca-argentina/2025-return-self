@@ -17,7 +17,7 @@ SkipCardTest >> setUp [
 ]
 
 { #category : 'tests' }
-SkipCardTest >> test01WhenASkipCardIsPlayedThenTheShipInTurnLosesItsTurn [
+SkipCardTest >> test001WhenASkipCardIsPlayedThenTheShipInTurnLosesItsTurn [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -30,7 +30,7 @@ SkipCardTest >> test01WhenASkipCardIsPlayedThenTheShipInTurnLosesItsTurn [
 ]
 
 { #category : 'tests' }
-SkipCardTest >> test02WhenAShipLosesItsTurnBecauseOfASkipCardThenItDoesNotRecoverItsShields [
+SkipCardTest >> test002WhenAShipLosesItsTurnBecauseOfASkipCardThenItDoesNotRecoverItsShields [
 
 	| aGame |
 	aTileListCreator at: 2 put: HyperSpaceJump create.
@@ -43,7 +43,7 @@ SkipCardTest >> test02WhenAShipLosesItsTurnBecauseOfASkipCardThenItDoesNotRecove
 ]
 
 { #category : 'tests' }
-SkipCardTest >> test03WhenTheOrderOfTheTurnsIsReversedThenAfterASkipCardTheTurnGoesToThePreviousShip [
+SkipCardTest >> test003WhenTheOrderOfTheTurnsIsReversedThenAfterASkipCardTheTurnGoesToThePreviousShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.
@@ -61,7 +61,7 @@ SkipCardTest >> test03WhenTheOrderOfTheTurnsIsReversedThenAfterASkipCardTheTurnG
 ]
 
 { #category : 'tests' }
-SkipCardTest >> test04WhenARedoCardDoesASkipCardAgainThenTheNextShipInTurnLosesItsTurnToo [
+SkipCardTest >> test004WhenARedoCardDoesASkipCardAgainThenTheNextShipInTurnLosesItsTurnToo [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 0'.

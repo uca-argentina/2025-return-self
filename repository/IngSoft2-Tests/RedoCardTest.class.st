@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-RedoCardTest >> test01WhenARedoCardIsPlayedAfterAPermanentCardThenItHasTheSameEffectOnTheNewChosenShip [
+RedoCardTest >> test001WhenARedoCardIsPlayedAfterAPermanentCardThenItHasTheSameEffectOnTheNewChosenShip [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
@@ -23,7 +23,7 @@ RedoCardTest >> test01WhenARedoCardIsPlayedAfterAPermanentCardThenItHasTheSameEf
 ]
 
 { #category : 'tests' }
-RedoCardTest >> test02WhenARedoCardDoesAPermanentCardAgainThenItCanOnlyBePlayedDuringTheTurnOfTheShip [
+RedoCardTest >> test002WhenARedoCardDoesAPermanentCardAgainThenItCanOnlyBePlayedDuringTheTurnOfTheShip [
 
 	| aGame |
 	aGame := self
@@ -41,7 +41,7 @@ RedoCardTest >> test02WhenARedoCardDoesAPermanentCardAgainThenItCanOnlyBePlayedD
 ]
 
 { #category : 'tests' }
-RedoCardTest >> test03WhenTheLastCardPlayedWasARedoThenANewRedoDoesAgainTheCardThatTookEffect [
+RedoCardTest >> test003WhenTheLastCardPlayedWasARedoThenANewRedoDoesAgainTheCardThatTookEffect [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 6, Lap: 0'.
@@ -60,7 +60,7 @@ RedoCardTest >> test03WhenTheLastCardPlayedWasARedoThenANewRedoDoesAgainTheCardT
 ]
 
 { #category : 'tests' }
-RedoCardTest >> test04WhenNoCardWasPlayedThenTryingToPlayARedoCardRaisesError [
+RedoCardTest >> test004WhenNoCardWasPlayedThenTryingToPlayARedoCardRaisesError [
 
 	| aGame |
 	aGame := self gameDealing: { Redo } rolling: { 3 }.
@@ -70,7 +70,7 @@ RedoCardTest >> test04WhenNoCardWasPlayedThenTryingToPlayARedoCardRaisesError [
 ]
 
 { #category : 'tests' }
-RedoCardTest >> test05WhenARedoCardDoesAnInstantCardAgainThenItCanBePlayedOutOfTheTurnOfTheShip [
+RedoCardTest >> test005WhenARedoCardDoesAnInstantCardAgainThenItCanBePlayedOutOfTheTurnOfTheShip [
 
 	| aGame |
 	aTileListCreator at: 12 put: BlackHole create.
@@ -86,7 +86,7 @@ RedoCardTest >> test05WhenARedoCardDoesAnInstantCardAgainThenItCanBePlayedOutOfT
 ]
 
 { #category : 'tests' }
-RedoCardTest >> test06WhenARedoCardDoesACancellationAgainThenItCancelsTheNewChosenCard [
+RedoCardTest >> test006WhenARedoCardDoesACancellationAgainThenItCancelsTheNewChosenCard [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 8, Lap: 0'.

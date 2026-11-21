@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-CardDealingTest >> test01WhenAGameStartsThenEveryShipHasTwoCards [
+CardDealingTest >> test001WhenAGameStartsThenEveryShipHasTwoCards [
 
 	| aGame |
 	aGame := self
@@ -23,7 +23,7 @@ CardDealingTest >> test01WhenAGameStartsThenEveryShipHasTwoCards [
 ]
 
 { #category : 'tests' }
-CardDealingTest >> test02WhenAShipLandsOnACardGiverTileThenTheGameDealsItACard [
+CardDealingTest >> test002WhenAShipLandsOnACardGiverTileThenTheGameDealsItACard [
 
 	| aGame |
 	aTileListCreator at: 4 put: CardGiver create.

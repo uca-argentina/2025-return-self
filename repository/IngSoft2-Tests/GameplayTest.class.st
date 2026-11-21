@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
+GameplayTest >> test001WhenAGameIsPlayedWithASetOfDie [
 
 	| aGame firstLoadedDice secondLoadedDice aWormhole aSetOfDie aTestBoard |
 	aWormhole := Wormhole createWith: 14.
@@ -15,20 +15,20 @@ GameplayTest >> test01WhenAGameIsPlayedWithASetOfDie [
 	firstLoadedDice := LoadedDie rolling: 3.
 	secondLoadedDice := LoadedDie rolling: 5.
 	aSetOfDie := DieSet having: {
-			             firstLoadedDice.
-			             secondLoadedDice }.
+			firstLoadedDice.
+			secondLoadedDice }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSetOfDie
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSetOfDie
+		withLaps: 1.
 
 	self play: 1 in: aGame.
 	self assert: (aGame positionFeatureOf: aPlayer) position equals: 9
 ]
 
 { #category : 'tests' }
-GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
+GameplayTest >> test002WhenAGameStartsTheresTheFirstTurn [
 
 	| aGame aLoadedDie aWormhole aTestBoard |
 	aWormhole := Wormhole createWith: 14.
@@ -36,10 +36,10 @@ GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aLoadedDie
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aLoadedDie
+		withLaps: 1.
 
 	self play: 1 in: aGame.
 
@@ -47,7 +47,7 @@ GameplayTest >> test02WhenAGameStartsTheresTheFirstTurn [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
+GameplayTest >> test003WhenTheGameIsAtTheSecondTurn [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
@@ -55,14 +55,14 @@ GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 
 	self play: 3 in: aGame.
 
@@ -70,21 +70,21 @@ GameplayTest >> test03WhenTheGameIsAtTheSecondTurn [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
+GameplayTest >> test004WhenTheGamePlaysItselfThenThereIsAWinner [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -92,7 +92,7 @@ GameplayTest >> test04WhenTheGamePlaysItselfThenThereIsAWinner [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test05WhenSteppingIntoWormhole [
+GameplayTest >> test005WhenSteppingIntoWormhole [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls anotherPlayer |
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
@@ -100,14 +100,14 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 	aTileListCreator at: 5 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 
 	self play: 2 in: aGame.
 	"Steps on wormhole here, on next turn it goes through. VAMOS A TENER QUE CORREGIR ESTO"
@@ -117,42 +117,42 @@ GameplayTest >> test05WhenSteppingIntoWormhole [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test06WhenThereIsATurnAfterGameIsFinishedThenItReturnsTheWinner [
+GameplayTest >> test006WhenThereIsATurnAfterGameIsFinishedThenItReturnsTheWinner [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 
 	aGame playFullGame.
 	self assert: (aGame isWinner: 'Juan')
 ]
 
 { #category : 'tests' }
-GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
+GameplayTest >> test007GamePlayedWithASingleLapNoBattles [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls |
 	aWormhole := Wormhole createWith: 14.
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -160,24 +160,24 @@ GameplayTest >> test07GamePlayedWithASingleLapNoBattles [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test08LoopingOfTheLap [
+GameplayTest >> test008LoopingOfTheLap [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData aTileListCreator2 |
 	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 1'.
-	                         'Name: Tomi, Position: 1, Lap: 0' }.
+	'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole createWith: 4.
 	aTileListCreator2 := TileListCreationForTesting createTileListWith: 5.
 	aTileListCreator2 at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator2 tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 6).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 6).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 2.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 2.
 
 	self play: 1 in: aGame.
 
@@ -185,23 +185,23 @@ GameplayTest >> test08LoopingOfTheLap [
 ]
 
 { #category : 'tests' }
-GameplayTest >> test09LoopingOfTheLapWithRanking [
+GameplayTest >> test009LoopingOfTheLapWithRanking [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Place: 1'.
-	                         'Name: Tomi, Place: 2' }.
+	'Name: Tomi, Place: 2' }.
 	aWormhole := Wormhole createWith: 4.
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 6).
-			                    (LoadedDie rolling: 1).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 6).
+			(LoadedDie rolling: 1).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 2.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 2.
 
 	self play: 1 in: aGame.
 

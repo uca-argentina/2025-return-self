@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-AccelerationCardTest >> test01WhenAnAccelerationCardIsPlayedThenEveryShipAdvancesOneMoreTileOnEveryThrow [
+AccelerationCardTest >> test001WhenAnAccelerationCardIsPlayedThenEveryShipAdvancesOneMoreTileOnEveryThrow [
 
 	| aGame assertingVariableData |
 	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
@@ -18,7 +18,7 @@ AccelerationCardTest >> test01WhenAnAccelerationCardIsPlayedThenEveryShipAdvance
 ]
 
 { #category : 'tests' }
-AccelerationCardTest >> test02WhenSeveralCardsIncreaseTheThrowOfAShipThenTheirEffectsAddUp [
+AccelerationCardTest >> test002WhenSeveralCardsIncreaseTheThrowOfAShipThenTheirEffectsAddUp [
 
 	| aGame |
 	aGame := self
@@ -33,7 +33,7 @@ AccelerationCardTest >> test02WhenSeveralCardsIncreaseTheThrowOfAShipThenTheirEf
 ]
 
 { #category : 'tests' }
-AccelerationCardTest >> test03WhenTryingToPlayAPermanentCardOutOfTheTurnOfTheShipThenItRaisesErrorAndTheCardStaysInItsHand [
+AccelerationCardTest >> test003WhenTryingToPlayAPermanentCardOutOfTheTurnOfTheShipThenItRaisesErrorAndTheCardStaysInItsHand [
 
 	| aGame |
 	aGame := self gameDealing: { Acceleration } rolling: { 3 }.
