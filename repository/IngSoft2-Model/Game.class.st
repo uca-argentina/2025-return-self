@@ -12,6 +12,7 @@ Class {
 		'battleManager',
 		'positionManager',
 		'cardManager',
+		'battleReferee',
 		'lastEffectApplied'
 	],
 	#category : 'IngSoft2-Model',
@@ -74,17 +75,6 @@ Game >> assertIsPlaying: aShip [
 	players findShipReference: aShip
 ]
 
-{ #category : 'battles' }
-Game >> battleBetween: aShip and: aRival [
-
-	| shipTeam rivalTeam |
-	shipTeam := self teamOf: aShip.
-	rivalTeam := self teamOf: aRival.
-	(battleManager team: rivalTeam defeats: shipTeam using: setOfDie)
-		ifTrue: [ self defeat: aShip fightingWith: shipTeam ]
-		ifFalse: [ self defeat: aRival fightingWith: rivalTeam ]
-]
-
 { #category : 'cards' }
 Game >> cancelActiveCard: aCard [
 
@@ -104,27 +94,12 @@ Game >> dealCardTo: aShip [
 	cardManager dealCardTo: aShip
 ]
 
-{ #category : 'battles' }
-Game >> defeat: aShip fightingWith: itsTeam [
-
-	itsTeam do: [ :ship | self takeShields: 1 from: ship ].
-	self moveToTheFirstTile: aShip
-]
-
 { #category : 'private' }
 Game >> effectAtTileOf: aShip [
 
 	| tile |
 	tile := positionManager tileOf: aShip.
 	^ cardManager effect: (board effectAt: tile) atTile: tile
-]
-
-{ #category : 'battles' }
-Game >> engageInBattle: aShip [
-
-	(self rivalsOf: aShip) do: [ :rival |
-		(positionManager is: aShip inTheSameTileAs: rival) ifTrue: [
-			self battleBetween: aShip and: rival ] ]
 ]
 
 { #category : 'initialization' }
@@ -141,6 +116,11 @@ Game >> initializePlayedBy: aGroupOfPlayers withBoard: aBoard withSetOfDie: aSet
 	cardManager := CardManager createWith: aGroupOfPlayers and: aCardDealer.
 	setOfDie := aSetOfDie.
 	board := aBoard.
+	battleReferee := BattleReferee
+						 createWithPositions: positionManager
+						 cards: cardManager
+						 shields: battleManager
+						 dice: setOfDie.
 	lastEffectApplied := NoEffect create
 ]
 
@@ -159,7 +139,7 @@ Game >> landOnItsTile: aShip [
 	movedByTheEffect := self apply: landedEffect on: aShip.
 	lastEffectApplied := landedEffect.
 	(movedByTheEffect or: [ landedEffect allowsBattleOnItsTile ]) ifTrue: [
-		self engageInBattle: aShip ]
+		battleReferee engage: aShip in: self ]
 ]
 
 { #category : 'cards' }
@@ -281,20 +261,13 @@ Game >> repeatLastEffectOn: aShip [
 
 	self assertIsPlaying: aShip.
 	(self apply: lastEffectApplied on: aShip) ifTrue: [
-		self engageInBattle: aShip ]
+		battleReferee engage: aShip in: self ]
 ]
 
 { #category : 'cards' }
 Game >> reverseTurnOrder [
 
 	turnManager reverseOrder
-]
-
-{ #category : 'battles' }
-Game >> rivalsOf: aShip [
-
-	^ (positionManager shipsSharingTileWith: aShip) reject: [ :another |
-		cardManager is: aShip alliedWith: another ]
 ]
 
 { #category : 'testing' }
@@ -321,12 +294,6 @@ Game >> takeShields: anAmount from: aShip [
 
 	anAmount timesRepeat: [ battleManager playerLoseShield: aShip ].
 	self penalizeShipsOutOfShields
-]
-
-{ #category : 'battles' }
-Game >> teamOf: aShip [
-
-	^ cardManager teamOf: aShip
 ]
 
 { #category : 'testing' }
