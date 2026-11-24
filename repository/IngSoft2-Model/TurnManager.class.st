@@ -2,7 +2,9 @@ Class {
 	#name : 'TurnManager',
 	#superclass : 'GameFeatureManager',
 	#instVars : [
-		'nextPlayerIndex'
+		'turnIndex',
+		'direction',
+		'extraTurns'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -13,10 +15,9 @@ TurnManager class >> createWith: aGroupOfPlayers [
 
 	| playerTurnAssociationGroup |
 	playerTurnAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                              ShipInStandBy
-			                              createWith: each id
-			                              and: 0 ].
-
+		ShipInStandBy
+			createWith: each id
+			and: 0 ].
 	^ self new initializePlayersTurnWith: playerTurnAssociationGroup
 ]
 
@@ -29,36 +30,65 @@ TurnManager >> addTwoSkipsTo: aPlayer [
 	self updateShipReference: playerToApply
 ]
 
+{ #category : 'play interface' }
+TurnManager >> beginTurn [
+
+	[ self shipAtTurn hasTurnsToSkip ] whileTrue: [
+		self updateShipReference: self shipAtTurn skipATurn.
+		self endTurn ]
+]
+
+{ #category : 'play interface' }
+TurnManager >> endTurn [
+
+	extraTurns > 0
+		ifTrue: [ extraTurns := extraTurns - 1 ]
+		ifFalse: [ turnIndex := turnIndex - 1 + direction \\ playersFeature size + 1 ]
+]
+
+{ #category : 'play interface' }
+TurnManager >> grantExtraTurn [
+
+	self beginTurn.
+	extraTurns := extraTurns + 1
+]
+
 { #category : 'initialization' }
 TurnManager >> initializePlayersTurnWith: aGroup [
 
 	playersFeature := aGroup.
-	nextPlayerIndex := 0
+	turnIndex := 1.
+	direction := 1.
+	extraTurns := 0
 ]
 
-{ #category : 'play interface' }
-TurnManager >> nextPlayerTurnBegins [
+{ #category : 'testing' }
+TurnManager >> isTurnOf: aPlayer [
 
-nextPlayerIndex := (nextPlayerIndex) \\ (playersFeature size) + 1
-]
-
-{ #category : 'play interface' }
-TurnManager >> playNextTurn [
-
-	| activePlayer |
-	self nextPlayerTurnBegins.
-	activePlayer := self playerInTurn.
-	"mientras agarre un player salteado..."
-	[ activePlayer hasTurnsToSkip ] whileTrue: [
-		activePlayer := activePlayer skipATurn.
-		self updateShipReference: activePlayer.
-		self nextPlayerTurnBegins.
-		activePlayer := self playerInTurn ]
+	^ self playerInTurn equalsID: aPlayer
 ]
 
 { #category : 'accessing' }
 TurnManager >> playerInTurn [
 
-	nextPlayerIndex = 0 ifTrue: [ Error signal: 'The game did not begin.' ].
-	^ playersFeature at: nextPlayerIndex
+	^ self copy beginTurn shipAtTurn
+]
+
+{ #category : 'play interface' }
+TurnManager >> reverseOrder [
+
+	direction := direction negated
+]
+
+{ #category : 'private' }
+TurnManager >> shipAtTurn [
+
+	^ playersFeature at: turnIndex
+]
+
+{ #category : 'play interface' }
+TurnManager >> skipTurn [
+
+	self beginTurn.
+	self endTurn
 ]

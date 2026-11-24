@@ -20,6 +20,7 @@ ShipPosition class >> createWith: anId and: aNumberOfLaps [
 
 { #category : 'creation' }
 ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
+
 	self idShouldBeGreaterThanZero: anId.
 	self positionHasToBePositive: aPosition.
 	self lapCantBeNegative: aNumberOfLaps.
@@ -28,6 +29,7 @@ ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps [
 
 { #category : 'creation' }
 ShipPosition class >> createWith: anId and: aPosition and: aNumberOfLaps and: aParsecNumber [
+
 	self idShouldBeGreaterThanZero: anId.
 	self positionHasToBePositive: aPosition.
 	self lapCantBeNegative: aNumberOfLaps.
@@ -45,7 +47,7 @@ ShipPosition class >> lapCantBeNegative: aNumberOfLaps [
 { #category : 'testing' }
 ShipPosition class >> parsecNumberCantBeNegative: aParsecNumber [
 
-aParsecNumber >= 0 ifFalse: [
+	aParsecNumber >= 0 ifFalse: [
 		Error signal: 'Tile parsec number cannot be negative.' ]
 ]
 
@@ -61,32 +63,32 @@ ShipPosition class >> positionHasToBePositive: aPosition [
 ShipPosition >> advanceParsecs: aNumberOfParsecs [
 
 	^ self class
-		  createWith: id
-		  and: position
-		  and: lap
-		  and: parsec + aNumberOfParsecs
+		createWith: id
+		and: position
+		and: lap
+		and: parsec + aNumberOfParsecs
 ]
 
 { #category : 'positioning' }
 ShipPosition >> advanceTiles: aDistance [
 
 	^ self class
-		  createWith: id
-		  and: position + aDistance
-		  and: lap
-		  and: parsec
-]
-
-{ #category : 'accessing' }
-ShipPosition >> calculateDelta: anotherPosition [
-
-^ anotherPosition - position
+		createWith: id
+		and: position + aDistance
+		and: lap
+		and: parsec
 ]
 
 { #category : 'positioning' }
 ShipPosition >> changeLapAndCorrectPositionWith: aBacktrackDistance [
 
-	^ self class createWith: id and: position - aBacktrackDistance and: lap + 1 and: parsec
+	| tilesFromTheStart |
+	tilesFromTheStart := position - 1.
+	^ self class
+		createWith: id
+		and: tilesFromTheStart \\ aBacktrackDistance + 1
+		and: lap + (tilesFromTheStart // aBacktrackDistance)
+		and: parsec
 ]
 
 { #category : 'positioning' }
@@ -96,16 +98,16 @@ ShipPosition >> changePositionAndCorrectParsecsWith: aBacktrackDistance [
 	amountOfPositionsChanged := parsec // aBacktrackDistance.
 	newParsec := parsec \\ aBacktrackDistance.
 	^ self class
-		  createWith: id
-		  and: position + amountOfPositionsChanged
-		  and: lap
-		  and: newParsec
+		createWith: id
+		and: position + amountOfPositionsChanged
+		and: lap
+		and: newParsec
 ]
 
 { #category : 'accessing' }
 ShipPosition >> distanceTravelledWith: boardLength and: parsecsPerTile [
 
-	^ lap * boardLength + (position * parsecsPerTile) + parsec
+	^ (lap * boardLength + position) * parsecsPerTile + parsec
 ]
 
 { #category : 'positioning' }
@@ -115,18 +117,28 @@ ShipPosition >> goBackTiles: aDistance [
 	newPosition := position - aDistance.
 	newPosition := newPosition max: 1.
 	^ self class
-		  createWith: id
-		  and: newPosition
-		  and: lap
-
+		createWith: id
+		and: newPosition
+		and: lap
+		and: parsec
 ]
 
 { #category : 'positioning' }
 ShipPosition >> goToFirstTile [
 
 	^ self class
-		  createWith: id
-		  and: lap
+		createWith: id
+		and: lap
+]
+
+{ #category : 'positioning' }
+ShipPosition >> goToTile: aTile [
+
+	^ self class
+		createWith: id
+		and: aTile
+		and: lap
+		and: parsec
 ]
 
 { #category : 'comparing' }
@@ -146,24 +158,21 @@ ShipPosition >> initializeWith: anId and: aPosition and: aLap and: aParsecNumber
 
 { #category : 'accessing' }
 ShipPosition >> lap [
-"Used for testing os displaying"
+
+	"Used for testing os displaying"
 	^ lap
 ]
 
 { #category : 'comparing' }
 ShipPosition >> lapGreaterOrEqualThan: aNumberOfLaps [
+
 	^ lap >= aNumberOfLaps
-]
-
-{ #category : 'comparing' }
-ShipPosition >> parsecGreaterThan: aLength [
-
-	^ parsec > aLength
 ]
 
 { #category : 'accessing' }
 ShipPosition >> position [
-"Used for testing os displaying"
+
+	"Used for testing os displaying"
 	^ position
 ]
 

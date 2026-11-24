@@ -6,33 +6,16 @@ Class {
 }
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test01WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
-
-	| aLoadedDie aTestBoard |
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aLoadedDie := LoadedDie rolling: 4.
-	self
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard
-				withSetOfDie: aLoadedDie
-				withLaps: -10 ]
-		raiseErrorWithMessageText:
-		'The amount of laps cannot be lower than 1.'
-]
-
-{ #category : 'tests' }
-GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
+GameFeatureManagerCreationTest >> test001WhenTryingToCreateAnyGameFeatureWithTwoPlayersSharingIDThenItRaisesError [
 
 	| anotherGroupOfPlayers aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 4.
 	anotherGroupOfPlayers := {
-		                   (ShipPlayerAssociation
-			                    createWith: 12
-			                    and: 'Pedro').
-		                   (ShipPlayerAssociation createWith: 12 and: 'Juan') }.
+		(ShipPlayerAssociation
+			createWith: 12
+			and: 'Pedro').
+		(ShipPlayerAssociation createWith: 12 and: 'Juan') }.
 	self
 		should: [
 			Game
@@ -62,22 +45,7 @@ GameFeatureManagerCreationTest >> test01WhenTryingToCreateAnyGameFeatureWithTwoP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test02WhenTryingToCreateAGameWithDiceThenItRaisesError [
-
-	| aTestBoard |
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	self
-		should: [
-			Game
-				playedBy: aGroupOfPlayers
-				withBoard: aTestBoard
-				withSetOfDie: {  }
-				withLaps: 10 ]
-		raiseErrorWithMessageText: 'You must have at least one die to play.'
-]
-
-{ #category : 'tests' }
-GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
+GameFeatureManagerCreationTest >> test002WhenTryingToCreateAnyGameFeatureWithoutPlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -109,7 +77,7 @@ GameFeatureManagerCreationTest >> test02WhenTryingToCreateAnyGameFeatureWithoutP
 ]
 
 { #category : 'tests' }
-GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
+GameFeatureManagerCreationTest >> test003WhenTryingToCreateAnyGameFeatureWithOnePlayersThenItRaisesError [
 
 	| aLoadedDie aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
@@ -117,7 +85,7 @@ GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOneP
 	self
 		should: [
 			Game
-				playedBy: aPlayer
+				playedBy: { aPlayer }
 				withBoard: aTestBoard
 				withSetOfDie: aLoadedDie
 				withLaps: 1 ]
@@ -127,20 +95,52 @@ GameFeatureManagerCreationTest >> test03WhenTryingToCreateAnyGameFeatureWithOneP
 	self
 		should: [
 			PositionManager mustHaveAtLeastTwoPlayers:
-				aPlayer asOrderedCollection ]
+				{ aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
 		should: [
 			BattleManager mustHaveAtLeastTwoPlayers:
-				aPlayer asOrderedCollection ]
+				{ aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'.
 
 	self
 		should: [
-		TurnManager mustHaveAtLeastTwoPlayers: aPlayer asOrderedCollection ]
+		TurnManager mustHaveAtLeastTwoPlayers: { aPlayer } ]
 		raiseErrorWithMessageText:
 		'You cant play with less than two players.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test004WhenTryingToCreateAGameWithNegativeLapsThenItRaisesError [
+
+	| aLoadedDie aTestBoard |
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aLoadedDie := LoadedDie rolling: 4.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: aLoadedDie
+				withLaps: -10 ]
+		raiseErrorWithMessageText:
+		'The amount of laps cannot be lower than 1.'
+]
+
+{ #category : 'tests' }
+GameFeatureManagerCreationTest >> test005WhenTryingToCreateAGameWithoutDiceThenItRaisesError [
+
+	| aTestBoard |
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	self
+		should: [
+			Game
+				playedBy: aGroupOfPlayers
+				withBoard: aTestBoard
+				withSetOfDie: (DieSet having: {  })
+				withLaps: 10 ]
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
 ]

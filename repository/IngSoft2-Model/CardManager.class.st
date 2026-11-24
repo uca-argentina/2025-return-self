@@ -2,10 +2,9 @@ Class {
 	#name : 'CardManager',
 	#superclass : 'GameFeatureManager',
 	#instVars : [
-		'permanentAppliedCards',
-		'lastPlayedCard',
-		'lastEffectApplied',
-		'incrementalTag'
+		'cardDealer',
+		'activeCards',
+		'lastPlayedCard'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -14,158 +13,131 @@ Class {
 { #category : 'creation' }
 CardManager class >> createWith: aGroupOfPlayers [
 
-	| cardPlayerAsociation |
-	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship | ShipCards createWith: ship id ].
-	^ self new initializeCardManagerWith: cardPlayerAsociation
+	^ self createWith: aGroupOfPlayers and: CardDealer withEveryCard
 ]
 
 { #category : 'creation' }
-CardManager class >> createWith: aGroupOfPlayers and: aCardDeck [
+CardManager class >> createWith: aGroupOfPlayers and: aCardDealer [
 
-	| cardPlayerAsociation |
-	cardPlayerAsociation := aGroupOfPlayers collect: [ :ship |
-		                        ShipCards createWith: ship id and: aCardDeck ].
-	^ self new initializeCardManagerWith: cardPlayerAsociation
+	^ self new initializeCardManagerWith: aGroupOfPlayers and: aCardDealer
 ]
 
-{ #category : 'adding-removing' }
-CardManager >> add: card to: player [
+{ #category : 'accessing' }
+CardManager class >> initialHandSize [
 
-	| playerReference |
-	playerReference := self findShipReference: player.
-	playerReference := playerReference addToDeck: card.
-	self updateShipReference: playerReference
+	^ 2
 ]
 
-{ #category : 'adding-removing' }
-CardManager >> addToPermanentCards: aCard [
+{ #category : 'active cards' }
+CardManager >> activate: aPermanentCard [
 
-	| taggedCard |
-	aCard isMercenary ifTrue: [ self checkNoSameSlave: aCard ].
-	taggedCard := aCard tagPermanentCard: incrementalTag.
-	permanentAppliedCards add: taggedCard.
-	incrementalTag := incrementalTag + 1
+	aPermanentCard assertCanBeActivatedWith: activeCards.
+	activeCards add: aPermanentCard
 ]
 
-{ #category : 'as yet unclassified' }
-CardManager >> checkIfBonusToApplyTo: aPlayer using: setOfDie [
+{ #category : 'hands' }
+CardManager >> add: aCard to: aPlayer [
 
-	| everyCardToApplyBonus aTotalThrow |
-	aTotalThrow := setOfDie throw.
-	everyCardToApplyBonus := permanentAppliedCards select: [ :card |
-		                         card affects: aPlayer ].
-	^ everyCardToApplyBonus inject: aTotalThrow into: [ :acum :card | card applyBonusUsing: aTotalThrow ]
+	self updateShipReference: ((self findShipReference: aPlayer) addToDeck: aCard)
 ]
 
-{ #category : 'as yet unclassified' }
-CardManager >> checkIfMercenariesFor: aMaster using: battleManager [
+{ #category : 'hands' }
+CardManager >> assert: aPlayer holds: aCard [
 
-	| everyCardToApplyBonus aTeam |
-	everyCardToApplyBonus := permanentAppliedCards select: [ :card |
-		                         card requestedBy: aMaster ].
-	aTeam := (everyCardToApplyBonus collect: [ :card |
-		          card applyBonusUsing: battleManager ]) asOrderedCollection.
-	aTeam add: aMaster.
-	^ aTeam
+	((self findShipReference: aPlayer) findInDeck: aCard) ifFalse: [
+		Error signal: 'Player does not have this card on deck.' ]
 ]
 
-{ #category : 'as yet unclassified' }
-CardManager >> checkNoSameSlave: aMercenaryPreparedCard [
+{ #category : 'active cards' }
+CardManager >> boost: aThrow of: aPlayer [
 
-	| allMercenaryCards |
-	allMercenaryCards := permanentAppliedCards select: [ :card |
-		                     card isMercenary ].
-	allMercenaryCards
-		detect: [ :card | card hasSameSlave: aMercenaryPreparedCard ]
-		ifFound: [ Error signal: 'Cant have the same mercenary as other.' ]
-		ifNone: [  ]
+	^ activeCards
+		inject: aThrow
+		into: [ :boostedThrow :card | card boost: boostedThrow of: aPlayer ]
 ]
 
-{ #category : 'as yet unclassified' }
-CardManager >> evaluateIfCardIsPresent: player forCard: card [
+{ #category : 'active cards' }
+CardManager >> deactivate: aCard [
 
-	| playerReference |
-	playerReference := self findShipReference: player.
-	(playerReference findInDeck: card) ifFalse: [
-		Error signal: 'Player does not have such card' ]
+	| cardToCancel |
+	cardToCancel := activeCards
+						detect: [ :card | card equalsACard: aCard ]
+						ifNone: [
+						Error signal:
+							'There is no matching active card to cancel.' ].
+	activeCards remove: cardToCancel
+]
+
+{ #category : 'hands' }
+CardManager >> dealCardTo: aPlayer [
+
+	self add: cardDealer dealCard to: aPlayer
+]
+
+{ #category : 'hands' }
+CardManager >> dealInitialHand [
+
+	^ (1 to: self class initialHandSize) collect: [ :each | cardDealer dealCard ]
+]
+
+{ #category : 'hands' }
+CardManager >> discard: aCard from: aPlayer [
+
+	self updateShipReference: ((self findShipReference: aPlayer) removeFromDeck: aCard)
+]
+
+{ #category : 'active cards' }
+CardManager >> effect: anEffect atTile: aTileNumber [
+
+	^ activeCards
+		inject: anEffect
+		into: [ :effectInTheTile :card | card effect: effectInTheTile atTile: aTileNumber ]
 ]
 
 { #category : 'initialization' }
-CardManager >> initializeCardManagerWith: aGroupOfPlayers [
+CardManager >> initializeCardManagerWith: aGroupOfPlayers and: aCardDealer [
 
-	playersFeature := aGroupOfPlayers.
-	permanentAppliedCards := OrderedCollection new.
-	lastPlayedCard := NoCard new.
-	incrementalTag := 1
-	
+	cardDealer := aCardDealer.
+	activeCards := OrderedCollection new.
+	lastPlayedCard := NoCard create.
+	playersFeature := aGroupOfPlayers collect: [ :ship |
+		ShipCards createWith: ship id and: self dealInitialHand ]
 ]
 
-{ #category : 'accessing' }
-CardManager >> lastEffectApplied [
+{ #category : 'mercenaries' }
+CardManager >> is: aPlayer alliedWith: anotherPlayer [
 
-	^ lastEffectApplied
+	^ ((self mercenariesOf: aPlayer) anySatisfy: [ :mercenary |
+		   mercenary equalsID: anotherPlayer ]) or: [
+		  (self mercenariesOf: anotherPlayer) anySatisfy: [ :mercenary |
+			  mercenary equalsID: aPlayer ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'history' }
 CardManager >> lastPlayedCard [
 
-	^ lastPlayedCard new
+	^ lastPlayedCard
 ]
 
-{ #category : 'accessing' }
-CardManager >> permanentAppliedCards [
+{ #category : 'mercenaries' }
+CardManager >> mercenariesOf: aPlayer [
 
-^permanentAppliedCards .
+	| mercenaries |
+	mercenaries := OrderedCollection new.
+	activeCards do: [ :card | card addMercenariesOf: aPlayer to: mercenaries ].
+	^ mercenaries
 ]
 
-{ #category : 'play interface' }
-CardManager >> player: aPlayer preparesIfAny: aCard setupWith: context [
+{ #category : 'history' }
+CardManager >> storeLastCardPlayed: aCard [
 
-	| shipCards |
-	shipCards := self findShipReference: aPlayer.
-	shipCards := shipCards for: aCard ifAnySetupWith: context.
-	self updateShipReference: shipCards.
-
-	shipCards := shipCards throwPreparedCardUsing: self.
-	self updateShipReference: shipCards
+	lastPlayedCard := aCard
 ]
 
-{ #category : 'removing' }
-CardManager >> removeActiveCardWith: cardId [
+{ #category : 'mercenaries' }
+CardManager >> teamOf: aPlayer [
 
-	| cardToCancel |
-	cardToCancel := permanentAppliedCards
-		                detect: [ :card | card withTag: cardId ]
-		                ifNone: [
-		                Error signal:
-			                'There was no permanent card with that id.' ].
-	permanentAppliedCards remove: cardToCancel
-]
-
-{ #category : 'as yet unclassified' }
-CardManager >> storeLastCardPlayed: playedCard [
-
-	lastPlayedCard := playedCard
-]
-
-{ #category : 'as yet unclassified' }
-CardManager >> storeLastEffectApplied: anEffect [
-
-	lastEffectApplied := anEffect 
-]
-
-{ #category : 'as yet unclassified' }
-CardManager >> trimContextConsultingManual: aContext [
-	"Similates a database"
-
-	"Cards with two parameters, card isBlaBla, card isBluBlu... "
-
-	lastPlayedCard new isMercenary ifTrue: [
-		^ {
-			  (aContext at: 2).
-			  (aContext at: 1) } ].
-
-	"Cards with one parameter, card isBla, card isBlu..."
-	^ aContext at: 1 "Up to this day, al those classes which use one or none arguments, need chosenShip more
-than the caller"
+	^ (OrderedCollection with: aPlayer)
+		addAll: (self mercenariesOf: aPlayer);
+		yourself
 ]

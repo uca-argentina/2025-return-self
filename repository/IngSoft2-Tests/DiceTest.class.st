@@ -6,7 +6,27 @@ Class {
 }
 
 { #category : 'tests' }
-DiceTest >> test01CreationOfDice [
+DiceTest >> test001ThrowDice [
+
+	| aDice |
+	aDice := Dice faces: 6.
+	self assert: (aDice throw between: 1 and: 6)
+]
+
+{ #category : 'tests' }
+DiceTest >> test002ThrowMultipleDie [
+
+	| firstDice secondDice aSetOfDie |
+	firstDice := Dice faces: 6.
+	secondDice := Dice faces: 9.
+	aSetOfDie := DieSet having: {
+			firstDice.
+			secondDice }.
+	self assert: (aSetOfDie throw between: 2 and: 15)
+]
+
+{ #category : 'tests' }
+DiceTest >> test003CreationOfDice [
 
 	self
 		should: [ Dice faces: -10 ]
@@ -15,21 +35,9 @@ DiceTest >> test01CreationOfDice [
 ]
 
 { #category : 'tests' }
-DiceTest >> test01ThrowDice [
+DiceTest >> test004WhenTryingToCreateADieSetWithoutDiceThenItRaisesError [
 
-	| aDice |
-	aDice := Dice faces: 6.
-	self assert: (aDice throw between: 1 and: 6)
-]
-
-{ #category : 'tests' }
-DiceTest >> test02ThrowMultipleDie [
-
-	| firstDice secondDice aSetOfDie |
-	firstDice := Dice faces: 6.
-	secondDice := Dice faces: 9.
-	aSetOfDie := DieSet having: {
-			             firstDice.
-			             secondDice }.
-	self assert: (aSetOfDie throw between: 2 and: 15)
+	self
+		should: [ DieSet having: {  } ]
+		raiseErrorWithMessageText: 'You must have at least one die to play.'
 ]

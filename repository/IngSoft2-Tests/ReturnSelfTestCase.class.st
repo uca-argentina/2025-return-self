@@ -15,17 +15,6 @@ ReturnSelfTestCase class >> isAbstract [
 ]
 
 { #category : 'asserting' }
-ReturnSelfTestCase >> assert: aCollection equalsCollection: anotherCollection [
-
-	| result |
-	aCollection size = anotherCollection size ifFalse: [ self assert: false ].
-
-	result := (1 to: aCollection size) allSatisfy: [ :i |
-		          (aCollection at: i) sameTypeOfCard: (anotherCollection at: i) ].
-	self assert: result
-]
-
-{ #category : 'asserting' }
 ReturnSelfTestCase >> should: anErrorBlock raiseErrorWithMessageText: anErrorMessage [
 
 	self

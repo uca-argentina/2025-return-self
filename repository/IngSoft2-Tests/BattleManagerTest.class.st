@@ -3,6 +3,7 @@ Class {
 	#superclass : 'ReturnSelfTestCase',
 	#instVars : [
 		'aPlayer',
+		'anotherPlayer',
 		'aBattleManager'
 	],
 	#category : 'IngSoft2-Tests',
@@ -12,56 +13,64 @@ Class {
 { #category : 'running' }
 BattleManagerTest >> setUp [
 
-	| aGroupOfPlayers anotherPlayer |
 	super setUp.
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
 	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
-	aGroupOfPlayers := {
-		                   aPlayer.
-		                   anotherPlayer }.
-
-	aBattleManager := BattleManager createWith: aGroupOfPlayers.
+	aBattleManager := BattleManager createWith: {
+							  aPlayer.
+							  anotherPlayer }
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test01ABattleManagerCanForceAShieldResetInOneOfItsShips [
-	"A little internal touching is needed, using findShipReference and updateShipReference"
+BattleManagerTest >> test001ABattleManagerCanForceAShieldResetInOneOfItsShips [
 
-	| aShieldStatus aNewShieldStatus |
-	aShieldStatus := aBattleManager findShipReference: aPlayer.
-	aShieldStatus := aShieldStatus loseShields: 1.
-	
-	"SOLO PARA TESTEO, NO DEBERIAMOS USAR updateShipReference por fuera de implementacion interna"
-	aBattleManager updateShipReference: aShieldStatus.
-	"SOLO PARA TESTEO, NO DEBERIAMOS USAR updateShipReference por fuera de implementacion interna"
-
+	aBattleManager playerLoseShield: aPlayer.
+	self assert: (aBattleManager findShipReference: aPlayer) shields equals: 2.
 	aBattleManager forceAShieldResetTo: aPlayer.
-	aNewShieldStatus := aBattleManager findShipReference: aShieldStatus. "Better for seeing the change"
-
-	self assert: aNewShieldStatus shields equals: 3.
-	self deny: aShieldStatus shields equals: 3
+	self assert: (aBattleManager findShipReference: aPlayer) shields equals: 3
 ]
 
 { #category : 'tests' }
-BattleManagerTest >> test02WhenManagerEngagesTwoShipsInBattleThenItUpdatesHisArrayWithLosingShip [
+BattleManagerTest >> test002WhenATeamThrowsLessThanItsRivalThenItDoesNotDefeatIt [
 
-	| aGroupOfPlayers anotherPlayer playersWhoLost aSequence aLoadedDie aSecondLoadedDie |
-	aLoadedDie := LoadedDie rolling: 2.
-	aSecondLoadedDie := LoadedDie rolling: 3.
+	| aSequence |
 	aSequence := SequenceOfDieForTesting withDie: {
-			             aLoadedDie.
-			             aSecondLoadedDie }.
-	anotherPlayer := ShipPlayerAssociation createWith: 2 and: 'Tomi'.
-	aGroupOfPlayers := {
-		                   aPlayer.
-		                   anotherPlayer }.
-	playersWhoLost := aBattleManager
-		                 engage: aGroupOfPlayers
-		                 inBattleUsing: aSequence
-		                 and: (CardManager
-		                 createWith: {
-				                 aPlayer.
-				                 anotherPlayer } asOrderedCollection).
+						 (LoadedDie rolling: 2).
+						 (LoadedDie rolling: 3) }.
+	self deny: (aBattleManager
+			 team: { aPlayer }
+			 defeats: { anotherPlayer }
+			 using: aSequence)
+]
 
-	self assert: (playersWhoLost at: 1) shields equals: 2
+{ #category : 'tests' }
+BattleManagerTest >> test003WhenATeamHasSeveralShipsThenItsBestThrowIsTheOneThatCounts [
+
+	| aSequence aThirdPlayer |
+	aThirdPlayer := ShipPlayerAssociation createWith: 3 and: 'Pedro'.
+	aSequence := SequenceOfDieForTesting withDie: {
+						 (LoadedDie rolling: 1).
+						 (LoadedDie rolling: 6).
+						 (LoadedDie rolling: 5) }.
+	self assert: (aBattleManager
+			 team: {
+					 aPlayer.
+					 anotherPlayer }
+			 defeats: { aThirdPlayer }
+			 using: aSequence)
+]
+
+{ #category : 'tests' }
+BattleManagerTest >> test004WhenBothTeamsTieThenTheyThrowAgain [
+
+	| aSequence |
+	aSequence := SequenceOfDieForTesting withDie: {
+						 (LoadedDie rolling: 4).
+						 (LoadedDie rolling: 4).
+						 (LoadedDie rolling: 5).
+						 (LoadedDie rolling: 2) }.
+	self assert: (aBattleManager
+			 team: { aPlayer }
+			 defeats: { anotherPlayer }
+			 using: aSequence)
 ]

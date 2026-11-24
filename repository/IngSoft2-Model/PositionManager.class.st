@@ -13,14 +13,11 @@ Class {
 { #category : 'creation' }
 PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: aNumberOfLaps [
 
-	| playerPositionAssociationGroup |
-	self lapHasToBeGreaterThanZero: aNumberOfLaps.
-	playerPositionAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                              ShipPosition
-			                              createWith: each id	
-			                              and: 0 ].
-
-	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps and: 5
+	^ self
+		createWith: aGroupOfPlayers
+		and: anNumberOfTiles
+		and: aNumberOfLaps
+		and: Tile defaultLength asParsecs
 ]
 
 { #category : 'creation' }
@@ -29,9 +26,9 @@ PositionManager class >> createWith: aGroupOfPlayers and: anNumberOfTiles and: a
 	| playerPositionAssociationGroup |
 	self lapHasToBeGreaterThanZero: aNumberOfLaps.
 	playerPositionAssociationGroup := aGroupOfPlayers collect: [ :each |
-		                              ShipPosition
-			                              createWith: each id	
-			                              and: 0 ].
+		ShipPosition
+			createWith: each id	
+			and: 0 ].
 
 	^ self new initializePlayersPosition: playerPositionAssociationGroup and: anNumberOfTiles and: aNumberOfLaps and: parsecsPerTile
 ]
@@ -45,13 +42,6 @@ PositionManager class >> lapHasToBeGreaterThanZero: aNumberOfLaps [
 ]
 
 { #category : 'checking' }
-PositionManager >> checkIfBattle: aPlayer [
-
-	^ (self findShipReference: aPlayer) inSafeZone not and:
-		  (self playerInSamePositionThan: aPlayer) size = 2
-]
-
-{ #category : 'checking' }
 PositionManager >> checkIfReachedANewLap: aPlayer [
 
 	(aPlayer positionGreaterThan: boardLength) ifFalse: [ ^ aPlayer ].
@@ -61,7 +51,6 @@ PositionManager >> checkIfReachedANewLap: aPlayer [
 { #category : 'checking' }
 PositionManager >> checkIfReachedANewPosition: aPlayer [
 
-	(aPlayer parsecGreaterThan: parsecs) ifFalse: [ ^ aPlayer ].
 	^ aPlayer changePositionAndCorrectParsecsWith: parsecs
 ]
 
@@ -74,12 +63,11 @@ PositionManager >> initializePlayersPosition: aGroupOfPlayers and: aNumberOfTile
 	parsecs := parsecsPerTile
 ]
 
-{ #category : 'as yet unclassified' }
-PositionManager >> lightyearsTravelledBy: aPlayer [
+{ #category : 'checking' }
+PositionManager >> is: aPlayer inTheSameTileAs: anotherPlayer [
 
-	| shipPos |
-	shipPos := self findShipReference: aPlayer.
-	^ (shipPos distanceTravelledWith: boardLength and: parsecs) *3
+	^ (self findShipReference: aPlayer) samePositionAs:
+		  (self findShipReference: anotherPlayer)
 ]
 
 { #category : 'positioning' }
@@ -87,7 +75,7 @@ PositionManager >> move: aPlayer backwardWith: anAmount [
 
 	| aModifiedPlayer |
 	aModifiedPlayer := (self findShipReference: aPlayer) goBackTiles:
-		                   anAmount.
+		anAmount.
 	self updateShipReference: aModifiedPlayer
 ]
 
@@ -96,7 +84,7 @@ PositionManager >> move: aPlayer forwardWith: anAmount [
 
 	| aModifiedPlayer |
 	aModifiedPlayer := (self findShipReference: aPlayer) advanceTiles:
-		                   anAmount.
+		anAmount.
 	aModifiedPlayer := self checkIfReachedANewLap: aModifiedPlayer.
 	self updateShipReference: aModifiedPlayer
 ]
@@ -106,86 +94,85 @@ PositionManager >> move: aPlayer forwardWithParsecs: anAmount [
 
 	| aModifiedPlayer |
 	aModifiedPlayer := (self findShipReference: aPlayer) advanceParsecs:
-		                   anAmount.
+		anAmount.
 	aModifiedPlayer := self checkIfReachedANewPosition: aModifiedPlayer.
 	aModifiedPlayer := self checkIfReachedANewLap: aModifiedPlayer.
 	self updateShipReference: aModifiedPlayer
 ]
 
 { #category : 'positioning' }
-PositionManager >> moveEveryoneExcept: aPlayer backwardsWith: aDistance [
+PositionManager >> move: aPlayer toTile: aTile [
 
-	playersFeature do: [ :player |
-		self updateShipReference: (player goBackTiles: aDistance) ].
-
-	self updateShipReference: aPlayer
-]
-
-{ #category : 'checking' }
-PositionManager >> playerInSamePositionThan: aPlayer [
-
-	| aPlayerShipPosition |
-	aPlayerShipPosition := self findShipReference: aPlayer.
-	^ playersFeature select: [ :each |
-		  each samePositionAs: aPlayerShipPosition ]
+	self updateShipReference: ((self findShipReference: aPlayer) goToTile: aTile)
 ]
 
 { #category : 'tests - printing' }
 PositionManager >> playerPositions [
+
 	"Used for testing"
 
 	| aListOfPositions |
 	aListOfPositions := playersFeature collect: [ :player |
-		                    {
-			                    player.
-			                    (String streamContents: [ :s |
-				                     s nextPutAll: 'Position: '.
-				                     s nextPutAll: player position asString.
-				                     s nextPutAll: ', Lap: '.
-				                     s nextPutAll: player lap asString ]) } ].
+		{
+			player.
+			(String streamContents: [ :s |
+				s nextPutAll: 'Position: '.
+				s nextPutAll: player position asString.
+				s nextPutAll: ', Lap: '.
+				s nextPutAll: player lap asString ]) } ].
 	^ aListOfPositions
 ]
 
 { #category : 'tests - printing' }
 PositionManager >> playerRanking [
+
 	"Used for testing"
 
 	| anOrderListOfPositions |
 	anOrderListOfPositions := playersFeature sorted: [ :player :nextOne |
-		                          (player
-			                           distanceTravelledWith: boardLength
-			                           and: parsecs)
-		                          >
-		                          (nextOne
-			                           distanceTravelledWith: boardLength
-			                           and: parsecs) ].
+		(player
+			distanceTravelledWith: boardLength
+			and: parsecs)
+		>
+		(nextOne
+			distanceTravelledWith: boardLength
+			and: parsecs) ].
 
 	^ anOrderListOfPositions withIndexCollect: [ :player :index |
-		  {
-			  player id.
-			  ('Place: ' , index asString) } ]
+		{
+			player id.
+			('Place: ' , index asString) } ]
 ]
 
 { #category : 'positioning' }
 PositionManager >> resetLapTo: aPlayer [
+
 	| playerToReset |
 	playerToReset := self findShipReference: aPlayer.
 	self updateShipReference: playerToReset goToFirstTile
 ]
 
-{ #category : 'positioning' }
-PositionManager >> resetPlayersPosition [
+{ #category : 'checking' }
+PositionManager >> shipsSharingTileWith: aPlayer [
 
-playersFeature do: [ :player | self updateShipReference: player goToFirstTile ].
-
-
-
+	| aShipPosition |
+	aShipPosition := self findShipReference: aPlayer.
+	aShipPosition inSafeZone ifTrue: [ ^ #(  ) ].
+	^ playersFeature select: [ :each |
+		(each samePositionAs: aShipPosition) and: [
+			(each equalsID: aShipPosition) not ] ]
 ]
 
 { #category : 'checking' }
 PositionManager >> stillPlaying [
 
-	^ playersFeature allSatisfy: [ :player | (player lapGreaterOrEqualThan: laps) not ]
+	^ playersFeature noneSatisfy: [ :player | player lapGreaterOrEqualThan: laps ]
+]
+
+{ #category : 'accessing' }
+PositionManager >> tileOf: aPlayer [
+
+	^ (self findShipReference: aPlayer) position
 ]
 
 { #category : 'checking' }
@@ -193,9 +180,9 @@ PositionManager >> winner [
 
 	| playerWhoWon |
 	playerWhoWon := playersFeature
-		                detect: [ :player |
-		                player lapGreaterOrEqualThan: laps ]
-		                ifNone: [ Error signal: 'There is no winner yet.' ].
-	
+		detect: [ :player |
+		player lapGreaterOrEqualThan: laps ]
+		ifNone: [ Error signal: 'There is no winner yet.' ].
+
 	^ playerWhoWon
 ]

@@ -6,32 +6,23 @@ Class {
 }
 
 { #category : 'tests' }
-EffectTest >> test01WhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
-
-	self
-		should: [ Wormhole createWith: -10 ]
-		raiseErrorWithMessageText:
-		'Both ends of the Wormhole must be greater than 1.'.
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithABlackHoleTile [
+EffectTest >> test001GamePlayedWithABlackHoleTile [
 
 	| aGame aLoadedDie aBlackHoleTile aSecondLoadedDie aSequence aTestBoard |
 	aBlackHoleTile := BlackHole create.
-	
+
 	aTileListCreator at: 4 put: aBlackHoleTile.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aLoadedDie := LoadedDie rolling: 2.
 	aSecondLoadedDie := LoadedDie rolling: 3.
 	aSequence := SequenceOfDieForTesting withDie: {
-			             aLoadedDie.
-			             aSecondLoadedDie }.
+			aLoadedDie.
+			aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequence
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequence
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -39,78 +30,7 @@ EffectTest >> testGamePlayedWithABlackHoleTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAHyperJumpTile [
-
-	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
-	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
-	                         'Name: Tomi, Position: 4, Lap: 0' }.
-	hyperJumpEffect := HyperJump create.
-	aTileListCreator at: 3 put: hyperJumpEffect.
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 2) }.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
-
-	self play: 2 in: aGame.
-
-	self assert: aGame playerPositions equals: assertingVariableData
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithAHyperJumpTileChangingLap [
-
-	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
-	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 1'.
-	                         'Name: Tomi, Position: 4, Lap: 0' }.
-	hyperJumpEffect := HyperJump create.
-	aTileListCreator := TileListCreationForTesting createTileListWith: 4.
-	aTileListCreator at: 3 put: hyperJumpEffect.
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 2).
-			                    (LoadedDie rolling: 2) }.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 2.
-
-	self play: 2 in: aGame.
-
-	self assert: aGame playerPositions equals: assertingVariableData
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithAHyperSpaceJumpTile [
-
-	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData |
-	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
-	                         'Name: Tomi, Position: 8, Lap: 0' }.
-	aHyperSpaceJumpEffect := HyperSpaceJump create.
-	aTileListCreator at: 4 put: aHyperSpaceJumpEffect.
-	aTestBoard := Board createWith: aTileListCreator tileList.
-
-	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 4).
-			                    (LoadedDie rolling: 3) }.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
-
-	self play: 2 in: aGame.
-
-	self assert: aGame playerPositions equals: assertingVariableData
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithAMoonWalkTile [
+EffectTest >> test002GamePlayedWithAMoonWalkTile [
 
 	| aGame aLoadedDie aMoonWalkEffect aSecondLoadedDie aSequence aTestBoard |
 	aMoonWalkEffect := MoonWalk createEspeciallyWith: 11.
@@ -120,13 +40,13 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 	aLoadedDie := LoadedDie rolling: 7.
 	aSecondLoadedDie := LoadedDie rolling: 8.
 	aSequence := SequenceOfDieForTesting withDie: {
-			             aLoadedDie.
-			             aSecondLoadedDie }.
+			aLoadedDie.
+			aSecondLoadedDie }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequence
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequence
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -134,19 +54,19 @@ EffectTest >> testGamePlayedWithAMoonWalkTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithANoEffectTile [
+EffectTest >> test003GamePlayedWithANoEffectTile [
 
 	| aGame aSequence aTestBoard |
 	aTestBoard := Board createWith: aTileListCreator tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
-			             (LoadedDie rolling: 4).
-			             (LoadedDie rolling: 1) }.
+			(LoadedDie rolling: 4).
+			(LoadedDie rolling: 1) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequence
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequence
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -154,47 +74,106 @@ EffectTest >> testGamePlayedWithANoEffectTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAWormholeTile [
+EffectTest >> test004GamePlayedWithAHyperJumpTile [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
+	'Name: Tomi, Position: 4, Lap: 0' }.
+	hyperJumpEffect := HyperJump create.
+	aTileListCreator at: 3 put: hyperJumpEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 2) }.
+	aGame := Game
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
+
+	self play: 2 in: aGame.
+
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+EffectTest >> test005GamePlayedWithAHyperSpaceJumpTile [
+
+	| aGame aHyperSpaceJumpEffect aTestBoard aSequenceOfRolls assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
+	'Name: Tomi, Position: 8, Lap: 0' }.
+	aHyperSpaceJumpEffect := HyperSpaceJump create.
+	aTileListCreator at: 4 put: aHyperSpaceJumpEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			(LoadedDie rolling: 4).
+			(LoadedDie rolling: 3) }.
+	aGame := Game
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
+
+	self play: 2 in: aGame.
+
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+EffectTest >> test006GamePlayedWithAnAtomikBombTile [
+
+	| aGame anAtomikBombEffect aSequenceOfRolls aTestBoard assertingVariableData1 assertingVariableData2 |
+	assertingVariableData1 := { 'Name: Juan, Position: 4, Lap: 0'.
+	'Name: Tomi, Position: 5, Lap: 0' }.
+	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
+	'Name: Tomi, Position: 1, Lap: 0' }.
+	anAtomikBombEffect := AtomikBomb create.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
+	aTileListCreator at: 7 put: anAtomikBombEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+			(LoadedDie rolling: 3).
+			(LoadedDie rolling: 4).
+			(LoadedDie rolling: 3).
+			(LoadedDie rolling: 2) }.
+	aGame := Game
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
+
+	self play: 2 in: aGame.
+
+	self assert: aGame playerPositions equals: assertingVariableData1.
+
+	self play: 1 in: aGame.
+
+	self assert: aGame playerPositions equals: assertingVariableData2
+]
+
+{ #category : 'tests' }
+EffectTest >> test007GamePlayedWithAWormholeTile [
 
 	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariable |
 	assertingVariable := { 'Name: Juan, Position: 19, Lap: 0'.
-	                     'Name: Tomi, Position: 1, Lap: 0' }.
+	'Name: Tomi, Position: 1, Lap: 0' }.
 	aWormhole := Wormhole createWith: 19.
 	aTileListCreator at: 3 put: aWormhole.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie:
-		                    { (LoadedDie rolling: 2) }.
+		{ (LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
 	aGame nextPlayerThrowsDice.
 	self assert: aGame playerPositions equals: assertingVariable
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAWormholeTileGoingBackwards [
-
-	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariable |
-	assertingVariable := { 'Name: Juan, Position: 2, Lap: 0'.
-	                     'Name: Tomi, Position: 1, Lap: 0' }.
-	aWormhole := Wormhole createWith: 2.
-	aTileListCreator at: 8 put: aWormhole.
-	aTestBoard := Board createWith: aTileListCreator tileList.
-	aSequenceOfRolls := SequenceOfDieForTesting withDie:
-		                    { (LoadedDie rolling: 7) }.
-	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
-	aGame nextPlayerThrowsDice.
-	self assert: aGame playerPositions equals: assertingVariable
-]
-
-{ #category : 'tests' }
-EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
+EffectTest >> test008GamePlayedWithAllEffectsInAParticularTile [
 
 	| aGame aSequence aTestBoard aMoonWalkTile aHSJTile aBlackHoleTile |
 	aHSJTile := HyperSpaceJump create.
@@ -206,13 +185,13 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 	aTestBoard := Board createWith: aTileListCreator tileList.
 
 	aSequence := SequenceOfDieForTesting withDie: {
-			             (LoadedDie rolling: 7).
-			             (LoadedDie rolling: 8) }.
+			(LoadedDie rolling: 7).
+			(LoadedDie rolling: 8) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequence
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequence
+		withLaps: 1.
 
 	aGame playFullGame.
 
@@ -220,33 +199,157 @@ EffectTest >> testGamePlayedWithAllEffectsInAParticularTile [
 ]
 
 { #category : 'tests' }
-EffectTest >> testGamePlayedWithAnAtomikBombTile [
+EffectTest >> test009WhenWeCreateAWormholeWithAtLeastOneEndLessThanOneThenItRaisesAnError [
 
-	| aGame anAtomikBombEffect aSequenceOfRolls aTestBoard assertingVariableData1 assertingVariableData2 |
-	assertingVariableData1 := { 'Name: Juan, Position: 4, Lap: 0'.
-	                          'Name: Tomi, Position: 5, Lap: 0' }.
-	assertingVariableData2 := { 'Name: Juan, Position: 1, Lap: 0'.
-	                          'Name: Tomi, Position: 1, Lap: 0' }.
-	anAtomikBombEffect := AtomikBomb create.
-	aTileListCreator := TileListCreationForTesting createTileListWith: 24.
-	aTileListCreator at: 7 put: anAtomikBombEffect.
+	self
+		should: [ Wormhole createWith: -10 ]
+		raiseErrorWithMessageText:
+		'Both ends of the Wormhole must be greater than 1.'.
+]
+
+{ #category : 'tests' }
+EffectTest >> test010GamePlayedWithAHyperJumpTileChangingLap [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 1, Lap: 1'.
+	'Name: Tomi, Position: 4, Lap: 0' }.
+	hyperJumpEffect := HyperJump create.
+	aTileListCreator := TileListCreationForTesting createTileListWith: 4.
+	aTileListCreator at: 3 put: hyperJumpEffect.
 	aTestBoard := Board createWith: aTileListCreator tileList.
 	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
-			                    (LoadedDie rolling: 3).
-			                    (LoadedDie rolling: 4).
-			                    (LoadedDie rolling: 3).
-			                    (LoadedDie rolling: 2) }.
+			(LoadedDie rolling: 2).
+			(LoadedDie rolling: 2) }.
 	aGame := Game
-		         playedBy: aGroupOfPlayers
-		         withBoard: aTestBoard
-		         withSetOfDie: aSequenceOfRolls
-		         withLaps: 1.
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 2.
 
 	self play: 2 in: aGame.
 
-	self assert: aGame playerPositions equals: assertingVariableData1.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
 
+{ #category : 'tests' }
+EffectTest >> test011GamePlayedWithAWormholeTileGoingBackwards [
+
+	| aGame aWormhole aTestBoard aSequenceOfRolls assertingVariable |
+	assertingVariable := { 'Name: Juan, Position: 2, Lap: 0'.
+	'Name: Tomi, Position: 1, Lap: 0' }.
+	aWormhole := Wormhole createWith: 2.
+	aTileListCreator at: 8 put: aWormhole.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie:
+		{ (LoadedDie rolling: 7) }.
+	aGame := Game
+		playedBy: aGroupOfPlayers
+		withBoard: aTestBoard
+		withSetOfDie: aSequenceOfRolls
+		withLaps: 1.
+	aGame nextPlayerThrowsDice.
+	self assert: aGame playerPositions equals: assertingVariable
+]
+
+{ #category : 'tests' }
+EffectTest >> test012GamePlayedWithAHyperJumpTileMixingLightYearsAndParsecs [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 5, Lap: 0'.
+							 'Name: Tomi, Position: 4, Lap: 0' }.
+	hyperJumpEffect := HyperJump createWith: {
+							   (LightYears of: 30).
+							   (Parsecs of: 5) }.
+	aTileListCreator at: 3 put: hyperJumpEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+								(LoadedDie rolling: 2).
+								(LoadedDie rolling: 2) }.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: aSequenceOfRolls
+				 withLaps: 1.
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+EffectTest >> test013WhenCreatingAHyperJumpWithDistancesNotGoingFromHighestToLowestThenItRaisesError [
+
+	self
+		should: [
+			HyperJump createWith: {
+					(Parsecs of: 2).
+					(LightYears of: 9) } ]
+		raiseErrorWithMessageText:
+		'HyperJump distances must go from highest to lowest.'
+]
+
+{ #category : 'tests' }
+EffectTest >> test014WhenCreatingAHyperJumpWithoutDistancesThenItRaisesError [
+
+	self
+		should: [ HyperJump createWith: {  } ]
+		raiseErrorWithMessageText: 'HyperJump needs at least one distance.'
+]
+
+{ #category : 'tests' }
+EffectTest >> test015GamePlayedWithAHyperJumpTileOnABoardMeasuredInLightYears [
+
+	| hyperJumpEffect aTestBoard aSequenceOfRolls aGame assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 4, Lap: 0'.
+							 'Name: Tomi, Position: 1, Lap: 0' }.
+	hyperJumpEffect := HyperJump create.
+	aTileListCreator := TileListCreationForTesting
+							createTileListWith: 20
+							and: (LightYears of: 30).
+	aTileListCreator at: 3 put: hyperJumpEffect.
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie:
+							{ (LoadedDie rolling: 2) }.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: aSequenceOfRolls
+				 withLaps: 1.
 	self play: 1 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
 
-	self assert: aGame playerPositions equals: assertingVariableData2
+{ #category : 'tests' }
+EffectTest >> test016GamePlayedWithAMoonWalkTileMovesEveryOtherShipBack [
+
+	| aGame aSequenceOfRolls aTestBoard assertingVariableData |
+	assertingVariableData := { 'Name: Juan, Position: 2, Lap: 0'.
+							 'Name: Tomi, Position: 6, Lap: 0' }.
+	aTileListCreator at: 6 put: (MoonWalk createEspeciallyWith: 2).
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aSequenceOfRolls := SequenceOfDieForTesting withDie: {
+								(LoadedDie rolling: 3).
+								(LoadedDie rolling: 5) }.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: aSequenceOfRolls
+				 withLaps: 1.
+	self play: 2 in: aGame.
+	self assert: aGame playerPositions equals: assertingVariableData
+]
+
+{ #category : 'tests' }
+EffectTest >> test017WhenAShipLosesItsLastShieldOnAHyperSpaceJumpTileThenItLosesTwoTurnsAndRecoversItsShields [
+
+	| aGame aTestBoard |
+	aTileListCreator at: 2 put: (HyperSpaceJump createWith: 4 and: 3).
+	aTestBoard := Board createWith: aTileListCreator tileList.
+	aGame := Game
+				 playedBy: aGroupOfPlayers
+				 withBoard: aTestBoard
+				 withSetOfDie: (LoadedDie rolling: 1)
+				 withLaps: 1.
+	self play: 1 in: aGame.
+	self assert: (aGame positionFeatureOf: aPlayer) position equals: 6.
+	self assert: (aGame turnsFeatureOf: aPlayer) turnsToSkip equals: 2.
+	self assert: (aGame shieldsFeatureOf: aPlayer) shields equals: 3
 ]

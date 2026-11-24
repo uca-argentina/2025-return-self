@@ -2,75 +2,33 @@ Class {
 	#name : 'Repeat',
 	#superclass : 'InstantCard',
 	#instVars : [
-		'chosenShip',
-		'gameRef'
+		'chosenShip'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Repeat class >> createWith: aShip and: aGameReference [
+Repeat class >> createWith: aChosenShip [
 
-	^ self new initializeWith: aShip and: aGameReference
+	^ self new initializeWith: aChosenShip
 ]
 
-{ #category : 'play interface' }
-Repeat >> applyBonusUsing: cardManager [
+{ #category : 'playing' }
+Repeat >> applyIn: aGame [
 
-	|lastEffect|
-	lastEffect := cardManager lastEffectApplied.
-	
-	lastEffect applyEffectOn: chosenShip and: gameRef
-]
-
-{ #category : 'accessing' }
-Repeat >> chosenShip [
-
-	^ chosenShip
-]
-
-{ #category : 'comparing' }
-Repeat >> equalsACard: aCard [
-
-	aCard isRepeat ifTrue: [ ^ chosenShip = aCard chosenShip ].
-	^ false
+	self assertHasTarget: chosenShip.
+	aGame repeatLastEffectOn: chosenShip
 ]
 
 { #category : 'initialization' }
-Repeat >> initializeWith: aShip and: aGameReference [
+Repeat >> initializeWith: aChosenShip [
 
-	chosenShip := aShip.
-	gameRef := aGameReference
-]
-
-{ #category : 'testing' }
-Repeat >> isRepeat [
-
-	^ true
-]
-
-{ #category : 'as yet unclassified' }
-Repeat >> replicateEffect: arg1 targeting: arg2 using: arg3 [
-
-	arg1 applyEffectOn: arg2 and: arg3
-]
-
-{ #category : 'comparing' }
-Repeat >> sameTypeOfCard: aCard [
-
-	^ aCard isRepeat
+	chosenShip := aChosenShip
 ]
 
 { #category : 'setup' }
-Repeat >> setupWith: context [
+Repeat >> setupWith: aTarget [
 
-	context asOrderedCollection size = 2 ifFalse: [
-		Error signal: 'Wrong amount of parameters for this card' ].
-	(context at: 1) isShip ifFalse: [
-		Error signal: 'Wrong type or order of parameters' ].
-	(context at: 2) isGame ifFalse: [
-		Error signal: 'Wrong type or order of parameters' ].
-
-	^ self class createWith: (context at: 1) and: (context at: 2)
+	^ self class createWith: aTarget
 ]

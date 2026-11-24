@@ -12,19 +12,20 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
-{ #category : 'as yet unclassified' }
-SequenceOfDieForTesting class >> withDie: aSequenceOfDie [ 
+{ #category : 'creation' }
+SequenceOfDieForTesting class >> withDie: aSequenceOfDie [
+
 	^ self new initializeSequenceOfDie: aSequenceOfDie.
 ]
 
 { #category : 'initialization' }
 SequenceOfDieForTesting >> initializeSequenceOfDie: aSequenceOfDie [
+
 	allDie := aSequenceOfDie.
 	currentDiceIndexPlaying := 1.
-
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 SequenceOfDieForTesting >> movePointer [
 
 	currentDiceIndexPlaying := currentDiceIndexPlaying + 1.
@@ -35,11 +36,11 @@ SequenceOfDieForTesting >> movePointer [
 
 { #category : 'accessing' }
 SequenceOfDieForTesting >> throw [
+
 	| result |
 	result:= (allDie at: currentDiceIndexPlaying) throw.
-	
+
 	self movePointer.
-	
+
 	^result.
-	
 ]

@@ -1,37 +1,19 @@
 Class {
 	#name : 'InstantCard',
 	#superclass : 'Card',
-	#category : 'IngSoft2-Model-Objects',
-	#package : 'IngSoft2-Model',
-	#tag : 'Objects'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'play interface' }
-InstantCard >> applyBonusUsing: aManager [
+{ #category : 'playing' }
+InstantCard >> applyIn: aGame [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'as yet unclassified' }
-InstantCard >> equalsACard: aCard [
+{ #category : 'playing' }
+InstantCard >> playedBy: aShip in: aGame [
 
-	self subclassResponsibility
-]
-
-{ #category : 'testing' }
-InstantCard >> isInstantCard [
-
-	^ true
-]
-
-{ #category : 'comparing' }
-InstantCard >> sameTypeOfCard: aCard [
-
-	self subclassResponsibility
-]
-
-{ #category : 'as yet unclassified' }
-InstantCard >> setupWith: context [
-
-	self subclassResponsibility
+	self applyIn: aGame.
+	^ self
 ]

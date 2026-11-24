@@ -10,38 +10,30 @@ Class {
 
 { #category : 'creation' }
 BlackHole class >> create [
-	^self new initializeEffectWith: 4
+
+	^ self createWith: 4
 ]
 
 { #category : 'creation' }
 BlackHole class >> createWith: aDebuff [
-	^self new initializeEffectWith: aDebuff
+
+	^ self new initializeEffectWith: aDebuff
 ]
 
 { #category : 'creation' }
 BlackHole class >> effectProbability [
 
-^0.20
+	^ 0.18
 ]
 
 { #category : 'positioning' }
 BlackHole >> applyEffectOn: aPlayer and: aGame [
 
-	| positionManager |
-	positionManager := aGame requestPositionManager: self.
-	positionManager move: aPlayer backwardWith: debuff.
-
-	
+	aGame move: aPlayer backward: debuff
 ]
 
 { #category : 'initialization' }
 BlackHole >> initializeEffectWith: aDebuff [
 
 	debuff := aDebuff
-]
-
-{ #category : 'testing' }
-BlackHole >> isBlackHole [
-
-	^ true
 ]

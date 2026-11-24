@@ -8,26 +8,18 @@ Class {
 { #category : 'creation' }
 AtomikBomb class >> effectProbability [
 
-^0.02
+	^ 0.02
 ]
 
 { #category : 'positioning' }
 AtomikBomb >> applyEffectOn: aPlayer and: aGame [
 
-
-	| aGroupOfPlayers positionManager battleManager turnManager |
-	positionManager := aGame requestPositionManager: self.
-	battleManager  := aGame requestBattleManager: self.
-	turnManager := aGame requestTurnManager: self.
-	positionManager resetPlayersPosition .
-	aGroupOfPlayers := battleManager allDecreaseAShield.
-	aGroupOfPlayers do: [ :player | turnManager addTwoSkipsTo: player. 
-		battleManager forceAShieldResetTo: player ].
-
+	aGame moveToTheFirstTile: aPlayer.
+	aGame takeShields: 1 from: aPlayer
 ]
 
-{ #category : 'testing' }
-AtomikBomb >> isAtomikBomb [
+{ #category : 'accessing' }
+AtomikBomb >> target [
 
-	^ true
+	^ EveryShip create
 ]

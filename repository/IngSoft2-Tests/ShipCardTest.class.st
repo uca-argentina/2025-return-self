@@ -6,27 +6,34 @@ Class {
 }
 
 { #category : 'tests' }
-ShipCardTest >> test01ShipCanThrowACard [
+ShipCardTest >> test001WhenACardIsAddedToTheHandOfAShipThenItAnswersANewHandWithThatCard [
 
+	| aShipCards anUpdatedShipCards |
+	aShipCards := ShipCards createWith: 1 and: { Speed create }.
+	anUpdatedShipCards := aShipCards addToDeck: Repeat create.
+	self assert: (anUpdatedShipCards findInDeck: Repeat create).
+	self deny: (aShipCards findInDeck: Repeat create)
+]
 
-	| aDeck aShip activeCards assertingDeck assertingActive |
-	aDeck := {
-		         Speed create.
-		         Acceleration create.
-		         Cancellation new } asOrderedCollection.
-	aShip := ShipCards createWith: 1 and: aDeck.
-	activeCards := OrderedCollection new.
+{ #category : 'tests' }
+ShipCardTest >> test002WhenACardIsDiscardedFromTheHandOfAShipThenItAnswersANewHandWithoutThatCard [
 
+	| aShipCards anUpdatedShipCards |
+	aShipCards := ShipCards createWith: 1 and: {
+						  Speed create.
+						  Repeat create }.
+	anUpdatedShipCards := aShipCards removeFromDeck: Speed create.
+	self deny: (anUpdatedShipCards findInDeck: Speed create).
+	self assert: (anUpdatedShipCards findInDeck: Repeat create).
+	self assert: (aShipCards findInDeck: Speed create)
+]
 
-	"aShip := aShip cardThrow: Speed create changing: activeCards."
-	aShip := aShip for: Speed new ifAnySetupWith: aShip.
+{ #category : 'tests' }
+ShipCardTest >> test003WhenTryingToDiscardACardThatIsNotInTheHandOfAShipThenItRaisesError [
 
-	assertingDeck := {
-		                 Acceleration create.
-		                 Cancellation new } asOrderedCollection.
-	assertingActive := { Speed create } asOrderedCollection.
-
-	self assert: aShip deck equalsCollection: assertingDeck.
-	self assert: activeCards equalsCollection: assertingActive.
-
+	| aShipCards |
+	aShipCards := ShipCards createWith: 1 and: { Speed create }.
+	self
+		should: [ aShipCards removeFromDeck: Repeat create ]
+		raiseErrorWithMessageText: 'Player does not have this card on deck.'
 ]

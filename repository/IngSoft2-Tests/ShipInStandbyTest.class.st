@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-ShipInStandbyTest >> test01WhenAShipInStandBySkipsATurnThenTheNumberOfTurnsItHasDecreaseOne [
+ShipInStandbyTest >> test001WhenAShipInStandBySkipsATurnThenTheNumberOfTurnsItHasDecreaseOne [
 
 	| aShipInStandBy aModifiedShipInStandBy |
 	aShipInStandBy := ShipInStandBy createWith: 1 and: 2.
@@ -18,15 +18,7 @@ ShipInStandbyTest >> test01WhenAShipInStandBySkipsATurnThenTheNumberOfTurnsItHas
 ]
 
 { #category : 'tests' }
-ShipInStandbyTest >> test01WhenTryingToCreateASpaceShipWithNegativeTurnsToSkipThenItRaisesError [
-	self
-		should: [ ShipInStandBy createWith: 1 and: -10 ]
-		raiseErrorWithMessageText:
-		'The SpaceShip cant skip negative turns.'
-]
-
-{ #category : 'tests' }
-ShipInStandbyTest >> test02WhenAShipInStandByHasNotTurnsToSkipThenSkippingRaisesError [
+ShipInStandbyTest >> test002WhenAShipInStandByHasNotTurnsToSkipThenSkippingRaisesError [
 
 	| aShipInStandBy |
 	aShipInStandBy := ShipInStandBy createWith: 1 and: 0.
@@ -37,7 +29,7 @@ ShipInStandbyTest >> test02WhenAShipInStandByHasNotTurnsToSkipThenSkippingRaises
 ]
 
 { #category : 'tests' }
-ShipInStandbyTest >> test03AShipInStandByCanAnswerIfItHasTurnsToSkip [
+ShipInStandbyTest >> test003AShipInStandByCanAnswerIfItHasTurnsToSkip [
 
 	| aShipInStandBy aModifiedShipInStandBy |
 	aShipInStandBy := ShipInStandBy createWith: 1 and: 1.
@@ -49,7 +41,7 @@ ShipInStandbyTest >> test03AShipInStandByCanAnswerIfItHasTurnsToSkip [
 ]
 
 { #category : 'tests' }
-ShipInStandbyTest >> test04WhenAShipIsAddedTurnsToSkipThenItReturnsANewShipInStandByWith2TurnsToSkip [
+ShipInStandbyTest >> test004WhenAShipIsAddedTurnsToSkipThenItReturnsANewShipInStandByWith2TurnsToSkip [
 
 	| aShipInStandBy aModifiedShipInStandBy |
 	aShipInStandBy := ShipInStandBy createWith: 1 and: 2.
@@ -58,4 +50,13 @@ ShipInStandbyTest >> test04WhenAShipIsAddedTurnsToSkipThenItReturnsANewShipInSta
 
 	self assert: aModifiedShipInStandBy turnsToSkip equals: 4.
 	self deny: aShipInStandBy turnsToSkip equals: 4 "Here you can be sure that original object is not affected"
+]
+
+{ #category : 'tests' }
+ShipInStandbyTest >> test005WhenTryingToCreateASpaceShipWithNegativeTurnsToSkipThenItRaisesError [
+
+	self
+		should: [ ShipInStandBy createWith: 1 and: -10 ]
+		raiseErrorWithMessageText:
+		'The SpaceShip cant skip negative turns.'
 ]

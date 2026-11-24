@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-PlayerTest >> test01WhenAPlayerIsAskedItsNameThenReturnsItsName [
+PlayerTest >> test001WhenAPlayerIsAskedItsNameThenReturnsItsName [
 
 	| aPlayer |
 	aPlayer := ShipPlayerAssociation createWith: 1 and: 'Juan'.
@@ -15,7 +15,7 @@ PlayerTest >> test01WhenAPlayerIsAskedItsNameThenReturnsItsName [
 ]
 
 { #category : 'tests' }
-PlayerTest >> test01WhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
+PlayerTest >> test002WhenTryingToCreateAPlayerWithoutNameThenItThrowsError [
 
 	self
 		should: [ ShipPlayerAssociation createWith: 1 and: '' ]

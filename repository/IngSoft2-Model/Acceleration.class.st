@@ -5,62 +5,14 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'creation' }
-Acceleration class >> create [
+{ #category : 'bonus' }
+Acceleration >> boost: aThrow of: aShip [
 
-	^ self new initializeWith: -1 "Reserved tag for non active"
+	^ aThrow + 1
 ]
 
-{ #category : 'creation' }
-Acceleration class >> createWith: anId [
-
-	^ self new initializeWith: anId
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> affects: aPlayer [
-
-	^ true
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> applyBonusUsing: aTotalThrow [
-
-	^ aTotalThrow + 1
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'comparing' }
 Acceleration >> equalsACard: aCard [
 
 	^ self sameTypeOfCard: aCard
-]
-
-{ #category : 'initialization' }
-Acceleration >> initializeWith: anId [
-
-	cardId := anId
-]
-
-{ #category : 'testing' }
-Acceleration >> isAcceleration [
-
-	^ true
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> sameTypeOfCard: aCard [
-
-	^ aCard isAcceleration
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> setupWith: context [
-
-	^ self class create
-]
-
-{ #category : 'as yet unclassified' }
-Acceleration >> tagPermanentCard: anId [
-
-	^ self class createWith: anId
 ]

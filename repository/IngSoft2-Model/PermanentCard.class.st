@@ -1,64 +1,46 @@
 Class {
 	#name : 'PermanentCard',
 	#superclass : 'Card',
-	#instVars : [
-		'cardId'
-	],
-	#category : 'IngSoft2-Model-Objects',
-	#package : 'IngSoft2-Model',
-	#tag : 'Objects'
+	#category : 'IngSoft2-Model',
+	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
-PermanentCard >> affects: aPlayer [
+{ #category : 'mercenaries' }
+PermanentCard >> addMercenariesOf: aShip to: aTeam [
 
-	^ false
 ]
 
-{ #category : 'as yet unclassified' }
-PermanentCard >> applyBonusUsing: anArgument [
+{ #category : 'testing' }
+PermanentCard >> assertCanBeActivatedWith: activeCards [
 
-	self subclassResponsibility
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
+PermanentCard >> assertDoesNotHire: aShip [
+
+]
+
+{ #category : 'bonus' }
+PermanentCard >> boost: aThrow of: aShip [
+
+	^ aThrow
+]
+
+{ #category : 'polarity' }
+PermanentCard >> effect: anEffect atTile: aTileNumber [
+
+	^ anEffect
+]
+
+{ #category : 'comparing' }
 PermanentCard >> equalsACard: aCard [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'testing' }
-PermanentCard >> isPermanentCard [
+{ #category : 'playing' }
+PermanentCard >> playedBy: aShip in: aGame [
 
-	^ true
-]
-
-{ #category : 'as yet unclassified' }
-PermanentCard >> requestedBy: aPlayer [
-
-^false
-]
-
-{ #category : 'comparing' }
-PermanentCard >> sameTypeOfCard: aCard [
-
-	self subclassResponsibility
-]
-
-{ #category : 'as yet unclassified' }
-PermanentCard >> setupWith: context [
-
-	self subclassResponsibility
-]
-
-{ #category : 'as yet unclassified' }
-PermanentCard >> tagPermanentCard: anId [
-
-	self subclassResponsibility
-]
-
-{ #category : 'comparing' }
-PermanentCard >> withTag: anId [
-
-	^ cardId = anId
+	aGame player: aShip activates: self.
+	^ self
 ]

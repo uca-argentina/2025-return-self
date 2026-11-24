@@ -33,9 +33,3 @@ SpaceShipComponent >> id [
 
 	^ id
 ]
-
-{ #category : 'testing' }
-SpaceShipComponent >> isShip [
-
-	^ true
-]

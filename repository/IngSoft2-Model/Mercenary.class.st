@@ -3,93 +3,89 @@ Class {
 	#superclass : 'PermanentCard',
 	#instVars : [
 		'masterShip',
-		'slaveShip'
+		'mercenaryShip'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'creation' }
-Mercenary class >> createWith: aShipMaster and: aShipSlave [
+Mercenary class >> createWith: aMercenaryShip [
 
-	^ self new initializeWith: aShipMaster and: aShipSlave and: -1 "Reserved tag for non active"
+	^ self new initializeWith: aMercenaryShip
 ]
 
 { #category : 'creation' }
-Mercenary class >> createWith: aShipMaster and: aShipSlave and: anId [
+Mercenary class >> createWith: aMercenaryShip hiredBy: aMasterShip [
 
-	^ self new initializeWith: aShipMaster and: aShipSlave and: anId
-]
-
-{ #category : 'as yet unclassified' }
-Mercenary >> applyBonusUsing: battleManager [
-
-	^ battleManager findShipReference: slaveShip
-]
-
-{ #category : 'as yet unclassified' }
-Mercenary >> equalsACard: aCard [
-
-	aCard isMercenary ifTrue: [ ^ masterShip = aCard masterShip and: slaveShip = aCard slaveShip ].
-	^ false
+	self ship: aMasterShip cantHireItself: aMercenaryShip.
+	^ self new initializeWith: aMercenaryShip hiredBy: aMasterShip
 ]
 
 { #category : 'testing' }
-Mercenary >> hasSameSlave: anotherMercenaryCard [
+Mercenary class >> ship: aMasterShip cantHireItself: aMercenaryShip [
 
-	^ slaveShip = anotherMercenaryCard slaveShip
+	(aMasterShip equalsID: aMercenaryShip) ifTrue: [
+		Error signal: 'A ship cannot hire itself as a mercenary.' ]
+]
+
+{ #category : 'mercenaries' }
+Mercenary >> addMercenariesOf: aShip to: aTeam [
+
+	(masterShip equalsID: aShip) ifTrue: [ aTeam add: mercenaryShip ]
+]
+
+{ #category : 'testing' }
+Mercenary >> assertCanBeActivatedWith: activeCards [
+
+	activeCards do: [ :card | card assertDoesNotHire: mercenaryShip ]
+]
+
+{ #category : 'testing' }
+Mercenary >> assertDoesNotHire: aShip [
+
+	(self hires: aShip) ifTrue: [
+		Error signal: 'Cant have the same mercenary as other.' ]
+]
+
+{ #category : 'comparing' }
+Mercenary >> equalsACard: aCard [
+
+	^ (self sameTypeOfCard: aCard) and: [ aCard hires: mercenaryShip ]
+]
+
+{ #category : 'testing' }
+Mercenary >> hires: aShip [
+
+	^ mercenaryShip equalsID: aShip
 ]
 
 { #category : 'initialization' }
-Mercenary >> initializeWith: aShipMaster and: aShipSlave and: anId [
+Mercenary >> initializeWith: aMercenaryShip [
 
-	masterShip := aShipMaster.
-	slaveShip := aShipSlave.
-	cardId := anId
+	mercenaryShip := aMercenaryShip
 ]
 
-{ #category : 'testing' }
-Mercenary >> isMercenary [
-	
-	^ true
+{ #category : 'initialization' }
+Mercenary >> initializeWith: aMercenaryShip hiredBy: aMasterShip [
+
+	mercenaryShip := aMercenaryShip.
+	masterShip := aMasterShip
 ]
 
-{ #category : 'accessing' }
-Mercenary >> masterShip [
+{ #category : 'playing' }
+Mercenary >> playedBy: aShip in: aGame [
 
-	^ masterShip
+	| hiredMercenary |
+	self assertHasTarget: mercenaryShip.
+	aGame assertIsPlaying: mercenaryShip.
+	hiredMercenary := self class createWith: mercenaryShip hiredBy: aShip.
+	aGame player: aShip activates: hiredMercenary.
+	^ hiredMercenary
 ]
 
-{ #category : 'as yet unclassified' }
-Mercenary >> requestedBy: aPlayer [
+{ #category : 'setup' }
+Mercenary >> setupWith: aTarget [
 
-^ masterShip equalsID: aPlayer
-]
-
-{ #category : 'as yet unclassified' }
-Mercenary >> sameTypeOfCard: aCard [
-
-	^ aCard isMercenary
-]
-
-{ #category : 'as yet unclassified' }
-Mercenary >> setupWith: context [
-
-	context asOrderedCollection size = 2 ifFalse: [
-		Error signal: 'Wrong amount of parameters for this card' ].
-	(context at: 1) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
-	(context at: 2) isShip ifFalse: [ Error signal: 'Wrong type or order of parameters' ].
-	^ self class createWith: (context at: 1) and: (context at: 2)
-]
-
-{ #category : 'accessing' }
-Mercenary >> slaveShip [
-
-	^ slaveShip
-]
-
-{ #category : 'as yet unclassified' }
-Mercenary >> tagPermanentCard: anId [
-
-	^ self class createWith: masterShip and: slaveShip and: anId
+	^ self class createWith: aTarget
 ]

@@ -17,19 +17,38 @@ Board class >> boardLengthMustBeGreaterThanThree: aLength [
 
 { #category : 'creation' }
 Board class >> createWith: aSetOfTiles [
+
 	self boardLengthMustBeGreaterThanThree: aSetOfTiles size.
-	
+	self everyEffectMustFitItsTile: aSetOfTiles.
+	self everyTileMustHaveTheSameLength: aSetOfTiles.
 	^ self new initializeWithTiles: aSetOfTiles
 ]
 
-{ #category : 'positioning' }
-Board >> applyEffectTriggeredBy: aPlayer [
+{ #category : 'testing' }
+Board class >> everyEffectMustFitItsTile: aSetOfTiles [
 
-	| detectedTile |
-	detectedTile := tiles at: aPlayer position.
-	detectedTile effect isNoEffect ifTrue: [ ^ detectedTile effect ].
+	aSetOfTiles withIndexDo: [ :tile :tileNumber |
+		tile effect assertCanBeAt: tileNumber onBoardOf: aSetOfTiles size ]
+]
 
-	^ detectedTile effect
+{ #category : 'testing' }
+Board class >> everyTileMustHaveTheSameLength: aSetOfTiles [
+
+	(aSetOfTiles collect: [ :tile | tile parsecs ]) asSet size = 1 ifFalse: [
+		Error signal: 'Every tile of the board must have the same length.' ]
+]
+
+{ #category : 'testing' }
+Board >> assertHasTile: aTileNumber [
+
+	(aTileNumber between: 1 and: tiles size) ifFalse: [
+		Error signal: 'The tile is not on the board.' ]
+]
+
+{ #category : 'accessing' }
+Board >> effectAt: aTileNumber [
+
+	^ (tiles at: aTileNumber) effect
 ]
 
 { #category : 'initialization' }
@@ -41,15 +60,17 @@ Board >> initializeWithTiles: aSetOfTiles [
 { #category : 'accessing' }
 Board >> parsecsPerTile [
 
-^ (tiles at: 1) parsecs
+	^ (tiles at: 1) parsecs
 ]
 
 { #category : 'accessing' }
-Board >> tiles [ 
-^tiles
+Board >> tiles [
+
+	^ tiles
 ]
 
 { #category : 'accessing' }
 Board >> totalTiles [
-	^ tiles size.
+
+	^ tiles size
 ]

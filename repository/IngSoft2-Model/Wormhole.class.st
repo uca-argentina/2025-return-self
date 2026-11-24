@@ -20,64 +20,34 @@ Wormhole class >> createWith: anEndpoint [
 
 { #category : 'creation' }
 Wormhole class >> effectProbability [
-"not going to be used, special case of effect, there is only two wormholes"
-^0.00
-]
 
-{ #category : 'testing' }
-Wormhole class >> end: anEnd cantBeTheSameAs: anotherEnd [
-"Desde la tile set"
-	anEnd = anotherEnd ifTrue: [
-		Error signal: 'Wormhole ends must be different tiles.' ]
+	^ 0
 ]
 
 { #category : 'testing' }
 Wormhole class >> endpointMustBeGreaterThanOne: anEndpoint [
 
-	(anEndpoint > 1) ifFalse: [
+	anEndpoint > 1 ifFalse: [
 		Error signal: 'Both ends of the Wormhole must be greater than 1.' ]
 ]
 
 { #category : 'positioning' }
 Wormhole >> applyEffectOn: aPlayer and: aGame [
 
-
-	| distance positionManager |
-	
-		positionManager := aGame requestPositionManager: self.
-
-	distance := aPlayer calculateDelta: endpoint.
-	distance > 0 ifTrue: [ positionManager move: aPlayer forwardWith: distance ] ifFalse: [positionManager move: aPlayer backwardWith: -1*(distance)].
-
-
+	aGame move: aPlayer toTile: endpoint
 ]
 
 { #category : 'testing' }
-Wormhole >> endpointInside: aLength [
+Wormhole >> assertCanBeAt: aTileNumber onBoardOf: aNumberOfTiles [
 
-	^ endpoint <= aLength
-]
-
-{ #category : 'testing' }
-Wormhole >> endpointSameAs: aPosition [
-
-	^ endpoint = aPosition
+	endpoint = aTileNumber ifTrue: [
+		Error signal: 'Wormhole ends must be different tiles.' ].
+	endpoint <= aNumberOfTiles ifFalse: [
+		Error signal: 'Wormhole endpoint must be inside.' ]
 ]
 
 { #category : 'initialization' }
 Wormhole >> initializeEffectWith: anEndpoint [
 
-	endpoint := anEndpoint 
-]
-
-{ #category : 'tests - comparing' }
-Wormhole >> isEndInside: aLength [
-
-	^ aLength >= endpoint
-]
-
-{ #category : 'testing' }
-Wormhole >> isWormhole [
-
-	^ true
+	endpoint := anEndpoint
 ]

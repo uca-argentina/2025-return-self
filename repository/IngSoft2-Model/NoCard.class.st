@@ -1,34 +1,12 @@
 Class {
 	#name : 'NoCard',
-	#superclass : 'InstantCard',
+	#superclass : 'Card',
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'play interface' }
-NoCard >> applyBonusUsing: aManager [
-]
+{ #category : 'setup' }
+NoCard >> setupWith: aTarget [
 
-{ #category : 'as yet unclassified' }
-NoCard >> equalsACard: aCard [
-
-	^ self sameTypeOfCard: aCard
-]
-
-{ #category : 'testing' }
-NoCard >> isNoCard [
-
-	^ true
-]
-
-{ #category : 'testing' }
-NoCard >> sameTypeOfCard: aCard [
-
-	^ aCard isNoCard
-]
-
-{ #category : 'as yet unclassified' }
-NoCard >> setupWith: context [
-
-	Error signal: 'This is not a card to be setted up.'
+	Error signal: 'There is no card played to do it again.'
 ]

@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-SpaceShipComponentCreationTest >> test01WhenTryingToCreateASpaceShipWithNegativeIDItRaisesError [
+SpaceShipComponentCreationTest >> test001WhenTryingToCreateASpaceShipWithNegativeIDItRaisesError [
 
 	self
 		should: [ ShipPlayerAssociation createWith: 0 and: 'Pedro' ]

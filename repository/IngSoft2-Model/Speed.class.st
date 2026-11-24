@@ -11,71 +11,45 @@ Class {
 { #category : 'creation' }
 Speed class >> createWith: aChosenShip [
 
-	^ self new initializeWith: aChosenShip and: -1 "Reserved tag for non active"
+	^ self new initializeWith: aChosenShip
 ]
 
-{ #category : 'creation' }
-Speed class >> createWith: aChosenShip and: anId [
+{ #category : 'bonus' }
+Speed >> boost: aThrow of: aShip [
 
-	^ self new initializeWith: aChosenShip and: anId
-]
-
-{ #category : 'as yet unclassified' }
-Speed >> affects: aPlayer [
-
-	^ chosenShip equalsID: aPlayer
-]
-
-{ #category : 'as yet unclassified' }
-Speed >> applyBonusUsing: aTotalThrow [
-
-	^ aTotalThrow + 1
-]
-
-{ #category : 'accessing' }
-Speed >> chosenShip [
-
-	^ chosenShip
-]
-
-{ #category : 'as yet unclassified' }
-Speed >> equalsACard: aCard [
-
-	aCard isSpeed ifTrue: [ ^ chosenShip = aCard chosenShip ].
-	^ false
-]
-
-{ #category : 'initialization' }
-Speed >> initializeWith: aChosenShip and: anId [
-
-	chosenShip := aChosenShip.
-	cardId := anId
+	^ (self boosts: aShip)
+		ifTrue: [ aThrow + 1 ]
+		ifFalse: [ aThrow ]
 ]
 
 { #category : 'testing' }
-Speed >> isSpeed [
+Speed >> boosts: aShip [
 
-	^ true
+	^ chosenShip equalsID: aShip
 ]
 
-{ #category : 'as yet unclassified' }
-Speed >> sameTypeOfCard: aCard [
+{ #category : 'comparing' }
+Speed >> equalsACard: aCard [
 
-	^ aCard isSpeed
+	^ (self sameTypeOfCard: aCard) and: [ aCard boosts: chosenShip ]
 ]
 
-{ #category : 'as yet unclassified' }
-Speed >> setupWith: context [
+{ #category : 'initialization' }
+Speed >> initializeWith: aChosenShip [
 
-	context asOrderedCollection size = 1 ifFalse: [
-		Error signal: 'Wrong amount of parameters for this card' ].
-	context isShip ifFalse: [
-		Error signal: 'Wrong type or order of parameters' ].
-	^ self class createWith: context
+	chosenShip := aChosenShip
 ]
 
-{ #category : 'as yet unclassified' }
-Speed >> tagPermanentCard: anId [
+{ #category : 'playing' }
+Speed >> playedBy: aShip in: aGame [
 
-	^ self class createWith: chosenShip and: anId
+	self assertHasTarget: chosenShip.
+	aGame assertIsPlaying: chosenShip.
+	^ super playedBy: aShip in: aGame
+]
+
+{ #category : 'setup' }
+Speed >> setupWith: aTarget [
+
+	^ self class createWith: aTarget
 ]
